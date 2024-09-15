@@ -1,0 +1,21 @@
+{
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "always",
+		"source.organizeImports": "explicit"
+	},
+	"typescript.format.semicolons": "insert",
+	"cSpell.words": [
+		"neomorphism"
+	],
+	"css.format.spaceAroundSelectorSeparator": true,
+	"cSpell.overrides": [
+		{
+			"filename": "*.svelte",
+			"words": [
+				"onclickcapture"
+			]
+		}
+	],
+}

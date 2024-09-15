@@ -1,0 +1,8 @@
+:where(.theme-neomorphism) {
+	h1, h2, h3, h4 {
+		color: var(--palette__primary-color);
+		/* color: color-mix(in lab, var(--palette__text), var(--palette__primary-color) 50%); */
+		/* color: var(--palette__text); */
+		font-weight: 500;
+	}
+}

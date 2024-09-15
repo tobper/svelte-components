@@ -1,0 +1,32 @@
+.button-cta,
+.button-outlined,
+.button-plain {
+	/* Reset */
+	appearance: none;
+	background: none;
+	border: none;
+	color: inherit;
+
+	/* Content */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space__small);
+
+	/* Hide overflow, for instance when rotating content in check buttons */
+	overflow: clip;
+
+	/* Text */
+	font-size: 1rem;
+	line-height: 100%;
+	white-space: nowrap;
+
+	/* Interaction */
+	cursor: pointer;
+	user-select: none;
+
+	/* Disabled */
+	&:is([aria-disabled=true], :has(:disabled)) {
+		cursor: not-allowed;
+	}
+}

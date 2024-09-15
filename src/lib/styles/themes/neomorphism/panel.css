@@ -1,0 +1,33 @@
+:where(.theme-neomorphism) {
+	&.scheme-light {
+		--panel__background: linear-gradient(
+			178deg,
+			var(--panel__background-color) 0%,
+			color-mix(in lab, var(--panel__background-color), white 60%),
+			var(--panel__background-color) 100%
+		);
+	}
+
+	&.scheme-dark {
+		--panel__background: linear-gradient(
+			178deg,
+			color-mix(in lab, var(--panel__background-color), white 6%),
+			var(--panel__background-color) 100%
+		);
+	}
+
+	--panel__border-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 15%);
+	--panel__border: 1px solid var(--panel__border-color);
+	--panel__shadow: 0 .75px 2px #0003;
+
+	.card, .dialog, .menu {
+		background: var(--panel__background);
+		box-shadow: var(--panel__shadow);
+		/* border: var(--panel__border); */
+		color: var(--palette__text);
+
+		.contrast {
+			background-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
+		}
+	}
+}

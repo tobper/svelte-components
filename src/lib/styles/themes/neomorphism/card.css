@@ -1,0 +1,11 @@
+:where(.theme-neomorphism) {
+	.card {
+		/* Conditional border radius */
+		border-radius: .5rem;
+
+		.device-mobile & {
+			/* border-inline-width: 0; */
+			border-radius: 0;
+		}
+	}
+}

@@ -1,0 +1,29 @@
+:root {
+	--h1__font-size: 1.875rem;
+	--h2__font-size: 1.5rem;
+	--h3__font-size: 1.25rem;
+	--h4__font-size: 1.15rem;
+}
+
+h1, h2, h3, h4 {
+	/* Truncate text */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+h1 {
+	font-size: var(--h1__font-size);
+	line-height: 2.25rem;
+}
+
+h2 {
+	font-size: var(--h2__font-size);
+	line-height: 2rem;
+	row-gap: 0;
+}
+
+h3, h4 {
+	font-size: var(--h3__font-size);
+	line-height: 1.75rem;
+}

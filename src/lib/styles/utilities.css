@@ -1,0 +1,17 @@
+.flow-items {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1rem;
+}
+
+.flow-items-vertical {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1rem;
+}
+
+.scroll-shadow {
+  box-shadow: rgb(0 0 0 / 40%) 0 0 .5rem;
+}

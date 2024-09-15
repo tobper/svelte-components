@@ -1,0 +1,49 @@
+.card {
+	--card__padding-left: 1rem;
+	--card__padding-right: 1rem;
+
+	> * {
+		padding-left: var(--card__padding-left);
+		padding-right: var(--card__padding-right);
+		padding-block: 1rem;
+	}
+
+	> :where(header, h3) {
+		min-height: 3rem;
+		padding-block: .75rem 0;
+		box-sizing: content-box;
+	}
+
+	> header {
+		justify-content: space-between;
+	}
+
+	> header,
+	> footer {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: .5rem 1rem;
+	}
+
+	> .table-container,
+	> .table {
+		border-radius: inherit;
+		padding-inline: 0;
+	}
+}
+
+/* Adjust inline padding when card is a direct descendant of page-content */
+.page-content > .card {
+	--card__padding-left: var(--content__padding-left);
+	--card__padding-right: var(--content__padding-right);
+}
+
+/* Add room for shadow between header and card */
+header + .card {
+	margin-top: 2px;
+}
+
+.card + .card {
+	margin-top: 2rem;
+}

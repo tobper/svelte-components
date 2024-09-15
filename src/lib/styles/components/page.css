@@ -1,0 +1,23 @@
+.page-content {
+	/* Add top padding to all headers and the top of the content itself if a header is not the first item */
+	&:not(:has(> .page-header:first-child)),
+	> .page-header {
+	  	padding-top: var(--content__padding-top);
+	}
+
+	scroll-margin-top: var(--layout-header__height);
+}
+
+.page-header {
+	/* Position */
+	position: sticky;
+	top: calc(var(--layout-header__height) - 1px); /* Needed for sticky detection */
+	z-index: 1;
+
+	box-sizing: content-box;
+}
+
+.page-header:has(~ .card) {
+	padding-left: var(--content__padding-left);
+	padding-right: var(--content__padding-right);
+}

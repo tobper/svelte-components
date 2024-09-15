@@ -1,0 +1,167 @@
+.table-container {
+	overflow: auto;
+}
+
+.card > .table {
+	--table__padding-left: var(--card__padding-left);
+	--table__padding-right: var(--card__padding-right);
+
+	/* Remove padding before and after table if there is no other content there in the card */
+	&:first-child {
+		padding-top: 0;
+	}
+
+	&:last-child {
+		padding-bottom: 0;
+	}
+}
+
+.table {
+	--table-cell__padding-x: .5rem;
+	--table-cell__padding-y: .75rem;
+	--table__padding-left: var(--table-cell__padding-x);
+	--table__padding-right: var(--table-cell__padding-x);
+
+	overflow: clip;
+	
+	/* Disabled overlay */
+	.disabled {
+		opacity: 50%;
+		position: relative;
+		overflow: clip;
+	
+		&::before {
+			position: absolute;
+			inset: 0;
+			content: '';
+			z-index: var(--z-index__table-overlay);
+			cursor: default;
+		}
+	}
+
+	/* Colors */
+	--table-row__background-color: var(--panel__background-color);
+	--table-row__opacity--zebra: 0%;
+
+	tr, th, .table-body > * {
+		background-color: color-mix(in lab, var(--table-row__background-color), var(--palette__contrast) var(--table-row__opacity--zebra));
+		transition-property: background-color, color;
+		transition-duration: 250ms;
+	}
+
+	tbody tr:nth-child(odd),
+	.table-body > *:nth-child(odd) {
+		--table-row__opacity--zebra: var(--palette__contrast-opacity);
+	}
+}
+
+div.table {
+	container: table / inline-size;
+	display: block;
+
+	main {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.table-row {
+		display: flex;
+		align-items: center;
+	
+		> * {
+			box-sizing: content-box;
+			flex: 1;
+
+			&.icon {
+				flex: none;
+			}
+		}
+	}
+}
+
+table.table {
+	border-collapse: separate;
+	border-spacing: 0;
+
+	th, tf {
+		text-align: left;
+		font-weight: 400;
+	}
+}
+
+.table-row > *,
+table.table td,
+table.table th {
+	/* Cell formatting */
+	padding-block: var(--table-cell__padding-x);
+	padding-inline: var(--table-cell__padding-y);
+
+	&:first-child {
+		padding-left: var(--table__padding-left);
+	}
+
+	&:last-child {
+		padding-right: var(--table__padding-right);
+	}
+
+	/* Truncate text */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	.checkbox {
+		vertical-align: middle;
+	}
+}
+
+.table-row--error {
+	--table-row__background-color: var(--status__error-background);
+}
+
+.table-row--info {
+	--table-row__background-color: var(--status__info-background);
+}
+
+.table-row--success {
+	--table-row__background-color: var(--status__success-background);
+}
+
+.table-row--warning {
+	--table-row__background-color: var(--status__warning-background);
+}
+
+.table-status-none__background {
+	background-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--table-row__opacity--zebra));
+}
+
+.table-status-error__background {
+	background-color: color-mix(in lab, var(--status__error-background), var(--palette__contrast) var(--table-row__opacity--zebra));
+}
+
+.table-status-error__color {
+	color: var(--status__error-color);
+}
+
+.table-status-info__background {
+	background-color: color-mix(in lab, var(--status__info-background), var(--palette__contrast) var(--table-row__opacity--zebra));
+}
+
+.table-status-info__color {
+	color: var(--status__info-color);
+}
+
+.table-status-success__background {
+	background-color: color-mix(in lab, var(--status__success-background), var(--palette__contrast) var(--table-row__opacity--zebra));
+}
+
+.table-status-success__color {
+	color: var(--status__success-color);
+}
+
+.table-status-warning__background {
+	background-color: color-mix(in lab, var(--status__warning-background), var(--palette__contrast) var(--table-row__opacity--zebra));
+}
+
+.table-status-warning__color {
+	color: var(--status__warning-color);
+}

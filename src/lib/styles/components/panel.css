@@ -1,0 +1,18 @@
+.scheme-light {
+	--panel__background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 50%);
+	--panel__background-color--contrast: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
+}
+
+.scheme-dark {
+	--panel__background-color: color-mix(in lab, var(--palette__background), var(--palette__contrast) 10%);
+	--panel__background-color--contrast: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
+}
+
+.dialog, .menu {
+	background-color: var(--panel__background-color);
+	color: var(--palette__text);
+
+	.contrast {
+		background-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
+	}
+}

@@ -1,0 +1,8 @@
+:where(.theme-neomorphism) {
+	.layout > header,
+	.layout > footer {
+		background: var(--panel__background-color);
+		background: var(--panel__background);
+		box-shadow: var(--panel__shadow);
+	}
+}

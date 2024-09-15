@@ -1,0 +1,40 @@
+:where(.theme-neomorphism) {
+	--link__text-color: var(--palette__primary-color);
+	--link__text-color--current: var(--palette__secondary-color);
+	--link__text-color--hover: var(--palette__primary--contrast);
+
+	.link {
+		color: var(--link__text-color);
+		transition: color 100ms;
+
+		&.link--hover,
+		&:hover {
+			color: var(--link__text-color--hover);
+		}
+
+		&.link--current,
+		&[aria-current] {
+			color: var(--link__text-color--current);
+		}
+	}
+
+	.link-underlined {
+		position: relative;
+
+		&::before {
+			position: absolute;
+			content: '';
+			left: 0;
+			bottom: -3px;
+			width: 100%;
+			height: 1px;
+			background: var(--link__text-color--hover);
+			transform: scaleX(0);
+			transition: transform 150ms ease-in-out;
+		}
+
+		&.link--hover::before {
+			transform: scaleX(1);
+		}
+	}
+}

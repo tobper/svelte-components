@@ -1,0 +1,44 @@
+@import './reset.css';
+@import './variables.css';
+@import './utilities.css';
+@import './components/button.css';
+@import './components/button-group.css';
+@import './components/card.css';
+@import './components/heading.css';
+@import './components/layout.css';
+@import './components/page.css';
+@import './components/panel.css';
+@import './components/status.css';
+@import './components/swap.css';
+@import './components/table.css';
+
+/*
+	xxx
+*/
+html {
+	/* Ensure controls adjust to dark/light theme */
+	color-scheme: dark light;
+
+	/* Prevent font scaling in landscape while allowing user zoom */
+	-webkit-text-size-adjust: 100%;
+
+	/* Make scrolling to id's smoother */
+	scroll-behavior: smooth;
+
+	/* Firefox */
+	/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
+	scrollbar-color: rgba(0, 0, 0, 0.2) rgba(255, 255, 255, 0.05);
+
+	&.dark {
+		scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.05);
+	}
+}
+
+body {
+	background: var(--palette__background);
+	margin: 0;
+}
+
+.device-mobile {
+	font-size: 75%;
+}
