@@ -1,8 +1,8 @@
-import { browser } from '$app/environment';
+import { BROWSER } from 'esm-env';
 import { onMount } from 'svelte';
 
 export function media_query(query: string) {
-	if (!browser)
+	if (!BROWSER)
 		return { value: false };
 
 	const query_list = window.matchMedia(query);
@@ -15,7 +15,6 @@ export function media_query(query: string) {
 		get value() { return value; }
 	}
 }
-
 
 export function media_queries<T extends { [key: string]: string; }>(queries: T): { [K in keyof T]: boolean; } {
 	const values =

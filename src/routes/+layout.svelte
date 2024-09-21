@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { ElementClickOnMouseDown, Layout, RadioButton, RadioGroup, Theme } from '$lib/index.js';
 	import { settings } from './settings.svelte.js';
@@ -64,7 +65,7 @@
 				{#each nav as { path, text }}
 					<a class="link"
 						aria-current={$page.route.id === `/${path}` ? 'page' : undefined}
-						href={`/${path}`}
+						href={`${base}/${path}`}
 					>{text}</a>
 				{/each}
 			</nav>
