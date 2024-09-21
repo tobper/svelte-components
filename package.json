@@ -10,7 +10,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"preinstall": "npx only-allow pnpm"
 	},
 	"packageManager": "pnpm@9.10.0",
 	"exports": {
