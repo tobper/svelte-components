@@ -1,6 +1,9 @@
 {
-	"name": "svelte-components",
+	"name": "@tobper/svelte-components",
 	"version": "0.0.1",
+	"description": "Svelte components",
+	"author": "Tobias Persson",
+	"repository": "github:tobper/svelte-components",
 	"scripts": {
 		"dev": "vite dev --port 5001 --host 0.0.0.0",
 		"build": "vite build && npm run package",

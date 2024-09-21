@@ -13,6 +13,11 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,16 +26,13 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
+      # Setup .npmrc file to publish to GitHub Packages
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: https://npm.pkg.github.com
           cache: pnpm
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-        with:
-          static_site_generator: sveltekit
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -44,7 +46,13 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Upload artifacts
+      - name: Publish npm package
+        if: success() && github.ref == 'refs/heads/main'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm publish --provenance --access public
+
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'build/'
