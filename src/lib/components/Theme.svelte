@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { set_root_style_property, toggle_root_class } from '$lib/css.js';
-	import { onMount } from 'svelte';
 	import { device } from '../device.js';
-	import { media_queries } from '../media.svelte.js';
 	import '../styles/base.css';
 
 	interface Theme {
@@ -17,15 +15,6 @@
 		}
 	}
 
-	const media = media_queries({
-		orientation_landscape: '(orientation: landscape)',
-		orientation_portrait: '(orientation: portrait)',
-		pointer_coarse: '(pointer: coarse)',
-		pointer_fine: '(pointer: fine)',
-		prefers_dark_scheme: '(prefers-color-scheme: dark)',
-		supports_hover: '(hover: hover)',
-	});
-
 	let {
 		style,
 		palette = {},
@@ -39,19 +28,17 @@
 			import('../styles/themes/neomorphism.css');
 	});
 
-	onMount(() => {
+	$effect.pre(() => {
+		const dark_mode = scheme === 'dark' || scheme == 'system' && device.prefers_dark_scheme;
+
 		toggle_root_class('device-mobile', device.mobile);
 		toggle_root_class('device-tablet', device.tablet);
-	});
-
-	$effect.pre(() => {
-		const dark_mode = scheme === 'dark' || scheme == 'system' && media.prefers_dark_scheme;
-
-		toggle_root_class('orientation-landscape', media.orientation_landscape);
-		toggle_root_class('orientation-portrait', media.orientation_portrait);
+		toggle_root_class('device-desktop', device.desktop);
+		toggle_root_class('orientation-landscape', device.landscape);
+		toggle_root_class('orientation-portrait', device.portrait);
 		toggle_root_class('scheme-dark', dark_mode);
 		toggle_root_class('scheme-light', !dark_mode);
-		toggle_root_class('supports-hover', media.supports_hover);
+		toggle_root_class('supports-hover', device.supports_hover);
 		toggle_root_class('theme-lines', style === 'lines');
 		toggle_root_class('theme-neomorphism', style === 'neomorphism');
 

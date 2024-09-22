@@ -4,7 +4,8 @@
 		{
 			"label": "Build",
 			"dependsOn": [
-			  "Client"
+			  "Client",
+			  "Client type check"
 			],
 			"group": {
 			  "kind": "build",
@@ -15,6 +16,12 @@
 			"label": "Client",
 			"type": "npm",
 			"script": "dev",
+			"problemMatcher": []
+		 },
+		 {
+			"label": "Client type check",
+			"type": "npm",
+			"script": "check:watch",
 			"problemMatcher": []
 		 }
 	]

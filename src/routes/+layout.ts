@@ -4,7 +4,7 @@ import type { ComponentProps } from 'svelte';
 type ThemeStyle = ComponentProps<typeof Theme>['style'];
 
 export function load({ url }) {
-	let theme = url.searchParams.get('theme') as ThemeStyle;
+	let theme = (url.searchParams.get('theme') ?? default_theme) as ThemeStyle;
 
 	if (!valid_theme(theme)) {
 		console.warn(`"${theme}" is not a valid theme. Valid themes are ${humanize_list(themes)}.`);

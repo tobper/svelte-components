@@ -1,7 +1,7 @@
 :where(.theme-neomorphism) {
 	.page-header {
 		/* Layout */
-		height: 5rem;
+		height: var(--page-header__height);
 
 		/* Glass effect */
 		background-color: var(--glass__background-color);

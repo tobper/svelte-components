@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
-	import { ElementClickOnMouseDown, Layout, RadioButton, RadioGroup, Theme } from '$lib/index.js';
+	import { device } from '$lib/device.js';
+	import { Device, ElementClickOnMouseDown, Layout, SidebarToggleButton, Theme, ToggleButton } from '$lib/index.js';
+	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
 	import { settings } from './settings.svelte.js';
 
 	let { children, data } = $props();
@@ -18,6 +20,8 @@
 		{ path: 'form', text: 'Form' },
 		{ path: 'table', text: 'Table' },
 	];
+
+	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
 </script>
 
 <ElementClickOnMouseDown />
@@ -35,40 +39,67 @@
 />
 
 <Layout>
-	{#snippet header()}
-		<div class="header">
-			<nav class="button-group">
-				{#each available_themes as available_theme}
-					<a
-						aria-current={current_theme === available_theme.name ? 'page' : undefined}
-						class="button-outlined"
-						data-sveltekit-reload
-						href={`?theme=${available_theme.name}`}
-					>
-						{available_theme.text}
-					</a>
-				{/each}
-			</nav>
-	
-			<RadioGroup bind:selected_value={settings.scheme}>
-				<RadioButton text="Dark" value="dark" />
-				<RadioButton text="Light" value="light" />
-				<RadioButton text="System" value="system" />
-			</RadioGroup>
-		</div>
+	{#snippet header({ sidebar_fixed })}
+		{#if header_and_footer_visible}
+			<div class="header">
+				<div class="flow-items">
+					<Device mobile={false}>
+						{#if !sidebar_fixed}
+							{@render sidebar_toggle()}
+						{/if}
+					</Device>
+
+					<h1>Components</h1>
+				</div>
+				<ToggleButton
+					animation="rotate"
+					options={['light', 'dark', 'system'] as Array<typeof settings.scheme>}
+					type="plain"
+					value={settings.scheme}
+					onchange={scheme => settings.scheme = scheme}
+				>
+					{#snippet content(scheme)}
+						{#if scheme === 'light'}
+							<IconSun />
+						{:else if scheme === 'dark'}
+							<IconMoon />
+						{:else}
+							<IconAppWindow />
+						{/if}
+					{/snippet}
+				</ToggleButton>
+			</div>
+		{/if}
 	{/snippet}
 
 	{#snippet sidebar()}
 		<div class="sidebar">
-			<div class="page-header"></div>
 			<nav class="flow-items-vertical">
 				{#each nav as { path, text }}
-					<a class="link"
+					<a
 						aria-current={$page.route.id === `/${path}` ? 'page' : undefined}
+						class="link"
 						href={`${base}/${path}`}
 					>{text}</a>
 				{/each}
 			</nav>
+			<div class="flow-items-vertical">
+				<Device mobile>
+					<hr />
+				</Device>
+				<nav class="flow-items-vertical">
+					{#each available_themes as available_theme}
+						<a
+							aria-current={current_theme === available_theme.name ? 'page' : undefined}
+							class="link"
+							data-sveltekit-reload
+							href={`?theme=${available_theme.name}`}
+						>
+							{available_theme.text}
+						</a>
+					{/each}
+				</nav>
+			</div>
 		</div>
 	{/snippet}
 
@@ -77,18 +108,43 @@
 	{/snippet}
 
 	{#snippet footer()}
-		<div class="footer">
-			<a class="link link--underlined" href="https://github.com/tobper/svelte-components" target="_blank">GitHub</a>
-		</div>
+		{#if header_and_footer_visible}
+			<div class="footer">
+				<a class="link link--underlined" href="https://github.com/tobper/svelte-components" target="_blank">
+					<IconBrandGithub />
+
+					<Device mobile={false}>
+						GitHub
+					</Device>
+				</a>
+
+				<Device mobile>
+					{@render sidebar_toggle()}
+				</Device>
+			</div>
+		{/if}
 	{/snippet}
 </Layout>
+
+{#snippet sidebar_toggle()}
+	<SidebarToggleButton>
+		{#snippet content(open)}
+			{@const Icon = open ? IconX : IconMenu2}
+			<Icon />
+		{/snippet}
+	</SidebarToggleButton>
+{/snippet}
 
 <style>
 	:root {
 		--layout__max-width: 1000px;
 	}
 
-	.header {
+	h1 {
+		font-size: 1.25rem;
+	}
+
+	.header, .footer {
 		padding-block: 1rem;
 
 		display: flex;
@@ -98,11 +154,28 @@
 		gap: 1rem;
 	}
 
-	.sidebar {
-		width: 150px;
+	.header {
+		/* Do not add extra top padding if layout is already padded */
+		padding-top: max(0px, 1rem - var(--layout__padding-top));
 	}
 
 	.footer {
-		padding-block: 1rem;
+		/* Do not add extra bottom padding if layout is already padded */
+		padding-bottom: max(0px, 1rem - var(--layout__padding-bottom));
+	}
+
+	.sidebar {
+		height: 100%;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 1rem;
+
+		width: 175px;
+
+		:global(.device-mobile) & {
+			width: 100%;
+		}
 	}
 </style>

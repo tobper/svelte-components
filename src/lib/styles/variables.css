@@ -30,16 +30,23 @@
 	--layout__inset-bottom: env(safe-area-inset-bottom);
 	--layout__inset-left: env(safe-area-inset-left);
  
-	--layout__padding-top: max(0px, var(--layout__inset-top) - 1rem);
-	--layout__padding-bottom: max(2rem, var(--layout__inset-bottom));
+	--layout__padding-top: var(--layout__inset-top);
+	--layout__padding-bottom: max(0px, var(--layout__inset-bottom) - 1rem);
 	--layout__padding-left: max(2rem, var(--layout__inset-left));
 	--layout__padding-right: max(2rem, var(--layout__inset-right));
+
+	--layout-main__padding-bottom: 2rem;
 
 	/* Layout sets these variables */
 	--layout-header__height: 0px;
 	--layout-footer__height: 0px;
 
-	--content__padding-top: var(--layout__padding-top);
+	--page-content__scroll-top: var(--layout-header__height);
+
+	--page-header__top: 0px;
+	--page-header__padding-top: var(--layout__padding-top);
+	--page-header__height: 5rem;
+
 	/* --content__padding-bottom: max(0px, 2rem - var(--content__padding-top)); */
 	--content__padding-left: 1.5rem;
 	--content__padding-right: 1.5rem;

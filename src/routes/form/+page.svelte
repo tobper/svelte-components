@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Card, CheckButton, PageHeader, RadioButton, RadioGroup } from '$lib/index.js';
+	import { IconCheck, IconX } from '@tabler/icons-svelte';
 </script>
 
 <article class="page-content">
@@ -23,21 +24,17 @@
 
 		<h3>Animated</h3>
 		<div class="flow-items">
-			<CheckButton animation="fade">
-				{#snippet content(checked)}
-					{checked ? 'Faded' : 'Fade'}
-				{/snippet}
-			</CheckButton>
-			<CheckButton animation="flip">
-				{#snippet content(checked)}
-					{checked ? 'Flippessd' : 'Flip'}
-				{/snippet}
-			</CheckButton>
-			<CheckButton animation="rotate">
-				{#snippet content(checked)}
-					{checked ? 'Rotated' : 'Rotate'}
-				{/snippet}
-			</CheckButton>
+			<CheckButton animation="fade" text="Fade" content={icon_content} />
+			<CheckButton animation="fade" content={icon_content} />
+			<CheckButton animation="flip" text="Flip" content={icon_content} />
+			<CheckButton animation="flip" content={icon_content} />
+			<CheckButton animation="rotate" text="Rotate" content={icon_content} />
+			<CheckButton animation="rotate" content={icon_content} />
+
+			{#snippet icon_content(checked: boolean)}
+				{@const Icon = checked ? IconCheck : IconX}
+				<Icon />
+			{/snippet}
 		</div>
 	</Card>
 </article>

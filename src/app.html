@@ -27,4 +27,15 @@
 	body > div {
 		display: contents;
 	}
+
+	/* Ensure icons resize along with font */
+	.tabler-icon {
+		width: 1.5rem;
+		height: 1.5rem;
+
+		.device-mobile .button-plain.button--round & {
+			width: 2rem;
+			height: 2rem;
+		}
+	}
 </style>

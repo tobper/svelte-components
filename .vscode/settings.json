@@ -7,7 +7,9 @@
 	},
 	"typescript.format.semicolons": "insert",
 	"cSpell.words": [
-		"neomorphism"
+		"neomorphism",
+		/* Packages */
+		"tabler"
 	],
 	"css.format.spaceAroundSelectorSeparator": true,
 	"cSpell.overrides": [

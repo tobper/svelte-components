@@ -5,4 +5,19 @@
 		background: var(--panel__background);
 		box-shadow: var(--panel__shadow);
 	}
+
+	.layout-sidebar {
+		padding-top: var(--page-header__height);
+
+		.device-mobile & {
+			border-top-left-radius: .5rem;
+			background: var(--panel__background);
+			box-shadow: var(--panel__shadow);
+			color: var(--palette__text);
+
+			.link {
+				font-size: var(--h3__font-size);
+			}
+		}
+	}
 }

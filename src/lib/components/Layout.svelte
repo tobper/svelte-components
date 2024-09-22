@@ -1,35 +1,43 @@
 <script lang="ts" module>
-	import { getContext, setContext } from 'svelte';
-
-	interface LayoutContext {
-		header_height: number;
-		footer_height: number;
-		sidebar_width: number;
-	}
+	import { getContext, onDestroy, setContext } from 'svelte';
 
 	const context_key = Symbol('Layout');
 
-	function set_context(state: LayoutContext) {
-		return setContext(context_key, state);
+	export interface LayoutContext {
+		header_height: number;
+		footer_height: number;
+		sidebar_width: number;
+		sidebar_fixed: boolean;
+		sidebar_visible: boolean;
 	}
 
 	export function get_layout_context() {
 		return getContext<LayoutContext>(context_key);
 	}
+
+	function set_context(state: LayoutContext) {
+		return setContext(context_key, state);
+	}
 </script>
 
 <script lang="ts">
+    import { onNavigate } from '$app/navigation';
     import { set_root_style_property } from '$lib/css.js';
     import { device } from '$lib/device.js';
     import { resize_observer } from '$lib/html.js';
+    import { media_queries } from '$lib/media.svelte.js';
     import { onMount, type Snippet } from 'svelte';
 
 	interface Layout {
-		header?: Snippet;
-		sidebar?: Snippet;
-		main: Snippet;
-		footer?: Snippet;
+		header?: Snippet<[LayoutContext]>;
+		sidebar?: Snippet<[LayoutContext]>;
+		main: Snippet<[LayoutContext]>;
+		footer?: Snippet<[LayoutContext]>;
 	}
+
+	const media = media_queries({
+		sidebar_over_threshold: '(width >= 800px)',
+	}, onDestroy);
 
 	let { header, sidebar, main, footer }: Layout = $props();
 
@@ -41,9 +49,15 @@
 		footer_height: 0,
 		header_height: 0,
 		sidebar_width: 0,
+		sidebar_fixed: false,
+		sidebar_visible: false,
 	});
 
 	set_context(context);
+
+	$effect(() => {
+		context.sidebar_fixed = !device.mobile && media.sidebar_over_threshold
+	});
 
 	onMount(() => {
 		const observers = [
@@ -65,33 +79,43 @@
 			observers.forEach(observer => observer?.disconnect());
 		};
 	});
+
+	onNavigate(() => {
+		context.sidebar_visible = false;
+	});
 </script>
 
 <div class="layout">
 	{#if header}
 		<header bind:this={header_element}>
 			<div class="layout-header">
-				{@render header()}
+				{@render header(context)}
 			</div>
 		</header>
 	{/if}
 
 	<main>
-		{#if sidebar && !device.mobile}
-			<aside class="layout-sidebar" bind:this={sidebar_element}>
-				{@render sidebar()}
+		{#if sidebar}
+			<aside
+				class="layout-sidebar"
+				class:layout-sidebar--fixed={context.sidebar_fixed}
+				class:layout-sidebar--folding={!context.sidebar_fixed}
+				class:layout-sidebar--visible={context.sidebar_visible}
+				bind:this={sidebar_element}
+			>
+				{@render sidebar(context)}
 			</aside>
 		{/if}
 
 		<div class="layout-main">
-			{@render main()}
+			{@render main(context)}
 		</div>
 	</main>
 
 	{#if footer}
 		<footer bind:this={footer_element}>
 			<div class="layout-footer">
-				{@render footer()}
+				{@render footer(context)}
 			</div>
 		</footer>
 	{/if}
