@@ -78,7 +78,7 @@
 
 	{#snippet footer()}
 		<div class="footer">
-			<a class="link" href="https://github.com/tobper/svelte-components">GitHub</a>
+			<a class="link link--underlined" href="https://github.com/tobper/svelte-components" target="_blank">GitHub</a>
 		</div>
 	{/snippet}
 </Layout>
