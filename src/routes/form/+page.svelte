@@ -6,31 +6,38 @@
 	<PageHeader text="Check button" />
 	<Card>
 		<div class="flow-items">
+			<CheckButton text="Default" />
+			<CheckButton text="Checked" class="button--pressed" />
+			<CheckButton disabled text="Disabled" />
+			<CheckButton disabled text="Checked and disabled" checked />
+		</div>
+
+		<h3>Group</h3>
+		<div class="flow-items">
 			<div class="button-group">
 				<CheckButton text="Yes" checked />
 				<CheckButton text="No" />
 				<CheckButton text="Maybe" />
 			</div>
+		</div>
 
-			<CheckButton text="Single" />
-		</div>
+		<h3>Animated</h3>
 		<div class="flow-items">
-			<CheckButton transition="fade">
-				{#snippet state_checked()}Faded{/snippet}
-				{#snippet state_unchecked()}Fade{/snippet}
+			<CheckButton animation="fade">
+				{#snippet content(checked)}
+					{checked ? 'Faded' : 'Fade'}
+				{/snippet}
 			</CheckButton>
-			<CheckButton transition="flip">
-				{#snippet state_checked()}Flipped{/snippet}
-				{#snippet state_unchecked()}Flip{/snippet}
+			<CheckButton animation="flip">
+				{#snippet content(checked)}
+					{checked ? 'Flippessd' : 'Flip'}
+				{/snippet}
 			</CheckButton>
-			<CheckButton transition="rotate">
-				{#snippet state_checked()}Rotated{/snippet}
-				{#snippet state_unchecked()}Rotate{/snippet}
+			<CheckButton animation="rotate">
+				{#snippet content(checked)}
+					{checked ? 'Rotated' : 'Rotate'}
+				{/snippet}
 			</CheckButton>
-		</div>
-		<div class="flow-items">
-			<CheckButton disabled text="Disabled" />
-			<CheckButton disabled text="Checked and disabled" checked />
 		</div>
 	</Card>
 </article>

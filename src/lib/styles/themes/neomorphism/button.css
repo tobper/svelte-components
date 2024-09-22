@@ -90,6 +90,7 @@
 		}
 
 		&.button--pressed,
+		&[aria-checked],
 		&[aria-current],
 		&:active:not([aria-disabled=true], :has(:disabled)) {
 			color: var(--palette__accent-contrast);
@@ -119,6 +120,18 @@
 		&:hover:not([aria-disabled=true], :has(:disabled)) {
 			color: var(--palette__accent-contrast);
 		}
+	}
+
+	/*
+		Variants
+	*/
+	.button--round {
+		border-radius: 99px;
+		padding-inline: 1px;
+		aspect-ratio: 1;
+
+		/* Ensure button doesn't grow horizontally */
+		overflow: hidden;
 	}
 
 	.button--small {

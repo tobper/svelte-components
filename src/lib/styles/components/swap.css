@@ -35,20 +35,34 @@
 	display: none;
 }
 
+.swap--option:not([aria-selected=true]) {
+	opacity: 0;
+}
+
 .swap .swap--on,
 .swap .swap--indeterminate,
 .swap input:indeterminate ~ .swap--on {
 	opacity: 0;
 }
 
-.swap input:checked ~ .swap--off,
+.swap--flip .swap--option:not([aria-selected=true]) {
+	rotate: y 180deg;
+	backface-visibility: hidden;
+}
+
+.swap--rotate .swap--option:not([aria-selected=true]) {
+	rotate: 180deg;
+}
+
 .swap.swap--active .swap--off,
+.swap input:checked ~ .swap--off,
 .swap input:indeterminate ~ .swap--off {
 	opacity: 0;
 }
 
-.swap input:checked ~ .swap--on,
 .swap--active .swap--on,
+.swap--indeterminate .swap--indeterminate,
+.swap input:checked ~ .swap--on,
 .swap input:indeterminate ~ .swap--indeterminate {
 	opacity: 100%;
 }

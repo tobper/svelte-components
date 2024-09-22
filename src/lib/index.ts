@@ -8,6 +8,7 @@ export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as RadioButton } from './components/RadioButton.svelte';
 export { default as RadioGroup } from './components/RadioGroup.svelte';
 export { default as Theme } from './components/Theme.svelte';
+export { default as ToggleButton } from './components/ToggleButton.svelte';
 
 export * from './classes.js';
 export * from './css.js';
