@@ -1,6 +1,6 @@
 {
-  "name": "Components",
-  "short_name": "sv-comp",
+  "name": "Svelte Components",
+  "short_name": "Components",
   "icons": [
     {
       "src": "pwa-64x64.png",
