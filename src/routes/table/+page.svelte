@@ -30,6 +30,13 @@
 					</div>
 				{/each}
 			</div>
+
+			<footer>
+				<div class="table-row">
+					<div>Total: {food.length}</div>
+					<div></div>
+				</div>
+			</footer>
 		</div>
 	</Card>
 </article>

@@ -1,0 +1,21 @@
+.skeleton {
+	animation: skeleton 1.8s ease-in-out infinite;
+	/* background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 5%); */
+	background-color: var(--skeleton__background);
+	/* background-image: linear-gradient(105deg, transparent 0%, transparent 40%, var(--palette__background) 50%, transparent 60%, transparent 100%); */
+	background-image: linear-gradient(105deg, transparent 0%, transparent 40%, #8883 50%, transparent 60%, transparent 100%);
+	background-size: 200% auto;
+	background-repeat: no-repeat;
+	background-position-x: -50%;
+	border-radius: var(--skeleton__border-radius);
+	will-change: background-position;
+}
+
+@keyframes skeleton {
+	0% {
+		background-position: 150%;
+	}
+	100% {
+		background-position: -50%;
+	}
+}

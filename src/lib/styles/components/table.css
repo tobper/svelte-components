@@ -23,7 +23,22 @@
 	--table__padding-right: var(--table-cell__padding-x);
 
 	overflow: clip;
-	
+
+	/* Header and footer */
+	header, thead {
+		font-size: .875rem;
+		line-height: 1.25rem;
+		letter-spacing: .05em;
+	}
+
+	header, footer, th {
+		color: hsl(from var(--palette__text) h s l / 65%);
+	}
+
+	footer {
+		font-style: italic;
+	}
+
 	/* Disabled overlay */
 	.disabled {
 		opacity: 50%;
@@ -40,8 +55,12 @@
 	}
 
 	/* Colors */
-	--table-row__background-color: var(--panel__background-color);
+	--table-row__background-color: var(--palette__background);
 	--table-row__opacity--zebra: 0%;
+
+	.card & {
+		--table-row__background-color: var(--panel__background-color);
+	}
 
 	tr, th, .table-body > * {
 		background-color: color-mix(in lab, var(--table-row__background-color), var(--palette__contrast) var(--table-row__opacity--zebra));

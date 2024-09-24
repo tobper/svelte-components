@@ -2,6 +2,10 @@
 	--card__padding-left: 1rem;
 	--card__padding-right: 1rem;
 
+	/* Appearance */
+	border-radius: var(--card__border-radius);
+	box-shadow: var(--card__shadow);
+
 	> * {
 		padding-left: var(--card__padding-left);
 		padding-right: var(--card__padding-right);

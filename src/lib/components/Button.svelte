@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
+	import ButtonBorder from './ButtonBorder.svelte';
 	import Loading from './Loading.svelte';
 
 	interface Button {
+		current?: 'page' | 'step' | 'location' | 'date' | 'time' | true;
 		disabled?: boolean;
 		focusable?: boolean;
 		loading?: boolean;
@@ -13,7 +15,7 @@
 		variant?: 'primary' | 'secondary' | 'tertiary' | 'delete';
 
 		icon?: Snippet;
-		text: string;
+		text?: string;
 
 		onclick?: NonNullable<HTMLButtonAttributes['onclick']>;
 
@@ -23,6 +25,7 @@
 	}
 	
 	let {
+		current,
 		disabled = false,
 		focusable = true,
 		loading = false,
@@ -40,7 +43,8 @@
 </script>
 
 <button
-	aria-disabled={disabled}
+	aria-current={current}
+	aria-disabled={disabled || loading ? true : undefined}
 	class:button-cta={type === 'cta'}
 	class:button-plain={type === 'plain'}
 	class:button-outlined={type === 'outlined'}
@@ -72,9 +76,5 @@
 		<Loading bars />
 	{/if}
 
-	<!-- {#if cta}
-		<svg class="button__border">
-			<rect pathLength="100"></rect>
-		</svg>
-	{/if} -->
+	<ButtonBorder {type} />
 </button>

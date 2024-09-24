@@ -1,0 +1,212 @@
+input {
+	color: inherit;
+	background: inherit;
+	border: 0;
+
+	/* Default min width for input is not 0 */
+	width: 0;
+	/* min-width: 0; */
+}
+
+[type='text'],
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+input:where(:not([type])),
+select,
+textarea {
+	appearance: none;
+	background: transparent;
+
+	/* TODO: Are these needed? */
+	font-size: 1rem;
+	line-height: 1.5;
+
+	&:read-only {
+		cursor: default;
+	}
+
+	&::placeholder {
+		color: var(--palette__text--inactive);
+		font-style: italic;
+	}
+}
+
+/* Remove default Search Input "X" Cancel Button (Webkit) */
+input[type=search]::-webkit-search-cancel-button {
+	appearance: none;
+}
+
+.field {
+	/* Layout */
+	max-width: 100%;
+
+	/* Content */
+	display: flex;
+	flex-direction: column;
+
+	/* Invalid state */
+	&:has(input:user-invalid),
+	&:has(input[aria-invalid]) {
+		--palette__accent-color: var(--palette__error);
+
+		.field-label {
+			color: var(--palette__accent-color);
+		}
+	}
+
+	.field-label {
+		margin-bottom: .25rem;
+
+		/* Truncate text */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.field-label-optional {
+		font-style: italic;
+		font-weight: normal;
+		opacity: 40%;
+	}
+
+	.field-input {
+		/* Content */
+		display: flex;
+		align-items: stretch;
+
+		button {
+			padding-inline: .5rem;
+			height: auto;
+		}
+	}
+
+	.field-input-text {
+		--field-input__padding-left: 0px;
+		--field-input__padding-right: 0px;
+		--field-input__padding-right-offset: 0px;
+		--field-icon__width: 1.5rem;
+
+		&:not(:first-child) {
+			--field-input__padding-left: 0px;
+		}
+
+		&:not(:last-child) {
+			--field-input__padding-right: 0px;
+		}
+
+		/* Content */
+		position: relative;
+		flex: 1;
+		display: flex;
+		align-items: center;
+
+		input {
+			&::selection {
+				background-color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 70%);
+			}
+
+			/* Layout */
+			align-self: stretch;
+			flex: 1;
+			padding-left: var(--field-input__padding-left);
+			padding-right: calc(2.5rem + var(--field-input__padding-right-offset));
+	
+			&:has(~ .link) {
+				/* TODO: Why is this? */
+				padding-right: 0;
+			}
+		}
+
+		.field-clear {
+			position: absolute;
+			height: 100%;
+			right: var(--field-input__padding-right-offset);
+			padding-inline: .5rem;
+			margin: 0;
+
+			svg {
+				width: var(--field-icon__width);
+			}
+		}
+
+		.field-loading,
+		.field-icon {
+			/* Appearance */
+			color: var(--palette__accent-color);
+
+			/* Layout */
+			position: absolute;
+			right: var(--field-input__padding-right);
+			pointer-events: none;
+		}
+
+		/* Disabled */
+		input:disabled {
+			-webkit-opacity: 100%;
+			color: var(--field-input__color--readonly);
+			font-style: italic;
+		}
+
+		/* Readonly */
+		&:has(input[readonly]) {
+			input,
+			.field-loading,
+			.field-icon {
+				color: var(--field-input__color--readonly);
+			}
+
+			.field-clear {
+				display: none;
+			}
+		}
+
+		/* Out of focus/hover */
+		&:not(:focus-within, :hover) {
+			.supports-hover & {
+				.field-clear {
+					opacity: 0;
+					pointer-events: none;
+				}
+			}
+
+			.field-icon {
+				color: var(--palette__text--inactive);
+			}
+		}
+
+		/* Hide icon when loading is visible */
+		.field-loading:not(.hidden) {
+			.field-icon {
+				opacity: 0;
+			}
+		}
+
+		/* Adjust positions when icon and/or loading is visible */
+		&:has(.field-icon, .field-loading:not(.hidden)) {
+			--field-input__padding-right-offset: calc(var(--field-icon__width) + var(--field-input__padding-right));
+		}
+	}
+
+	.field-error {
+		color: var(--palette__error);
+		min-height: 1.5em; /* Same as line height */
+		margin-top: .25rem;
+	}
+}
+
+/* Disabled */
+.field:has(:disabled) .field-label,
+label:has([type=checkbox]:disabled) {
+	font-style: italic;
+	opacity: 50%;
+}

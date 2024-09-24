@@ -1,3 +1,11 @@
+/*
+	Aria states
+	disabled: Button can not be interacted with
+	current: Button is pressed and can not be interacted with (radio button)
+	checked: Button is pressed and can be interacted with (check button)
+	selected: Button is pressed and can be interacted with (toggle button)
+*/
+
 .button-cta,
 .button-outlined,
 .button-plain {
@@ -18,15 +26,27 @@
 
 	/* Text */
 	font-size: 1rem;
-	line-height: 100%;
+	line-height: 1;
 	white-space: nowrap;
 
 	/* Interaction */
-	cursor: pointer;
+	cursor: default;
 	user-select: none;
 
+	&:not([aria-current]) {
+		cursor: pointer;
+	}
+
 	/* Disabled */
-	&:is([aria-disabled=true], :has(:disabled)) {
+	&:is([aria-disabled], :has(:disabled)) {
 		cursor: not-allowed;
 	}
+}
+
+.button--round {
+	border-radius: 99px;
+	aspect-ratio: 1;
+
+	/* Ensure button doesn't grow horizontally */
+	overflow: hidden;
 }

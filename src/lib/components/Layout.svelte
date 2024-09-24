@@ -22,11 +22,11 @@
 
 <script lang="ts">
     import { onNavigate } from '$app/navigation';
-    import { set_root_style_property } from '$lib/css.js';
-    import { device } from '$lib/device.js';
-    import { resize_observer } from '$lib/html.js';
-    import { media_queries } from '$lib/media.svelte.js';
     import { onMount, type Snippet } from 'svelte';
+    import { set_root_style_property } from '../css.js';
+    import { device } from '../device.js';
+    import { resize_observer } from '../html.js';
+    import { media_queries } from '../media.svelte.js';
 
 	interface Layout {
 		header?: Snippet<[LayoutContext]>;
@@ -34,6 +34,14 @@
 		main: Snippet<[LayoutContext]>;
 		footer?: Snippet<[LayoutContext]>;
 	}
+
+	const context = $state<LayoutContext>({
+		footer_height: 0,
+		header_height: 0,
+		sidebar_width: 0,
+		sidebar_fixed: false,
+		sidebar_visible: false,
+	});
 
 	const media = media_queries({
 		sidebar_over_threshold: '(width >= 800px)',
@@ -44,14 +52,6 @@
 	let header_element = $state<HTMLElement>();
 	let footer_element = $state<HTMLElement>();
 	let sidebar_element = $state<HTMLElement>();
-
-	const context = $state<LayoutContext>({
-		footer_height: 0,
-		header_height: 0,
-		sidebar_width: 0,
-		sidebar_fixed: false,
-		sidebar_visible: false,
-	});
 
 	set_context(context);
 
@@ -97,11 +97,11 @@
 	<main>
 		{#if sidebar}
 			<aside
+				bind:this={sidebar_element}
 				class="layout-sidebar"
 				class:layout-sidebar--fixed={context.sidebar_fixed}
 				class:layout-sidebar--folding={!context.sidebar_fixed}
 				class:layout-sidebar--visible={context.sidebar_visible}
-				bind:this={sidebar_element}
 			>
 				{@render sidebar(context)}
 			</aside>

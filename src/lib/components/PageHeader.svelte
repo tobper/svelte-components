@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { toggle_class } from '$lib/css.js';
-	import { interaction_observer } from '$lib/html.js';
 	import { onMount, type Snippet } from 'svelte';
+	import { toggle_class } from '../css.js';
+	import { interaction_observer } from '../html.js';
 	import { get_layout_context } from './Layout.svelte';
 	import Loading from './Loading.svelte';
 

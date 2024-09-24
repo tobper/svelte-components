@@ -1,20 +1,22 @@
 :where(.theme-neomorphism) {
-	--link__text-color: var(--palette__primary-color);
-	--link__text-color--current: var(--palette__secondary-color);
-	--link__text-color--hover: var(--palette__primary--contrast);
+	--link-color: var(--palette__primary-color);
+	--link-color--current: var(--palette__secondary-color);
+	--link-color--hover: var(--palette__primary--contrast);
 
 	.link {
-		color: var(--link__text-color);
-		transition: color 100ms;
+		/*  Appearance */
+		color: var(--link-color);
 
+		/* Hover */
 		&.link--hover,
 		&:hover {
-			color: var(--link__text-color--hover);
+			color: var(--link-color--hover);
 		}
 
+		/* Current */
 		&.link--current,
 		&[aria-current] {
-			color: var(--link__text-color--current);
+			color: var(--link-color--current);
 		}
 	}
 
@@ -28,7 +30,7 @@
 			bottom: -3px;
 			width: 100%;
 			height: 1px;
-			background: var(--link__text-color--hover);
+			background: var(--link-color--hover);
 			transform: scaleX(0);
 			transition: transform 150ms ease-in-out;
 		}

@@ -7,13 +7,6 @@
 	position: relative;
 	display: inline-grid;
 	place-content: center;
-
-	/* Interaction */
-	user-select: none;
-
-	&:not(:has(:disabled)) {
-		cursor: pointer;
-	}
 }
 
 .swap > * {

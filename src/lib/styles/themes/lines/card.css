@@ -1,0 +1,8 @@
+:where(.theme-lines) {
+	--card__border-radius: 1rem;
+	--card__shadow: 0 .25rem .5rem rgb(0 0 0 / .15);
+
+	&.device-mobile .page-content > .card {
+		--card__border-radius: 0;
+	}
+}

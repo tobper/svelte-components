@@ -1,0 +1,19 @@
+:where(.theme-lines) {
+	--panel__background-color: var(--palette__background);
+
+	&.scheme-light {
+		--panel__background: linear-gradient(
+			180deg,
+			color-mix(in lab, var(--panel__background-color), white 60%),
+			var(--panel__background-color) 100%
+		);
+	}
+
+	&.scheme-dark {
+		--panel__background: linear-gradient(
+			180deg,
+			hsl(from var(--panel__background-color) h s calc(l * 1.1)) 0%,
+			hsl(from var(--panel__background-color) h s calc(l * .9)) 100%
+		);
+	}
+}

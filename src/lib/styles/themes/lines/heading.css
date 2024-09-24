@@ -1,0 +1,19 @@
+:where(.theme-lines) {
+	h1 {
+		color: var(--h1__color);
+	}
+	
+	h2 {
+		color: var(--h2__color);
+	}
+	
+	h3 {
+		--link__color: var(--h3__color);
+		--link__color--hover: var(--h3__color--hover);
+		color: var(--h3__color);
+	}
+	
+	h4 {
+		color: var(--h4__color);
+	}
+}

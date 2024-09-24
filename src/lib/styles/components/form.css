@@ -1,0 +1,8 @@
+form {
+	> footer {
+		display: flex;
+		justify-content: end;
+		column-gap: var(--space);
+		margin-top: var(--space);
+	}
+}

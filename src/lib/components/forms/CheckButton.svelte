@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import ButtonBorder from '../ButtonBorder.svelte';
 	
 	interface CheckButton {
 		animation?: 'fade' | 'flip' | 'rotate';
@@ -75,6 +76,8 @@
 	{#if text}
 	  	<span>{text}</span>
 	{/if}
+
+	<ButtonBorder {type} />
 </label>
 
 <style>

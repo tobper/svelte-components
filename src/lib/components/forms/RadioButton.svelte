@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ButtonBorder from '../ButtonBorder.svelte';
 	import { get_radio_group_context } from './RadioGroup.svelte';
 
 	interface RadioButton {
@@ -16,9 +17,9 @@
 </script>
 
 <label
-	class="button button-outlined"
+	aria-current={checked ? true : undefined}
+	class="button-outlined"
 	class:button--small={small}
-	class:button--pressed={checked}
 >
 	<div class="input-container">
 		<input
@@ -36,6 +37,8 @@
 	</div>
 
 	<span>{text}</span>
+
+	<ButtonBorder type="outlined" />
 </label>
 
 <style>

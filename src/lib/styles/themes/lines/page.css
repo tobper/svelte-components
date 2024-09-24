@@ -1,4 +1,9 @@
 :where(.theme-lines) {
-	body {
+	.page-header {
+		/* Layout */
+		padding-bottom: 1rem;
+
+		/* Appearance */
+		background-color: var(--palette__background);
 	}
 }

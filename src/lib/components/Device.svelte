@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { device } from '$lib/device.js';
 	import type { Snippet } from 'svelte';
+	import { device } from '../device.js';
 
 	interface Device {
 		children: Snippet;

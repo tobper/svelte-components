@@ -1,12 +1,12 @@
 <script lang="ts">
-	import CheckButton from '$lib/components/CheckButton.svelte';
-	import { get_layout_context } from '$lib/components/Layout.svelte';
 	import type { ComponentProps } from 'svelte';
+	import CheckButton from './forms/CheckButton.svelte';
+	import { get_layout_context } from './Layout.svelte';
 
 	interface SidebarToggleButton {
-		animation?: ComponentProps<CheckButton>['animation'];
-		content: ComponentProps<CheckButton>['content'];
-		type?: ComponentProps<CheckButton>['type'];
+		animation?: ComponentProps<typeof CheckButton>['animation'];
+		content: ComponentProps<typeof CheckButton>['content'];
+		type?: ComponentProps<typeof CheckButton>['type'];
 	}
 
 	let {

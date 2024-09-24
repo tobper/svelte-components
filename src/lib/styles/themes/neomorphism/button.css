@@ -3,23 +3,26 @@
 		All buttons
 	*/
 	.button-cta,
-	.button-plain,
-	.button-outlined {
+	.button-outlined,
+	.button-plain {
+		/* Layout */
+		height: 3rem;
+		padding-inline: 1rem;
+
 		/* Interaction */
 		padding-block: 1px;
 
-		&.button--pressed,
-		&[aria-current],
-		&:active:not([aria-disabled=true], :has(:disabled)) {
+		/* Pressed */
+		&:is([aria-checked], [aria-current], [aria-selected]),
+		&:active:not([aria-disabled], :has(:disabled)) {
 			padding-block: 2px 0px;
 		}
 
 		/* Disabled */
-		&:is([aria-disabled=true], :has(:disabled)) {
-			--button-shadow: 0 1px 2px -1px rgb(0 0 0 / 20%);
+		&:is([aria-disabled], :has(:disabled)) {
+			--button-shadow: 0 .75px 1.5px rgb(0 0 0 / 20%);
 
 			/* color: var(--palette__neutral); */
-			cursor: not-allowed;
 			filter: grayscale(100%);
 			opacity: 60%;
 		}
@@ -28,8 +31,6 @@
 	.button-cta {
 		--button-shadow: 0 1px 2px rgb(0 0 0 / 20%);
 
-		height: 3rem;
-		padding-inline: 1rem;
 		border-radius: .25rem;
 		color: var(--palette__text--inverted);
 		background-color: var(--palette__accent-background);
@@ -37,19 +38,10 @@
 		box-shadow:
 			var(--button-shadow),
 			var(--button__focus-shadow, 0 0 #0000);
-
-		&.button--disabled {
-			--button-shadow: 0 0.75px 1.5px rgb(0 0 0 / 20%);
-		}
-
-		&.button--hover,
-		&:hover:not([aria-disabled=true], :has(:disabled)) {
-			background-color: hsl(from var(--palette__accent-background) h s calc(l * .8));
-		}
 		
-		&.button--pressed,
-		&[aria-current],
-		&:active:not([aria-disabled=true], :has(:disabled)) {
+		/* Pressed */
+		&:is([aria-checked], [aria-current], [aria-selected]),
+		&:active:not([aria-disabled], :has(:disabled)) {
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 4%), rgb(0 0 0 / 4%));
 			box-shadow:
 				inset 0 1px var(--button__inner-shadow-blur) rgb(0 0 0 / var(--button__inner-shadow-opacity)),
@@ -62,6 +54,12 @@
 				--button__inner-shadow-opacity: 60%;
 			}
 		}
+
+		/* Hover */
+		&.button--hover,
+		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+			background-color: hsl(from var(--palette__accent-background) h s calc(l * .8));
+		}
 	}
 
 	/*
@@ -70,8 +68,6 @@
 	.button-outlined {
 		--button-shadow: 0 .75px 2px rgb(0 0 0 / 20%);
 
-		height: 3rem;
-		padding-inline: 1rem;
 		border-radius: .25rem;
 		color: var(--palette__accent-color);
 		background-color: var(--panel__background-color);
@@ -80,19 +76,9 @@
 			var(--button-shadow),
 			var(--button__focus-shadow, 0 0 #0000);
 
-		&.button--disabled {
-			--button-shadow: 0 0.75px 1.5px rgb(0 0 0 / 20%);
-		}
-
-		&.button--hover,
-		&:hover:not([aria-disabled=true], :has(:disabled)) {
-			color: var(--palette__accent-contrast);
-		}
-
-		&.button--pressed,
-		&[aria-checked],
-		&[aria-current],
-		&:active:not([aria-disabled=true], :has(:disabled)) {
+		/* Pressed */
+		&:is([aria-checked], [aria-current], [aria-selected]),
+		&:active:not([aria-disabled], :has(:disabled)) {
 			color: var(--palette__accent-contrast);
 			background-color: var(--palette__accent-color--bright);
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
@@ -107,6 +93,12 @@
 		:where(.scheme-dark) & {
 			--button__inner-shadow-opacity: 50%;
 		}
+
+		/* Hover */
+		&.button--hover,
+		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+			color: var(--palette__accent-contrast);
+		}
 	}
 
 	/*
@@ -116,8 +108,9 @@
 		color: var(--palette__accent-color);
 		box-shadow: var(--button__focus-shadow, 0 0 #0000);
 
+		/* Hover */
 		&.button--hover,
-		&:hover:not([aria-disabled=true], :has(:disabled)) {
+		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
 			color: var(--palette__accent-contrast);
 		}
 	}
@@ -126,20 +119,15 @@
 		Variants
 	*/
 	.button--round {
-		border-radius: 99px;
-		padding-inline: 1px;
-		aspect-ratio: 1;
-
-		/* Ensure button doesn't grow horizontally */
-		overflow: hidden;
+		padding-inline: 0;
 	}
 
 	.button--small {
-		/* Content */
-		padding-inline: .75rem;
-
 		/* Text */
 		font-size: .875rem;
 		height: 2.5rem;
+
+		/* Content */
+		padding-inline: .75rem;
 	}
 }

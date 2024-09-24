@@ -20,10 +20,10 @@
  </script>
  
  <script lang="ts">
-	import { scale_fast, slide_fast } from '$lib/transitions/index.js';
-	import { classes } from '../classes.js';
-	import { match } from '../match.js';
-	import { unique_id } from '../unique_id.js';
+	import { classes } from '../../classes.js';
+	import { match } from '../../match.js';
+	import { scale_fast, slide_fast } from '../../transitions/index.js';
+	import { unique_id } from '../../unique_id.js';
 
 	interface RadioGroup {
 		animation?: 'slide' | 'scale' | 'none';

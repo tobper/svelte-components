@@ -1,0 +1,39 @@
+:where(.theme-lines) {
+	.field-label {
+		color: var(--field-label__color);
+		font-size: small;
+		font-weight: bold;
+		max-width: max-content;
+	}
+
+	.field-input {
+		.field-input-text {
+			padding-block: 0.25rem;
+		}
+
+		input {
+			line-height: 2;
+			transition: color var(--transition__duration--fast) ease-in-out var(--transition-delay);
+		}
+
+		position: relative;
+
+		&::before {
+			/* Appearance */
+			background: var(--field-input-line__color);
+
+			/* Layout */
+			position: absolute;
+			content: '';
+			left: 0;
+			bottom: -1px; /* Ensure line is outside skeleton overlay */
+			height: 1px;
+			width: 100%;
+			transition: width var(--transition__duration--fast) ease-in-out var(--transition-delay);
+		}
+
+		&:has(input[readonly])::before {
+			width: 0;
+		}
+	}
+}

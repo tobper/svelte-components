@@ -9,14 +9,13 @@
 	.layout-sidebar {
 		padding-top: var(--page-header__height);
 
-		.device-mobile & {
-			border-top-left-radius: .5rem;
-			background: var(--panel__background);
+		&.layout-sidebar--folding {
 			box-shadow: var(--panel__shadow);
-			color: var(--palette__text);
 
-			.link {
-				font-size: var(--h3__font-size);
+			.device-mobile & {
+				border-top-left-radius: .5rem;
+				background-color: var(--panel__background-color);
+				background: var(--panel__background);
 			}
 		}
 	}

@@ -1,10 +1,9 @@
-import type { Theme } from '$lib/index.js';
-import type { ComponentProps } from 'svelte';
+import type { Style } from '$lib/index.js';
 
-type ThemeStyle = ComponentProps<typeof Theme>['style'];
+export const ssr = false;
 
 export function load({ url }) {
-	let theme = (url.searchParams.get('theme') ?? default_theme) as ThemeStyle;
+	let theme = (url.searchParams.get('theme') ?? default_theme) as Style;
 
 	if (!valid_theme(theme)) {
 		console.warn(`"${theme}" is not a valid theme. Valid themes are ${humanize_list(themes)}.`);
@@ -14,11 +13,11 @@ export function load({ url }) {
 	return { theme };
 }
 
-function valid_theme(theme: string): theme is ThemeStyle {
-	return themes.includes(theme as ThemeStyle);
+function valid_theme(theme: string): theme is Style {
+	return themes.includes(theme as Style);
 }
 
-const themes: Array<ThemeStyle> = ['neomorphism', 'lines'];
+const themes: Array<Style> = ['neomorphism', 'lines'];
 const default_theme = themes[0];
 
 function humanize_list(values: Array<unknown>) {

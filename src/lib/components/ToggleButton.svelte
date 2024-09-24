@@ -53,6 +53,7 @@
 		class="swap"
 		class:swap--flip={animation === 'flip'}
 		class:swap--rotate={animation === 'rotate'}
+		role="listbox"
 	>
 		<input
 			{disabled}
@@ -63,7 +64,7 @@
 		/>
 
 		{#each options as option}
-			<span class="swap--option" aria-selected={value === option}>
+			<span class="swap--option" aria-selected={value === option} role="option">
 				{@render content(option)}
 			</span>
 		{/each}

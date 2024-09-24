@@ -4,4 +4,11 @@
 	align-items: center;
 	justify-content: center;
 	gap: var(--space__small);
+
+	/* Interaction */
+	cursor: default;
+
+	&:not([aria-current]) {
+		cursor: pointer;
+	}
 }

@@ -26,6 +26,10 @@
 
 <ElementClickOnMouseDown />
 
+<svelte:head>
+	<title>Components · {available_themes.find(({ name }) => name === current_theme)!.text}</title>
+</svelte:head>
+
 <Theme
 	palette={{
 		// primary: 'oklch(75% 0.05 150)',
@@ -74,7 +78,7 @@
 
 	{#snippet sidebar()}
 		<div class="sidebar">
-			<nav class="flow-items-vertical">
+			<nav>
 				{#each nav as { path, text }}
 					<a
 						aria-current={$page.route.id === `/${path}` ? 'page' : undefined}
@@ -87,7 +91,7 @@
 				<Device mobile>
 					<hr />
 				</Device>
-				<nav class="flow-items-vertical">
+				<nav>
 					{#each available_themes as available_theme}
 						<a
 							aria-current={current_theme === available_theme.name ? 'page' : undefined}
@@ -172,10 +176,21 @@
 		justify-content: space-between;
 		gap: 1rem;
 
+		/* Layout */
 		width: 175px;
 
 		:global(.device-mobile) & {
-			width: 100%;
+			width: unset;
+		}
+
+		.link {
+			display: block;
+			font-size: var(--h3__font-size);
+			padding-block: var(--space__small);
+
+			:global(.device-mobile &) {
+				padding-block: var(--space);
+			}
 		}
 	}
 </style>

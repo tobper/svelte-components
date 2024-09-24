@@ -1,11 +1,31 @@
+<script lang="ts" module>
+	export type Scheme = 'dark' | 'light' | 'system';
+	export type Style = 'lines' | 'neomorphism';
+
+	export interface ThemeContext {
+		scheme: Scheme;
+		style: Style;
+	}
+
+	// const context_key = Symbol('Theme');
+	const context = $state<ThemeContext>({
+		scheme: 'system',
+		style: 'neomorphism',
+	})
+
+	export function get_theme() {
+		return context;
+	}
+</script>
+
 <script lang="ts">
-	import { set_root_style_property, toggle_root_class } from '$lib/css.js';
+	import { set_root_style_property, toggle_root_class } from '../css.js';
 	import { device } from '../device.js';
 	import '../styles/base.css';
 
 	interface Theme {
-		style: 'lines' | 'neomorphism';
-		scheme?: 'dark' | 'light' | 'system';
+		style?: Style;
+		scheme?: Scheme;
 		palette?: {
 			primary?: string;
 			secondary?: string;
@@ -15,10 +35,12 @@
 		}
 	}
 
+	const context = get_theme();
+
 	let {
-		style,
+		style = context.style,
 		palette = {},
-		scheme = 'system'
+		scheme = context.scheme
 	}: Theme = $props()
 
 	$effect.pre(() => {
@@ -26,6 +48,9 @@
 			import('../styles/themes/lines.css');
 		else if (style === 'neomorphism')
 			import('../styles/themes/neomorphism.css');
+		
+		context.scheme = scheme;
+		context.style = style;
 	});
 
 	$effect.pre(() => {

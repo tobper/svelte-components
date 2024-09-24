@@ -1,4 +1,6 @@
 .layout {
+	--layout-sidebar__gutter: var(--space__large);
+
 	display: contents;
 
 	> main {
@@ -6,7 +8,7 @@
 		min-height: 100vh;
 		padding-left: var(--layout__padding-left);
 		padding-right: var(--layout__padding-right);
-	
+
 		/* Center content */
 		width: 100%;
 		max-width: var(--layout__max-width);
@@ -36,7 +38,7 @@
 			z-index: 10;
 			background: var(--palette__background);
 		}
-	
+
 		> main {
 			padding-top: calc(var(--layout-header__height) + var(--layout__padding-top));
 		}
@@ -83,22 +85,17 @@
 	bottom: calc(var(--layout-footer__height) + var(--layout__padding-bottom));
 	padding-bottom: var(--layout-main__padding-bottom);
 	z-index: 9;
-	background: var(--palette__background);
 	overflow: auto;
 
 	&.hidden {
 		display: none;
-	}
-
-	.link {
-		font-size: var(--h4__font-size);
 	}
 }
 
 .layout-main {
 	/* Position */
 	padding-bottom: var(--layout-main__padding-bottom);
-	
+
 	/* Content */
 	display: flex;
 	flex-direction: column;
@@ -107,34 +104,42 @@
 
 /* Dynamic sidebar */
 .layout-sidebar {
-	clip-path: inset(-1rem);
+	clip-path: inset(-10rem); /* Leave room for box shadow */
 	transition: clip-path ease-out 150ms;
 }
 
 .layout-sidebar--fixed {
 	/* Add padding to main */
 	& + .layout-main {
-		padding-left: calc(var(--layout-sidebar__width) + var(--space__large));
+		padding-left: calc(var(--layout-sidebar__width) + var(--layout-sidebar__gutter));
 	}
 }
 
 /* Folding sidebar (small screen) */
+.layout-sidebar--folding {
+	/* Position */
+	left: 0;
+	padding-left: var(--layout__padding-left);
+	padding-right: var(--layout-sidebar__gutter);
+
+	/* Appearance */
+	background: var(--palette__background);
+}
+
 .layout-sidebar--folding:not(.layout-sidebar--visible) {
 	clip-path: inset(0 100% 0 0);
 }
 
 .device-mobile .layout-sidebar {
 	top: unset;
+	left: unset;
 	right: 0;
-	max-height: 50%;
+	max-height: calc(100% - var(--space) - var(--layout__padding-top) - var(--layout-header__height) - var(--layout-footer__height) - var(--layout__padding-bottom));
 	width: 80%;
-	padding: var(--space__large);
+	padding-block: 0;
+	padding-inline: var(--space__large);
 
 	&:not(.layout-sidebar--visible) {
-		clip-path: inset(100% 0 0 0);
-	}
-
-	.link {
-		font-size: var(--h3__font-size);
+		clip-path: inset(100% -10rem 0 -10rem);
 	}
 }

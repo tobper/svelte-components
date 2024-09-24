@@ -1,21 +1,9 @@
 :root {
 	/* https://oklch.com */
-	--palette__variant-delete-base: oklch(77% 0.125 20);
-
-	/* Pastel */
-	--palette__primary-base: #dc8850;
-	--palette__secondary-base: #a4cbb4;
-	--palette__tertiary-base: #ef9995;
-
-	/* Skeleton Hamlindigo */
-	--palette__primary-base: #a8bef1;
-	--palette__secondary-base: #a48e5b;
-	--palette__tertiary-base: #6197a3;
-
-	/* Skeleton Vintage */
 	--palette__primary-base: #ea861a;
 	--palette__secondary-base: #06b6d4;
 	--palette__tertiary-base: #97cea5;
+	--palette__variant-delete-base: oklch(77% 0.15 20);
 
 	/* Spacing */
 	--space: 1rem;
@@ -51,9 +39,14 @@
 	--content__padding-left: 1.5rem;
 	--content__padding-right: 1.5rem;
 
-	/*  Glass effects */
+	--field__transition-duration: .1s;
+	--field-input__color--readonly: #888;
+
 	--glass__background-color: hsl(from var(--glass-bg, var(--palette__background)) h s l / 60%);
 	--glass__backdrop-filter: blur(7px);
+
+	--skeleton__border-radius: 0.2rem;
+	--skeleton__background: oklch(from var(--palette__background) calc(l - .03) c h);
 }
 
 .device-mobile {
@@ -72,6 +65,7 @@
 
 	--palette__background: #eee;
 	--palette__text: #333;
+	--palette__text--inactive: #666;
 
 	--palette__primary-background: oklch(from var(--palette__primary-base) calc(l - .15) c h);
 	--palette__primary-color: oklch(from var(--palette__primary-base) calc(l - .2) c h);
@@ -102,7 +96,8 @@
 	--palette__neutral-background: oklch(45% 0 0);
 
 	--palette__background: #333;
-	--palette__text: #ddd;
+	--palette__text: #eee;
+	--palette__text--inactive: #999;
 
 	--palette__primary-background: oklch(from var(--palette__primary-base) calc(l - .23) calc(c *.6) h);
 	--palette__primary-color: oklch(from var(--palette__primary-base) l calc(c * .7) h);
@@ -126,7 +121,7 @@
 .scheme-light,
 .scheme-dark {
 	--palette__text--inverted: rgb(255 255 255 / 90%);
-	--palette__text--inactive: hsl(from var(--palette__text) h s l / 50%);
+	/* --palette__text--inactive: hsl(from var(--palette__text) h s l / 50%); */
 
 	--palette__primary--contrast: color-mix(in lab, var(--palette__primary-color), var(--palette__contrast) 40%);
 	--palette__secondary--contrast: color-mix(in lab, var(--palette__secondary-color), var(--palette__contrast) 40%);
