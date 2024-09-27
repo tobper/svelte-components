@@ -56,7 +56,7 @@
 </article>
 
 <article class="page-content">
-	<PageHeader text="Toggle button" />
+	<PageHeader text="Toggle switch" />
 	<Card>
 		<div class="flow-items-vertical">
 			<ToggleSwitch label="Default" />

@@ -15,11 +15,22 @@
 	border: none;
 	color: inherit;
 
+	/* Layout */
+	padding-inline: var(--space);
+
 	/* Content */
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	gap: var(--space__small);
+
+	.button-icon {
+		display: flex;
+
+		svg {
+			width: 1rem;
+		}
+	}
 
 	/* Hide overflow, for instance when rotating content in check buttons */
 	overflow: clip;
@@ -41,12 +52,38 @@
 	&:is([aria-disabled], :has(:disabled)) {
 		cursor: not-allowed;
 	}
-}
 
-.button--round {
-	border-radius: 99px;
-	aspect-ratio: 1;
+	/* Round button */
+	&.button--round {
+		border-radius: 99px;
+		aspect-ratio: 1;
+		padding-inline: 0;
+	
+		/* Ensure button doesn't grow horizontally */
+		overflow: hidden;
 
-	/* Ensure button doesn't grow horizontally */
-	overflow: hidden;
+		.button-border rect {
+			display: none;
+		}
+	}
+
+	/* Square button */
+	&:not(.button--round) {
+		.button-border circle {
+			display: none;
+		}
+	}
+
+	/* Small button */
+	&.button--small {
+		/* Text */
+		font-size: .875rem;
+
+		/* Content */
+		padding-inline: var(--space__medium);
+
+		.button-icon svg {
+			width: .875rem;
+		}
+	}
 }

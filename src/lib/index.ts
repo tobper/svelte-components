@@ -1,4 +1,5 @@
 export { default as Button } from './components/Button.svelte';
+export { default as Calendar } from './components/Calendar.svelte';
 export { default as Card } from './components/Card.svelte';
 export { default as Device } from './components/Device.svelte';
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte';
@@ -9,6 +10,7 @@ export { default as SidebarToggleButton } from './components/SidebarToggleButton
 export { default as Theme } from './components/Theme.svelte';
 export { default as ToggleButton } from './components/ToggleButton.svelte';
 
+export * from './components/Button.svelte';
 export * from './components/Layout.svelte';
 export * from './components/Theme.svelte';
 

@@ -30,6 +30,9 @@ importers:
       '@tabler/icons-svelte':
         specifier: ^3.17.0
         version: 3.17.0(svelte@5.0.0-next.246)
+      '@tobper/eon':
+        specifier: ^0.0.5
+        version: 0.0.5
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -405,6 +408,9 @@ packages:
 
   '@tabler/icons@3.17.0':
     resolution: {integrity: sha512-sCSfAQ0w93KSnSL7tS08n73CdIKpuHP8foeLMWgDKiZaCs8ZE//N3ytazCk651ZtruTtByI3b+ZDj7nRf+hHvA==}
+
+  '@tobper/eon@0.0.5':
+    resolution: {integrity: sha512-ckLRoA8nwCaNsRGkVOHKg/no+7OcYsTC8pHaL70T+xzRFA81veD0cxXwY+0Sflm73YdO9eca0nuKf0YxioVNCA==, tarball: https://npm.pkg.github.com/download/@tobper/eon/0.0.5/5a3c5b4ab4eafeec8378d4a3410de2a81adb7f3d}
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -1594,6 +1600,8 @@ snapshots:
       svelte: 5.0.0-next.246
 
   '@tabler/icons@3.17.0': {}
+
+  '@tobper/eon@0.0.5': {}
 
   '@types/cookie@0.6.0': {}
 

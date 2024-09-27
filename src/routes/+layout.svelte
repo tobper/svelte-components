@@ -17,6 +17,7 @@
 	const nav = [
 		{ path: 'theme', text: 'Theme' },
 		{ path: 'button', text: 'Button' },
+		{ path: 'calendar', text: 'Calendar' },
 		{ path: 'form', text: 'Form' },
 		{ path: 'table', text: 'Table' },
 	];

@@ -11,6 +11,7 @@
 
 {#if (type === 'cta' || type === 'outlined') && theme.style === 'lines'}
 	<svg class="button-border">
+		<circle pathLength="100"></circle>
 		<rect pathLength="100"></rect>
 	</svg>
 {/if}

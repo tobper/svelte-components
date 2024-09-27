@@ -1,20 +1,7 @@
 @import './reset.css';
-@import './variables.css';
+@import './components.css';
+@import './palette.css';
 @import './utilities.css';
-@import './components/button.css';
-@import './components/button-group.css';
-@import './components/card.css';
-@import './components/field.css';
-@import './components/form.css';
-@import './components/heading.css';
-@import './components/link.css';
-@import './components/layout.css';
-@import './components/page.css';
-@import './components/separator.css';
-@import './components/skeleton.css';
-@import './components/status.css';
-@import './components/swap.css';
-@import './components/table.css';
 
 /*
 	xxx

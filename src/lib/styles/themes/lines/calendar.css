@@ -1,0 +1,20 @@
+:where(.theme-lines) {
+	.calendar {
+		button {
+			color: var(--link__color);
+			transition: font-size var(--transition__duration--instant);
+		}
+
+		[aria-current] {
+			color: var(--palette__primary-color);
+			font-weight: bold;
+			font-size: var(--h2__font-size);
+		}
+
+		.today button {
+			color: var(--palette__secondary-color);
+			font-weight: bold;
+			font-size: var(--h2__font-size);
+		}
+	}
+}

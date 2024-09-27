@@ -9,7 +9,8 @@
 	"cSpell.words": [
 		"neomorphism",
 		/* Packages */
-		"tabler"
+		"tabler",
+		"tobper"
 	],
 	"css.format.spaceAroundSelectorSeparator": true,
 	"cSpell.overrides": [
@@ -18,6 +19,18 @@
 			"words": [
 				"onclickcapture"
 			]
+		},
+		{
+			"filename": "package.json",
+			"words": [
+				"preinstall",
+				"publint"
+			]
 		}
 	],
+	"files.exclude": {
+		".svelte-kit/**": true,
+		"build/**": true,
+		"dist/**": true,
+	},
 }

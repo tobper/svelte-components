@@ -1,5 +1,5 @@
 // TODO: This is not triggered if the page height is less than 100%
-// TODO: Test implementation using scrolltop and top instead
+// TODO: Test implementation using scroll-top and top instead
 export interface InteractionObserverOptions {
 	top?: number;
 	bottom?: number;
@@ -51,4 +51,36 @@ export function resize_observer(
 	function disconnect() {
 		observer.disconnect();
 	}
+}
+
+/*
+	Element query
+*/
+export function get_optional_button_element(selector: string) {
+	const element = document.querySelector(selector);
+
+	return element && is_of_type(element, HTMLButtonElement) ? element : null;
+}
+
+export function get_button_element(selector: string) {
+	const element = document.querySelector(selector);
+
+	return ensure_type(element, HTMLButtonElement);
+}
+
+function ensure_type<T>(
+	value: unknown,
+	type: { new(...args: []): T }
+): T {
+	if (is_of_type(value, type))
+	  return value;
+
+	throw new Error(`Value is not of type ${type.name}`);
+}
+
+function is_of_type<T>(
+	value: unknown,
+	type: { new(...args: []): T }
+): value is T {
+	return value instanceof type;
 }

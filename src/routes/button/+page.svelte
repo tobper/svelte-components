@@ -1,118 +1,75 @@
 <script lang="ts">
-	import { Button, Card, PageHeader } from '$lib/index.js';
+    import ChevronLeftIcon from '$lib/components/icons/ChevronLeftIcon.svelte';
+    import ChevronRightIcon from '$lib/components/icons/ChevronRightIcon.svelte';
+    import ClearIcon from '$lib/components/icons/ClearIcon.svelte';
+    import { Button, Card, PageHeader, type ButtonVariant } from '$lib/index.js';
+
+	const variants: ButtonVariant[] = ['primary', 'secondary', 'tertiary', 'delete']
 </script>
 
 <article class="page-content">
 	<PageHeader text="Outlined" />
 	<Card>
-		<div class="flow-items">
-			<Button type="outlined" text="Default" />
-			<Button type="outlined" text="Hover" class="button--hover" />
-			<Button type="outlined" text="Pressed" current />
-			<Button type="outlined" text="Disabled" disabled />
-			<!-- <Button type="outlined" text="Icon" icon="avatar" /> -->
-			<Button type="outlined" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="outlined" variant="secondary" text="Default" />
-			<Button type="outlined" variant="secondary" text="Hover" class="button--hover" />
-			<Button type="outlined" variant="secondary" text="Pressed" current />
-			<Button type="outlined" variant="secondary" text="Disabled" disabled />
-			<!-- <Button type="outlined" variant="secondary" text="Icon" icon="delete" /> -->
-			<Button type="outlined" variant="secondary" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="outlined" variant="tertiary" text="Default" />
-			<Button type="outlined" variant="tertiary" text="Hover" class="button--hover" />
-			<Button type="outlined" variant="tertiary" text="Pressed" current />
-			<Button type="outlined" variant="tertiary" text="Disabled" disabled />
-			<!-- <Button type="outlined" variant="tertiary" text="Icon" icon="delete" /> -->
-			<Button type="outlined" variant="tertiary" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="outlined" variant="delete" text="Default" />
-			<Button type="outlined" variant="delete" text="Hover" class="button--hover" />
-			<Button type="outlined" variant="delete" text="Pressed" current />
-			<Button type="outlined" variant="delete" text="Disabled" disabled />
-			<!-- <Button type="outlined" variant="delete" text="Icon" icon="delete" /> -->
-			<Button type="outlined" variant="delete" text="Small" small />
-		</div>
+		{#each variants as variant}
+			<div class="flow-items">
+				<Button {variant} type="outlined" text="Default" />
+				<Button {variant} type="outlined" text="Hover" class="button--hover" />
+				<Button {variant} type="outlined" text="Pressed" current />
+				<Button {variant} type="outlined" icon={ButtonIcon} />
+				<div class="flow-items">
+					<Button {variant} type="outlined" text="Disabled" disabled />
+					<Button {variant} type="outlined" icon={ButtonIcon} disabled />
+				</div>
+				<div class="flow-items">
+					<Button {variant} type="outlined" text="Small" small />
+					<Button {variant} type="outlined" icon={ButtonIcon} small />
+				</div>
+			</div>
+		{/each}
 	</Card>
 </article>
 
 <article class="page-content">
 	<PageHeader text="Call to action" />
 	<Card>
-		<div class="flow-items">
-			<Button type="cta" text="Default" />
-			<Button type="cta" text="Hover" class="button--hover" />
-			<Button type="cta" text="Pressed" current />
-			<Button type="cta" text="Disabled" disabled />
-			<!-- <Button type="cta" submit text="Icon" icon="save" /> -->
-			<Button type="cta" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="cta" variant="secondary" text="Default" />
-			<Button type="cta" variant="secondary" text="Hover" class="button--hover" />
-			<Button type="cta" variant="secondary" text="Pressed" current />
-			<Button type="cta" variant="secondary" text="Disabled" disabled />
-			<!-- <Button type="cta" variant="secondary" text="Icon" icon="delete" /> -->
-			<Button type="cta" variant="secondary" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="cta" variant="tertiary" text="Default" />
-			<Button type="cta" variant="tertiary" text="Hover" class="button--hover" />
-			<Button type="cta" variant="tertiary" text="Pressed" current />
-			<Button type="cta" variant="tertiary" text="Disabled" disabled />
-			<!-- <Button type="cta" variant="tertiary" text="Icon" icon="delete" /> -->
-			<Button type="cta" variant="tertiary" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="cta" variant="delete" text="Default" />
-			<Button type="cta" variant="delete" text="Hover" class="button--hover" />
-			<Button type="cta" variant="delete" text="Pressed" current />
-			<Button type="cta" variant="delete" text="Disabled" disabled />
-			<!-- <Button type="cta" variant="delete" text="Icon" icon="delete" /> -->
-			<Button type="cta" variant="delete" text="Small" small />
-		</div>
+		{#each variants as variant}
+			<div class="flow-items">
+				<Button {variant} type="cta" text="Default" />
+				<Button {variant} type="cta" text="Hover" class="button--hover" />
+				<Button {variant} type="cta" text="Pressed" current />
+				<Button {variant} type="cta" icon={ButtonIcon} />
+				<div class="flow-items">
+					<Button {variant} type="cta" text="Disabled" disabled />
+					<Button {variant} type="cta" icon={ButtonIcon} disabled />
+				</div>
+				<div class="flow-items">
+					<Button {variant} type="cta" text="Small" small />
+					<Button {variant} type="cta" icon={ButtonIcon} small />
+				</div>
+			</div>
+		{/each}
 	</Card>
 </article>
 
 <article class="page-content">
 	<PageHeader text="Plain" />
 	<Card>
-		<div class="flow-items">
-			<Button type="plain" text="Default" />
-			<Button type="plain" text="Hover" class="button--hover" />
-			<Button type="plain" text="Pressed" current />
-			<Button type="plain" text="Disabled" disabled />
-			<!-- <Button type="plain" text="Icon" icon="arrow-left" /> -->
-			<Button type="plain" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="plain" variant="secondary" text="Default" />
-			<Button type="plain" variant="secondary" text="Hover" class="button--hover" />
-			<Button type="plain" variant="secondary" text="Pressed" current />
-			<Button type="plain" variant="secondary" text="Disabled" disabled />
-			<!-- <Button type="plain" variant="secondary" text="Icon" icon="arrow-right" /> -->
-			<Button type="plain" variant="secondary" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="plain" variant="tertiary" text="Default" />
-			<Button type="plain" variant="tertiary" text="Hover" class="button--hover" />
-			<Button type="plain" variant="tertiary" text="Pressed" current />
-			<Button type="plain" variant="tertiary" text="Disabled" disabled />
-			<!-- <Button type="plain" variant="tertiary" text="Icon" icon="arrow-right" /> -->
-			<Button type="plain" variant="tertiary" text="Small" small />
-		</div>
-		<div class="flow-items">
-			<Button type="plain" variant="delete" text="Default" />
-			<Button type="plain" variant="delete" text="Hover" class="button--hover" />
-			<Button type="plain" variant="delete" text="Pressed" current />
-			<Button type="plain" variant="delete" text="Disabled" disabled />
-			<!-- <Button type="plain" variant="delete" text="Icon" icon="arrow-right" /> -->
-			<Button type="plain" variant="delete" text="Small" small />
-		</div>
+		{#each variants as variant}
+			<div class="flow-items">
+				<Button {variant} type="plain" text="Default" />
+				<Button {variant} type="plain" text="Hover" class="button--hover" />
+				<Button {variant} type="plain" text="Pressed" current />
+				<Button {variant} type="plain" icon={ButtonIcon} />
+				<div class="flow-items">
+					<Button {variant} type="plain" text="Disabled" disabled />
+					<Button {variant} type="plain" icon={ButtonIcon} disabled />
+				</div>
+				<div class="flow-items">
+					<Button {variant} type="plain" text="Small" small />
+					<Button {variant} type="plain" icon={ButtonIcon} small />
+				</div>
+			</div>
+		{/each}
 	</Card>
 </article>
 
@@ -124,6 +81,10 @@
 				<Button type="outlined" text="Vegetables" />
 				<Button type="outlined" text="Fruits" />
 				<Button type="outlined" text="Nuts" />
+			</div>
+			<div class="button-group">
+				<Button type="outlined" icon={ChevronLeft} />
+				<Button type="outlined" icon={ChevronRight} />
 			</div>
 		</div>
 	</Card>
@@ -138,3 +99,7 @@
 		</div>
 	</Card>
 </article>
+
+{#snippet ButtonIcon()}<ClearIcon />{/snippet}
+{#snippet ChevronLeft()}<ChevronLeftIcon />{/snippet}
+{#snippet ChevronRight()}<ChevronRightIcon />{/snippet}

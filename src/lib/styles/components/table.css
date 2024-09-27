@@ -17,22 +17,17 @@
 }
 
 .table {
-	--table-cell__padding-x: .5rem;
-	--table-cell__padding-y: .75rem;
-	--table__padding-left: var(--table-cell__padding-x);
-	--table__padding-right: var(--table-cell__padding-x);
-
 	overflow: clip;
 
 	/* Header and footer */
 	header, thead {
 		font-size: .875rem;
 		line-height: 1.25rem;
-		letter-spacing: .05em;
+		letter-spacing: var(--table-header__letter-spacing);
 	}
 
 	header, footer, th {
-		color: hsl(from var(--palette__text) h s l / 65%);
+		color: var(--table-header__color);
 	}
 
 	footer {

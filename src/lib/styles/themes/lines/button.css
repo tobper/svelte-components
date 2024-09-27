@@ -6,7 +6,6 @@
 
 		/* Layout */
 		height: 2.5rem;
-		padding-inline: 1rem;
 
 		/*  Appearance */
 		border-radius: var(--button__border-radius);
@@ -27,7 +26,7 @@
 	}
 
 	.button-cta {
-		background-color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 75%);
+		background-color: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 75%);
 
 		/* Disabled */
 		&:is([aria-disabled], :has(:disabled)) {
@@ -37,19 +36,36 @@
 		/* Hover */
 		&.button--hover,
 		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			background-color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 60%);
+			background-color: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 60%);
 		}
 	}
 
 	.button-outlined {
+		color: var(--palette__accent-color);
+
+		.button-border > * {
+			stroke-dasharray: 0 100;
+		}
+
+		/* Hover */
+		&.button--hover,
+		&:hover:where(:not([aria-checked], [aria-current], [aria-disabled], :has(:disabled))) {
+			.button-border > * {
+				stroke-dasharray: 100 0;
+			}
+		}
+
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected]),
 		&:active:not([aria-disabled], :has(:disabled)) {
-			color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 15%);
+			background-color: var(--palette__accent-color--bright);
+			color: var(--button__color);
 		}
 	}
 
 	.button-plain {
+		color: var(--palette__accent-color);
+
 		/* Hover */
 		&.button--hover,
 		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
@@ -59,7 +75,7 @@
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected]),
 		&:active:not([aria-disabled], :has(:disabled)) {
-			color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 15%);
+			color: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 15%);
 		}
 	}
 
@@ -75,21 +91,29 @@
 			width: 100%;
 			height: 100%;
 
-			rect {
-				width: 100%;
-				height: 100%;
-				rx: var(--button__border-radius);
+			circle, rect {
 				fill: transparent;
-				stroke: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 30%);
-				stroke-dasharray: 100 0;
+				stroke: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 30%);
 				stroke-width: 3px;
 				transition: stroke-dasharray ease-out var(--transition__duration--fast);
+			}
+
+			circle {
+				cx: 50%;
+				cy: 50%;
+				r: 50%;
+			}
+
+			rect {
+				rx: var(--button__border-radius);
+				width: 100%;
+				height: 100%;
 			}
 		}
 
 		/* Disabled */
 		&:is([aria-disabled], :has(:disabled)) {
-			.button-border rect {
+			.button-border > * {
 				stroke-dasharray: 0 100;
 			}
 		}
@@ -99,8 +123,8 @@
 		&:hover:where(:not([aria-checked], [aria-current], [aria-disabled], :has(:disabled))) {
 			color: color-mix(in lab, var(--button__color), var(--palette__accent-color) 25%);
 
-			.button-border rect {
-				stroke: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 40%);
+			.button-border > * {
+				stroke: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 40%);
 			}
 		}
 	}
@@ -108,16 +132,7 @@
 	/*
 		Variants
 	*/
-	.button--round {
-		padding-inline: 0;
-	}
-
 	.button--small {
-		/* Text */
-		font-size: .875rem;
 		height: 2rem;
-
-		/* Content */
-		padding-inline: .75rem;
 	}
 }

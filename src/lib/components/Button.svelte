@@ -1,21 +1,28 @@
+<script lang="ts" module>
+	export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'delete';
+</script>
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
+	import { unique_id } from '../unique_id.js';
 	import ButtonBorder from './ButtonBorder.svelte';
 	import Loading from './Loading.svelte';
 
 	interface Button {
-		current?: 'page' | 'step' | 'location' | 'date' | 'time' | true;
+		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
 		disabled?: boolean;
 		focusable?: boolean;
+		id?: string;
 		loading?: boolean;
 		small?: boolean;
 		submit?: boolean;
+		title?: string;
 		type?: 'plain' | 'outlined' | 'cta';
-		variant?: 'primary' | 'secondary' | 'tertiary' | 'delete';
+		variant?: ButtonVariant;
 
 		icon?: Snippet;
-		text?: string;
+		text?: unknown;
 
 		onclick?: NonNullable<HTMLButtonAttributes['onclick']>;
 
@@ -28,6 +35,7 @@
 		current,
 		disabled = false,
 		focusable = true,
+		id = $bindable(unique_id()),
 		loading = false,
 		small = false,
 		submit = false,
@@ -43,11 +51,13 @@
 </script>
 
 <button
-	aria-current={current}
+	{id}
+	aria-current={current === false ? undefined : current}
 	aria-disabled={disabled || loading ? true : undefined}
 	class:button-cta={type === 'cta'}
 	class:button-plain={type === 'plain'}
 	class:button-outlined={type === 'outlined'}
+	class:button--round={!!icon && !text}
 	class:button--small={small}
 	class:variant-secondary={variant === 'secondary'}
 	class:variant-tertiary={variant === 'tertiary'}
@@ -65,7 +75,9 @@
 	{...button_props}
 >
 	{#if icon}
-		{@render icon()}
+		<span class="button-icon">
+			{@render icon()}
+		</span>
 	{/if}
 
 	{#if text}
