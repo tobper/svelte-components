@@ -6,28 +6,7 @@
 		"source.organizeImports": "explicit"
 	},
 	"typescript.format.semicolons": "insert",
-	"cSpell.words": [
-		"neomorphism",
-		/* Packages */
-		"tabler",
-		"tobper"
-	],
 	"css.format.spaceAroundSelectorSeparator": true,
-	"cSpell.overrides": [
-		{
-			"filename": "*.svelte",
-			"words": [
-				"onclickcapture"
-			]
-		},
-		{
-			"filename": "package.json",
-			"words": [
-				"preinstall",
-				"publint"
-			]
-		}
-	],
 	"files.exclude": {
 		".svelte-kit/**": true,
 		"build/**": true,

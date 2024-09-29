@@ -1,0 +1,43 @@
+{
+	"version": "0.2",
+	"language": "en",
+	"ignorePaths": [
+		"pnpm-lock.yaml",
+		"build",
+		"dist"
+	],
+	"ignoreRegExpList": [
+		"/\"data\\:image\\/svg\\+xml.*?\"/g"
+	],
+	"words": [
+		"neomorphism",
+
+		/* Packages */
+		"tabler",
+		"tobper",
+		"vite"
+	],
+	"overrides": [
+		{
+			"filename": "package.json",
+			"words": [ "persson", "preinstall", "publint", "tsbuildinfo" ]
+		},
+		{
+			"filename": "LICENSE",
+			"words": [ "persson" ]
+		},
+		{
+			"filename": "*.svelte",
+			"words": [
+				"onclickcapture"
+			]
+		},
+		{
+			"filename": "*.svg",
+			"words": [
+				"evenodd"
+			]
+		}
+	],
+	"enabled": true
+}

@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "Svelte components",
 	"author": "Tobias Persson",
 	"repository": "github:tobper/svelte-components",
@@ -11,6 +11,7 @@
 		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:spelling": "cspell -c .vscode/cspell.json --no-progress **",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
 		"lint": "eslint .",
@@ -41,6 +42,7 @@
 		"@tobper/eon": "^0.0.5",
 		"@types/eslint": "^9.6.1",
 		"@types/ua-parser-js": "^0.7.39",
+    	"cspell": "^8.14.4",
 		"eslint": "^9.11.0",
 		"eslint-plugin-svelte": "^2.44.0",
 		"globals": "^15.9.0",
