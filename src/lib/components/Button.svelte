@@ -10,6 +10,7 @@
 	import Loading from './Loading.svelte';
 
 	interface Button {
+		active?: boolean;
 		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
 		disabled?: boolean;
 		focusable?: boolean;
@@ -32,6 +33,7 @@
 	}
 	
 	let {
+		active = false,
 		current,
 		disabled = false,
 		focusable = true,
@@ -57,6 +59,7 @@
 	class:button-cta={type === 'cta'}
 	class:button-plain={type === 'plain'}
 	class:button-outlined={type === 'outlined'}
+	class:button--active={active}
 	class:button--round={!!icon && !text}
 	class:button--small={small}
 	class:variant-secondary={variant === 'secondary'}
@@ -69,8 +72,9 @@
 			event.preventDefault()
 			event.stopImmediatePropagation()
 		}
-
-		onclick?.(event);
+		else {
+			onclick?.(event);
+		}
 	}}
 	{...button_props}
 >

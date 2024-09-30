@@ -5,8 +5,9 @@
 @import './components/field.css';
 @import './components/form.css';
 @import './components/heading.css';
-@import './components/link.css';
 @import './components/layout.css';
+@import './components/link.css';
+@import './components/menu.css';
 @import './components/page.css';
 @import './components/separator.css';
 @import './components/skeleton.css';
@@ -21,6 +22,10 @@
 	--space__small: calc(.5 * var(--space));
 	--space__medium: calc(.75 * var(--space));
 	--space__large: calc(2 * var(--space));
+
+	--shadow__medium:
+		0 4px 6px -1px rgb(0 0 0 / 0.1),
+		0 2px 4px -2px rgb(0 0 0 / 0.1);
 
 	/* Page and content padding */
 	--layout__inset-top: env(safe-area-inset-top);
@@ -58,6 +63,8 @@
 	--list__outline-color--focused: var(--palette__accent-color);
 	--list__outline-radius--focused: 1rem;
 	--list__outline-width--focused: .125rem;
+
+	--menu__backdrop-blur: 1px;
 
 	--skeleton__border-radius: 0.2rem;
 	--skeleton__background: oklch(from var(--palette__background) calc(l - .03) c h);

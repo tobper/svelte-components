@@ -11,11 +11,11 @@
 		}
 
 		> :first-child {
-			clip-path: inset(-5px -0.5px -5px -5px);
+			clip-path: inset(-5px 0px -5px -5px);
 		}
 
 		> :last-child {
-			clip-path: inset(-5px -5px -5px -0.5px);
+			clip-path: inset(-5px -5px -5px 0px);
 		}
 
 		> :not(:first-child) {

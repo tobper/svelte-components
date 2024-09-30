@@ -5,12 +5,26 @@
 	.button-cta,
 	.button-outlined,
 	.button-plain {
+		--focus__shadow: 0 0 1px 1px var(--palette__accent-color);
+
 		/* Layout */
-		height: 3rem;
-		border-radius: .25rem;
+		height: var(--button__height);
+
+		/* Appearance */
+		border-radius: var(--button__border-radius);
+		transition:
+			background ease-out var(--transition__duration--instant),
+			color ease-out var(--transition__duration--instant);
 
 		/* Interaction */
 		padding-block: 1px;
+
+		/* Focus */
+		&.button--active,
+		&:focus-visible,
+		&:has(:focus-visible) {
+			--button__focus-shadow: var(--focus__shadow);
+		}
 
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected]),
@@ -118,6 +132,6 @@
 		Variants
 	*/
 	.button--small {
-		height: 2.5rem;
+		height: var(--button__height--small);
 	}
 }

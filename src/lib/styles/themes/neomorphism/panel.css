@@ -1,4 +1,8 @@
 :where(.theme-neomorphism) {
+	--panel__border-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 15%);
+	--panel__border: 1px solid var(--panel__border-color);
+	--panel__shadow: 0 .75px 2px #0003;
+
 	&.scheme-light {
 		--panel__background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 50%);
 		--panel__background-color--contrast: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
@@ -19,10 +23,6 @@
 			var(--panel__background-color) 100%
 		);
 	}
-
-	--panel__border-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 15%);
-	--panel__border: 1px solid var(--panel__border-color);
-	--panel__shadow: 0 .75px 2px #0003;
 
 	.dialog, .menu {
 		background-color: var(--panel__background-color);

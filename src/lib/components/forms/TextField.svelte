@@ -16,11 +16,13 @@
 		autocomplete?: HTMLInputAttributes['autocomplete'];
 		class?: string;
 		field_element?: HTMLElement | undefined;
+		field_input_element?: HTMLElement | undefined;
 		disabled?: boolean;
 		error_hint?: boolean;
 		focused?: boolean;
 		id?: string;
 		input_class?: string;
+		input_element?: HTMLInputElement;
 		inputmode?: HTMLInputAttributes['inputmode'];
 		label?: string;
 		list?: HTMLInputAttributes['list'];
@@ -28,17 +30,19 @@
 		name?: string;
 		placeholder?: HTMLInputAttributes['placeholder'];
 		role?: HTMLInputAttributes['role'];
-		// readonly?: boolean;
+		readonly?: boolean;
 		required?: boolean;
 		type?: HTMLInputAttributes['type'];
-		value?: unknown;
+		value?: string;
 
 		onclick?: HTMLInputAttributes['onclick'];
 		onkeydown?: HTMLInputAttributes['onkeydown'];
+		oninput?: HTMLInputAttributes['oninput'];
 		onpaste?: HTMLInputAttributes['onpaste'];
+		onselectionchange?: HTMLInputAttributes['onselectionchange'];
+		on_clear?: () => void;
 		on_focus_in?: () => void;
 		on_focus_out?: () => void;
-		on_input?: () => void;
 
 		children?: Snippet;
 		icon?: Snippet;
@@ -55,10 +59,13 @@
 		autocomplete = 'off',
 		class: field_class,
 		field_element = $bindable(),
+		field_input_element = $bindable(),
 		disabled = false,
 		error_hint = false,
-		focused = false,
+		focused = $bindable(false),
+		id = $bindable(unique_id()),
 		input_class,
+		input_element = $bindable(),
 		inputmode,
 		label,
 		list,
@@ -66,17 +73,19 @@
 		name,
 		placeholder,
 		role,
-		// readonly = false,
+		readonly = false,
 		required = false,
 		type = 'text',
-		value = '',
+		value = $bindable(''),
 
 		onclick,
+		oninput,
 		onkeydown,
 		onpaste,
+		onselectionchange,
+		on_clear,
 		on_focus_in,
 		on_focus_out,
-		on_input,
 
 		children,
 		icon,
@@ -92,108 +101,30 @@
 		input_element?.focus()
 	}
 
-	let content_element = $state<Element | undefined>();
-	let input_element = $state<HTMLInputElement>();
+	let children_element = $state<HTMLElement>();
 	let label_id = unique_id();
-
-	function handle_input() {
-		value = input_element?.value === '' && !required
-				? null
-				: input_element?.value;
-
-		on_input?.();
-	}
 </script>
 
 <Field
 	bind:element={field_element}
 	{error_hint}
+	{id}
 	{label}
 	{name}
 	{required}
 	class={field_class}	
 >
-	{#snippet content({ id, error_text, loading, readonly })}
-		<div class="field-input">
+	{#snippet content({ content_id, error_text, loading, in_progress })}
+		<div bind:this={field_input_element} class="field-input">
 			{#if prefix}
 				{@render prefix()}
 			{/if}
 
 			<div class="field-input-text" class:skeleton={loading}>
-				<input
-					{autocomplete}
-					{disabled}
-					{id}
-					{inputmode}
-					{list}
-					{name}
-					{placeholder}
-					{readonly}
-					{required}
-					{role}
-					{type}
-					bind:this={input_element}
-					aria-activedescendant={aria_activedescendant}
-					aria-autocomplete={aria_autocomplete}
-					aria-controls={aria_controls}
-					aria-expanded={aria_expanded ? true : undefined}
-					aria-haspopup={aria_haspopup ? true : undefined}
-					aria-invalid={error_text ? true : undefined}
-					aria-labelledby={label_id}
-					class={input_class}
-					value={value ?? ''}
-					{onclick}
-					{onkeydown}
-					{onpaste}
-					onfocusin={() => {
-						if (focused)
-							return;
-
-						focused = true
-						on_focus_in?.();
-					}}
-					onfocusout={event => {
-						const { relatedTarget } = event;
-						const content_focused =
-							relatedTarget instanceof Element &&
-							content_element?.contains(relatedTarget);
-
-						if (content_focused) {
-							focus();
-						}
-						else if (focused) {
-							focused = false;
-							on_focus_out?.();
-						}
-					}}
-					oninput={handle_input}
-				>
-
-				{#if value}
-					<Button
-						class="field-clear"
-						focusable={false}
-						type="plain"
-						onclick={() => {
-							input_element!.value = '';
-							handle_input();
-							// TODO: Fix triggering of events in a better way
-							on_focus_out?.();
-						}}
-					>
-						{#snippet icon()}
-							<ClearIcon />
-						{/snippet}
-					</Button>
-				{/if}
-			
-				{#if icon}
-					<span class="field-icon">
-						{@render icon()}
-					</span>
-				{/if}
-
-				<Loading bars class="field-loading" visible={input_loading} />
+				{@render input(content_id, error_text, in_progress)}
+				{@render clear_button()}
+				{@render field_icon()}
+				{@render field_loading()}
 			</div>
 
 			{#if suffix}
@@ -202,10 +133,91 @@
 		</div>
 
 		{#if children}
-			<div bind:this={content_element}>
+			<div bind:this={children_element}>
 				{@render children()}
 			</div>
 		{/if}
 	{/snippet}
 </Field>
-	
+
+{#snippet input(content_id: string, error_text: string | null, in_progress: boolean)}
+	<input
+		{autocomplete}
+		{disabled}
+		{inputmode}
+		{list}
+		{name}
+		{placeholder}
+		{required}
+		{role}
+		{type}
+		bind:this={input_element}
+		bind:value
+		aria-activedescendant={aria_activedescendant}
+		aria-autocomplete={aria_autocomplete}
+		aria-controls={aria_controls}
+		aria-expanded={aria_expanded ? true : undefined}
+		aria-haspopup={aria_haspopup ? true : undefined}
+		aria-invalid={error_text ? true : undefined}
+		aria-labelledby={label_id}
+		class={input_class}
+		id={content_id}
+		readonly={in_progress || readonly}
+		{onclick}
+		{oninput}
+		{onkeydown}
+		{onpaste}
+		{onselectionchange}
+		onfocusin={() => {
+			if (focused)
+				return;
+
+			focused = true
+			on_focus_in?.();
+		}}
+		onfocusout={event => {
+			const { relatedTarget } = event;
+			const children_focused =
+				relatedTarget instanceof Element &&
+				children_element?.contains(relatedTarget);
+
+			if (children_focused) {
+				focus();
+			}
+			else if (focused) {
+				focused = false;
+				on_focus_out?.();
+			}
+		}}
+	>
+{/snippet}
+
+{#snippet clear_button()}
+	{#if value}
+		<Button
+			class="field-clear"
+			focusable={false}
+			type="plain"
+			onclick={() => {
+				input_element!.value = '';
+				on_clear?.();
+			}}
+			>
+			{#snippet icon()}
+				<ClearIcon />
+			{/snippet}
+		</Button>
+	{/if}
+{/snippet}
+
+{#snippet field_icon()}
+	{#if icon}
+		<span class="field-icon">
+			{@render icon()}
+		</span>
+	{/if}
+{/snippet}
+
+{#snippet field_loading()}
+	<Loading bars class="field-loading" visible={input_loading} />
+{/snippet}

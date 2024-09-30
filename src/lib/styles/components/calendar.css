@@ -1,5 +1,5 @@
 .calendar {
-	display: inline-grid;
+	display: grid;
 	row-gap: 0.5rem;
 
 	header {
@@ -52,4 +52,8 @@
 	.weekend:where(:has(button)) {
 		background: color-mix(in lab, transparent, var(--palette__contrast) 3%);
 	}
+}
+
+.menu > .calendar {
+	padding: .5rem;
 }

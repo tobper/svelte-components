@@ -19,7 +19,7 @@
 </script>
 
 <script lang="ts">
-	import { set_root_style_property, toggle_root_class } from '../css.js';
+	import { set_root_style, toggle_root_class } from '../css.js';
 	import { device } from '../device.js';
 	import '../styles/base.css';
 
@@ -67,9 +67,9 @@
 		toggle_root_class('theme-lines', style === 'lines');
 		toggle_root_class('theme-neomorphism', style === 'neomorphism');
 
-		set_root_style_property('--palette__primary-base', palette.primary);
-		set_root_style_property('--palette__secondary-base', palette.secondary);
-		set_root_style_property('--palette__tertiary-base', palette.tertiary);
-		set_root_style_property('--palette__background', dark_mode ? palette.background_dark : palette.background_light);
+		set_root_style('--palette__primary-base', palette.primary);
+		set_root_style('--palette__secondary-base', palette.secondary);
+		set_root_style('--palette__tertiary-base', palette.tertiary);
+		set_root_style('--palette__background', dark_mode ? palette.background_dark : palette.background_light);
 	});
 </script>

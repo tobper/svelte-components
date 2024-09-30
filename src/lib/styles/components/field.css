@@ -58,6 +58,7 @@ input[type=search]::-webkit-search-cancel-button {
 	&:has(input:user-invalid),
 	&:has(input[aria-invalid]) {
 		--palette__accent-color: var(--palette__error);
+		--palette__accent-contrast: var(--palette__error-contrast);
 
 		.field-label {
 			color: var(--palette__accent-color);
@@ -129,10 +130,9 @@ input[type=search]::-webkit-search-cancel-button {
 
 		.field-clear {
 			position: absolute;
-			height: 100%;
+			height: calc(100% - 2 * .25rem);
 			right: var(--field-input__padding-right-offset);
-			padding-inline: .5rem;
-			margin: 0;
+			margin: .25rem;
 
 			svg {
 				width: var(--field-icon__width);

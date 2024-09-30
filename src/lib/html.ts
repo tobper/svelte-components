@@ -65,17 +65,30 @@ export function get_optional_button_element(selector: string) {
 export function get_button_element(selector: string) {
 	const element = document.querySelector(selector);
 
-	return ensure_type(element, HTMLButtonElement);
+	return ensure_type(selector, element, HTMLButtonElement);
+}
+
+export function get_element(element_or_id: string | HTMLElement) {
+	if (element_or_id instanceof HTMLElement)
+		return element_or_id;
+
+	const element = document.querySelector(`#${element_or_id}`);
+
+	return ensure_type(element_or_id, element, HTMLElement);
 }
 
 function ensure_type<T>(
-	value: unknown,
+	selector: string,
+	element: Element | null,
 	type: { new(...args: []): T }
 ): T {
-	if (is_of_type(value, type))
-	  return value;
+	if (!element)
+		throw new Error(`Element with selector '${selector}' was not found`);
 
-	throw new Error(`Value is not of type ${type.name}`);
+	if (is_of_type(element, type))
+	  return element;
+
+	throw new Error(`Element with selector '${selector}' is not of type ${type.name}`);
 }
 
 function is_of_type<T>(

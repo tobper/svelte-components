@@ -6,11 +6,20 @@
 @import './neomorphism/heading.css';
 @import './neomorphism/layout.css';
 @import './neomorphism/link.css';
+@import './neomorphism/menu.css';
 @import './neomorphism/page.css';
 @import './neomorphism/panel.css';
 @import './neomorphism/swap.css';
 
-:where(.theme-neomorphism) {
+.theme-neomorphism {
+	--button__border-radius: .25rem;
+	--button__height: 3rem;
+	--button__height--small: 2.5rem;
+
+	--menu__border-color: color-mix(in lab, var(--palette__primary-color), var(--palette__background) 50%);
+	--menu__border-radius: .25rem;
+	--menu__shadow: var(--shadow__medium);
+
 	&.scheme-light {
 		--field__shadow:
 			inset 0 .5px 1px 0px rgb(0 0 0 / 20%),

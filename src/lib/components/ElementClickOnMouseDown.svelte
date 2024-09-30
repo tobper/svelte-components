@@ -22,7 +22,7 @@
 
 		// Ensure html element is clicked
 		const { target } = event;
-		if (!(target instanceof HTMLElement))
+		if (!(target instanceof HTMLElement || target instanceof SVGElement))
 			return;
 
 		const link = target.closest('a');
@@ -38,7 +38,7 @@
 			if (external_link || external_host || force_reload)
 				return;
 
-			return () => {
+			return function handle_link_click() {
 				const
 					// cspell:ignore sveltekitKeepfocus, sveltekitReplacestate
 					keepFocus = data('sveltekitKeepfocus'),
@@ -51,16 +51,18 @@
 
 		const element = target.closest('button, label:has(input[type=radio], input[type=checkbox])');
 		if (element instanceof HTMLElement) {
-			return () => {
-				element.click();
+			return function handle_button_click() {
+				element.dispatchEvent(new MouseEvent('click', event));
 			};
 		}
 
-		const dialog = target.closest('dialog');
-		if (dialog) {
-			return () => {
-				target.click();
-			};
+		if (target instanceof HTMLElement) {
+			const dialog = target.closest('dialog');
+			if (dialog) {
+				return function handle_dialog_click() {
+					target.dispatchEvent(new MouseEvent('click', event));
+				};
+			}
 		}
 	}
 

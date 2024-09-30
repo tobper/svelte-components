@@ -3,9 +3,9 @@
 	    add_days,
 	    add_months,
 	    add_weeks,
-	    create_date_only,
 	    get_calendar_dates,
 	    get_calendar_month_text,
+	    get_date_only_key,
 	    get_date_today,
 	    get_next_period,
 	    get_period_for_date,
@@ -14,10 +14,10 @@
 	    period_contains_date,
 	    week_days_short,
 	    type DateOnly,
-	    type DateOnlyLike,
-	    type PeriodLike
+	    type Period
 	} from '@tobper/eon';
 	import { tick } from 'svelte';
+	import { classes } from '../classes.js';
 	import { get_optional_button_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
 	import Button from './Button.svelte';
@@ -26,30 +26,44 @@
 
 	interface Calendar {
 		id?: string;
-		date?: DateOnlyLike | null;
-		period?: PeriodLike | null;
+		/** The date currently focused (defaults to selected date) */
+		active_id?: string | null;
+		active_date?: DateOnly | null;
+		class?: string;
+		/* Determines if buttons should be focusable when tabbing. */
+		focusable?: boolean;
+		period?: Period | null;
 		period_first_day?: number | null;
+		selected_date?: DateOnly | null;
 		on_select?: (new_date: DateOnly) => void;
 	}
 
 	export function reset(options: {
 		period?: Calendar['period'];
-		date?: Calendar['date'];
+		selected_date?: Calendar['selected_date'];
 	}) {
 		if (options.period !== undefined)
 			selected_period = options.period;
 
-		if (options.date !== undefined)
-			selected_date = options.date;
+		if (options.selected_date !== undefined)
+			selected_date = options.selected_date;
 
 		active_date = selected_date;
 	}
 
 	export async function focus() {
+		if (!focusable)
+			return;
+
 		await tick();
 
-		const active_button = active_date && get_optional_button_element(`#${id}_${active_date.key}`);
-		(active_button ?? list).focus();
+		const button_id = active_date && get_button_id(active_date);
+		const active_button = button_id && get_optional_button_element(`#${button_id}`);
+
+		if (active_button)
+			active_button.focus();
+		else
+			list.focus();
 	}
 
 	export function handle_key_down(event: KeyboardEvent) { 
@@ -58,7 +72,7 @@
 			const { key } = event;
 			const modifier = event.ctrlKey;
 
-			if (key !== 'Tab' && key !== 'Escape') {
+			if (key !== 'Escape') {
 				event.stopPropagation();
 				event.preventDefault();
 			}
@@ -81,23 +95,19 @@
 	]);
 
 	let {
+		id = $bindable(unique_id()),
+		active_id = $bindable<string | null>(null),
+		active_date = $bindable<DateOnly | null>(null),
+		class: calendar_class,
+		focusable = true,
 		period: selected_period = null,
-		date: selected_date = null,
-		id = unique_id(),
+		selected_date = null,
 		on_select,
 		...props
 	}: Calendar = $props();
 
 	/** Used to determine the start of the period when it is based on a date (active/selected/today) */
 	let period_first_day = $derived(selected_period?.first_day.day ?? props.period_first_day ?? 1)
-
-	/** The date currently focused (defaults to selected date) */
-	let active_date = $state<DateOnly | null>(null);
-
-	$effect(() => {
-		if (!active_date && selected_date)
-			activate(selected_date);
-	});
 
 	/** The period currently being displayed */
 	let active_period = $derived(
@@ -118,6 +128,11 @@
 
 	let list: HTMLElement;
 
+	function get_button_id(date: DateOnly) {
+		const key = get_date_only_key(date);
+
+		return `${id}_${key}`;
+	}
 
 	// Visible month
 
@@ -132,8 +147,9 @@
 
 	// Activated date
 
-	function activate(new_date: DateOnlyLike | null) {
-		active_date = new_date && create_date_only(new_date);
+	function activate(new_date: DateOnly | null) {
+		active_date = new_date;
+		active_id = active_date && get_button_id(active_date);
 
 		if (active_date && !period_contains_date(active_period, active_date))
 			selected_period = get_period_for_date(active_date, period_first_day);
@@ -142,27 +158,33 @@
 	}
 
 	function activate_previous_day() {
-		activate(active_date ? add_days(active_date, -1) : (active_period_contains_today ? today : active_period.last_day));
+		const base_date = active_date ?? selected_date;
+		activate(base_date ? add_days(base_date, -1) : (active_period_contains_today ? today : active_period.last_day));
 	}
 
 	function activate_previous_week() {
-		activate(active_date ? add_weeks(active_date, -1) : (active_period_contains_today ? today : active_period.last_day));
+		const base_date = active_date ?? selected_date;
+		activate(base_date ? add_weeks(base_date, -1) : (active_period_contains_today ? today : active_period.last_day));
 	}
 
 	function activate_previous_month() {
-		activate(active_date ? add_months(active_date, -1) : (active_period_contains_today ? today : active_period.last_day));
+		const base_date = active_date ?? selected_date;
+		activate(base_date ? add_months(base_date, -1) : (active_period_contains_today ? today : active_period.last_day));
 	}
 
 	function activate_next_day() {
-		activate(active_date ? add_days(active_date, 1) : (active_period_contains_today ? today : active_period.first_day));
+		const base_date = active_date ?? selected_date;
+		activate(base_date ? add_days(base_date, 1) : (active_period_contains_today ? today : active_period.first_day));
 	}
 
 	function activate_next_week() {
-		activate(active_date ? add_weeks(active_date, 1) : (active_period_contains_today ? today : active_period.first_day));
+		const base_date = active_date ?? selected_date;
+		activate(base_date ? add_weeks(base_date, 1) : (active_period_contains_today ? today : active_period.first_day));
 	}
 
 	function activate_next_month() {
-		activate(active_date ? add_months(active_date, 1) : (active_period_contains_today ? today : active_period.first_day));
+		const base_date = active_date ?? selected_date;
+		activate(base_date ? add_months(base_date, 1) : (active_period_contains_today ? today : active_period.first_day));
 	}
 
 	function activate_first_of_month() {
@@ -187,13 +209,16 @@
 	}
 </script>
  
-<div class="calendar" {id}>
+<div
+	class={classes('calendar variant-primary', calendar_class)}
+	{id}
+>
 	<ul
 		bind:this={list}
 		aria-label="Calendar dates"
 		role="listbox"
 		onkeydown={handle_key_down}
-		tabindex={active_date_visible ? undefined : 0}
+		tabindex={focusable && !active_date_visible ? 0 : undefined}
 	>
 		{#each week_days_short as week_day}
 			<li role="heading" aria-level="1">
@@ -204,20 +229,22 @@
 		{#each dates as { same_month, weekend, ...date }}
 			{@const date_is_active = !!active_date && is_same_date(date, active_date)}
 			{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
-			{@const date_is_today = is_same_date(date, today)}
+			{@const date_is_today = same_month && is_same_date(date, today)}
+			{@const button_id = get_button_id(date)}
 
 			<li
 				class:weekend
 				class:today={date_is_today}
 				role="listitem"
-			>
+		>
 				{#if same_month}
 					<Button
-						id={`${id}_${date.key}`}
+						id={button_id}
+						active={!focusable && date_is_active}
 						current={date_is_selected}
 						type="plain"
 						onclick={() => select_date(date)}
-						focusable={date_is_active}
+						focusable={focusable && date_is_active}
 						text={date.day}
 					/>
 				{:else}
@@ -232,6 +259,7 @@
 
 		<div class="button-group">
 			<Button
+				{focusable}
 				onclick={goto_previous_month}
 				small
 				title="Previous month"
@@ -242,6 +270,7 @@
 				{/snippet}
 			</Button>
 			<Button
+				{focusable}
 				onclick={goto_next_month}
 				small
 				title="Next month"

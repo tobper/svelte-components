@@ -7,12 +7,12 @@
 
 	interface Field {
 		content: Snippet<[{
-			id: string;
+			content_id: string;
 			error_text: string | null;
 			errors: string[];
+			in_progress: boolean;
 			loading: boolean;
 			submitting: boolean;
-			readonly: boolean;
 		}]>;
 		id?: string;
 		class?: string;
@@ -36,13 +36,15 @@
 		content,
 	}: Field = $props();
 	let { field_errors, loading = false, submitting = false } = $derived(form);
+	let content_id = $derived(`${id}_content`);
 	let errors = $derived((name ? field_errors[name] : null) ?? []);
 	let error_text = $derived(errors.length ? errors[0] : null);
-	let readonly = $derived(loading || submitting);
+	let in_progress = $derived(loading || submitting);
 </script>
 
 <div
 	bind:this={element}
+	{id}
 	class={classes('field', field_class)}
 >
 	{#if label}
@@ -55,7 +57,7 @@
 		</div>
 	{/if}
 
-	{@render content({ id, errors, error_text, loading, submitting, readonly })}
+	{@render content({ content_id, errors, error_text, in_progress, loading, submitting })}
 
 	{#if error_hint || error_text}
 		<div class="field-error" transition:slide={{ duration: 100 }}>

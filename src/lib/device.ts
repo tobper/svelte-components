@@ -3,6 +3,7 @@ import { media_queries } from './media.svelte.js';
 
 const ua_parser = new UAParser();
 const ua_device = ua_parser.getDevice()
+const ua_engine = ua_parser.getEngine()
 
 const media = media_queries({
 	landscape: '(orientation: landscape)',
@@ -21,6 +22,8 @@ export const device = {
 	mobile,
 	tablet,
 	desktop,
+
+	get engine() { return `${ua_engine.name} ${ua_engine.version}`; },
 
 	/* Orientation */
 	get landscape() { return media.landscape },

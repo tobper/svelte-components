@@ -23,7 +23,7 @@
 <script lang="ts">
     import { onNavigate } from '$app/navigation';
     import { onMount, type Snippet } from 'svelte';
-    import { set_root_style_property } from '../css.js';
+    import { set_root_style } from '../css.js';
     import { device } from '../device.js';
     import { resize_observer } from '../html.js';
     import { media_queries } from '../media.svelte.js';
@@ -63,15 +63,15 @@
 		const observers = [
 			header_element && resize_observer(header_element, ({ height }) => {
 				context.header_height = height;
-				set_root_style_property('--layout-header__height', `${height}px`)
+				set_root_style('--layout-header__height', `${height}px`)
 			}),
 			footer_element && resize_observer(footer_element, ({ height }) => {
 				context.footer_height = height;
-				set_root_style_property('--layout-footer__height', `${height}px`)
+				set_root_style('--layout-footer__height', `${height}px`)
 			}),
 			sidebar_element && resize_observer(sidebar_element, ({ width }) => {
 				context.sidebar_width = width;
-				set_root_style_property('--layout-sidebar__width', `${width}px`)
+				set_root_style('--layout-sidebar__width', `${width}px`)
 			})
 		];
 

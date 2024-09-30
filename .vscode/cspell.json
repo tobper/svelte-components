@@ -2,6 +2,7 @@
 	"version": "0.2",
 	"language": "en",
 	"ignorePaths": [
+		"vite.config.ts.timestamp-*",
 		"pnpm-lock.yaml",
 		"build",
 		"dist"

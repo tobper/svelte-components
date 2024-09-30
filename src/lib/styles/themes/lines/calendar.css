@@ -11,7 +11,7 @@
 			font-size: var(--h2__font-size);
 		}
 
-		.today button {
+		.today button:not([aria-current]) {
 			color: var(--palette__secondary-color);
 			font-weight: bold;
 			font-size: var(--h2__font-size);

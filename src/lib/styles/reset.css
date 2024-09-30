@@ -29,5 +29,9 @@
 a {
 	color: inherit;
 	text-decoration: none;
- }
+}
  
+
+dialog {
+	border: none;
+}

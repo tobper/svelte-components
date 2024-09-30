@@ -9,7 +9,7 @@
 
 		&:focus-visible {
 			border-radius: var(--link__outline-radius--focus);
-			outline-color: var(--link__outline-color--focus);
+			outline-color: var(--palette__accent-color);
 			outline-width: var(--link__outline-width--focus);
 			outline-style: solid;
 		}
@@ -32,7 +32,7 @@
 
 		&.link--current,
 		&[aria-current] {
-			--link__color: var(--link__color--current);
+			--link__color: var(--palette__accent-color);
 		}
 	}
 }

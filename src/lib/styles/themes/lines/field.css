@@ -13,7 +13,7 @@
 
 		input {
 			line-height: 2;
-			transition: color var(--transition__duration--fast) ease-in-out var(--transition-delay);
+			transition: color var(--transition__duration--fast) ease-out var(--transition-delay);
 		}
 
 		position: relative;
@@ -29,7 +29,7 @@
 			bottom: -1px; /* Ensure line is outside skeleton overlay */
 			height: 1px;
 			width: 100%;
-			transition: width var(--transition__duration--fast) ease-in-out var(--transition-delay);
+			transition: width var(--transition__duration--fast) ease-out var(--transition-delay);
 		}
 
 		&:has(input[readonly])::before {

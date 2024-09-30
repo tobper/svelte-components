@@ -5,7 +5,9 @@
 			"label": "Build",
 			"dependsOn": [
 			  "Client",
-			  "Client type check"
+			  "Client type check",
+			  "Lint",
+			  "Spelling"
 			],
 			"group": {
 			  "kind": "build",
@@ -15,14 +17,22 @@
 		 {
 			"label": "Client",
 			"type": "npm",
-			"script": "dev",
-			"problemMatcher": []
+			"script": "dev"
 		 },
 		 {
 			"label": "Client type check",
 			"type": "npm",
-			"script": "check:watch",
-			"problemMatcher": []
+			"script": "check:watch"
+		 },
+		 {
+			"label": "Lint",
+			"type": "npm",
+			"script": "lint"
+		 },
+		 {
+			"label": "Spelling",
+			"type": "npm",
+			"script": "check:spelling"
 		 }
 	]
 }

@@ -7,6 +7,7 @@
 @import './lines/heading.css';
 @import './lines/layout.css';
 @import './lines/link.css';
+@import './lines/menu.css';
 @import './lines/page.css';
 @import './lines/panel.css';
 
@@ -24,9 +25,11 @@
 	--h4__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 50%);
 
 	--link__color: var(--palette__text);
-	--link__color--current: var(--palette__accent-color);
 	--link__column-gap: 0.25rem;
-	--link__outline-color--focus: var(--palette__accent-color);
 	--link__outline-radius--focus: .5rem;
 	--link__outline-width--focus: .125rem;
+
+	--menu__border-color: color-mix(in lab, var(--primary-color), var(--background-color) 50%);
+	--menu__border-radius: .5rem;
+	--menu__shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }

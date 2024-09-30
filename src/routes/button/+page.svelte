@@ -15,15 +15,15 @@
 				<Button {variant} type="outlined" text="Default" />
 				<Button {variant} type="outlined" text="Hover" class="button--hover" />
 				<Button {variant} type="outlined" text="Pressed" current />
+				<Button {variant} type="outlined" text="Active" active />
+				<Button {variant} type="outlined" text="Small" small />
 				<Button {variant} type="outlined" icon={ButtonIcon} />
-				<div class="flow-items">
-					<Button {variant} type="outlined" text="Disabled" disabled />
-					<Button {variant} type="outlined" icon={ButtonIcon} disabled />
-				</div>
-				<div class="flow-items">
-					<Button {variant} type="outlined" text="Small" small />
-					<Button {variant} type="outlined" icon={ButtonIcon} small />
-				</div>
+				<Button {variant} type="outlined" icon={ButtonIcon} small />
+			</div>
+			<div class="flow-items">
+				<Button {variant} type="outlined" text="Disabled" disabled />
+				<Button {variant} type="outlined" icon={ButtonIcon} disabled />
+				<Button {variant} type="outlined" icon={ButtonIcon} disabled small />
 			</div>
 		{/each}
 	</Card>
@@ -37,15 +37,15 @@
 				<Button {variant} type="cta" text="Default" />
 				<Button {variant} type="cta" text="Hover" class="button--hover" />
 				<Button {variant} type="cta" text="Pressed" current />
+				<Button {variant} type="cta" text="Active" active />
+				<Button {variant} type="cta" text="Small" small />
 				<Button {variant} type="cta" icon={ButtonIcon} />
-				<div class="flow-items">
-					<Button {variant} type="cta" text="Disabled" disabled />
-					<Button {variant} type="cta" icon={ButtonIcon} disabled />
-				</div>
-				<div class="flow-items">
-					<Button {variant} type="cta" text="Small" small />
-					<Button {variant} type="cta" icon={ButtonIcon} small />
-				</div>
+				<Button {variant} type="cta" icon={ButtonIcon} small />
+			</div>
+			<div class="flow-items">
+				<Button {variant} type="cta" text="Disabled" disabled />
+				<Button {variant} type="cta" icon={ButtonIcon} disabled />
+				<Button {variant} type="cta" icon={ButtonIcon} disabled small />
 			</div>
 		{/each}
 	</Card>
@@ -59,17 +59,17 @@
 				<Button {variant} type="plain" text="Default" />
 				<Button {variant} type="plain" text="Hover" class="button--hover" />
 				<Button {variant} type="plain" text="Pressed" current />
+				<Button {variant} type="plain" text="Active" active />
+				<Button {variant} type="plain" text="Small" small />
 				<Button {variant} type="plain" icon={ButtonIcon} />
-				<div class="flow-items">
-					<Button {variant} type="plain" text="Disabled" disabled />
-					<Button {variant} type="plain" icon={ButtonIcon} disabled />
-				</div>
-				<div class="flow-items">
-					<Button {variant} type="plain" text="Small" small />
-					<Button {variant} type="plain" icon={ButtonIcon} small />
-				</div>
+				<Button {variant} type="plain" icon={ButtonIcon} small />
 			</div>
-		{/each}
+			<div class="flow-items">
+				<Button {variant} type="plain" text="Disabled" disabled />
+				<Button {variant} type="plain" icon={ButtonIcon} disabled />
+				<Button {variant} type="plain" icon={ButtonIcon} disabled small />
+			</div>
+	{/each}
 	</Card>
 </article>
 
