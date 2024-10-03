@@ -158,7 +158,8 @@ input[type=search]::-webkit-search-cancel-button {
 		}
 
 		/* Readonly */
-		&:has(input[readonly]) {
+		&:has(input[readonly]:not([role=combobox])) {
+			/* SelectField will not have role combobox when it is actually readonly */
 			input,
 			.field-loading,
 			.field-icon {

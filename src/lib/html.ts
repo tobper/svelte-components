@@ -54,8 +54,31 @@ export function resize_observer(
 }
 
 /*
+
+*/
+export function scroll_into_view(element_id: string | undefined) {
+	const element = element_id && document.querySelector(`#${element_id}`);
+	if (element)
+		element.scrollIntoView({ block: 'nearest' });
+}
+
+/*
 	Element query
 */
+export function assert_element<T>(element: T): asserts element is NonNullable<T>;
+export function assert_element<T>(element: unknown, type: ({ new(...args: []): T })): asserts element is NonNullable<T>;
+export function assert_element<T>(element: unknown, type?: ({ new(...args: []): T })) {
+	if (element == null)
+		throw new Error(`Element is not defined`);
+
+	if (type && !is_of_type(element, type))
+		throw new Error(`Element is not of type ${type.name}`);
+}
+
+export function focus_element(element_or_id: string | HTMLElement) {
+	get_element(element_or_id).focus();
+}
+
 export function get_optional_button_element(selector: string) {
 	const element = document.querySelector(selector);
 

@@ -8,6 +8,7 @@
 @import './components/heading.css';
 @import './components/layout.css';
 @import './components/link.css';
+@import './components/list.css';
 @import './components/menu.css';
 @import './components/page.css';
 @import './components/separator.css';
@@ -61,9 +62,14 @@
 	--glass__background-color: hsl(from var(--glass-bg, var(--palette__background)) h s l / 60%);
 	--glass__backdrop-filter: blur(7px);
 
-	--list__outline-color--focused: var(--palette__accent-color);
-	--list__outline-radius--focused: 1rem;
-	--list__outline-width--focused: .125rem;
+	--list__border-radius: .25rem;
+
+	--list-item__height: 3rem;
+	--list-item__padding: .75rem 1rem;
+	--list-item__background-color--active: var(--palette__neutral-background);
+	--list-item__background-color--selected: var(--palette__primary-background);
+	--list-item__text-color: var(--palette__text);
+	--list-item__text-color--selected: var(--palette__text--inverted);
 
 	--menu__backdrop-blur: 1px;
 

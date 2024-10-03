@@ -16,6 +16,7 @@
 		{ anchor: 'typography', text: 'Typography' },
 		{ anchor: 'palette', text: 'Palette' },
 		{ anchor: 'button', text: 'Button' },
+		{ anchor: 'list', text: 'List' },
 		{ anchor: 'calendar', text: 'Calendar' },
 		{ anchor: 'form', text: 'Form' },
 		{ anchor: 'table', text: 'Table' },

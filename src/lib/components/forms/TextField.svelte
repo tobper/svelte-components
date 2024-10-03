@@ -199,7 +199,7 @@
 			focusable={false}
 			type="plain"
 			onclick={() => {
-				input_element!.value = '';
+				value = '';
 				on_clear?.();
 			}}
 			>

@@ -1,0 +1,10 @@
+:where(.theme-lines) {
+	.list {
+		/* Focus */
+		&:focus-visible {
+			outline-color: var(--palette__accent-color);
+			outline-width: var(--link__outline-width--focus);
+			outline-style: solid;
+		}
+	}
+}

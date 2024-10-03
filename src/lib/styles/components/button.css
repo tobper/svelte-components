@@ -9,12 +9,6 @@
 .button-cta,
 .button-outlined,
 .button-plain {
-	/* Reset */
-	appearance: none;
-	background: none;
-	border: none;
-	color: inherit;
-
 	/* Layout */
 	padding-inline: var(--space);
 

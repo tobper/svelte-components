@@ -21,21 +21,54 @@
 	import { get_optional_button_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
 	import Button from './Button.svelte';
+	import EventHandler from './EventHandler.svelte';
 	import ChevronLeftIcon from './icons/ChevronLeftIcon.svelte';
 	import ChevronRightIcon from './icons/ChevronRightIcon.svelte';
+	import List from './List.svelte';
+	import ListItemHeading from './ListItemHeading.svelte';
+	import ListItemOption from './ListItemOption.svelte';
+	import ListItemText from './ListItemText.svelte';
 
 	interface Calendar {
+		/**
+		 * The element id of the list.
+		 */
 		id?: string;
-		/** The date currently focused (defaults to selected date) */
-		active_id?: string | null;
-		active_date?: DateOnly | null;
+		/**
+		 * The id of the currently activated date.  
+		 * Used to set active descendant in parent controls.
+		 */
+		active_date_id?: string | null;
+		/**
+		 * Extra class to add to the calendar.
+		 */
 		class?: string;
-		/* Determines if buttons should be focusable when tabbing. */
+		/**
+		 * Determines if it should be possible to tab to the list.  
+		 * Set this to false when displayed in combobox menus.
+		 */
 		focusable?: boolean;
+		/**
+		 * Element to attach navigation keyboard events to.
+		 */
+		keyboard_capture?: HTMLElement | string;
+		/**
+		 * The period currently being displayed.
+		 */
 		period?: Period | null;
+		/**
+		 * The first day of the period. 
+		 * @default The first day of specified period or 1 if no period is specified.
+		 */
 		period_first_day?: number | null;
+		/**
+		 * The currently selected date.
+		 */
 		selected_date?: DateOnly | null;
-		on_select?: (new_date: DateOnly) => void;
+		/**
+		 * Callback is called when a date is selected.
+		 */
+		on_select?: (new_date: DateOnly | null) => void;
 	}
 
 	export function reset(options: {
@@ -55,10 +88,12 @@
 		if (!focusable)
 			return;
 
+		// Allow possible new period to be rendered first
 		await tick();
 
-		const button_id = active_date && get_button_id(active_date);
-		const active_button = button_id && get_optional_button_element(`#${button_id}`);
+		const active_button = active_date_id
+			? get_optional_button_element(`#${active_date_id} > button`)
+			: null;
 
 		if (active_button)
 			active_button.focus();
@@ -66,45 +101,21 @@
 			list.focus();
 	}
 
-	export function handle_key_down(event: KeyboardEvent) { 
-		const handler = key_handlers.get(event.key);
-		if (handler) {
-			const { key } = event;
-			const modifier = event.ctrlKey;
-
-			if (key !== 'Escape') {
-				event.stopPropagation();
-				event.preventDefault();
-			}
-	
-			handler(modifier);
-		}
-	}
-
 	const today = get_date_today();
-
-	const key_handlers = new Map<string, (modifier: boolean) => void>([
-	  ['ArrowLeft', modifier => modifier ? activate_previous_month() : activate_previous_day()],
-	  ['ArrowRight', modifier => modifier ? activate_next_month() : activate_next_day()],
-	  ['ArrowUp', modifier => modifier ? activate_previous_month() : activate_previous_week()],
-	  ['ArrowDown', modifier => modifier ? activate_next_month() : activate_next_week()],
-	  ['Home', () => activate_first_of_month()],
-	  ['End', () => activate_last_of_month()],
-	  ['Enter', () => select_active_date()],
-	  [' ', () => select_active_date()],
-	]);
 
 	let {
 		id = $bindable(unique_id()),
-		active_id = $bindable<string | null>(null),
-		active_date = $bindable<DateOnly | null>(null),
+		active_date_id = $bindable(null),
 		class: calendar_class,
 		focusable = true,
+		keyboard_capture,
 		period: selected_period = null,
-		selected_date = null,
+		selected_date = $bindable(null),
 		on_select,
 		...props
 	}: Calendar = $props();
+
+	let active_date = $state<DateOnly | null>(null);
 
 	/** Used to determine the start of the period when it is based on a date (active/selected/today) */
 	let period_first_day = $derived(selected_period?.first_day.day ?? props.period_first_day ?? 1)
@@ -123,16 +134,41 @@
 	/** Text to display in the header */
 	let header = $derived(get_calendar_month_text(active_period));
 
-	/** Current period contains the active date */
-	let active_date_visible = $derived(!!active_date && period_contains_date(active_period, active_date));
+	let list: ReturnType<typeof List>;
 
-	let list: HTMLElement;
-
-	function get_button_id(date: DateOnly) {
+	function get_item_id(date: DateOnly) {
 		const key = get_date_only_key(date);
 
 		return `${id}_${key}`;
 	}
+
+
+	// Handlers
+
+	const key_down_handlers = new Map<string, (modifier: boolean) => void>([
+	  ['ArrowLeft', modifier => modifier ? activate_previous_month() : activate_previous_day()],
+	  ['ArrowRight', modifier => modifier ? activate_next_month() : activate_next_day()],
+	  ['ArrowUp', modifier => modifier ? activate_previous_month() : activate_previous_week()],
+	  ['ArrowDown', modifier => modifier ? activate_next_month() : activate_next_week()],
+	  ['Home', () => activate_first_of_month()],
+	  ['End', () => activate_last_of_month()],
+	  ['Enter', () => !focusable && select_active_date()],
+	  ['Tab', select_active_date],
+	  ['Escape', () => activate(null)],
+	]);
+
+	function handle_key_down(event: KeyboardEvent) { 
+		const handler = key_down_handlers.get(event.key);
+		if (!handler)
+			return;
+
+		if (event.key !== 'Tab')
+			event.preventDefault();
+
+		const modifier = event.ctrlKey;
+		handler(modifier);
+	}
+
 
 	// Visible month
 
@@ -149,7 +185,7 @@
 
 	function activate(new_date: DateOnly | null) {
 		active_date = new_date;
-		active_id = active_date && get_button_id(active_date);
+		active_date_id = active_date && get_item_id(active_date);
 
 		if (active_date && !period_contains_date(active_period, active_date))
 			selected_period = get_period_for_date(active_date, period_first_day);
@@ -197,15 +233,14 @@
 
 	// Selected date
 	
-	function select_date(date_to_select: DateOnly) {
+	function select_date(date_to_select: DateOnly | null) {
 		selected_date = date_to_select;
 		activate(date_to_select);
 		on_select?.(date_to_select);
 	}
 
 	function select_active_date() {
-		if (active_date)
-			select_date(active_date);
+		select_date(active_date);
 	}
 </script>
  
@@ -213,46 +248,45 @@
 	class={classes('calendar variant-primary', calendar_class)}
 	{id}
 >
-	<ul
+	<List
 		bind:this={list}
-		aria-label="Calendar dates"
-		role="listbox"
+		{focusable}
+		active_item_id={active_date_id}
+		aria_label="Calendar dates"
 		onkeydown={handle_key_down}
-		tabindex={focusable && !active_date_visible ? 0 : undefined}
 	>
 		{#each week_days_short as week_day}
-			<li role="heading" aria-level="1">
+			<ListItemHeading>
 				{week_day}
-			</li>
+			</ListItemHeading>
 		{/each}
 
 		{#each dates as { same_month, weekend, ...date }}
-			{@const date_is_active = !!active_date && is_same_date(date, active_date)}
-			{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
-			{@const date_is_today = same_month && is_same_date(date, today)}
-			{@const button_id = get_button_id(date)}
+			{#if same_month}
+				{@const date_is_active = !!active_date && is_same_date(date, active_date)}
+				{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
+				{@const date_is_today = same_month && is_same_date(date, today)}
+				{@const item_id = get_item_id(date)}
 
-			<li
-				class:weekend
-				class:today={date_is_today}
-				role="listitem"
-		>
-				{#if same_month}
-					<Button
-						id={button_id}
-						active={!focusable && date_is_active}
-						current={date_is_selected}
-						type="plain"
-						onclick={() => select_date(date)}
-						focusable={focusable && date_is_active}
-						text={date.day}
-					/>
-				{:else}
+				<ListItemOption
+					id={item_id}
+					class={classes({ today: date_is_today })}
+					contrast={weekend}
+					current={date_is_active}
+					selected={date_is_selected}
+					onclick={() =>
+						select_date(date)
+					}
+				>
 					{date.day}
-				{/if}
-			</li>
+				</ListItemOption>
+			{:else}
+				<ListItemText>
+					{date.day}
+				</ListItemText>
+			{/if}
 		{/each}
-	</ul>
+	</List>
 
 	<header>
 		{header}
@@ -283,3 +317,8 @@
 		</div>
 	</header>
 </div>
+
+<EventHandler
+	element={keyboard_capture}
+	onkeydown={handle_key_down}
+/>

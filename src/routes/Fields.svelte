@@ -1,9 +1,12 @@
 <script lang="ts">
-	import { Button, Card, CheckButton, CurrencyField, DateField, Form, PageHeader, RadioButton, RadioGroup, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CheckButton, CurrencyField, DateField, Form, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendar, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
+	import { food, fruits, get_food_heading } from './data.js';
 
 	let form_loading = $state(false);
+	let select_value = $state<string | null>(null);
+	let auto_complete_value = $state<string | null>(null);
 	let currency_value = $state<number | null>(null);
 	let date_value = $state<DateOnly | null>(null);
 </script>
@@ -38,6 +41,28 @@
 				<div class="field">
 					<DateField bind:value={date_value} label="Date" required />
 					<output>Value: {date_value === null ? 'null' : get_date_only_key(date_value)}</output>
+				</div>
+				<div class="field">
+					<SelectField
+						bind:value={select_value}
+						label="Select"
+						options={food}
+						options_heading={get_food_heading}
+						options_value={option => option.name}
+						required
+						type="select"
+					/>
+					<output>Value: {select_value ? select_value : '-'}</output>
+				</div>
+				<div class="field">
+					<SelectField
+						bind:value={auto_complete_value}
+						label="Auto complete"
+						options={fruits}
+						required
+						type="autocomplete"
+					/>
+					<output>Value: {auto_complete_value ? auto_complete_value : '-'}</output>
 				</div>
 			</div>
 		</Form>

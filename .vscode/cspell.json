@@ -28,6 +28,13 @@
 			"words": [ "persson" ]
 		},
 		{
+			"filename": "*.css",
+			"words": [
+				"combobox",
+				"datetime"
+			]
+		},
+		{
 			"filename": "*.svelte",
 			"words": [
 				"onclickcapture"

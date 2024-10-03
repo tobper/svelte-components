@@ -1,32 +1,31 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { get_element } from '../html.js';
 
 	interface EventHandler {
 		element: HTMLElement | string | undefined;
-		onclick: HTMLElement['onclick'];
+		onclick?: HTMLElement['onclick'];
+		onkeydown?: HTMLElement['onkeydown'];
 	}
 
 	let {
-		element: element_selector,
-		onclick
+		element: element_or_selector,
+		onclick,
+		onkeydown,
 	}: EventHandler = $props();
-	let remove_click_handler: (() => void) | undefined;
 
 	$effect(() => {
-		remove_click_handler?.();
-		remove_click_handler = undefined;
-
-		if (element_selector && onclick) {
-			const element = get_element(element_selector);
+		const element = element_or_selector && get_element(element_or_selector);
+		if (element && onclick) {
 			element.addEventListener('click', onclick);
-			remove_click_handler = () => element.removeEventListener('click', onclick);
+			return () => element.removeEventListener('click', onclick);
 		}
 	});
 
-	onMount(() => {
-		return function destroy() {
-			remove_click_handler?.();
+	$effect(() => {
+		const element = element_or_selector && get_element(element_or_selector);
+		if (element && onkeydown) {
+			element.addEventListener('keydown', onkeydown);
+			return () => element.removeEventListener('keydown', onkeydown);
 		}
 	});
 </script>

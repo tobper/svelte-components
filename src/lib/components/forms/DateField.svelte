@@ -27,12 +27,11 @@
 
 	let {
 		readonly = false,
-		value: props_value = $bindable(null),
+		value: selected_date = $bindable(null),
 		...text_field_props
 	}: DateField = $props();
 
-	let calendar = $state<ReturnType<typeof Calendar> | undefined>(undefined);
-	let calendar_active_date = $state<DateOnly | null>(null);
+	let calendar = $state<ReturnType<typeof Calendar>>();
 	let calendar_active_id = $state<string | null>(null);
 	let calendar_visible = $state(false);
 	let focused = $state(false);
@@ -40,8 +39,8 @@
 	let field_input_element = $state<HTMLElement>();
 	let text_field = $state<ReturnType<typeof TextField>>();
 	let input_proxy = input_value_proxy(
-		() => props_value,
-		value => props_value = value,
+		() => selected_date,
+		value => selected_date = value,
 		try_parse_date_only,
 		get_date_only_key,
 		is_same_date
@@ -62,7 +61,7 @@
 	role="combobox"
 	type="text"
 	onclick={() => {
-		if (device.mobile)
+		if (focused || device.mobile)
 			calendar_visible = true;
 	}}
 	onkeydown={event => {
@@ -70,15 +69,6 @@
 			switch (event.key) {
 				case 'Escape':
 					calendar_visible = false;
-					break;
-
-				case 'Tab':
-					if (calendar_active_date)
-						props_value = calendar_active_date;
-					break;
-
-				default:
-					calendar?.handle_key_down(event);
 					break;
 		  	}
 		}
@@ -92,10 +82,16 @@
 			}
 		}
 	}}
+	on_clear={() => {
+		selected_date = null;
+	}}
+	on_focus_in={() => {
+		calendar_visible = true;
+	}}
 	on_focus_out={() => {
 		calendar_visible = false;
-		input_proxy.value = props_value
-			? get_date_only_key(props_value)
+		input_proxy.value = selected_date
+			? get_date_only_key(selected_date)
 			: '';
 	}}
 >
@@ -105,6 +101,7 @@
 			focusable={false}
 			type="plain"
 			onclick={() => {
+				calendar_visible = true;
 				text_field?.focus();
 			}}
 		>
@@ -120,17 +117,17 @@
 		modal={device.mobile}
 		trigger={menu_trigger_id}
 		on_open={() => {
-			calendar?.reset({ selected_date: props_value });
+			calendar?.reset({ selected_date });
 		}}
 	>
 		<Calendar
 			bind:this={calendar}
-			bind:active_date={calendar_active_date}
-			bind:active_id={calendar_active_id}
+			bind:active_date_id={calendar_active_id}
+			{selected_date}
 			focusable={false}
-			selected_date={props_value}
+			keyboard_capture={calendar_visible ? field_input_element : undefined}
 			on_select={date => {
-				props_value = date;
+				selected_date = date;
 				calendar_visible = false;
 			}}
 		/>

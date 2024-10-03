@@ -20,7 +20,7 @@
 		padding-block: 1px;
 
 		/* Focus */
-		&.button--active,
+		&.button--pseudo-focus,
 		&:focus-visible,
 		&:has(:focus-visible) {
 			--button__focus-shadow: var(--focus__shadow);

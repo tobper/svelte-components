@@ -1,28 +1,28 @@
 export const fruits = [
 	'Apple',
-	'Mango',
-	'Orange',
-	'Banana',
-	'Kiwi',
-	'Grapefruit',
 	'Apricot',
+	'Avocado',
+	'Banana',
+	'Blackberry',
+	'Blueberry',
 	'Cherry',
 	'Grape',
-	'Pineapple',
-	'Strawberry',
-	'Lemon',
-	'Avocado',
-	'Peach',
-	'Watermelon',
-	'Papaya',
-	'Plum',
-	'Pear',
-	'Blueberry',
-	'Blackberry',
-	'Pomegranate',
-	'Mangosteen',
+	'Grapefruit',
 	'Guava',
+	'Kiwi',
+	'Lemon',
 	'Lime',
+	'Mango',
+	'Mangosteen',
+	'Orange',
+	'Papaya',
+	'Peach',
+	'Pear',
+	'Pineapple',
+	'Plum',
+	'Pomegranate',
+	'Strawberry',
+	'Watermelon',
 ];
 
 export const vegetables = [
@@ -54,3 +54,28 @@ export const vegetables = [
 	'Horseradish',
 	'Kohlrabi',
 ];
+
+export const food = [
+	...fruits.map(name => ({ type: 'Fruit', name })),
+	...vegetables.map(name => ({ type: 'Vegetable', name })),
+];
+
+export type Food = typeof food[number];
+
+export function get_food_heading(food: Food) {
+	return `${food.type}s`;
+}
+
+export function random<T>(items: T[], count: number) {
+	if (count > items.length)
+		count = items.length;
+
+	const result = Array.from(items);
+
+	for (let i = result.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[result[i], result[j]] = [result[j], result[i]];
+	}
+
+	return result.slice(0, count);
+}

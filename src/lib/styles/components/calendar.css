@@ -2,7 +2,7 @@
 	display: grid;
 	row-gap: 0.5rem;
 
-	header {
+	> header {
 		/* Layout */
 		grid-row: 1;
 		display: flex;
@@ -10,47 +10,30 @@
 		justify-content: space-between;
 	}
 
-	ul {
+	.list {
 		grid-row: 2;
-		display: inline-grid;
+		display: grid;
 		grid-template-columns: repeat(7, auto);
-		list-style: none;
-	}
 
-	li {
-		padding: .125rem;
-		user-select: none;
-
-		&[role=heading] {
-			text-align: center;
-			font-size: .8rem;
-			line-height: 1.5rem;
+		li {
+			padding: .125rem;
 		}
-	}
+	
+		[role=heading] {
+			text-align: center;
+		}
+	
+		[role=option] button {
+			width: 100%;
+			min-width: 3rem;
+			height: 3rem;
+			padding-inline: 0;
+			justify-content: center;
+		}
 
-	button {
-		width: 100%;
-		min-width: 3rem;
-		height: 3rem;
-		padding-inline: 0;
-	}
-
-	[role=heading] {
-		color: var(--table-header__color);
-		letter-spacing: var(--table-header__letter-spacing);
-	}
-
-	[role=listitem] {
-		text-align: center;
-		place-content: center;
-
-		&:not(:has(button)) {
+		[role=presentation] {
 			color: transparent;
 		}
-	}
-
-	.weekend:where(:has(button)) {
-		background: color-mix(in lab, transparent, var(--palette__contrast) 3%);
 	}
 }
 

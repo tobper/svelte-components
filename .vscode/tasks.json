@@ -7,7 +7,8 @@
 			  "Client",
 			  "Client type check",
 			  "Lint",
-			  "Spelling"
+			  "Spelling",
+			  "Test"
 			],
 			"group": {
 			  "kind": "build",
@@ -33,6 +34,11 @@
 			"label": "Spelling",
 			"type": "npm",
 			"script": "check:spelling"
+		 },
+		 {
+			"label": "Test",
+			"type": "npm",
+			"script": "test"
 		 }
 	]
 }

@@ -17,7 +17,7 @@
 				<Button {variant} type="outlined" text="Default" />
 				<Button {variant} type="outlined" text="Hover" class="button--hover" />
 				<Button {variant} type="outlined" text="Pressed" current />
-				<Button {variant} type="outlined" text="Active" active />
+				<Button {variant} type="outlined" text="Focus" pseudo_focus />
 				<Button {variant} type="outlined" text="Small" small />
 				<Button {variant} type="outlined" icon={ButtonIcon} />
 				<Button {variant} type="outlined" icon={ButtonIcon} small />
@@ -33,7 +33,7 @@
 				<Button {variant} type="cta" text="Default" />
 				<Button {variant} type="cta" text="Hover" class="button--hover" />
 				<Button {variant} type="cta" text="Pressed" current />
-				<Button {variant} type="cta" text="Active" active />
+				<Button {variant} type="cta" text="Focus" pseudo_focus />
 				<Button {variant} type="cta" text="Small" small />
 				<Button {variant} type="cta" icon={ButtonIcon} />
 				<Button {variant} type="cta" icon={ButtonIcon} small />
@@ -49,7 +49,7 @@
 				<Button {variant} type="plain" text="Default" />
 				<Button {variant} type="plain" text="Hover" class="button--hover" />
 				<Button {variant} type="plain" text="Pressed" current />
-				<Button {variant} type="plain" text="Active" active />
+				<Button {variant} type="plain" text="Focus" pseudo_focus />
 				<Button {variant} type="plain" text="Small" small />
 				<Button {variant} type="plain" icon={ButtonIcon} />
 				<Button {variant} type="plain" icon={ButtonIcon} small />

@@ -10,22 +10,23 @@
 	import Loading from './Loading.svelte';
 
 	interface Button {
-		active?: boolean;
 		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
 		disabled?: boolean;
 		focusable?: boolean;
 		id?: string;
 		loading?: boolean;
+		pseudo_focus?: boolean;
 		small?: boolean;
 		submit?: boolean;
 		title?: string;
 		type?: 'plain' | 'outlined' | 'cta';
 		variant?: ButtonVariant;
 
+		children?: Snippet;
 		icon?: Snippet;
 		text?: unknown;
 
-		onclick?: NonNullable<HTMLButtonAttributes['onclick']>;
+		onclick?: HTMLButtonAttributes['onclick'];
 
 		// Rest
 		class?: HTMLButtonAttributes['class'];
@@ -33,17 +34,18 @@
 	}
 	
 	let {
-		active = false,
 		current,
 		disabled = false,
 		focusable = true,
 		id = $bindable(unique_id()),
 		loading = false,
+		pseudo_focus = false,
 		small = false,
 		submit = false,
 		type = 'plain',
 		variant = 'primary',
 
+		children,
 		icon,
 		text,
 
@@ -59,7 +61,7 @@
 	class:button-cta={type === 'cta'}
 	class:button-plain={type === 'plain'}
 	class:button-outlined={type === 'outlined'}
-	class:button--active={active}
+	class:button--pseudo-focus={pseudo_focus}
 	class:button--round={!!icon && !text}
 	class:button--small={small}
 	class:variant-secondary={variant === 'secondary'}
@@ -82,6 +84,10 @@
 		<span class="button-icon">
 			{@render icon()}
 		</span>
+	{/if}
+
+	{#if children}
+		{@render children()}
 	{/if}
 
 	{#if text}

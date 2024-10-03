@@ -15,7 +15,7 @@
 			color ease-out var(--transition__duration--instant);
 
 		/* Focus */
-		&.button--active,
+		&.button--pseudo-focus,
 		&:focus-visible,
 		&:has(:focus-visible) {
 			outline-color: var(--palette__accent-color);

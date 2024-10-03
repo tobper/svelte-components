@@ -1,28 +1,37 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
+	import type { HTMLDialogAttributes } from 'svelte/elements';
+	import { classes } from '../classes.js';
 	import { get_style, set_style } from '../css.js';
 	import { get_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
 	import EventHandler from './EventHandler.svelte';
 
 	interface Menu {
+		id?: string;
 		anchor: string | HTMLElement;
+		class?: string;
 		modal?: boolean;
 		trigger?: string | HTMLElement;
 		visible?: boolean;
 		children: Snippet;
 		on_open?: () => void;
 		on_close?: () => void;
+		onmouseover?: HTMLDialogAttributes['onmouseover'];
+		onmouseout?: HTMLDialogAttributes['onmouseout'];
 	}
 
 	let {
+		id = $bindable(unique_id()),
 		anchor,
+		class: dialog_class,
 		modal = false,
 		trigger,
 		visible = $bindable(false),
 		children,
 		on_open,
-		on_close
+		on_close,
+		...dialog_props
 	}: Menu = $props();
 	let anchor_name = $state('');
 	let dialog: HTMLDialogElement;
@@ -63,10 +72,11 @@
 </script>	
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
 <dialog
 	bind:this={dialog}
-	class="menu"
+	{id}
+	{...dialog_props}
+	class={classes('menu', dialog_class)}
 	style:position-anchor={anchor_name}
 	onclick={({ target }) => {
 		// Click event on the dialog itself means that the backdrop is clicked,

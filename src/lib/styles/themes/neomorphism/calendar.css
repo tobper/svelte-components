@@ -1,14 +1,5 @@
 :where(.theme-neomorphism) {
 	.calendar {
-		[role=heading] {
-			color: var(--table-header__color);
-		}
-
-		[aria-current] {
-			background-color: var(--palette__primary-background);
-			color: var(--palette__text--inverted);
-		}
-
 		.today {
 			background-color: var(--palette__secondary-background);
 
