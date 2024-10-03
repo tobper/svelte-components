@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Button, Card, CheckButton, DateField, Form, PageHeader, RadioButton, RadioGroup, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CheckButton, CurrencyField, DateField, Form, PageHeader, RadioButton, RadioGroup, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendar, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
 
 	let form_loading = $state(false);
+	let currency_value = $state<number | null>(null);
 	let date_value = $state<DateOnly | null>(null);
 </script>
 
@@ -31,6 +32,12 @@
 						<Button submit icon={SearchIcon} />
 					{/snippet}
 				</TextField>
+				<div class="field">
+					<CurrencyField bind:value={currency_value} label="Currency" required>
+						{#snippet icon()}kr{/snippet}
+					</CurrencyField>
+					<output>Value: {currency_value === null ? 'null' : currency_value}</output>
+				</div>
 				<div class="field">
 					<DateField bind:value={date_value} label="Date" required />
 					<output>Value: {date_value === null ? 'null' : get_date_only_key(date_value)}</output>

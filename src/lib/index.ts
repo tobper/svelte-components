@@ -18,6 +18,7 @@ export * from './components/Theme.svelte';
 
 /* Forms */
 export { default as CheckButton } from './components/forms/CheckButton.svelte';
+export { default as CurrencyField } from './components/forms/CurrencyField.svelte';
 export { default as DateField } from './components/forms/DateField.svelte';
 export { default as Field } from './components/forms/Field.svelte';
 export { default as Form } from './components/forms/Form.svelte';
