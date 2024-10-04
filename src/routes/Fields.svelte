@@ -8,10 +8,7 @@
 	let date_value = $state<DateOnly | null>(null);
 </script>
 
-{#snippet CalendarIcon()}<IconCalendar />{/snippet}
-{#snippet SearchIcon()}<IconSearch />{/snippet}
-
-<article class="page-content">
+<article class="page-content" id="form">
 	<PageHeader text="Text fields" />
 	<Card>
 		<Form field_errors={{ date: ['Invalid date'] }}>
@@ -69,19 +66,16 @@
 </article>
 
 <article class="page-content">
-	<PageHeader text="Toggle switch" />
+	<PageHeader text="On / off" />
 	<Card>
+		<h3>Toggle switch</h3>
 		<div class="flow-items-vertical">
 			<ToggleSwitch label="Default" />
 			<ToggleSwitch disabled label="Disabled" />
 			<ToggleSwitch disabled checked label="Disabled checked" />
 		</div>
- 	</Card>
-</article>
 
-<article class="page-content">
-	<PageHeader text="Check button" />
-	<Card>
+		<h3>Check button</h3>
 		<div class="flow-items">
 			<CheckButton text="Default" />
 			<CheckButton text="Checked" checked />
@@ -89,7 +83,7 @@
 			<CheckButton disabled text="Checked and disabled" checked />
 		</div>
 
-		<h3>Group</h3>
+		<h4>Group</h4>
 		<div class="flow-items">
 			<div class="button-group">
 				<CheckButton text="Yes" checked />
@@ -98,7 +92,7 @@
 			</div>
 		</div>
 
-		<h3>Animated</h3>
+		<h4>Animated</h4>
 		<div class="flow-items">
 			<CheckButton animation="fade" text="Fade" content={icon_content} />
 			<CheckButton animation="fade" content={icon_content} />
@@ -112,12 +106,8 @@
 				<Icon />
 			{/snippet}
 		</div>
-	</Card>
-</article>
 
-<article class="page-content">
-	<PageHeader text="Radio button" />
-	<Card>
+		<h3>Radio button</h3>
 		<div class="flow-items">
 			<RadioGroup selected_value="yes">
 				<RadioButton value="yes" text="Yes" />
@@ -133,6 +123,9 @@
 		</div>
 	</Card>
 </article>
+
+{#snippet CalendarIcon()}<IconCalendar />{/snippet}
+{#snippet SearchIcon()}<IconSearch />{/snippet}
 
 <style>
 	.fields {

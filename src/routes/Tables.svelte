@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Card, PageHeader } from '$lib/index.js';
-	import { fruits, vegetables } from '../data.js';
-
+	import { fruits, vegetables } from './data.js';
+	 
 	const food =
 		[
 			...vegetables.map(name => ({ name, type: 'Vegetable' })),
@@ -11,7 +11,7 @@
 		.slice(0, 6);
 </script>
 
-<article class="page-content">
+<article class="page-content" id="table">
 	<PageHeader text="Normal table" />
 	<Card>
 		<div class="table">

@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 	import { device } from '$lib/device.js';
 	import { Device, ElementClickOnMouseDown, Layout, SidebarToggleButton, Theme, ToggleButton } from '$lib/index.js';
 	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
-	import { settings } from './settings.svelte.js';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = data;
+	let current_scheme = $state<'dark' | 'light' | 'system'>('system');
 
 	const available_themes = [
 		{ name: 'lines', text: 'Lines' },
@@ -15,11 +13,12 @@
 	];
 
 	const nav = [
-		{ path: 'theme', text: 'Theme' },
-		{ path: 'button', text: 'Button' },
-		{ path: 'calendar', text: 'Calendar' },
-		{ path: 'form', text: 'Form' },
-		{ path: 'table', text: 'Table' },
+		{ anchor: 'typography', text: 'Typography' },
+		{ anchor: 'palette', text: 'Palette' },
+		{ anchor: 'button', text: 'Button' },
+		{ anchor: 'calendar', text: 'Calendar' },
+		{ anchor: 'form', text: 'Form' },
+		{ anchor: 'table', text: 'Table' },
 	];
 
 	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
@@ -39,7 +38,7 @@
 		// background_light: '#e5e4e4',
 		// background_dark: '#272625'
 	}}
-	scheme={settings.scheme}
+	scheme={current_scheme}
 	style={current_theme}
 />
 
@@ -58,10 +57,10 @@
 				</div>
 				<ToggleButton
 					animation="rotate"
-					options={['light', 'dark', 'system'] as Array<typeof settings.scheme>}
+					options={['light', 'dark', 'system'] as Array<typeof current_scheme>}
 					type="plain"
-					value={settings.scheme}
-					onchange={scheme => settings.scheme = scheme}
+					value={current_scheme}
+					onchange={new_scheme => current_scheme = new_scheme}
 				>
 					{#snippet content(scheme)}
 						{#if scheme === 'light'}
@@ -80,12 +79,8 @@
 	{#snippet sidebar()}
 		<div class="sidebar">
 			<nav>
-				{#each nav as { path, text }}
-					<a
-						aria-current={$page.route.id === `/${path}` ? 'page' : undefined}
-						class="link"
-						href={`${base}/${path}`}
-					>{text}</a>
+				{#each nav as { anchor, text }}
+					<a class="link" href={`#${anchor}`}>{text}</a>
 				{/each}
 			</nav>
 			<div class="flow-items-vertical">
@@ -142,7 +137,7 @@
 
 <style>
 	:root {
-		--layout__max-width: 1000px;
+		--layout__max-width: 1200px;
 	}
 
 	h1 {

@@ -2,7 +2,7 @@
 	--h1__font-size: 1.875rem;
 	--h2__font-size: 1.5rem;
 	--h3__font-size: 1.25rem;
-	--h4__font-size: 1.15rem;
+	--h4__font-size: 1.1rem;
 }
 
 h1, h2, h3, h4 {
@@ -23,7 +23,12 @@ h2 {
 	row-gap: 0;
 }
 
-h3, h4 {
+h3 {
 	font-size: var(--h3__font-size);
 	line-height: 1.75rem;
+}
+
+h4 {
+	font-size: var(--h4__font-size);
+	line-height: 1.5rem;
 }

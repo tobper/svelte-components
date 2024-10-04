@@ -16,6 +16,10 @@
 		padding-block: .75rem 0;
 	}
 
+	> :where(header, h3):not(:first-child) {
+		margin-top: 2rem;
+	}
+
 	> header {
 		box-sizing: content-box;
 		min-height: 3rem;

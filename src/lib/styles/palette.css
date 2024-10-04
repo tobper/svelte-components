@@ -4,6 +4,19 @@
 	--palette__secondary-base: #06b6d4;
 	--palette__tertiary-base: #97cea5;
 	--palette__variant-delete-base: oklch(77% 0.15 20);
+
+	/* Green */
+	--palette__primary-base: oklch(75% 0.05 150);
+	--palette__secondary-base: oklch(83% 0.125 84);
+	--palette__tertiary-base: oklch(83% 0.1 220);
+	--palette__background-dark: #272625;
+	--palette__background-light: #e5e4e4;
+
+	/* Blue */
+	--palette__primary-base: #a8bef1;
+	--palette__secondary-base: #d9ba86;
+	--palette__background-dark: #282c34;
+	--palette__background-light: hsl(from var(--palette__background-dark) h s 90);
 }
 
 .scheme-light {
@@ -15,7 +28,7 @@
 	--palette__neutral: oklch(70% 0 0);
 	--palette__neutral-background: oklch(90% 0 0);
 
-	--palette__background: #eee;
+	--palette__background: var(--palette__background-light);
 	--palette__text: #333;
 	--palette__text--inactive: #666;
 
@@ -48,7 +61,7 @@
 	--palette__neutral: oklch(57% 0 0);
 	--palette__neutral-background: oklch(45% 0 0);
 
-	--palette__background: #333;
+	--palette__background: var(--palette__background-dark);
 	--palette__text: #eee;
 	--palette__text--inactive: #999;
 
