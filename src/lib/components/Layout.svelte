@@ -96,12 +96,20 @@
 
 	<main>
 		{#if sidebar}
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 			<aside
 				bind:this={sidebar_element}
 				class="layout-sidebar"
 				class:layout-sidebar--fixed={context.sidebar_fixed}
 				class:layout-sidebar--folding={!context.sidebar_fixed}
 				class:layout-sidebar--visible={context.sidebar_visible}
+				onclick={({ target }) => {
+					// Hide sidebar if a link inside is clicked
+					if (target instanceof Element && target.closest('a')) {
+						context.sidebar_visible = false;
+					}
+				}}
 			>
 				{@render sidebar(context)}
 			</aside>

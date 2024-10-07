@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.0.12",
+	"version": "0.0.14",
 	"description": "Svelte components",
 	"author": "Tobias Persson",
 	"repository": "github:tobper/svelte-components",
