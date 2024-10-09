@@ -46,6 +46,7 @@
 
 /* Reset */
 dialog:where(.menu) {
+	position: absolute;
 	margin: unset;
 	inset: unset;
 	max-height: fit-content;

@@ -5,6 +5,7 @@
 	import { get_style, set_style } from '../css.js';
 	import { get_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
+	import AnchorPlugin from './AnchorPlugin.svelte';
 	import EventHandler from './EventHandler.svelte';
 
 	interface Menu {
@@ -21,6 +22,8 @@
 		onmouseout?: HTMLDialogAttributes['onmouseout'];
 	}
 
+	const anchoring_supported = 'anchorName' in document.documentElement.style;
+
 	let {
 		id = $bindable(unique_id()),
 		anchor,
@@ -33,8 +36,8 @@
 		on_close,
 		...dialog_props
 	}: Menu = $props();
-	let anchor_name = $state('');
-	let dialog: HTMLDialogElement;
+	let anchor_name = $state<string>();
+	let dialog = $state<HTMLDialogElement>();
 
 	onMount(() => {
 		const anchor_element = get_element(anchor);
@@ -46,27 +49,17 @@
 		}
 	});
 
-	// $effect(() => {
-	// 	const anchor_element = get_element(anchor);
-	// 	const existing_anchor_name = get_style(anchor_element, 'anchor-name');
-
-	// 	if (!existing_anchor_name.startsWith('--')) {
-	// 		anchor_name = `--${unique_id()}`;
-	// 		set_style(anchor_element, 'anchor-name', anchor_name);
-	// 	}
-	// });
-
 	$effect(() => {
 		if (visible) {
 			on_open?.();
 
 			if (modal)
-				dialog.showModal();
+				dialog!.showModal();
 			else
-				dialog.show();
+				dialog!.show();
 		}
 		else {
-			dialog.close();
+			dialog!.close();
 		}
 	})
 </script>	
@@ -95,3 +88,7 @@
 <EventHandler element={trigger} onclick={() => {
 	visible = true;
 }} />
+
+{#if !anchoring_supported}
+	<AnchorPlugin {anchor} {visible} anchored={dialog} />
+{/if}

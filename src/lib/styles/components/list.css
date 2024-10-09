@@ -4,8 +4,8 @@
 	border-radius: var(--list__border-radius);
 
 	.menu > & {
-		/* Max 10 items in a menu list, but no more than half the screen height */
-		max-height: min(8 * var(--list-item__height), 50vh);
+		/* Max x items in a menu list, but no more than half the screen height */
+		max-height: min(6 * var(--list-item__height), 50vh);
 		overflow-y: auto;
 	}
 

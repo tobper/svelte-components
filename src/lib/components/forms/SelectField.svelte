@@ -91,6 +91,7 @@
 	let menu = $state<ReturnType<typeof Menu>>();
 	let menu_id = $derived(`${id}_menu`);
 	let menu_visible = $state(false);
+	let modal = $derived(device.mobile && type === 'select' && Array.isArray(options_source));
 	let options = $derived(async_options.value);
 	let text_field = $state<ReturnType<typeof TextField>>();
 
@@ -133,7 +134,7 @@
 	aria_haspopup={menu && 'menu'}
 	name={name}
 	loading={async_options.loading}
-	readonly={readonly || (device.mobile && type === 'select' && Array.isArray(options_source))}
+	readonly={readonly || modal}
 	role={menu && 'combobox'}
 	onclick={() => {
 		if (focused)
@@ -176,13 +177,14 @@
 		menu_visible = false
 	}}
 >
-	{#if !disabled && !readonly}
+	{#if !disabled && !readonly && options.length > 0}
 		<Menu
 			bind:this={menu}
+			bind:visible={menu_visible}
+			{modal}
 			anchor={field_element!}
-			id={menu_id}
 			class={class_menu}
-			visible={menu_visible && (options.length > 0)}
+			id={menu_id}
 		>
 			<SelectList
 				bind:this={list}
