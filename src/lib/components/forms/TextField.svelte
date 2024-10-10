@@ -115,12 +115,12 @@
 	class={field_class}	
 >
 	{#snippet content({ content_id, error_text, loading, in_progress })}
-		<div bind:this={field_input_element} class="field-content">
+		<div bind:this={field_input_element} class="field-content" class:skeleton={loading}>
 			{#if prefix}
 				{@render prefix()}
 			{/if}
 
-			<div class="field-input" class:skeleton={loading}>
+			<div class="field-input">
 				{@render input(content_id, error_text, in_progress)}
 				{@render clear_button()}
 				{@render field_icon()}
@@ -132,7 +132,7 @@
 			{/if}
 		</div>
 
-		{#if children && !in_progress}
+		{#if children && !in_progress && !disabled}
 			<div bind:this={children_element}>
 				{@render children()}
 			</div>
@@ -179,7 +179,7 @@
 			const { relatedTarget } = event;
 			const input_or_children_focused =
 				relatedTarget instanceof Element &&
-				(field_input_element!.contains(relatedTarget) || children_element!.contains(relatedTarget));
+				children_element?.contains(relatedTarget);
 
 			if (input_or_children_focused) {
 				// Reset focus to input element
@@ -198,12 +198,11 @@
 		<Button
 			class="field-clear"
 			focusable={false}
-			type="plain"
 			onclick={() => {
 				value = '';
 				on_clear?.();
 			}}
-			>
+		>
 			{#snippet icon()}
 				<ClearIcon />
 			{/snippet}

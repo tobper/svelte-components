@@ -1,5 +1,6 @@
 <script lang="ts" module>
-	export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'delete';
+	export type ButtonType = 'plain' | 'outlined' | 'cta';
+	export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'add' | 'delete';
 </script>
 
 <script lang="ts">
@@ -19,7 +20,7 @@
 		small?: boolean;
 		submit?: boolean;
 		title?: string;
-		type?: 'plain' | 'outlined' | 'cta';
+		type?: ButtonType;
 		variant?: ButtonVariant;
 
 		children?: Snippet;
@@ -66,6 +67,7 @@
 	class:button--small={small}
 	class:variant-secondary={variant === 'secondary'}
 	class:variant-tertiary={variant === 'tertiary'}
+	class:variant-add={variant === 'add'}
 	class:variant-delete={variant === 'delete'}
 	tabindex={focusable ? 0 : -1}
 	type={submit ? 'submit' : 'button'}
@@ -80,18 +82,20 @@
 	}}
 	{...button_props}
 >
-	{#if icon}
-		<span class="button-icon">
-			{@render icon()}
-		</span>
-	{/if}
-
 	{#if children}
 		{@render children()}
 	{/if}
 
 	{#if text}
-		<span>{text}</span>
+		<span class="button-text">
+			{text}
+		</span>
+	{/if}
+
+	{#if icon}
+		<span class="button-icon">
+			{@render icon()}
+		</span>
 	{/if}
 
 	{#if loading}

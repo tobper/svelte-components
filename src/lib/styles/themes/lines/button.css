@@ -9,9 +9,6 @@
 
 		/*  Appearance */
 		color: var(--button__color);
-		transition:
-			background ease-out var(--transition__duration--instant),
-			color ease-out var(--transition__duration--instant);
 
 		/* Focus */
 		&.button--pseudo-focus,
@@ -20,11 +17,6 @@
 			outline-color: var(--palette__accent-color);
 			outline-width: var(--link__outline-width--focus);
 			outline-style: solid;
-		}
-
-		/* Disabled */
-		&:is([aria-disabled], :has(:disabled)) {
-			color: var(--palette__text--inactive);
 		}
 	}
 
@@ -85,10 +77,18 @@
 	.button-plain {
 		color: var(--palette__accent-color);
 
+		.button-text:has(+ .button-icon) {
+			color: var(--palette__text);
+		}
+
 		/* Hover */
 		&.button--hover,
 		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			color: color-mix(in lab, var(--button__color), var(--palette__accent-color) 75%);
+			color: color-mix(in lab, var(--palette__accent-color), var(--palette__scheme) 20%);
+
+			.button-text:has(+ .button-icon) {
+				color: var(--palette__text--contrast);
+			}
 		}
 
 		/* Pressed */

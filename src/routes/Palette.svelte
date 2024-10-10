@@ -5,13 +5,16 @@
 <article class="page-content" id="palette">
 	<PageHeader text="Palette" />
 	<Card>
+		<h3>Variant</h3>
 		<div class="flow-items">
 			<div class="status primary">Primary</div>
 			<div class="status secondary">Secondary</div>
 			<div class="status tertiary">Tertiary</div>
+			<div class="status add">Add</div>
 			<div class="status delete">Delete</div>
 		</div>
 
+		<h3>Status</h3>
 		<div class="flow-items">
 			<div class="status status-error">Error</div>
 			<div class="status status-info">Information</div>
@@ -44,6 +47,12 @@
 	.status.tertiary {
 		color: var(--palette__text--inverted);
 		background: var(--palette__tertiary-background);
+		border-color: transparent;
+	}
+
+	.status.add {
+		color: var(--palette__text--inverted);
+		background: var(--palette__variant-add-background);
 		border-color: transparent;
 	}
 

@@ -8,13 +8,13 @@
 		[aria-current] {
 			color: var(--palette__primary-color);
 			font-weight: bold;
-			font-size: var(--h2__font-size);
+			font-size: var(--h4__font-size);
 		}
 
 		.today button:not([aria-current]) {
 			color: var(--palette__secondary-color);
 			font-weight: bold;
-			font-size: var(--h2__font-size);
+			font-size: var(--h4__font-size);
 		}
 	}
 }

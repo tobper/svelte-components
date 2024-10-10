@@ -19,14 +19,14 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: var(--space__small);
+	gap: var(--space__tiny);
 
 	.button-icon {
 		display: flex;
 	}
 
 	svg {
-		width: 1.5rem;
+		width: 1.25rem;
 	}
 
 	/* Hide overflow, for instance when rotating content in check buttons */
@@ -47,6 +47,11 @@
 
 	/* Disabled */
 	&:is([aria-disabled], :has(:disabled)) {
+		/* Appearance */
+		filter: grayscale(100%);
+		opacity: 60%;
+
+		/* Interaction */
 		cursor: not-allowed;
 	}
 }
@@ -72,6 +77,6 @@
 	padding-inline: var(--space__medium);
 
 	svg {
-		width: 1.25rem;
+		width: 1.15rem;
 	}
 }

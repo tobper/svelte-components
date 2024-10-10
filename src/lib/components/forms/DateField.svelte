@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { unique_id } from '$lib/unique_id.js';
 	import { get_date_only_key, is_same_date, try_parse_date_only, type DateOnly } from '@tobper/eon';
 	import { device } from '../../device.js';
 	import Calendar from '../Calendar.svelte';
+	import CalendarMenu from '../CalendarMenu.svelte';
 	import CalendarIcon from '../icons/CalendarIcon.svelte';
-	import Menu from '../Menu.svelte';
 	import { input_value_proxy } from './internal/input_value_proxy.js';
 	import TextField from './TextField.svelte';
 
@@ -22,17 +23,19 @@
 	}
 
 	let {
+		id = $bindable(unique_id()),
 		readonly = false,
 		value: selected_date = $bindable(null),
 		...text_field_props
 	}: DateField = $props();
 
-	let calendar = $state<ReturnType<typeof Calendar>>();
-	let calendar_active_id = $state<string | null>(null);
-	let calendar_visible = $state(false);
+	let active_descendant = $state<string | null>(null);
+	let calendar = $state<ReturnType<typeof Calendar>>()
 	let focused = $state(false);
 	let field_element = $state<HTMLElement>();
 	let field_input_element = $state<HTMLElement>();
+	let menu_id = $derived(`${id}_menu`);
+	let menu_visible = $state(false);
 	let text_field = $state<ReturnType<typeof TextField>>();
 	let input_proxy = input_value_proxy(
 		() => selected_date,
@@ -50,42 +53,26 @@
 	bind:focused
 	bind:value={input_proxy.value}
 	{...text_field_props}
-	aria_activedescendant={calendar_active_id}
-	aria_expanded={calendar_visible}
-	aria_haspopup="listbox"
+	{id}
+	aria_activedescendant={calendar && active_descendant}
+	aria_controls={calendar && menu_id}
+	aria_expanded={calendar && menu_visible}
+	aria_haspopup={calendar && 'menu'}
 	readonly={readonly || device.mobile}
 	role="combobox"
 	type="text"
 	onclick={() => {
 		if (focused || device.mobile)
-			calendar_visible = true;
-	}}
-	onkeydown={event => {
-		if (calendar_visible) {
-			switch (event.key) {
-				case 'Escape':
-					calendar_visible = false;
-					break;
-		  	}
-		}
-		else {
-			switch (event.key) {
-				case 'ArrowDown':
-				case 'ArrowUp':
-					calendar_visible = true;
-					event.preventDefault();
-					break;
-			}
-		}
+			menu_visible = true;
 	}}
 	on_clear={() => {
 		selected_date = null;
 	}}
 	on_focus_in={() => {
-		calendar_visible = true;
+		menu_visible = true;
 	}}
 	on_focus_out={() => {
-		calendar_visible = false;
+		menu_visible = false;
 		input_proxy.value = selected_date
 			? get_date_only_key(selected_date)
 			: '';
@@ -95,24 +82,15 @@
 		<CalendarIcon />
 	{/snippet}
 
-	<Menu
-		bind:visible={calendar_visible}
-		anchor={field_input_element!}
-		modal={device.mobile}
-		on_open={() => {
-			calendar?.reset({ selected_date });
-		}}
-	>
-		<Calendar
-			bind:this={calendar}
-			bind:active_date_id={calendar_active_id}
-			{selected_date}
-			focusable={false}
-			keyboard_capture={calendar_visible ? field_input_element : undefined}
-			on_select={date => {
-				selected_date = date;
-				calendar_visible = false;
-			}}
+	{#if !readonly}
+		<CalendarMenu
+			bind:active_descendant
+			bind:calendar
+			bind:selected_date
+			bind:visible={menu_visible}
+			anchor={field_input_element!}
+			keyboard_capture={field_input_element}
+			modal={device.mobile}
 		/>
-	</Menu>
+	{/if}
 </TextField>

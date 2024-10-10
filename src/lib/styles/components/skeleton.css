@@ -1,4 +1,5 @@
-.skeleton {
+/* Increase specificity */
+.skeleton.skeleton.skeleton {
 	animation: skeleton 1.8s ease-in-out infinite;
 	/* background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 5%); */
 	background-color: var(--skeleton__background);

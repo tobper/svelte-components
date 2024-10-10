@@ -3,6 +3,7 @@
 	--palette__primary-base: #ea861a;
 	--palette__secondary-base: #06b6d4;
 	--palette__tertiary-base: #97cea5;
+	--palette__variant-add-base: oklch(77% 0.125 140);
 	--palette__variant-delete-base: oklch(77% 0.15 20);
 
 	/* Green */
@@ -15,6 +16,7 @@
 	/* Blue */
 	--palette__primary-base: #a8bef1;
 	--palette__secondary-base: #d9ba86;
+	--palette__tertiary-base: #83cfc8;
 	--palette__background-dark: #282c34;
 	--palette__background-light: hsl(from var(--palette__background-dark) h s 90);
 }
@@ -30,6 +32,7 @@
 
 	--palette__background: var(--palette__background-light);
 	--palette__text: #333;
+	--palette__text--contrast: color-mix(in lab, var(--palette__text), var(--palette__scheme) 30%);
 	--palette__text--inactive: #666;
 
 	--palette__primary-background: oklch(from var(--palette__primary-base) calc(l - .15) c h);
@@ -43,6 +46,10 @@
 	--palette__tertiary-background: oklch(from var(--palette__tertiary-base) calc(l - .15) c h);
 	--palette__tertiary-color: oklch(from var(--palette__tertiary-base) calc(l - .2) c h);
 	--palette__tertiary-color--bright: oklch(from var(--palette__tertiary-color) calc(l + (1 - l) * .8) calc(c * 0.15) h);
+
+	--palette__variant-add-background: oklch(from var(--palette__variant-add-base) calc(l - .15) c h);
+	--palette__variant-add-color: oklch(from var(--palette__variant-add-base) calc(l - .2) c h);
+	--palette__variant-add-color--bright: oklch(from var(--palette__variant-add-color) calc(l + (1 - l) * .8) calc(c * 0.15) h);
 
 	--palette__variant-delete-background: oklch(from var(--palette__variant-delete-base) calc(l - .15) c h);
 	--palette__variant-delete-color: oklch(from var(--palette__variant-delete-base) calc(l - .2) c h);
@@ -63,6 +70,7 @@
 
 	--palette__background: var(--palette__background-dark);
 	--palette__text: #eee;
+	--palette__text--contrast: color-mix(in lab, var(--palette__text), var(--palette__scheme) 20%);
 	--palette__text--inactive: #999;
 
 	--palette__primary-background: oklch(from var(--palette__primary-base) calc(l - .23) calc(c *.6) h);
@@ -76,6 +84,10 @@
 	--palette__tertiary-background: oklch(from var(--palette__tertiary-base) calc(l - .22) calc(c * .6) h);
 	--palette__tertiary-color: oklch(from var(--palette__tertiary-base) l calc(c * .7) h);
 	--palette__tertiary-color--bright: oklch(from var(--palette__tertiary-base) calc(l * .7) calc(c * .4) h);
+
+	--palette__variant-add-background: oklch(from var(--palette__variant-add-base) calc(l - .22) calc(c * .6) h);
+	--palette__variant-add-color: oklch(from var(--palette__variant-add-base) l calc(c * .7) h);
+	--palette__variant-add-color--bright: oklch(from var(--palette__variant-add-base) calc(l * .7) calc(c * .4) h);
 
 	--palette__variant-delete-background: oklch(from var(--palette__variant-delete-base) calc(l - .22) calc(c * .6) h);
 	--palette__variant-delete-color: oklch(from var(--palette__variant-delete-base) l calc(c * .7) h);
@@ -117,6 +129,12 @@
 	--palette__accent-background: var(--palette__tertiary-background);
 }
 
+.variant-add {
+	--palette__accent-color: var(--palette__variant-add-color);
+	--palette__accent-color--bright: var(--palette__variant-add-color--bright);
+	--palette__accent-background: var(--palette__variant-add-background);
+}
+
 .variant-delete {
 	--palette__accent-color: var(--palette__variant-delete-color);
 	--palette__accent-color--bright: var(--palette__variant-delete-color--bright);
@@ -127,6 +145,7 @@
 .variant-primary,
 .variant-secondary,
 .variant-tertiary,
+.variant-add,
 .variant-delete {
 	--palette__accent-contrast: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 40%);
 	--palette__accent-scheme: color-mix(in lab, var(--palette__accent-color), var(--palette__scheme) 70%);

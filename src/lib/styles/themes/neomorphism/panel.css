@@ -30,7 +30,7 @@
 		color: var(--palette__text);
 		box-shadow: var(--panel__shadow);
 
-		.contrast {
+		:where(&) .contrast {
 			background-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
 		}
 	}

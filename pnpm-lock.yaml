@@ -34,8 +34,8 @@ importers:
         specifier: ^3.17.0
         version: 3.17.0(svelte@5.0.0-next.246)
       '@tobper/eon':
-        specifier: ^0.0.8
-        version: 0.0.8
+        specifier: ^0.0.10
+        version: 0.0.10
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -626,8 +626,8 @@ packages:
   '@tabler/icons@3.17.0':
     resolution: {integrity: sha512-sCSfAQ0w93KSnSL7tS08n73CdIKpuHP8foeLMWgDKiZaCs8ZE//N3ytazCk651ZtruTtByI3b+ZDj7nRf+hHvA==}
 
-  '@tobper/eon@0.0.8':
-    resolution: {integrity: sha512-rz3HzNDaErBN/4uniwxtOSJelr99l+okZ71G2zUpWAcJ+DSFS8V5vgOjajpWrBJa73FtxHhv2xpwOFdw8Fyb1g==, tarball: https://npm.pkg.github.com/download/@tobper/eon/0.0.8/ce6b59c02110de70107eaece0f5a5552f780a453}
+  '@tobper/eon@0.0.10':
+    resolution: {integrity: sha512-jcEHGI3GAP3AbY3mmkwd4eJy07tdQPOciU4Np6RYDg7TQxsJwCZvN8pnl7dODpdXRch2E293hPTiorpW+n0DSA==, tarball: https://npm.pkg.github.com/download/@tobper/eon/0.0.10/6a2dedf3c241db33f682b9f5dee0a2d480db0ff1}
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -2164,7 +2164,7 @@ snapshots:
 
   '@tabler/icons@3.17.0': {}
 
-  '@tobper/eon@0.0.8': {}
+  '@tobper/eon@0.0.10': {}
 
   '@types/cookie@0.6.0': {}
 

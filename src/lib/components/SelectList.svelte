@@ -22,7 +22,7 @@
 		 * The id of the currently activated item.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_item_id?: string | null;
+		active_descendant?: string | null;
 		/**
 		 * A string value that labels the interactive list.
 		 */
@@ -74,11 +74,16 @@
 		/**
 		 * Callback is called when an option is selected.
 		 */
-		on_select?: (option: Option) => void;
+		on_select?: (option: Option | null) => void;
+	}
+
+	export function activate_item_starting_with(value: string) {
+		const item = normalized_lookup.find(value) ?? null;
+		activate(item);
 	}
 
 	let {
-		active_item_id = $bindable(null),
+		active_descendant = $bindable(null),
 		empty_text,
 		focusable = true,
 		id = $bindable(unique_id()),
@@ -91,11 +96,6 @@
 		on_select,
 		...list_props
 	}: SelectList = $props();
-
-	export function activate_item_starting_with(value: string) {
-		const item = normalized_lookup.find(value) ?? null;
-		activate(item);
-	}
 
 	let list: ReturnType<typeof List>;
 	let grouped_items = $derived(
@@ -121,8 +121,8 @@
 		if (!focusable)
 			return;
 
-		const active_button = active_item_id
-			? get_optional_button_element(`#${active_item_id} > button`)
+		const active_button = active_descendant
+			? get_optional_button_element(`#${active_descendant} > button`)
 			: null;
 
 		if (active_button)
@@ -147,8 +147,8 @@
 		if (sorted_items.length === 0)
 			return null;
 
-		if (active_item_id)
-			return sorted_items.findIndex(item => item.id === active_item_id);
+		if (active_descendant)
+			return sorted_items.findIndex(item => item.id === active_descendant);
 		else if (selected_value)
 			return sorted_items.findIndex(item => item.value === selected_value);
 		else
@@ -166,37 +166,61 @@
 
 	// Handlers
 
-	const key_down_handlers = new Map([
-		['ArrowUp', activate_previous_item],
-		['ArrowDown', activate_next_item],
-		['Home', activate_first_item],
-		['End', activate_last_item],
-		['PageDown', activate_previous_page],
-		['PageUp', activate_next_page],
-		['Escape', deactivate],
-		['Tab', select_active],
-	]);
-
 	function handle_key_down(event: KeyboardEvent) {
-		const handler = key_down_handlers.get(event.key);
-		if (!handler)
-			return;
-		
-		if (event.key !== 'Tab')
-			event.preventDefault();
+		switch (event.key) {
+			case 'ArrowUp':
+				activate_previous_item();
+				event.preventDefault();
+				break;
 
-		handler();
+			case 'ArrowDown':
+				activate_next_item();
+				event.preventDefault();
+				break;
+
+			case 'Home':
+				activate_first_item();
+				event.preventDefault();
+				break;
+
+			case 'End':
+				activate_last_item();
+				event.preventDefault();
+				break;
+
+			case 'PageDown':
+				activate_previous_page();
+				event.preventDefault();
+				break;
+
+			case 'PageUp':
+				activate_next_page();
+				event.preventDefault();
+				break;
+
+			case 'Escape':
+				if (active_descendant) {
+					deactivate();
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
+
+			case 'Tab':
+				select_active_option();
+				break;
+		}
 	}
 
 
 	// Activate
 
 	function activate(item: ListItem | null) {
-		active_item_id = item ? item.id : null;
+		active_descendant = item ? item.id : null;
 		focus_relevant_element();
 
-		if (active_item_id)
-			scroll_into_view(active_item_id);
+		if (active_descendant)
+			scroll_into_view(active_descendant);
 	}
 
 	function activate_next_item() {
@@ -232,18 +256,21 @@
 
 	// Select
 
-	function select(item: ListItem) {
-		selected_value = item.value;
-		on_select?.(item.option);
+	function select(item: ListItem | null) {
+		selected_value = item ? item.value : null;
+		on_select?.(item ? item.option : null);
 	}
 
-	function select_active() {
+	export function select_active_option() {
 		const item =
-			active_item_id &&
-			sorted_items.find(item => item.id === active_item_id);
+			active_descendant &&
+			sorted_items.find(item => item.id === active_descendant);
 
-		if (item)
-			select(item);
+		if (!item)
+			return false;
+
+		select(item);
+		return true;
 	}
 
 	// https://stackoverflow.com/a/52171480
@@ -266,9 +293,9 @@
 <List
 	bind:this={list}
 	{...list_props}
-	{active_item_id}
-	{id}
+	{active_descendant}
 	{focusable}
+	{id}
 	onkeydown={handle_key_down}
 >
 	{#each grouped_items as { heading, items }, i}
@@ -285,10 +312,10 @@
 		{#each items as item}
 			<ListItemOption
 				id={item.id}
-				current={item.id === active_item_id}
+				current={item.id === active_descendant}
 				selected={item.value === selected_value}
 				onclick={() => {
-					active_item_id = item.id;
+					active_descendant = item.id;
 
 					if (selected_value !== item.value)
 						select(item);

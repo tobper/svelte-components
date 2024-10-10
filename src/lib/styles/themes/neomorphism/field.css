@@ -63,7 +63,6 @@
 
 	.field-content {
 		/* Layout */
-		height: 3rem;
 		border-radius: .25rem;
 		color: var(--palette__accent-contrast);
 

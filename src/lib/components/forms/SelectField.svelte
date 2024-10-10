@@ -3,8 +3,8 @@
 	import { device } from '../../device.js';
 	import { async_value } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
-	import Menu from '../Menu.svelte';
 	import SelectList from '../SelectList.svelte';
+	import SelectMenu from '../SelectMenu.svelte';
 	import TextField from './TextField.svelte';
 
 	type SelectListProps = ComponentProps<typeof SelectList>;
@@ -20,7 +20,7 @@
 		 * Callback is called for each option to determine the label of the option.
 		 * @default No header
 		 */
-		 options_heading?: (option: Option) => string;
+		options_heading?: (option: Option) => string;
 		/**
 		 * Callback is called for each option to determine the label of the option.
 		 * @default Same as value.
@@ -58,7 +58,6 @@
 
 	let {
 		class_menu,
-		disabled,
 		empty_text,
 		id = $bindable(unique_id()),
 		name,
@@ -82,13 +81,11 @@
 
 	const async_options = async_value<Array<Option>>([]);
 
-	let active_id = $state<string>();
+	let active_descendant = $state<string | null>(null);
 	let field_element = $state<HTMLElement>();
 	let field_input_element = $state<HTMLElement>();
 	let focused = $state(false);
 	let list = $state<ReturnType<typeof SelectList>>();
-	let list_id = $derived(`${id}_list`);
-	let menu = $state<ReturnType<typeof Menu>>();
 	let menu_id = $derived(`${id}_menu`);
 	let menu_visible = $state(false);
 	let modal = $derived(device.mobile && type === 'select' && Array.isArray(options_source));
@@ -125,36 +122,22 @@
 	bind:focused
 	bind:value={field_proxy.value}
 	{...text_field_Props}
-	{disabled}
 	{id}
-	aria_activedescendant={menu && active_id}
-	aria_autocomplete={menu && 'list'}
-	aria_controls={menu && menu_id}
-	aria_expanded={menu && menu_visible}
-	aria_haspopup={menu && 'menu'}
+	aria_activedescendant={list && active_descendant}
+	aria_autocomplete={list && 'list'}
+	aria_controls={list && menu_id}
+	aria_expanded={list && menu_visible}
+	aria_haspopup={list && 'menu'}
 	name={name}
 	loading={async_options.loading}
 	readonly={readonly || modal}
-	role={menu && 'combobox'}
+	role={list && 'combobox'}
 	onclick={() => {
 		if (focused)
 			menu_visible = true;
 	}}
 	oninput={({ currentTarget: input }) => {
 		list?.activate_item_starting_with(input.value);
-	}}
-	onkeydown={event => {
-		switch (event.key) {
-			case 'ArrowDown':
-			case 'ArrowUp':
-				menu_visible = true;
-				event.preventDefault();
-				break;
-
-			case 'Escape':
-				menu_visible = false;
-				break;
-		}
 	}}
 	on_clear={() => {
 		on_clear?.();
@@ -164,6 +147,8 @@
 		load(selected_value ?? '');
 	}}
 	on_focus_out={() => {
+		menu_visible = false
+
 		const valid =
 			type === 'autocomplete' ||
 			async_options.loaded && options.some(option => options_value(option) === selected_value);
@@ -172,37 +157,29 @@
 			selected_value = '';
 			on_clear?.();
 		}
-	
-		active_id = undefined
-		menu_visible = false
 	}}
 >
-	{#if !disabled && !readonly && options.length > 0}
-		<Menu
-			bind:this={menu}
+	{#if !readonly && options.length > 0}
+		<SelectMenu
+			bind:active_descendant
+			bind:list
+			bind:value={selected_value}
 			bind:visible={menu_visible}
+			{empty_text}
 			{modal}
+			{options}
+			{options_heading}
+			{options_label}
+			{options_value}
 			anchor={field_element!}
 			class={class_menu}
 			id={menu_id}
-		>
-			<SelectList
-				bind:this={list}
-				bind:value={selected_value}
-				{empty_text}
-				{options}
-				{options_heading}
-				{options_label}
-				{options_value}
-				focusable={false}
-				id={list_id}
-				keyboard_capture={menu_visible ? field_input_element : undefined}
-				on_select={option => {
-					selected_value = options_value(option);
-					menu_visible = false;
-					on_select?.(option);
-				}}
-			/>
-		</Menu>
+			keyboard_capture={field_input_element}
+			on_select={option => {
+				selected_value = option ? options_value(option) : null;
+				menu_visible = false;
+				on_select?.(option);
+			}}
+		/>
 	{/if}
 </TextField>

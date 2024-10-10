@@ -89,6 +89,9 @@
 	{method}
 	{action}
 	class={class_name}
+	class:form--in_progress={loading || submitting}
+	class:form--loading={loading}
+	class:form--submitting={submitting}
 	use:enhance={
 		function prepare_request() {
 			error = null;

@@ -10,11 +10,6 @@
 		/* Layout */
 		height: var(--button__height);
 
-		/* Appearance */
-		transition:
-			background ease-out var(--transition__duration--instant),
-			color ease-out var(--transition__duration--instant);
-
 		/* Interaction */
 		padding-block: 1px;
 
@@ -34,10 +29,6 @@
 		/* Disabled */
 		&:is([aria-disabled], :has(:disabled)) {
 			--button-shadow: 0 .75px 1.5px rgb(0 0 0 / 20%);
-
-			/* color: var(--palette__neutral); */
-			filter: grayscale(100%);
-			opacity: 60%;
 		}
 	}
 
@@ -119,11 +110,18 @@
 		color: var(--palette__accent-color);
 		box-shadow: var(--button__focus-shadow, 0 0 #0000);
 
+		.button-text:has(+ .button-icon) {
+			color: var(--palette__text);
+		}
+
 		/* Hover */
 		&.button--hover,
 		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			background: oklch(from var(--palette__contrast) l c h / 7%);
-			color: var(--palette__accent-contrast);
+			color: color-mix(in lab, var(--palette__accent-color), var(--palette__scheme) 20%);
+
+			.button-text:has(+ .button-icon) {
+				color: var(--palette__text--contrast);
+			}
 		}
 	}
 

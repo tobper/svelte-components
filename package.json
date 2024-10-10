@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.0.21",
+	"version": "0.0.22",
 	"description": "Svelte components",
 	"author": "Tobias Persson",
 	"repository": "github:tobper/svelte-components",
@@ -40,7 +40,7 @@
 		"@sveltejs/package": "^2.3.5",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0-next.7",
 		"@tabler/icons-svelte": "^3.17.0",
-		"@tobper/eon": "^0.0.8",
+		"@tobper/eon": "^0.0.10",
 		"@types/eslint": "^9.6.1",
 		"@types/ua-parser-js": "^0.7.39",
 		"cspell": "^8.14.4",

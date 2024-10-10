@@ -23,16 +23,15 @@
 			transition: width var(--transition__duration--fast) ease-out var(--transition-delay);
 		}
 
-		&:has(input[readonly]:not([aria-haspopup]))::before {
-			width: 0;
+		.form--in_progress & {
+			&::before {
+				width: 0;
+			}
 		}
 	}
 
 	.field-input {
-		padding-block: 0.25rem;
-
 		input {
-			line-height: 2;
 			transition: color var(--transition__duration--fast) ease-out var(--transition-delay);
 		}
 	}

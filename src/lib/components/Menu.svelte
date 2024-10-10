@@ -18,6 +18,7 @@
 		children: Snippet;
 		on_open?: () => void;
 		on_close?: () => void;
+		onkeydown?: HTMLDialogAttributes['onkeydown'];
 		onmouseover?: HTMLDialogAttributes['onmouseover'];
 		onmouseout?: HTMLDialogAttributes['onmouseout'];
 	}
@@ -80,6 +81,13 @@
 	onclose={() => {
 		visible = false;
 		on_close?.();
+	}}
+	onkeydown={event => {
+		switch (event.key) {
+			case 'Escape':
+				visible = false;
+				break;
+		}
 	}}
 >
 	{@render children()}

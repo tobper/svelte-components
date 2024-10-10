@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, CheckButton, CurrencyField, DateField, Form, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendar, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
 	import { food, fruits, get_food_heading } from './data.js';
@@ -9,6 +9,7 @@
 	let auto_complete_value = $state<string | null>(null);
 	let currency_value = $state<number | null>(null);
 	let date_value = $state<DateOnly | null>(null);
+	let dates_value = $state<DateOnly[]>([]);
 </script>
 
 <article class="page-content" id="form">
@@ -41,6 +42,10 @@
 				<div class="field">
 					<DateField bind:value={date_value} label="Date" required />
 					<output>Value: {date_value === null ? 'null' : get_date_only_key(date_value)}</output>
+				</div>
+				<div class="field">
+					<DateListField bind:dates={dates_value} label="Date list" required />
+					<output>Value: {dates_value.map(get_date_only_key).join(', ')}</output>
 				</div>
 				<div class="field">
 					<SelectField
@@ -76,6 +81,7 @@
 			<div class="fields">
 				<TextField label="Name" loading placeholder="Placeholder" required />
 				<TextField label="Category" />
+				<DateListField label="Date list" required />
 				<SelectField
 					label="Select"
 					options={food}

@@ -38,7 +38,7 @@
 		 * The id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_date_id?: string | null;
+		active_descendant?: string | null;
 		/**
 		 * Extra class to add to the calendar.
 		 */
@@ -71,14 +71,14 @@
 		on_select?: (new_date: DateOnly | null) => void;
 	}
 
-	export function reset(options: {
+	export function reset(options?: {
 		period?: Calendar['period'];
 		selected_date?: Calendar['selected_date'];
 	}) {
-		if (options.period !== undefined)
+		if (options?.period !== undefined)
 			selected_period = options.period;
 
-		if (options.selected_date !== undefined)
+		if (options?.selected_date !== undefined)
 			selected_date = options.selected_date;
 
 		active_date = selected_date;
@@ -91,8 +91,8 @@
 		// Allow possible new period to be rendered first
 		await tick();
 
-		const active_button = active_date_id
-			? get_optional_button_element(`#${active_date_id} > button`)
+		const active_button = active_descendant
+			? get_optional_button_element(`#${active_descendant} > button`)
 			: null;
 
 		if (active_button)
@@ -105,7 +105,7 @@
 
 	let {
 		id = $bindable(unique_id()),
-		active_date_id = $bindable(null),
+		active_descendant = $bindable(null),
 		class: calendar_class,
 		focusable = true,
 		keyboard_capture,
@@ -145,28 +145,71 @@
 
 	// Handlers
 
-	const key_down_handlers = new Map<string, (modifier: boolean) => void>([
-	  ['ArrowLeft', modifier => modifier ? activate_previous_month() : activate_previous_day()],
-	  ['ArrowRight', modifier => modifier ? activate_next_month() : activate_next_day()],
-	  ['ArrowUp', modifier => modifier ? activate_previous_month() : activate_previous_week()],
-	  ['ArrowDown', modifier => modifier ? activate_next_month() : activate_next_week()],
-	  ['Home', () => activate_first_of_month()],
-	  ['End', () => activate_last_of_month()],
-	  ['Enter', () => !focusable && select_active_date()],
-	  ['Tab', select_active_date],
-	  ['Escape', () => activate(null)],
-	]);
-
 	function handle_key_down(event: KeyboardEvent) { 
-		const handler = key_down_handlers.get(event.key);
-		if (!handler)
-			return;
-
-		if (event.key !== 'Tab')
-			event.preventDefault();
-
 		const modifier = event.ctrlKey;
-		handler(modifier);
+
+		switch (event.key) {
+			case 'ArrowLeft':
+				if (modifier)
+					activate_previous_month();
+				else
+					activate_previous_day();
+				event.preventDefault();
+				break;
+
+			case 'ArrowRight':
+				if (modifier)
+					activate_next_month();
+				else
+					activate_next_day();
+				event.preventDefault();
+				break;
+
+			case 'ArrowUp':
+				if (modifier)
+					activate_previous_month();
+				else
+					activate_previous_week();
+				event.preventDefault();
+				break;
+
+			case 'ArrowDown':
+				if (modifier)
+					activate_next_month();
+				else
+					activate_next_week();
+				event.preventDefault();
+				break;
+
+			case 'Home':
+				activate_first_of_month();
+				event.preventDefault();
+				break;
+
+			case 'End':
+				activate_last_of_month();
+				event.preventDefault();
+				break;
+
+			case 'Enter':
+				if (!focusable) {
+					select_active_date();
+					event.preventDefault();
+				}
+				break;
+
+			case 'Escape':
+				if (active_descendant) {
+					deactivate();
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
+
+			case 'Tab':
+				select_active_date();
+				break;
+		}
 	}
 
 
@@ -185,7 +228,7 @@
 
 	function activate(new_date: DateOnly | null) {
 		active_date = new_date;
-		active_date_id = active_date && get_item_id(active_date);
+		active_descendant = active_date && get_item_id(active_date);
 
 		if (active_date && !period_contains_date(active_period, active_date))
 			selected_period = get_period_for_date(active_date, period_first_day);
@@ -231,6 +274,10 @@
 		activate(active_period.last_day);
 	}
 
+	function deactivate() {
+		activate(null);
+	}
+
 	// Selected date
 	
 	function select_date(date_to_select: DateOnly | null) {
@@ -250,8 +297,8 @@
 >
 	<List
 		bind:this={list}
+		{active_descendant}
 		{focusable}
-		active_item_id={active_date_id}
 		aria_label="Calendar dates"
 		onkeydown={handle_key_down}
 	>

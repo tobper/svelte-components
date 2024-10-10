@@ -17,6 +17,8 @@
 	--button__border-radius: 5px;
 
 	--field-label__color: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 50%);
+	--field-content__min-height: 2.5rem;
+	--field-input__padding-block: .25rem;
 	--field-input-line__color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 30%);
 
 	--h1__color: var(--palette__accent-color);

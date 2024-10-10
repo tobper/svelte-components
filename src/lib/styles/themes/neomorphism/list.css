@@ -1,8 +1,14 @@
 :where(.theme-neomorphism) {
 	.list {
+		--list__shadow--focus: 0 0 1px 1px var(--palette__accent-color);
+
+		.device-mobile & {
+			--list__shadow--focus: unset;
+		}
+	
 		/* Focus */
 		&:focus-visible {
-			box-shadow: 0 0 1px 1px var(--palette__accent-color);
+			box-shadow: var(--list__shadow--focus);
 		}
 	}
 }

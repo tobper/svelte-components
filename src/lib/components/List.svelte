@@ -23,7 +23,7 @@
 	import { unique_id } from '../unique_id.js';
 
 	interface List {
-		active_item_id?: string | null;
+		active_descendant?: string | null;
 		aria_label?: HTMLOlAttributes['aria-label'];
 		children: Snippet;
 		class?: string;
@@ -43,7 +43,7 @@
 	}
 
 	let {
-		active_item_id = null,
+		active_descendant = null,
 		aria_label,
 		children,
 		class: list_class,
@@ -62,11 +62,11 @@
 	bind:this={element}
 	{...list_props}
 	{id}
-	aria-activedescendant={active_item_id}
+	aria-activedescendant={active_descendant}
 	aria-label={aria_label}
 	class={classes('list variant-primary', list_class)}
 	role="listbox"
-	tabindex={focusable && !active_item_id ? 0 : -1}
+	tabindex={focusable ? (active_descendant ? -1 : 0) : undefined}
 >
 	{@render children()}
 </ol>
