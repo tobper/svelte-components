@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { get_date_only_key, is_same_date, try_parse_date_only, type DateOnly } from '@tobper/eon';
 	import { device } from '../../device.js';
-	import { unique_id } from '../../unique_id.js';
-	import Button from '../Button.svelte';
 	import Calendar from '../Calendar.svelte';
 	import CalendarIcon from '../icons/CalendarIcon.svelte';
 	import Menu from '../Menu.svelte';
@@ -22,8 +20,6 @@
 		required?: boolean;
 		value?: DateOnly | null;
 	}
-
-	const menu_trigger_id = unique_id();
 
 	let {
 		readonly = false,
@@ -95,26 +91,14 @@
 			: '';
 	}}
 >
-	{#snippet suffix()}
-		<Button
-			id={menu_trigger_id}
-			focusable={false}
-			type="plain"
-			onclick={() => {
-				text_field?.focus();
-			}}
-		>
-			{#snippet icon()}
-				<CalendarIcon />
-			{/snippet}
-		</Button>
+	{#snippet icon()}
+		<CalendarIcon />
 	{/snippet}
 
 	<Menu
 		bind:visible={calendar_visible}
 		anchor={field_input_element!}
 		modal={device.mobile}
-		trigger={menu_trigger_id}
 		on_open={() => {
 			calendar?.reset({ selected_date });
 		}}
