@@ -76,6 +76,13 @@
 			<div class="fields">
 				<TextField label="Name" loading placeholder="Placeholder" required />
 				<TextField label="Category" />
+				<SelectField
+					label="Select"
+					options={food}
+					options_heading={get_food_heading}
+					options_value={option => option.name}
+					type="select"
+				/>
 			</div>
 
 			{#snippet footer({ loading, submitting })}

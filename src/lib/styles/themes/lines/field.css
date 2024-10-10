@@ -32,7 +32,7 @@
 			transition: width var(--transition__duration--fast) ease-out var(--transition-delay);
 		}
 
-		&:has(input[readonly])::before {
+		&:has(input[readonly]:not([aria-haspopup]))::before {
 			width: 0;
 		}
 	}

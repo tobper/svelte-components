@@ -31,7 +31,8 @@
 			"filename": "*.css",
 			"words": [
 				"combobox",
-				"datetime"
+				"datetime",
+				"haspopup"
 			]
 		},
 		{

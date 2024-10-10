@@ -132,7 +132,7 @@
 			{/if}
 		</div>
 
-		{#if children}
+		{#if children && !in_progress}
 			<div bind:this={children_element}>
 				{@render children()}
 			</div>
