@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
+	import { type Snippet } from 'svelte';
 	import type { HTMLDialogAttributes } from 'svelte/elements';
 	import { classes } from '../classes.js';
 	import { get_style, set_style } from '../css.js';
@@ -39,11 +39,12 @@
 	let anchor_name = $state<string>();
 	let dialog = $state<HTMLDialogElement>();
 
-	onMount(() => {
+	$effect(() => {
 		const anchor_element = get_element(anchor);
-		const existing_anchor_name = get_style(anchor_element, 'anchor-name');
 
-		if (!existing_anchor_name.startsWith('--')) {
+		anchor_name = get_style(anchor_element, 'anchor-name');
+
+		if (!anchor_name.startsWith('--')) {
 			anchor_name = `--${unique_id()}`;
 			set_style(anchor_element, 'anchor-name', anchor_name);
 		}
