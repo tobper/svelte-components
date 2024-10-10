@@ -41,10 +41,9 @@
 
 	$effect(() => {
 		const anchor_element = get_element(anchor);
-
 		anchor_name = get_style(anchor_element, 'anchor-name');
 
-		if (!anchor_name.startsWith('--')) {
+		if (anchor_name === 'none') {
 			anchor_name = `--${unique_id()}`;
 			set_style(anchor_element, 'anchor-name', anchor_name);
 		}
@@ -91,5 +90,5 @@
 }} />
 
 {#if !anchoring_supported}
-	<AnchorPlugin {anchor} {visible} anchored={dialog} />
+	<AnchorPlugin {anchor} anchored={dialog} />
 {/if}

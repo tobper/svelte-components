@@ -177,11 +177,12 @@
 		}}
 		onfocusout={event => {
 			const { relatedTarget } = event;
-			const children_focused =
+			const input_or_children_focused =
 				relatedTarget instanceof Element &&
-				children_element?.contains(relatedTarget);
+				(field_input_element!.contains(relatedTarget) || children_element!.contains(relatedTarget));
 
-			if (children_focused) {
+			if (input_or_children_focused) {
+				// Reset focus to input element
 				focus();
 			}
 			else if (focused) {

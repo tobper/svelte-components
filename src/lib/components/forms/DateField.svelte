@@ -101,7 +101,6 @@
 			focusable={false}
 			type="plain"
 			onclick={() => {
-				calendar_visible = true;
 				text_field?.focus();
 			}}
 		>
