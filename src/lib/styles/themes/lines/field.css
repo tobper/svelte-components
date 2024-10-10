@@ -6,16 +6,7 @@
 		max-width: max-content;
 	}
 
-	.field-input {
-		.field-input-text {
-			padding-block: 0.25rem;
-		}
-
-		input {
-			line-height: 2;
-			transition: color var(--transition__duration--fast) ease-out var(--transition-delay);
-		}
-
+	.field-content {
 		position: relative;
 
 		&::before {
@@ -34,6 +25,15 @@
 
 		&:has(input[readonly]:not([aria-haspopup]))::before {
 			width: 0;
+		}
+	}
+
+	.field-input {
+		padding-block: 0.25rem;
+
+		input {
+			line-height: 2;
+			transition: color var(--transition__duration--fast) ease-out var(--transition-delay);
 		}
 	}
 }

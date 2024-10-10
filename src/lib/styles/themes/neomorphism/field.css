@@ -61,23 +61,21 @@
 		}
 	}
 
-	.field {
-		.field-input {
-			/* Layout */
-			height: 3rem;
-			border-radius: .25rem;
-			color: var(--palette__accent-contrast);
+	.field-content {
+		/* Layout */
+		height: 3rem;
+		border-radius: .25rem;
+		color: var(--palette__accent-contrast);
 
-			button {
-				margin: .25rem;
-				border-radius: .15rem;
-			}
+		button {
+			margin: .25rem;
+			border-radius: .15rem;
 		}
+	}
 
-		.field-input-text {
-			--field-input__padding-left: .75rem;
-			--field-input__padding-right: .75rem;
-		}	
+	.field-input {
+		--field-input__padding-left: .75rem;
+		--field-input__padding-right: .75rem;
 
 		input[type=checkbox] {
 			/* Margins + checkbox height of (1.25rem) should match height (3rem) of input-fields */
@@ -88,8 +86,8 @@
 
 	/* Animation */
 	.field-clear,
-	.field-input,
-	.field-input > .icon {
+	.field-content,
+	.field-content > .icon {
 		transition-property: color, background-color, border-color, box-shadow, opacity;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		transition-duration: var(--field__transition-duration);
@@ -97,7 +95,7 @@
 
 	/* Background */
 	.checkbox,
-	.field-input {
+	.field-content {
 		background-color: var(--field__background);
 		background-image: linear-gradient(
 			to bottom,
@@ -117,7 +115,7 @@
 
 	/* Focus */
 	[type=checkbox]:focus-visible,
-	.field:has(input:focus-visible) .field-input {
+	.field:has(input:focus-visible) .field-content {
 		.not-mobile & {
 			--field__shadow--focused: var(--focus__shadow);
 		}

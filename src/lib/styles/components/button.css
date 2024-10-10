@@ -12,6 +12,9 @@
 	/* Layout */
 	padding-inline: var(--space);
 
+	/* Appearance */
+	border-radius: var(--button__border-radius);
+
 	/* Content */
 	display: inline-flex;
 	align-items: center;
@@ -20,10 +23,10 @@
 
 	.button-icon {
 		display: flex;
+	}
 
-		svg {
-			width: 1.5rem;
-		}
+	svg {
+		width: 1.5rem;
 	}
 
 	/* Hide overflow, for instance when rotating content in check buttons */
@@ -46,38 +49,29 @@
 	&:is([aria-disabled], :has(:disabled)) {
 		cursor: not-allowed;
 	}
+}
 
-	/* Round button */
-	&.button--round {
-		border-radius: 99px;
-		aspect-ratio: 1;
-		padding-inline: 0;
-	
-		/* Ensure button doesn't grow horizontally */
-		overflow: hidden;
+/*
+	Variants
+*/
+.button--round {
+	--button__border-radius: 99px;
 
-		.button-border rect {
-			display: none;
-		}
-	}
+	aspect-ratio: 1;
+	padding-inline: 0;
 
-	/* Square button */
-	&:not(.button--round) {
-		.button-border circle {
-			display: none;
-		}
-	}
+	/* Ensure button doesn't grow horizontally */
+	overflow: hidden;
+}
 
-	/* Small button */
-	&.button--small {
-		/* Text */
-		font-size: .875rem;
+.button--small {
+	/* Text */
+	font-size: .875rem;
 
-		/* Content */
-		padding-inline: var(--space__medium);
+	/* Content */
+	padding-inline: var(--space__medium);
 
-		.button-icon svg {
-			width: 1.25rem;
-		}
+	svg {
+		width: 1.25rem;
 	}
 }

@@ -115,12 +115,12 @@
 	class={field_class}	
 >
 	{#snippet content({ content_id, error_text, loading, in_progress })}
-		<div bind:this={field_input_element} class="field-input">
+		<div bind:this={field_input_element} class="field-content">
 			{#if prefix}
 				{@render prefix()}
 			{/if}
 
-			<div class="field-input-text" class:skeleton={loading}>
+			<div class="field-input" class:skeleton={loading}>
 				{@render input(content_id, error_text, in_progress)}
 				{@render clear_button()}
 				{@render field_icon()}
