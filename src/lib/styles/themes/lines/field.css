@@ -3,7 +3,6 @@
 		color: var(--field-label__color);
 		font-size: small;
 		font-weight: bold;
-		max-width: max-content;
 	}
 
 	.field-content {

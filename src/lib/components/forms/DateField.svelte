@@ -78,7 +78,7 @@
 			: '';
 	}}
 >
-	{#snippet icon()}
+	{#snippet suffix_icon()}
 		<CalendarIcon />
 	{/snippet}
 

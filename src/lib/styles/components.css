@@ -64,7 +64,7 @@
 
 	--menu__backdrop-blur: 1px;
 
-	--skeleton__border-radius: 0.2rem;
+	--skeleton__border-radius: 1.5rem;
 	--skeleton__background: oklch(from var(--palette__background) calc(l - .03) c h);
 
 	--table__padding-left: var(--table-cell__padding-x);

@@ -93,8 +93,9 @@
 	{@render children()}
 </dialog>
 
-<EventHandler element={trigger} onclick={() => {
-	visible = true;
+<EventHandler element={trigger} onclick={event => {
+	if (!event.altKey && !event.ctrlKey && !event.metaKey)
+		visible = true;
 }} />
 
 {#if !anchoring_supported}

@@ -61,10 +61,13 @@
 		}
 	}
 
+	.field-label {
+		margin-bottom: .25rem;
+	}
+
 	.field-content {
 		/* Layout */
 		border-radius: .25rem;
-		color: var(--palette__accent-contrast);
 
 		button {
 			margin: .25rem;

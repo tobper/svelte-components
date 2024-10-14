@@ -17,6 +17,7 @@
 	--button__height: 3rem;
 	--button__height--small: 2.5rem;
 
+	--field-content__margin-block: 0px;
 	--field-input__padding-block: .5rem;
 
 	--menu__border-color: color-mix(in lab, var(--palette__primary-color), var(--palette__background) 50%);

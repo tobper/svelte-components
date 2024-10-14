@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type Snippet } from 'svelte';
 	import type { HTMLInputAttributes } from 'svelte/elements';
+	import { classes } from '../../classes.js';
 	import { unique_id } from '../../unique_id.js';
 	import Button from '../Button.svelte';
 	import ClearIcon from '../icons/ClearIcon.svelte';
@@ -45,9 +46,10 @@
 		on_focus_out?: () => void;
 
 		children?: Snippet;
-		icon?: Snippet;
 		prefix?: Snippet;
+		prefix_icon?: Snippet;
 		suffix?: Snippet;
+		suffix_icon?: Snippet;
 	}
 
 	let {
@@ -88,9 +90,10 @@
 		on_focus_out,
 
 		children,
-		icon,
 		prefix,
+		prefix_icon,
 		suffix,
+		suffix_icon,
 	}: TextField = $props();
 
 	export function blur() {
@@ -120,12 +123,13 @@
 				{@render prefix()}
 			{/if}
 
-			<div class="field-input">
+			<label class="field-input">
+				{@render field_prefix_icon()}
 				{@render input(content_id, error_text, in_progress)}
-				{@render clear_button()}
-				{@render field_icon()}
+				{@render field_clear()}
+				{@render field_suffix_icon()}
 				{@render field_loading()}
-			</div>
+			</label>
 
 			{#if suffix}
 				{@render suffix()}
@@ -160,7 +164,7 @@
 		aria-haspopup={aria_haspopup ? true : undefined}
 		aria-invalid={error_text ? true : undefined}
 		aria-labelledby={label_id}
-		class={input_class}
+		class={classes('field-value', input_class)}
 		id={content_id}
 		readonly={in_progress || readonly}
 		{onclick}
@@ -193,13 +197,14 @@
 	>
 {/snippet}
 
-{#snippet clear_button()}
+{#snippet field_clear()}
 	{#if value}
 		<Button
 			class="field-clear"
 			focusable={false}
 			onclick={() => {
-				value = '';
+				// Make sure both bound value and input value is updated before calling callback
+				value = input_element!.value = '';
 				on_clear?.();
 			}}
 		>
@@ -210,11 +215,19 @@
 	{/if}
 {/snippet}
 
-{#snippet field_icon()}
-	{#if icon}
-		<span class="field-icon">
-			{@render icon()}
-		</span>
+{#snippet field_prefix_icon()}
+	{#if prefix_icon}
+		<div class="field-icon">
+			{@render prefix_icon()}
+		</div>
+	{/if}
+{/snippet}
+
+{#snippet field_suffix_icon()}
+	{#if suffix_icon}
+		<div class="field-icon">
+			{@render suffix_icon()}
+		</div>
 	{/if}
 {/snippet}
 

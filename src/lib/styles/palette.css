@@ -71,7 +71,7 @@
 	--palette__background: var(--palette__background-dark);
 	--palette__text: #eee;
 	--palette__text--contrast: color-mix(in lab, var(--palette__text), var(--palette__scheme) 20%);
-	--palette__text--inactive: #999;
+	--palette__text--inactive: #888;
 
 	--palette__primary-background: oklch(from var(--palette__primary-base) calc(l - .23) calc(c *.6) h);
 	--palette__primary-color: oklch(from var(--palette__primary-base) l calc(c * .7) h);
