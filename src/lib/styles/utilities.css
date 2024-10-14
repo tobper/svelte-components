@@ -1,3 +1,32 @@
+:root {
+	/*
+		Spacing
+	*/
+	--space: 1rem;
+	--space__tiny: calc(.25 * var(--space));
+	--space__small: calc(.5 * var(--space));
+	--space__medium: calc(.75 * var(--space));
+	--space__large: calc(2 * var(--space));
+
+	/*
+		Box shadows
+	*/
+	--shadow__medium:
+		0 4px 6px -1px rgb(0 0 0 / 0.1),
+		0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+	/*
+		Animation
+	*/
+	--transition__duration--fast: .25s;
+	--transition__duration--instant: .1s;
+
+	@media (prefers-reduced-motion) {
+		--transition__duration--fast: 0s;
+		--transition__duration--instant: 0s;
+	}
+}
+
 .flow-items {
 	display: flex;
 	flex-wrap: wrap;
@@ -12,11 +41,27 @@
 	gap: 1rem;
 }
 
+.glass {
+	background-color: var(--glass__background-color);
+	backdrop-filter: var(--glass__backdrop-filter);
+	-webkit-backdrop-filter: var(--glass__backdrop-filter);
+}
+
 .scroll-shadow {
   box-shadow: rgb(0 0 0 / 40%) 0 0 .5rem;
   clip-path: inset(0 0 -1rem);
 }
 
+.scroll-snap-horizontal {
+	scroll-snap-type: x mandatory;
+	overflow-x: scroll;
+	display: flex;
+
+	> * {
+		flex: 0 0 100%;
+		scroll-snap-align: center;
+	}
+}
 .staggered-transition,
 .field {
 	--staggered-transition-delay: .025s;

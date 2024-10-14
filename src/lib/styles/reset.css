@@ -11,6 +11,7 @@
 	margin: 0;
 	padding: 0;
 	font: inherit;
+	line-height: 150%;
 
 	/* Disable highlight when tapping a link */
 	-webkit-tap-highlight-color: transparent;
@@ -40,4 +41,23 @@ button {
 
 dialog {
 	border: none;
+}
+
+
+/*
+	From Kevin Powell
+	https://www.youtube.com/watch?v=eWmDW4zEXt4
+*/
+
+/* Make header text wrap in a better way */
+h1, h2, h3, h4, h5, h6 {
+	text-wrap: balance;
+}
+
+li, p, figcaption {
+	/* Text should not be too wide from a typography viewpoint */
+	/* max-width: 65ch; */
+
+	/* Make text wrap better */
+	text-wrap: pretty;
 }
