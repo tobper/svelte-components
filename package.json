@@ -30,6 +30,7 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
+		"@floating-ui/dom": "^1.6.11",
 		"@sveltejs/kit": "^2.5.27",
 		"svelte": "^5.0.0-next.246"
 	},
