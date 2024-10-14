@@ -1,6 +1,6 @@
 .card {
-	--card__padding-left: 1rem;
-	--card__padding-right: 1rem;
+	--card__padding-left: 2rem;
+	--card__padding-right: 2rem;
 
 	/* Appearance */
 	border-radius: var(--card__border-radius);
