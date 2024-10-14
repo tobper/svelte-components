@@ -34,6 +34,7 @@
 
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import { classes } from '$lib/classes.js';
 	import { getContext, setContext, type Snippet } from 'svelte';
 	import { unique_id } from '../../unique_id.js';
 
@@ -88,7 +89,7 @@
 	{id}
 	{method}
 	{action}
-	class={class_name}
+	class={classes('form', class_name)}
 	class:form--in_progress={loading || submitting}
 	class:form--loading={loading}
 	class:form--submitting={submitting}
