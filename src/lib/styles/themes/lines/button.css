@@ -2,13 +2,14 @@
 	.button-cta,
 	.button-outlined,
 	.button-plain {
-		/* --icon__size: 1rem; */
-
 		/* Layout */
 		height: 2.5rem;
 
 		/*  Appearance */
 		color: var(--button__color);
+		transition:
+			background ease-out var(--transition__duration--instant),
+			color ease-out var(--transition__duration--instant);
 
 		/* Focus */
 		&.button--pseudo-focus,

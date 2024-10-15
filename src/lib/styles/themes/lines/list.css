@@ -1,5 +1,5 @@
 :where(.theme-lines) {
-	.list {
+	.select-list {
 		/* Focus */
 		&:focus-visible {
 			outline-color: var(--palette__accent-color);

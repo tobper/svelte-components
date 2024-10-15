@@ -1,5 +1,5 @@
 :where(.theme-neomorphism) {
-	.list {
+	.select-list {
 		--list__shadow--focus: 0 0 1px 1px var(--palette__accent-color);
 
 		.device-mobile & {

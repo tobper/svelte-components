@@ -64,7 +64,7 @@
 
 	--palette__scheme: black;
 	--palette__contrast: white;
-	--palette__contrast-opacity: 6%;
+	--palette__contrast-opacity: 4%;
 	--palette__neutral: oklch(57% 0 0);
 	--palette__neutral-background: oklch(45% 0 0);
 

@@ -43,6 +43,10 @@ dialog {
 	border: none;
 }
 
+ol, ul {
+	list-style: none;
+}
+
 
 /*
 	From Kevin Powell

@@ -1,5 +1,4 @@
-.list {
-	list-style: none;
+.select-list {
 	padding: 0.25rem;
 	border-radius: var(--list__border-radius);
 
@@ -10,7 +9,7 @@
 	}
 
 	.contrast {
-		background: color-mix(in lab, transparent, var(--palette__contrast) 3%);
+		background: color-mix(in lab, transparent, var(--palette__contrast) var(--palette__contrast-opacity));
 	}
 
 	[role=heading] {
