@@ -1,17 +1,9 @@
 <script lang="ts">
 	import { Card, PageHeader } from '$lib/index.js';
-	import { fruits, vegetables } from './data.js';
-	 
-	const food =
-		[
-			...vegetables.map(name => ({ name, type: 'Vegetable' })),
-			...fruits.map(name => ({ name, type: 'Fruit' }))
-		]
-		.toSorted((x, y) => x.name < y.name ? -1 : x.name > y.name ? 1 : 0)
-		.slice(0, 6);
+	import { food, random } from './data.js';
 </script>
 
-<article class="page-content" id="table">
+<article class="page-content" id="Table">
 	<PageHeader text="Normal table" />
 	<Card>
 		<div class="table">
@@ -23,7 +15,7 @@
 			</header>
 
 			<div class="table-body">
-				{#each food as { name, type }}
+				{#each random(food, 6) as { name, type }}
 					<div class="table-row">
 						<div>{name}</div>
 						<div>{type}</div>
@@ -42,8 +34,28 @@
 </article>
 
 <article class="page-content">
-	<PageHeader text="Table with status rows" />
+	<PageHeader text="Table features" />
 	<Card>
+		<h3>List</h3>
+		<div class="table">
+			<header>
+				<div class="table-row">
+					<div>Name</div>
+					<div>Type</div>
+				</div>
+			</header>
+
+			<ul class="table-body">
+				{#each random(food, 4) as { name, type }}
+					<li class="table-row">
+						<div>{name}</div>
+						<div>{type}</div>
+					</li>
+				{/each}
+			</ul>
+		</div>
+
+		<h3>Status colors</h3>
 		<div class="table">
 			<header>
 				<div class="table-row">
@@ -79,4 +91,25 @@
 			</div>
 		</div>
 	</Card>
+</article>
+
+<article class="page-content">
+	<PageHeader text="List" />
+	<div class="table">
+		<header>
+			<div class="table-row">
+				<div>Name</div>
+				<div>Type</div>
+			</div>
+		</header>
+
+		<ul class="table-body">
+			{#each random(food, 4) as { name, type }}
+				<li class="table-row">
+					<div>{name}</div>
+					<div>{type}</div>
+				</li>
+			{/each}
+		</ul>
+	</div>
 </article>

@@ -2,7 +2,7 @@
 	import { Calendar, Card, PageHeader } from '$lib/index.js';
 </script>
 
-<article class="page-content" id="calendar">
+<article class="page-content" id="Calendar">
 	<PageHeader text="Calendar" />
 	<Card>
 		<div class="flow-items-vertical">

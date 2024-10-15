@@ -1,3 +1,19 @@
+:root {
+	--page-content__padding-left: var(--layout__padding-left);
+	--page-content__padding-right: var(--layout__padding-right);
+
+	--page-header__top: 0px;
+	--page-header__padding-top: var(--layout__padding-top);
+	--page-header__height: 3rem;
+
+	--page-content__scroll-top: var(--layout-header__height);
+}
+
+.layout-sidebar--fixed + .layout-main {
+	/* Padding when sidebar is fixed */
+	--page-content__padding-left: var(--layout-sidebar__gutter);
+}
+
 .page-content {
 	/* Add top padding to the content itself if a header is not the first item */
 	&:not(:has(> .page-header:first-child)) {
@@ -5,6 +21,23 @@
 	}
 
 	scroll-margin-top: var(--page-content__scroll-top);
+
+	> * {
+		margin-left: var(--page-content__padding-left);
+		margin-right: var(--page-content__padding-right);
+	}
+
+	.device-mobile & > .card,
+	> .page-header,
+	> .table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	> .table {
+		--table__padding-left: var(--page-content__padding-left);
+		--table__padding-right: var(--page-content__padding-right);
+	}
 }
 
 .page-header {
@@ -12,12 +45,16 @@
 	position: sticky;
 	top: calc(var(--page-header__top) - 1px); /* Needed for sticky detection */
 	padding-top: var(--page-header__padding-top);
+	height: var(--page-header__height);
+	box-sizing: content-box;
 	z-index: 1;
 
-	box-sizing: content-box;
-}
+	padding-left: var(--page-content__padding-left);
+	padding-right: var(--page-content__padding-right);
 
-.page-header:has(~ .card) {
-	padding-left: var(--content__padding-left);
-	padding-right: var(--content__padding-right);
+	/* Content */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
 }

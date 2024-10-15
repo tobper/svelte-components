@@ -2,7 +2,7 @@
 	import { Card, PageHeader } from '$lib/index.js';
 </script>
 
-<article class="page-content" id="palette">
+<article class="page-content" id="Palette">
 	<PageHeader text="Palette" />
 	<Card>
 		<h3>Variant</h3>

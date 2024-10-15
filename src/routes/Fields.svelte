@@ -13,7 +13,7 @@
 	let dates_value = $state<DateOnly[]>([]);
 </script>
 
-<article class="page-content" id="form">
+<article class="page-content" id="Form">
 	<PageHeader text="Text fields" />
 	<Card>
 		<Form field_errors={{ date: ['Invalid date'] }} loading={form_loading}>

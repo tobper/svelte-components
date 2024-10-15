@@ -19,8 +19,10 @@
 </script>
 
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { set_root_style, toggle_root_class } from '../css.js';
 	import { device } from '../device.js';
+	import { media_queries } from '../media.svelte.js';
 	import '../styles/base.css';
 
 	interface Theme {
@@ -43,6 +45,11 @@
 		scheme = context.scheme
 	}: Theme = $props()
 
+	const media = media_queries({
+		prefers_dark_scheme: '(prefers-color-scheme: dark)',
+		supports_hover: '(hover: hover)',
+	}, onDestroy);
+
 	$effect.pre(() => {
 		if (style === 'lines')
 			import('../styles/themes/lines.css');
@@ -54,7 +61,7 @@
 	});
 
 	$effect.pre(() => {
-		const dark_mode = scheme === 'dark' || scheme == 'system' && device.prefers_dark_scheme;
+		const dark_mode = scheme === 'dark' || scheme == 'system' && media.prefers_dark_scheme;
 
 		toggle_root_class('device-mobile', device.mobile);
 		toggle_root_class('device-tablet', device.tablet);
@@ -63,7 +70,7 @@
 		toggle_root_class('orientation-portrait', device.portrait);
 		toggle_root_class('scheme-dark', dark_mode);
 		toggle_root_class('scheme-light', !dark_mode);
-		toggle_root_class('supports-hover', device.supports_hover);
+		toggle_root_class('supports-hover', media.supports_hover);
 		toggle_root_class('theme-lines', style === 'lines');
 		toggle_root_class('theme-neomorphism', style === 'neomorphism');
 

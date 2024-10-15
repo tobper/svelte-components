@@ -1,7 +1,9 @@
-.card {
+:root {
 	--card__padding-left: 2rem;
 	--card__padding-right: 2rem;
+}
 
+.card {
 	/* Appearance */
 	border-radius: var(--card__border-radius);
 	box-shadow: var(--card__shadow);
@@ -10,6 +12,25 @@
 		padding-left: var(--card__padding-left);
 		padding-right: var(--card__padding-right);
 		padding-block: 1rem;
+	}
+
+	> .table {
+		--table__padding-left: var(--card__padding-left);
+		--table__padding-right: var(--card__padding-right);
+		--table-row__background-color: var(--panel__background-color);
+
+		border-radius: inherit;
+		padding-left: 0;
+		padding-right: 0;
+
+		/* Remove padding before and after table if there is no other content there in the card */
+		&:first-child {
+			padding-top: 0;
+		}
+
+		&:last-child {
+			padding-bottom: 0;
+		}
 	}
 
 	> :where(header, h3, h4) {
@@ -33,18 +54,6 @@
 		align-items: center;
 		gap: .5rem 1rem;
 	}
-
-	> .table-container,
-	> .table {
-		border-radius: inherit;
-		padding-inline: 0;
-	}
-}
-
-/* Adjust inline padding when card is a direct descendant of page-content */
-.page-content > .card {
-	--card__padding-left: var(--content__padding-left);
-	--card__padding-right: var(--content__padding-right);
 }
 
 /* Add room for shadow between header and card */

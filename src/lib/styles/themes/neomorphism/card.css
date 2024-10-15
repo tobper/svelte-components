@@ -2,10 +2,6 @@
 	--card__border-radius: .5rem;
 	--card__shadow: var(--panel__shadow);
 
-	&.device-mobile .page-content > .card {
-		--card__border-radius: 0;
-	}
-
 	.card {
 		background-color: var(--panel__background-color);
 		background: var(--panel__background);

@@ -55,7 +55,7 @@
 
 	set_context(context);
 
-	$effect(() => {
+	$effect.pre(() => {
 		context.sidebar_fixed = !device.mobile && media.sidebar_over_threshold
 	});
 
