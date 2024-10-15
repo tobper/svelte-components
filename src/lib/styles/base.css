@@ -3,10 +3,6 @@
 @import './palette.css';
 @import './utilities.css';
 
-.device-mobile {
-	--font__size: 80%;
-}
-
 html {
 	/* Ensure controls adjust to dark/light theme */
 	color-scheme: dark light;
@@ -24,8 +20,6 @@ html {
 	&.dark {
 		scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.05);
 	}
-
-	font-size: var(--font__size, 100%);
 }
 
 body {
