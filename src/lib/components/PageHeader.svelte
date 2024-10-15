@@ -27,20 +27,18 @@
 
 	onMount(() => {
 		const layout_context = get_layout_context();
-		let header_observer: ReturnType<typeof interaction_observer> | undefined;
 
 		$effect(() => {
-			header_observer?.disconnect();
-			header_observer = interaction_observer(
+			const observer = interaction_observer(
 				header_element!,
 				intersecting => toggle_class(header_element!, 'scroll-shadow', !intersecting),
 				{ top: -layout_context.header_height }
 			)
-		});
 
-		return function onUnmount() {
-			header_observer?.disconnect();
-		};
+			return () => {
+				observer.disconnect();
+			}
+		});
 	});
 </script>
 
