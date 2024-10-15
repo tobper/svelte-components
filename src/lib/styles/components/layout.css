@@ -14,8 +14,6 @@
 }
 
 .layout {
-	display: contents;
-
 	> header {
 		display: none;
 	}
@@ -79,6 +77,13 @@
 		> main {
 			padding-bottom: calc(var(--layout-footer__height) + var(--layout__padding-bottom));
 		}
+	}
+
+	/* Animate when dialog is open */
+	transition: scale var(--transition__duration--fast) ease-in;
+
+	body:has(.dialog[open]) & {
+		scale: 0.97;
 	}
 }
 

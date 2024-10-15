@@ -26,7 +26,6 @@
 	--link__outline-radius--focus: .5rem;
 	--link__outline-width--focus: .125rem;
 
-	--menu__border-color: color-mix(in lab, var(--primary-color), var(--background-color) 50%);
 	--menu__border-radius: .5rem;
 	--menu__shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }

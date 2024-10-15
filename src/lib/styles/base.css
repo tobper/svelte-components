@@ -25,4 +25,9 @@ html {
 body {
 	background: var(--palette__background);
 	margin: 0;
+
+	/* Prevent scrolling when dialog is open */
+	&:has(dialog[open]) {
+		overflow: hidden;
+	}
 }

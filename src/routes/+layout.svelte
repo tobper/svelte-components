@@ -16,6 +16,7 @@
 		'Typography',
 		'Palette',
 		'Button',
+		'Dialog',
 		'List',
 		'Calendar',
 		'Form',
@@ -184,7 +185,7 @@
 
 		.link {
 			display: block;
-			font-size: var(--h3__font-size);
+			font-size: var(--h4__font-size);
 			padding-block: var(--space__small);
 
 			:global(.device-mobile &) {

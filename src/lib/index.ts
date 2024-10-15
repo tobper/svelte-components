@@ -2,6 +2,7 @@ export { default as Button } from './components/Button.svelte';
 export { default as Calendar } from './components/Calendar.svelte';
 export { default as Card } from './components/Card.svelte';
 export { default as Device } from './components/Device.svelte';
+export { default as Dialog } from './components/Dialog.svelte';
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte';
 export { default as EventHandler } from './components/EventHandler.svelte';
 export { default as Layout } from './components/Layout.svelte';
