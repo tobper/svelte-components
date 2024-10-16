@@ -30,6 +30,7 @@ export { default as DateField } from './components/forms/DateField.svelte';
 export { default as DateListField } from './components/forms/DateListField.svelte';
 export { default as Field } from './components/forms/Field.svelte';
 export { default as Form } from './components/forms/Form.svelte';
+export { default as FormError } from './components/forms/FormError.svelte';
 export { default as RadioButton } from './components/forms/RadioButton.svelte';
 export { default as RadioGroup } from './components/forms/RadioGroup.svelte';
 export { default as SelectField } from './components/forms/SelectField.svelte';

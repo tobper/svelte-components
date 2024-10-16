@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, FormError, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
 	import { food, fruits, get_food_heading } from './data.js';
@@ -16,7 +16,7 @@
 <article class="page-content" id="Form">
 	<PageHeader text="Text fields" />
 	<Card>
-		<Form field_errors={{ date: ['Invalid date'] }} loading={form_loading}>
+		<Form error="Form error" field_errors={{ date: ['Invalid date'] }} loading={form_loading}>
 			<div class="fields">
 				<TextField label="Text" placeholder="Placeholder" required />
 				<TextField label="Optional field" value="Lorem ipsum" />
@@ -70,6 +70,9 @@
 					/>
 					<output>Value: {auto_complete_value ? auto_complete_value : '-'}</output>
 				</div>
+			</div>
+			<div class="error">
+				<FormError />
 			</div>
 		</Form>
 		<ToggleSwitch label="Form loading" bind:checked={form_loading} />
@@ -180,6 +183,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: .25rem;
+	}
+
+	.error {
+		margin-top: 1rem;
 	}
 
 	output {
