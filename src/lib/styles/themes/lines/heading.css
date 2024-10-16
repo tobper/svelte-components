@@ -1,4 +1,10 @@
 :where(.theme-lines) {
+	--h1__color: var(--palette__accent-color);
+	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 25%);
+	--h3__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 35%);
+	--h3__color--hover: color-mix(in lab, var(--h3__color), var(--palette__background) 25%);
+	--h4__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 50%);
+
 	h1 {
 		color: var(--h1__color);
 	}

@@ -17,22 +17,15 @@
 	--button__border-radius: 5px;
 
 	--field-label__color: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 50%);
-	--field-content__min-height: 2.5rem;
-	--field-input__padding-block: .25rem;
+	--field-content__margin-block: .125rem;
+	--field-input__padding-block: .125rem;
 	--field-input-line__color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 30%);
-
-	--h1__color: var(--palette__accent-color);
-	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 25%);
-	--h3__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 35%);
-	--h3__color--hover: color-mix(in lab, var(--h3__color), var(--background-color) 25%);
-	--h4__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 50%);
 
 	--link__color: var(--palette__text);
 	--link__column-gap: 0.25rem;
 	--link__outline-radius--focus: .5rem;
 	--link__outline-width--focus: .125rem;
 
-	--menu__border-color: color-mix(in lab, var(--primary-color), var(--background-color) 50%);
 	--menu__border-radius: .5rem;
 	--menu__shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }

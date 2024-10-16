@@ -62,7 +62,7 @@
 		else {
 			dialog!.close();
 		}
-	})
+	});
 </script>	
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -93,8 +93,9 @@
 	{@render children()}
 </dialog>
 
-<EventHandler element={trigger} onclick={() => {
-	visible = true;
+<EventHandler element={trigger} onclick={event => {
+	if (!event.altKey && !event.ctrlKey && !event.metaKey)
+		visible = true;
 }} />
 
 {#if !anchoring_supported}

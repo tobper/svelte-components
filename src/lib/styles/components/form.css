@@ -1,8 +1,13 @@
-form {
+.form {
 	> footer {
 		display: flex;
 		justify-content: end;
 		column-gap: var(--space);
-		margin-top: var(--space);
+		margin-top: var(--space__large);
 	}
+}
+
+.form-error {
+	color: var(--palette__error);
+	min-height: 1.5em; /* Same as line height */
 }

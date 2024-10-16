@@ -1,3 +1,8 @@
+:root {
+	--menu__border-radius: .25rem;
+	--menu__shadow: var(--shadow__medium);
+}
+
 /* Animation */
 .menu {
 	opacity: 0;

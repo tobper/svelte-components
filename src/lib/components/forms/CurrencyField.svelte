@@ -17,9 +17,10 @@
 		required?: boolean;
 		value?: number | null;
 
-		icon?: ComponentProps<typeof TextField>['icon'];
 		prefix?: ComponentProps<typeof TextField>['prefix'];
+		prefix_icon?: ComponentProps<typeof TextField>['prefix_icon'];
 		suffix?: ComponentProps<typeof TextField>['suffix'];
+		suffix_icon?: ComponentProps<typeof TextField>['suffix_icon'];
 	}
 
 	let {

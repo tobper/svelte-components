@@ -64,7 +64,7 @@
 	{id}
 	aria-activedescendant={active_descendant}
 	aria-label={aria_label}
-	class={classes('list variant-primary', list_class)}
+	class={classes('select-list variant-primary', list_class)}
 	role="listbox"
 	tabindex={focusable ? (active_descendant ? -1 : 0) : undefined}
 >

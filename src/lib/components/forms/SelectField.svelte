@@ -51,9 +51,10 @@
 		placeholder?: TextFieldProps['placeholder'];
 		readonly?: TextFieldProps['readonly'];
 		required?: TextFieldProps['required'];
-		icon?: TextFieldProps['icon'];
 		prefix?: TextFieldProps['prefix'];
+		prefix_icon?: TextFieldProps['prefix_icon'];
 		suffix?: TextFieldProps['suffix'];
+		suffix_icon?: TextFieldProps['suffix_icon'];
 	}
 
 	let {

@@ -13,13 +13,15 @@
 	];
 
 	const nav = [
-		{ anchor: 'typography', text: 'Typography' },
-		{ anchor: 'palette', text: 'Palette' },
-		{ anchor: 'button', text: 'Button' },
-		{ anchor: 'list', text: 'List' },
-		{ anchor: 'calendar', text: 'Calendar' },
-		{ anchor: 'form', text: 'Form' },
-		{ anchor: 'table', text: 'Table' },
+		'Typography',
+		'Palette',
+		'Button',
+		'Dialog',
+		'List',
+		'Calendar',
+		'Form',
+		'Table',
+		'Page content',
 	];
 
 	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
@@ -80,8 +82,8 @@
 	{#snippet sidebar()}
 		<div class="sidebar">
 			<nav>
-				{#each nav as { anchor, text }}
-					<a class="link" href={`#${anchor}`}>{text}</a>
+				{#each nav as text}
+					<a class="link" href={`#${text}`}>{text}</a>
 				{/each}
 			</nav>
 			<div class="flow-items-vertical">
@@ -173,16 +175,17 @@
 		justify-content: space-between;
 		gap: 1rem;
 
-		/* Layout */
-		width: 175px;
+		:global(.layout-sidebar--fixed &) {
+			padding-right: 2rem;
+		}
 
-		:global(.device-mobile) & {
-			width: unset;
+		:global(.device-mobile &) {
+			min-width: 15rem;
 		}
 
 		.link {
 			display: block;
-			font-size: var(--h3__font-size);
+			font-size: var(--h4__font-size);
 			padding-block: var(--space__small);
 
 			:global(.device-mobile &) {

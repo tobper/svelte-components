@@ -18,16 +18,14 @@ export function media_queries<
 			
 			values[key] = query_list.matches;
 
-			if (on_destroy) {
-				query_list.addEventListener('change', on_change);
+			query_list.addEventListener('change', on_change);
 
-				on_destroy(() => {
-					query_list.removeEventListener('change', on_change);
-				});
+			on_destroy?.(() => {
+				query_list.removeEventListener('change', on_change);
+			});
 
-				function on_change({ matches }: MediaQueryListEvent) {
-					values[key] = matches;
-				}
+			function on_change({ matches }: MediaQueryListEvent) {
+				values[key] = matches;
 			}
 		}
 	}

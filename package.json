@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.0.23",
+	"version": "0.0.24",
 	"description": "Svelte components",
 	"author": "Tobias Persson",
 	"repository": "github:tobper/svelte-components",
@@ -30,6 +30,7 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
+		"@floating-ui/dom": "^1.6.11",
 		"@sveltejs/kit": "^2.5.27",
 		"svelte": "^5.0.0-next.246"
 	},

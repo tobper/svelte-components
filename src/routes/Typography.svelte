@@ -2,7 +2,7 @@
 	import { Card, PageHeader } from '$lib/index.js';
 </script>
 
-<article class="page-content" id="typography">
+<article class="page-content" id="Typography">
 	<PageHeader text="Typography" />
 	<Card>
 		<div class="flow-items-vertical">

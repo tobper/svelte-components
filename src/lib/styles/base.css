@@ -3,9 +3,6 @@
 @import './palette.css';
 @import './utilities.css';
 
-/*
-	xxx
-*/
 html {
 	/* Ensure controls adjust to dark/light theme */
 	color-scheme: dark light;
@@ -28,8 +25,9 @@ html {
 body {
 	background: var(--palette__background);
 	margin: 0;
-}
 
-.device-mobile {
-	font-size: 80%;
+	/* Prevent scrolling when dialog is open */
+	&:has(dialog[open]) {
+		overflow: hidden;
+	}
 }

@@ -1,15 +1,11 @@
 <script lang="ts">
-	import {
-	    Card,
-	    PageHeader,
-	    SelectList
-	} from '$lib/index.js';
+	import { Card, PageHeader, SelectList } from '$lib/index.js';
 	import { food, get_food_heading, random } from './data.js';
 
 	let value = $state<string | null>(null);
 </script>
 
-<article class="page-content" id="list">
+<article class="page-content" id="List">
 	<PageHeader text="List" />
 	<Card>
 		<div class="flow-items">

@@ -10,15 +10,18 @@
 		&:focus-visible {
 			border-radius: var(--link__outline-radius--focus);
 			outline-color: var(--palette__accent-color);
+			outline-offset: calc(.375 * var(--space));
 			outline-width: var(--link__outline-width--focus);
 			outline-style: solid;
 		}
 
 		@media (hover: hover) {
 			&.link--hover,
-			&:hover {
-				/* Color entire link if it doesn't contain an h3 or p, also color contained h3 and p */
-				&:not(:has(h3, p)), h3, p {
+			&:hover:where(:not([aria-current])) {
+				/* Color entire link if it doesn't contain an h3 or p */
+				&:not(:has(h3, p)),
+				/* Also color contained h3 and p */
+				h3, p {
 					/* color: var(--link__color--hover, var(--link__color)); */
 					color: color-mix(in lab, var(--link__color), var(--palette__background) 25%);
 				}

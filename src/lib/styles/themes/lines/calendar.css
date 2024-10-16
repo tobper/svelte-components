@@ -2,7 +2,6 @@
 	.calendar {
 		button {
 			color: var(--link__color);
-			transition: font-size var(--transition__duration--instant);
 		}
 
 		[aria-current] {

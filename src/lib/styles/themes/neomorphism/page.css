@@ -1,21 +1,12 @@
 :where(.theme-neomorphism) {
 	.page-header {
-		/* Layout */
-		height: var(--page-header__height);
-
 		/* Glass effect */
 		background-color: var(--glass__background-color);
 		backdrop-filter: var(--glass__backdrop-filter);
 		-webkit-backdrop-filter: var(--glass__backdrop-filter);
 
 		/* Scroll shadow */
-		clip-path: inset(0px 0px -100vh 0px);
+		/* clip-path: inset(0px 0px -100vh); */
 		transition: box-shadow 200ms;
-
-		/* Content */
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
 	}
 }

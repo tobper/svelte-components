@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
-	import { IconCalendar, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
+	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, FormError, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
 	import { food, fruits, get_food_heading } from './data.js';
 
 	let form_loading = $state(false);
+	let field_loading = $state(false);
 	let select_value = $state<string | null>(null);
 	let auto_complete_value = $state<string | null>(null);
 	let currency_value = $state<number | null>(null);
@@ -12,17 +13,17 @@
 	let dates_value = $state<DateOnly[]>([]);
 </script>
 
-<article class="page-content" id="form">
+<article class="page-content" id="Form">
 	<PageHeader text="Text fields" />
 	<Card>
-		<Form field_errors={{ date: ['Invalid date'] }}>
+		<Form error="Form error" field_errors={{ date: ['Invalid date'] }} loading={form_loading}>
 			<div class="fields">
 				<TextField label="Text" placeholder="Placeholder" required />
 				<TextField label="Optional field" value="Lorem ipsum" />
 				<TextField label="Disabled" value="Lorem ipsum" disabled required />
-				<TextField label="Error" name="date" type="search" error_hint icon={CalendarIcon} required />
-				<TextField label="Icon" icon={SearchIcon} placeholder="Search" type="search" required/>
-				<TextField label="Loading" loading type="search" required />
+				<TextField label="Error" loading={field_loading} name="date" type="search" error_hint suffix_icon={CalendarIcon} required />
+				<TextField label="Icon" loading={field_loading} prefix_icon={SearchIcon} placeholder="Search" type="search" required/>
+				<TextField label="Loading" loading={field_loading} type="search" required />
 				<TextField label="Prefix" placeholder="Name" required>
 					{#snippet prefix()}
 						<Button text="Option" type="plain" />
@@ -35,7 +36,7 @@
 				</TextField>
 				<div class="field">
 					<CurrencyField bind:value={currency_value} label="Currency" required>
-						{#snippet icon()}kr{/snippet}
+						{#snippet suffix_icon()}kr{/snippet}
 					</CurrencyField>
 					<output>Value: {currency_value === null ? 'null' : currency_value}</output>
 				</div>
@@ -70,7 +71,12 @@
 					<output>Value: {auto_complete_value ? auto_complete_value : '-'}</output>
 				</div>
 			</div>
+			<div class="error">
+				<FormError />
+			</div>
 		</Form>
+		<ToggleSwitch label="Form loading" bind:checked={form_loading} />
+		<ToggleSwitch label="Field loading" bind:checked={field_loading} />
  	</Card>
 </article>
 
@@ -162,7 +168,7 @@
 	</Card>
 </article>
 
-{#snippet CalendarIcon()}<IconCalendar />{/snippet}
+{#snippet CalendarIcon()}<IconCalendarMonth />{/snippet}
 {#snippet SearchIcon()}<IconSearch />{/snippet}
 
 <style>
@@ -177,6 +183,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: .25rem;
+	}
+
+	.error {
+		margin-top: 1rem;
 	}
 
 	output {

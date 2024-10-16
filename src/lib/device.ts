@@ -10,8 +10,6 @@ const media = media_queries({
 	portrait: '(orientation: portrait)',
 	pointer_coarse: '(pointer: coarse)',
 	pointer_fine: '(pointer: fine)',
-	prefers_dark_scheme: '(prefers-color-scheme: dark)',
-	supports_hover: '(hover: hover)',
 });
 
 const mobile = ua_device.type === 'mobile';
@@ -32,8 +30,4 @@ export const device = {
 	/* Pointer device */
 	get mouse() { return media.pointer_fine },
 	get touch() { return media.pointer_coarse },
-
-	/* Styling */
-	get prefers_dark_scheme() { return media.prefers_dark_scheme },
-	get supports_hover() { return media.supports_hover },
 };

@@ -1,19 +1,13 @@
-.table-container {
-	overflow: auto;
+:root {
+	--table__padding-left: .5rem;
+	--table__padding-right: .5rem;
+
+	--table-header__color: hsl(from var(--palette__text) h s l / 65%);
+	--table-header__letter-spacing: .1em;
 }
 
-.card > .table {
-	--table__padding-left: var(--card__padding-left);
-	--table__padding-right: var(--card__padding-right);
-
-	/* Remove padding before and after table if there is no other content there in the card */
-	&:first-child {
-		padding-top: 0;
-	}
-
-	&:last-child {
-		padding-bottom: 0;
-	}
+.table-container {
+	overflow: auto;
 }
 
 .table {
@@ -53,10 +47,6 @@
 	--table-row__background-color: var(--palette__background);
 	--table-row__opacity--zebra: 0%;
 
-	.card & {
-		--table-row__background-color: var(--panel__background-color);
-	}
-
 	tr, th, .table-body > * {
 		background-color: color-mix(in lab, var(--table-row__background-color), var(--palette__contrast) var(--table-row__opacity--zebra));
 		transition-property: background-color, color;
@@ -72,11 +62,6 @@
 div.table {
 	container: table / inline-size;
 	display: block;
-
-	main {
-		display: flex;
-		flex-direction: column;
-	}
 
 	.table-row {
 		display: flex;
@@ -103,19 +88,24 @@ table.table {
 	}
 }
 
+.table-row {
+	padding-left: var(--table__padding-left);
+	padding-right: var(--table__padding-right);
+}
+
 .table-row > *,
 table.table td,
 table.table th {
 	/* Cell formatting */
-	padding-block: var(--table-cell__padding-x);
-	padding-inline: var(--table-cell__padding-y);
+	padding-block: var(--space__small);
+	padding-inline: var(--space__medium);
 
 	&:first-child {
-		padding-left: var(--table__padding-left);
+		padding-left: 0px;
 	}
 
 	&:last-child {
-		padding-right: var(--table__padding-right);
+		padding-right: 0px;
 	}
 
 	/* Truncate text */

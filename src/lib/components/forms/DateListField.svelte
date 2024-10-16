@@ -35,37 +35,39 @@
 	{#snippet content({ content_id: button_id, loading, in_progress })}
 		<div bind:this={input_element} class="field-content" class:skeleton={loading}>
 			<div class="field-input">
-				{#each dates as date, index}
-					{@const value = get_date_only_key(date)}
+				<div class="field-value">
+					{#each dates as date, index}
+						{@const value = get_date_only_key(date)}
 
-					<input type="hidden" {name} value={value} />
+						<input type="hidden" {name} value={value} />
+
+						<Button
+							disabled={in_progress || readonly}
+							onclick={() => {
+								dates = dates.toSpliced(index, 1);
+							}}
+							text={value}
+							variant="delete"
+						>
+							{#snippet icon()}
+								<ClearIcon />
+							{/snippet}
+						</Button>
+					{/each}
 
 					<Button
 						disabled={in_progress || readonly}
+						id={button_id}
+						variant="add"
 						onclick={() => {
-							dates = dates.toSpliced(index, 1);
+							menu_visible = true;
 						}}
-						text={value}
-						variant="delete"
 					>
 						{#snippet icon()}
-							<ClearIcon />
+							<AddIcon />
 						{/snippet}
 					</Button>
-				{/each}
-
-				<Button
-					disabled={in_progress || readonly}
-					id={button_id}
-					variant="add"
-					onclick={() => {
-						menu_visible = true;
-					}}
-				>
-					{#snippet icon()}
-						<AddIcon />
-					{/snippet}
-				</Button>
+				</div>
 
 				<span class="field-icon">
 					<CalendarIcon />
@@ -88,18 +90,16 @@
 </Field>
 
 <style>
-	.field-input {
+	.field-value {
+		display: flex;
 		flex-wrap: wrap;
-		padding-left: calc(var(--field-input__padding-left) - .25rem);
-		padding-right: calc(var(--field-input__padding-right-offset) + var(--field-input__padding-right));
-		padding-block: var(--field-input__padding-block);
-		column-gap: var(--space__tiny);
-		row-gap: var(--space__tiny);
+		align-items: center;
+		column-gap: var(--space__small);
 	}
 
 	.field-input :global(button) {
 		height: var(--field-input__height);
 		margin: 0;
-		padding-inline: .25rem;
+		padding-inline: 0;
 	}
 </style>

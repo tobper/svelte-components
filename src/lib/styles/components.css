@@ -3,6 +3,7 @@
 @import './components/calendar.css';
 @import './components/card.css';
 @import './components/currency.css';
+@import './components/dialog.css';
 @import './components/field.css';
 @import './components/form.css';
 @import './components/heading.css';
@@ -18,44 +19,6 @@
 @import './components/table.css';
 
 :root {
-	/* Spacing */
-	--space: 1rem;
-	--space__tiny: calc(.25 * var(--space));
-	--space__small: calc(.5 * var(--space));
-	--space__medium: calc(.75 * var(--space));
-	--space__large: calc(2 * var(--space));
-
-	--shadow__medium:
-		0 4px 6px -1px rgb(0 0 0 / 0.1),
-		0 2px 4px -2px rgb(0 0 0 / 0.1);
-
-	/* Page and content padding */
-	--layout__inset-top: env(safe-area-inset-top);
-	--layout__inset-right: env(safe-area-inset-right);
-	--layout__inset-bottom: env(safe-area-inset-bottom);
-	--layout__inset-left: env(safe-area-inset-left);
-	
-	--layout__padding-top: var(--layout__inset-top);
-	--layout__padding-bottom: max(0px, var(--layout__inset-bottom) - 1rem);
-	--layout__padding-left: max(2rem, var(--layout__inset-left));
-	--layout__padding-right: max(2rem, var(--layout__inset-right));
-
-	--layout-main__padding-bottom: 2rem;
-
-	/* Layout sets these variables */
-	--layout-header__height: 0px;
-	--layout-footer__height: 0px;
-
-	--page-content__scroll-top: var(--layout-header__height);
-
-	--page-header__top: 0px;
-	--page-header__padding-top: var(--layout__padding-top);
-	--page-header__height: 5rem;
-
-	/* --content__padding-bottom: max(0px, 2rem - var(--content__padding-top)); */
-	--content__padding-left: 1.5rem;
-	--content__padding-right: 1.5rem;
-
 	--field__transition-duration: .1s;
 	--field-input__color--readonly: #888;
 	--field-input__height: 2rem;
@@ -74,33 +37,6 @@
 
 	--menu__backdrop-blur: 1px;
 
-	--skeleton__border-radius: 0.2rem;
+	--skeleton__border-radius: 1.5rem;
 	--skeleton__background: oklch(from var(--palette__background) calc(l - .03) c h);
-
-	--table__padding-left: var(--table-cell__padding-x);
-	--table__padding-right: var(--table-cell__padding-x);
-	--table-cell__padding-x: .5rem;
-	--table-cell__padding-y: .75rem;
-	--table-header__color: hsl(from var(--palette__text) h s l / 65%);
-	--table-header__letter-spacing: .1em;
-}
-
-.device-mobile {
-	--content__padding-left: var(--layout__padding-left);
-	--content__padding-right: var(var(--layout__padding-right))
-}
-
-/*
-	Animation
-*/
-:root {
-	--transition__duration--fast: .25s;
-	--transition__duration--instant: .1s;
-}
-
-@media (prefers-reduced-motion) {
-	:root {
-		--transition__duration--fast: 0s;
-		--transition__duration--instant: 0s;
-	}
 }

@@ -10,7 +10,7 @@
 		justify-content: space-between;
 	}
 
-	.list {
+	.select-list {
 		grid-row: 2;
 		display: grid;
 		grid-template-columns: repeat(7, auto);

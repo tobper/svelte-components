@@ -2,6 +2,7 @@
 @import './neomorphism/button.css';
 @import './neomorphism/calendar.css';
 @import './neomorphism/card.css';
+@import './neomorphism/dialog.css';
 @import './neomorphism/field.css';
 @import './neomorphism/heading.css';
 @import './neomorphism/layout.css';
@@ -17,11 +18,8 @@
 	--button__height: 3rem;
 	--button__height--small: 2.5rem;
 
+	--field-content__margin-block: 0px;
 	--field-input__padding-block: .5rem;
-
-	--menu__border-color: color-mix(in lab, var(--palette__primary-color), var(--palette__background) 50%);
-	--menu__border-radius: .25rem;
-	--menu__shadow: var(--shadow__medium);
 
 	&.scheme-light {
 		--field__shadow:
