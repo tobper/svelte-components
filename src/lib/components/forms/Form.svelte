@@ -36,6 +36,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { classes } from '$lib/classes.js';
 	import { getContext, setContext, type Snippet } from 'svelte';
+	import type { HTMLFormAttributes } from 'svelte/elements';
 	import { unique_id } from '../../unique_id.js';
 
 	interface Form {
@@ -45,7 +46,7 @@
 		field_errors?: FieldErrors;
 		error?: string | null;
 		loading?: boolean;
-		method?: string;
+		method?: HTMLFormAttributes['method'];
 
 		children: Snippet;
 		footer?: Snippet<[{ loading: boolean, submitting: boolean }]>;

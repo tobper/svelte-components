@@ -23,7 +23,7 @@
 				<TextField label="Disabled" value="Lorem ipsum" disabled required />
 				<TextField label="Error" loading={field_loading} name="date" type="search" error_hint suffix_icon={CalendarIcon} required />
 				<TextField label="Icon" loading={field_loading} prefix_icon={SearchIcon} placeholder="Search" type="search" required/>
-				<TextField label="Loading" loading={field_loading} type="search" required />
+				<TextField label="Loading" loading type="search" required />
 				<TextField label="Prefix" placeholder="Name" required>
 					{#snippet prefix()}
 						<Button text="Option" type="plain" />
