@@ -43,7 +43,7 @@
 	  mask-repeat: no-repeat;
 	  mask-position: center;
 	  pointer-events: none;
-	  display: inline-block;
+	  display: block;
 	  background-color: currentColor;
  
 	  width: 1.5rem;

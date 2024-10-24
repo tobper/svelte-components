@@ -77,6 +77,12 @@
 	&:nth-child(9) { --transition-delay: calc(8 * var(--staggered-transition-delay)); }
 }
 
+.truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 @keyframes scale_in {
 	from {
 		opacity: 0;

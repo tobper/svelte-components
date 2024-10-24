@@ -45,76 +45,51 @@
 <header class="page-header" {id} bind:this={header_element}>
 	{#if text}
 		<div class="text">
-			{#if href}
-				<a class="link" {href}>
+			<div class="flow-items">
+				{#if href}
+					<a class="link" {href}>
+						<h2>
+							{text}
+						</h2>
+					</a>
+				{:else}
 					<h2>
 						{text}
 					</h2>
-				</a>
-			{:else}
-				<h2>
-					{text}
-				</h2>
-			{/if}
+				{/if}
+
+				<div class="loading">
+					<Loading bars visible={loading} />
+				</div>
+			</div>
 
 			{#if sub_text}
-				<p>
+				<div class="sub_text truncate">
 					{sub_text}
-				</p>
+				</div>
 			{/if}
-
-			<Loading bars large visible={loading} />
 		</div>
-	{/if}
 
-	{@render actions()}
+		{#if children}
+			<div class="flow-items">
+				{@render children()}
+			</div>
+		{/if}
+	{:else if children}
+		{@render children()}
+	{/if}
 </header>
 
-{#snippet actions()}
-	{#if children}
-		<div class="actions flow-items">
-			{@render children()}
-		</div>
-	{/if}	
-{/snippet}
-
 <style>
-	.text:has(h2) {
-		display: grid;
-		grid-template:
-			"text status actions"
-			/ auto 1fr auto;
+	.text {
+		overflow: hidden;
 	}
 
-	.text:has(p) {
-		grid-template:
-			"text status actions"
-			"sub_text sub_text actions"
-			/ auto 1fr auto;
+	.sub_text {
+		color: var(--palette__secondary-color);
 	}
 
-	.text:has(p) h2,
-	.text:has(p) > :global([role=status]) {
-		align-self: end;
-	}
-
-	h2 {
-		grid-area: text;
-	}
-
-	p {
-		align-self: start;
-		color: var(--palette__secondary);
-		grid-area: sub_text;
-	}
-
-	.actions {
-		grid-area: actions;
-	}
-
-	.page-header > :global([role=status]) {
+	.loading {
 		color: var(--palette__primary-color);
-		grid-area: status;
-		margin-left: 1rem;
 	}
 </style>
