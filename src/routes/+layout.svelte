@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { device } from '$lib/device.js';
-	import { Device, ElementClickOnMouseDown, Layout, SidebarToggleButton, Theme, ToggleButton } from '$lib/index.js';
+	import { Device, ElementClickOnMouseDown, Layout, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
 	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = data;
-	let current_scheme = $state<'dark' | 'light' | 'system'>('system');
+	let current_scheme = $state<Scheme>('system');
 
 	const available_themes = [
 		{ name: 'lines', text: 'Lines' },
@@ -60,8 +60,7 @@
 				</div>
 				<ToggleButton
 					animation="rotate"
-					options={['light', 'dark', 'system'] as Array<typeof current_scheme>}
-					type="plain"
+					options={['light', 'dark', 'system'] as Array<Scheme>}
 					value={current_scheme}
 					onchange={new_scheme => current_scheme = new_scheme}
 				>

@@ -17,8 +17,8 @@
 	--palette__primary-base: #a8bef1;
 	--palette__secondary-base: #d9ba86;
 	--palette__tertiary-base: #83cfc8;
-	--palette__background-dark: #282c34;
-	--palette__background-light: hsl(from var(--palette__background-dark) h s 90);
+	--palette__background-dark: hsl(220 13% 18%);
+	--palette__background-light: hsl(220 13% 90%);
 }
 
 .scheme-light {

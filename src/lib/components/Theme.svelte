@@ -7,7 +7,6 @@
 		style: Style;
 	}
 
-	// const context_key = Symbol('Theme');
 	const context = $state<ThemeContext>({
 		scheme: 'system',
 		style: 'neomorphism',
@@ -20,7 +19,7 @@
 
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { set_root_style, toggle_root_class } from '../css.js';
+	import { get_root_style, set_root_style, toggle_root_class } from '../css.js';
 	import { device } from '../device.js';
 	import { media_queries } from '../media.svelte.js';
 	import '../styles/base.css';
@@ -38,6 +37,10 @@
 	}
 
 	const context = get_theme();
+	const media = media_queries({
+		prefers_dark_scheme: '(prefers-color-scheme: dark)',
+		supports_hover: '(hover: hover)',
+	}, onDestroy);
 
 	let {
 		style = context.style,
@@ -45,10 +48,12 @@
 		scheme = context.scheme
 	}: Theme = $props()
 
-	const media = media_queries({
-		prefers_dark_scheme: '(prefers-color-scheme: dark)',
-		supports_hover: '(hover: hover)',
-	}, onDestroy);
+	let dark_mode = $derived(
+		scheme === 'dark' ||
+		scheme == 'system' && media.prefers_dark_scheme
+	);
+
+	let theme_color = $state('');
 
 	$effect.pre(() => {
 		if (style === 'lines')
@@ -61,8 +66,6 @@
 	});
 
 	$effect.pre(() => {
-		const dark_mode = scheme === 'dark' || scheme == 'system' && media.prefers_dark_scheme;
-
 		toggle_root_class('device-mobile', device.mobile);
 		toggle_root_class('device-tablet', device.tablet);
 		toggle_root_class('device-desktop', device.desktop);
@@ -77,6 +80,14 @@
 		set_root_style('--palette__primary-base', palette.primary);
 		set_root_style('--palette__secondary-base', palette.secondary);
 		set_root_style('--palette__tertiary-base', palette.tertiary);
+	});
+
+	$effect.pre(() => {
 		set_root_style('--palette__background', dark_mode ? palette.background_dark : palette.background_light);
+		theme_color = get_root_style('--palette__background');
 	});
 </script>
+
+<svelte:head>
+	<meta name="theme-color" content={theme_color}>
+</svelte:head>
