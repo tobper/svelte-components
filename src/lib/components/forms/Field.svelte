@@ -35,11 +35,10 @@
 		required = false,
 		content,
 	}: Field = $props();
-	let { field_errors, loading = false, submitting = false } = $derived(form);
+	let { field_errors, in_progress, loading, submitting } = $derived(form);
 	let content_id = $derived(`${id}_content`);
 	let errors = $derived((name ? field_errors[name] : null) ?? []);
 	let error_text = $derived(errors.length ? errors[0] : null);
-	let in_progress = $derived(loading || submitting);
 </script>
 
 <div

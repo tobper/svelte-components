@@ -29,12 +29,13 @@
 		list?: HTMLInputAttributes['list'];
 		loading?: boolean;
 		name?: string;
+		pattern?: HTMLInputAttributes['pattern'];
 		placeholder?: HTMLInputAttributes['placeholder'];
 		role?: HTMLInputAttributes['role'];
 		readonly?: boolean;
 		required?: boolean;
 		type?: HTMLInputAttributes['type'];
-		value?: string;
+		value?: string | null;
 
 		onclick?: HTMLInputAttributes['onclick'];
 		onkeydown?: HTMLInputAttributes['onkeydown'];
@@ -73,6 +74,7 @@
 		list,
 		loading: input_loading = false,
 		name,
+		pattern,
 		placeholder,
 		role,
 		readonly = false,
@@ -151,6 +153,7 @@
 		{inputmode}
 		{list}
 		{name}
+		{pattern}
 		{placeholder}
 		{required}
 		{role}
@@ -160,7 +163,7 @@
 		aria-activedescendant={aria_activedescendant}
 		aria-autocomplete={aria_autocomplete}
 		aria-controls={aria_controls}
-		aria-expanded={aria_expanded ? true : undefined}
+		aria-expanded={aria_expanded}
 		aria-haspopup={aria_haspopup ? true : undefined}
 		aria-invalid={error_text ? true : undefined}
 		aria-labelledby={label_id}
@@ -232,5 +235,9 @@
 {/snippet}
 
 {#snippet field_loading()}
-	<Loading bars class="field-loading" visible={input_loading} />
+	{#if input_loading}
+		<div class="field-loading">
+			<Loading bars />
+		</div>
+	{/if}
 {/snippet}

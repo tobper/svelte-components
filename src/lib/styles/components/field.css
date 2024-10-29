@@ -1,3 +1,7 @@
+:root {
+	--checkbox__size: 1.25rem;
+}
+
 input {
 	color: inherit;
 	background: inherit;
@@ -27,10 +31,6 @@ textarea {
 	appearance: none;
 	background: transparent;
 
-	/* TODO: Are these needed? */
-	font-size: 1rem;
-	line-height: 1.5;
-
 	&:read-only {
 		cursor: default;
 	}
@@ -46,6 +46,64 @@ input[type=search]::-webkit-search-cancel-button {
 	appearance: none;
 }
 
+.checkbox {
+	--checkbox__background--checked: var(--palette__background);
+	--checkbox__color--checked: var(--palette__accent-color);
+
+	appearance: none;
+	background-origin: border-box;
+	background-repeat: no-repeat;
+	border-radius: .25rem;
+	width: var(--checkbox__size);
+	height: var(--checkbox__size);
+	transition: background calc(var(--field__transition-duration) / 1) ease-out;
+
+	.field > & {
+		margin-block: calc((var(--field-input__height) - var(--checkbox__size)) / 2 + var(--field-input__padding-block));
+	}
+
+	&:enabled {
+		cursor: pointer;
+
+		&:checked,
+		&:indeterminate {
+			animation: checkbox_mark var(--field__transition-duration) ease-out;
+			background-color: var(--checkbox__background--checked);
+		}
+	}
+
+	&:checked {
+		background-image:
+			linear-gradient(-45deg, transparent 65%, var(--checkbox__background--checked) 65.99%),
+			linear-gradient(45deg, transparent 75%, var(--checkbox__background--checked) 75.99%),
+			linear-gradient(-45deg, var(--checkbox__background--checked) 40%, transparent 40.99%),
+			linear-gradient(45deg, var(--checkbox__background--checked) 30%, var(--checkbox__color--checked) 30.99%, var(--checkbox__color--checked) 40%, transparent 40.99%),
+			linear-gradient(-45deg, var(--checkbox__color--checked) 50%, var(--checkbox__background--checked) 50.99%);
+	}
+
+	&:indeterminate {
+		background-image:
+			linear-gradient(90deg, transparent 80%, var(--checkbox__background--checked) 80%),
+			linear-gradient(-90deg, transparent 80%, var(--checkbox__background--checked) 80%),
+			linear-gradient(0deg, var(--checkbox__background--checked) 43%, var(--checkbox__color--checked) 43%, var(--checkbox__color--checked) 57%, var(--checkbox__background--checked) 57%);
+	}
+
+	/* Interaction */
+	user-select: none;
+}
+
+@keyframes checkbox_mark {
+	0% {
+		background-position-y: 5px;
+	}
+	50% {
+		background-position-y: -2px;
+	}
+	100% {
+		background-position-y: 0;
+	}
+}
+
 .field {
 	/* Layout */
 	max-width: 100%;
@@ -55,8 +113,7 @@ input[type=search]::-webkit-search-cancel-button {
 	flex-direction: column;
 
 	/* Invalid state */
-	&:has(input:user-invalid),
-	&:has(input[aria-invalid]) {
+	&:has(input:is(:user-invalid, [aria-invalid])) {
 		--palette__accent-color: var(--palette__error);
 		--palette__accent-contrast: var(--palette__error-contrast);
 	}
@@ -69,8 +126,7 @@ input[type=search]::-webkit-search-cancel-button {
 	white-space: nowrap;
 
 	/* Invalid state */
-	.field:has(input:user-invalid) &,
-	.field:has(input[aria-invalid]) & {
+	.field:has(input:is(:user-invalid, [aria-invalid])) & {
 		color: var(--palette__accent-color);
 	}
 }
@@ -93,6 +149,16 @@ input[type=search]::-webkit-search-cancel-button {
 		height: auto;
 	}
 
+	.field-clear {
+		height: 100%;
+		padding-inline: .5rem;
+		margin: 0;
+
+		svg {
+			width: 1.5rem;
+		}
+	}
+
 	/* Interaction */
 	label {
 		cursor: text;
@@ -107,11 +173,11 @@ input[type=search]::-webkit-search-cancel-button {
 	/* Layout */
 	flex: 1;
 
-	&:first-child {
+	&:first-child > :first-child {
 		padding-left: var(--field-input__padding-left);
 	}
 
-	&:last-child {
+	&:last-child > :last-child {
 		padding-right: var(--field-input__padding-right);
 	}
 
@@ -141,14 +207,10 @@ input[type=search]::-webkit-search-cancel-button {
 		}
 	}
 
-	/* Out of focus/hover */
-	&:not(:focus-within, :hover) {
-		.supports-hover & {
-			.field-clear {
-				opacity: 0;
-				pointer-events: none;
-			}
-		}
+	/* Clear button when field is iut of focus/hover */
+	.supports-hover &:not(:focus-within, :hover:hover) .field-clear {
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	/* Hide icon when loading is visible */
@@ -179,14 +241,6 @@ input[type=search]::-webkit-search-cancel-button {
 	box-sizing: content-box;
 	min-height: var(--field-input__height);
 	padding-block: var(--field-input__padding-block);
-}
-
-.field-clear {
-	padding-inline: 0 !important;
-
-	svg {
-		width: 1.5rem;
-	}
 }
 
 .field-loading,

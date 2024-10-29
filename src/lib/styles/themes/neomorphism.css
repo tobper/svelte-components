@@ -23,19 +23,14 @@
 
 	&.scheme-light {
 		--field__shadow:
-			inset 0 .5px 1px 0px rgb(0 0 0 / 20%),
+			inset 0 .5px 1px 0px rgb(0 0 0 / 30%),
 			inset 1px 0 1px 0px rgb(0 0 0 / 5%),
-			inset -1px 0 1px 0px rgb(0 0 0 / 5%),
-			inset 0 -1px 1px 0px rgb(255 255 255 / 50%);
-			
-		/* --field__shadow:
-			inset 0 0.5px 1px 0px rgb(0 0 0 / 15%),
-			inset 0 -0.5px 0.5px 0px rgb(255 255 255 / 50%); */
+			inset -1px 0 1px 0px rgb(0 0 0 / 5%);
 	}
 
 	&.scheme-dark {
 		--field__shadow:
-			inset 0 0.5px 2.5px -1px rgb(0 0 0 / 100%),
-			inset 0 -2px 2px -2px rgb(255 255 255 / 50%);
+			inset 0 0.5px 2.5px -1px #000,
+			inset 0 -2px 2px -2px #fff8;
 	}
 }

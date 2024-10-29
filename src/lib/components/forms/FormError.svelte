@@ -2,11 +2,11 @@
 	import { get_form_context } from './Form.svelte';
 
 	const form = get_form_context();
-	let { error } = $derived(form);
+	let { error_message } = $derived(form);
 </script>
 
-{#if error}
+{#if error_message}
 	<p class="form-error">
-		{error}
+		{error_message}
 	</p>
 {/if}

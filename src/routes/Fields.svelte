@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, FormError, PageContent, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, DateListField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
 	import { food, fruits, get_food_heading } from './data.js';
@@ -11,12 +11,19 @@
 	let currency_value = $state<number | null>(null);
 	let date_value = $state<DateOnly | null>(null);
 	let dates_value = $state<DateOnly[]>([]);
+
+	let form = $state({
+		name: '',
+		category: '',
+		dates: [],
+		select: ''
+	})
 </script>
 
 <PageContent id="Form">
 	<PageHeader text="Text fields" />
 	<Card>
-		<Form error="Form error" field_errors={{ date: ['Invalid date'] }} loading={form_loading}>
+		<Form error_message="Form error" field_errors={{ date: ['Invalid date'] }} loading={form_loading}>
 			<div class="fields">
 				<TextField label="Text" placeholder="Placeholder" required />
 				<TextField label="Optional field" value="Lorem ipsum" />
@@ -34,21 +41,21 @@
 						<Button submit icon={SearchIcon} />
 					{/snippet}
 				</TextField>
-				<div class="field">
+				<div class="field-with-output">
 					<CurrencyField bind:value={currency_value} label="Currency" required>
 						{#snippet suffix_icon()}kr{/snippet}
 					</CurrencyField>
 					<output>Value: {currency_value === null ? 'null' : currency_value}</output>
 				</div>
-				<div class="field">
+				<div class="field-with-output">
 					<DateField bind:value={date_value} label="Date" required />
 					<output>Value: {date_value === null ? 'null' : get_date_only_key(date_value)}</output>
 				</div>
-				<div class="field">
+				<div class="field-with-output">
 					<DateListField bind:dates={dates_value} label="Date list" required />
 					<output>Value: {dates_value.map(get_date_only_key).join(', ')}</output>
 				</div>
-				<div class="field">
+				<div class="field-with-output">
 					<SelectField
 						bind:value={select_value}
 						label="Select"
@@ -60,7 +67,7 @@
 					/>
 					<output>Value: {select_value ? select_value : '-'}</output>
 				</div>
-				<div class="field">
+				<div class="field-with-output">
 					<SelectField
 						bind:value={auto_complete_value}
 						label="Auto complete"
@@ -70,6 +77,7 @@
 					/>
 					<output>Value: {auto_complete_value ? auto_complete_value : '-'}</output>
 				</div>
+				<CheckboxField label="Checkbox" />
 			</div>
 			<div class="error">
 				<FormError />
@@ -83,12 +91,13 @@
 <PageContent>
 	<PageHeader text="Form transitions" />
 	<Card>
-		<Form loading={form_loading}>
+		<Form loading={form_loading} model={form}>
 			<div class="fields">
-				<TextField label="Name" loading placeholder="Placeholder" required />
-				<TextField label="Category" />
-				<DateListField label="Date list" required />
+				<TextField label="Name" loading placeholder="Placeholder" required bind:value={form.name} />
+				<TextField label="Category" bind:value={form.category} />
+				<DateListField label="Date list" required bind:dates={form.dates} />
 				<SelectField
+					bind:value={form.select}
 					label="Select"
 					options={food}
 					options_heading={get_food_heading}
@@ -97,9 +106,9 @@
 				/>
 			</div>
 
-			{#snippet footer({ loading, submitting })}
-				<Button disabled={submitting} text="Cancel" />
-				<Button disabled={submitting || loading} text="Save" submit type="cta"/>
+			{#snippet footer()}
+				<FormCancelButton />
+				<FormSubmitButton text="Save" />
 			{/snippet}
 		</Form>
 		<div class="flow-items-vertical">
@@ -114,9 +123,19 @@
 	<Card>
 		<h3>Toggle switch</h3>
 		<div class="flow-items-vertical">
-			<ToggleSwitch label="Default" />
+			<ToggleSwitch />
+			<ToggleSwitch label="Label" />
 			<ToggleSwitch disabled label="Disabled" />
 			<ToggleSwitch disabled checked label="Disabled checked" />
+		</div>
+
+		<h3>Checkbox</h3>
+		<div class="flow-items-vertical">
+			<Checkbox />
+			<Checkbox label="Label" />
+			<Checkbox label="Indeterminate" indeterminate={true} />
+			<Checkbox disabled label="Disabled" />
+			<Checkbox disabled label="Checked and disabled" checked />
 		</div>
 
 		<h3>Check button</h3>
@@ -178,7 +197,7 @@
 		gap: 1rem;
 	}
 
-	.field {
+	.field-with-output {
 		align-self: stretch;
 		display: flex;
 		flex-direction: column;

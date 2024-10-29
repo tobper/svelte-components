@@ -4,7 +4,7 @@
     import Menu from './Menu.svelte';
     import SelectList from './SelectList.svelte';
 
-	interface CalendarMenu {
+	interface SelectMenu {
 		/**
 		 * The id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
@@ -54,7 +54,7 @@
 		/**
 		 * Callback is called when an option is selected.
 		 */
-		on_select?: (option: Option | null) => void;
+		on_select?: (option: Option) => void;
 	}
 
 	let {
@@ -74,7 +74,7 @@
 		trigger,
 		visible = $bindable(false),
 		on_select,
-	}: CalendarMenu = $props();
+	}: SelectMenu = $props();
 </script>
 
 <Menu

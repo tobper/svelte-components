@@ -3,6 +3,7 @@ export { default as Calendar } from './components/Calendar.svelte';
 export { default as Card } from './components/Card.svelte';
 export { default as Device } from './components/Device.svelte';
 export { default as Dialog } from './components/Dialog.svelte';
+export { default as DialogCloseButton } from './components/DialogCloseButton.svelte';
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte';
 export { default as EventHandler } from './components/EventHandler.svelte';
 export { default as Layout } from './components/Layout.svelte';
@@ -25,13 +26,17 @@ export * from './components/Layout.svelte';
 export * from './components/Theme.svelte';
 
 /* Forms */
+export { default as Checkbox } from './components/forms/Checkbox.svelte';
+export { default as CheckboxField } from './components/forms/CheckboxField.svelte';
 export { default as CheckButton } from './components/forms/CheckButton.svelte';
 export { default as CurrencyField } from './components/forms/CurrencyField.svelte';
 export { default as DateField } from './components/forms/DateField.svelte';
 export { default as DateListField } from './components/forms/DateListField.svelte';
 export { default as Field } from './components/forms/Field.svelte';
 export { default as Form } from './components/forms/Form.svelte';
+export { default as FormCancelButton } from './components/forms/FormCancelButton.svelte';
 export { default as FormError } from './components/forms/FormError.svelte';
+export { default as FormSubmitButton } from './components/forms/FormSubmitButton.svelte';
 export { default as RadioButton } from './components/forms/RadioButton.svelte';
 export { default as RadioGroup } from './components/forms/RadioGroup.svelte';
 export { default as SelectField } from './components/forms/SelectField.svelte';

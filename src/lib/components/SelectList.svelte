@@ -74,7 +74,7 @@
 		/**
 		 * Callback is called when an option is selected.
 		 */
-		on_select?: (option: Option | null) => void;
+		on_select?: (option: Option) => void;
 	}
 
 	export function activate_item_starting_with(value: string) {
@@ -256,9 +256,9 @@
 
 	// Select
 
-	function select(item: ListItem | null) {
-		selected_value = item ? item.value : null;
-		on_select?.(item ? item.option : null);
+	function select(item: ListItem) {
+		selected_value = item.value;
+		on_select?.(item.option);
 	}
 
 	export function select_active_option() {
@@ -316,9 +316,7 @@
 				selected={item.value === selected_value}
 				onclick={() => {
 					active_descendant = item.id;
-
-					if (selected_value !== item.value)
-						select(item);
+					select(item);
 				}}
 			>
 				{item.label}

@@ -7,7 +7,7 @@
 	import SelectMenu from '../SelectMenu.svelte';
 	import TextField from './TextField.svelte';
 
-	type SelectListProps = ComponentProps<typeof SelectList>;
+	type SelectListProps = ComponentProps<typeof SelectList<Option>>;
 	type TextFieldProps = ComponentProps<typeof TextField>;
 
 	interface SelectField {
@@ -133,16 +133,13 @@
 	loading={async_options.loading}
 	readonly={readonly || modal}
 	role={list && 'combobox'}
-	onclick={() => {
-		if (focused)
-			menu_visible = true;
-	}}
-	oninput={({ currentTarget: input }) => {
-		list?.activate_item_starting_with(input.value);
-	}}
 	on_clear={() => {
 		on_clear?.();
 		selected_value = null;
+	}}
+	onclick={() => {
+		if (focused)
+			menu_visible = true;
 	}}
 	on_focus_in={() => {
 		load(selected_value ?? '');
@@ -157,6 +154,15 @@
 		if (!valid) {
 			selected_value = '';
 			on_clear?.();
+		}
+	}}
+	oninput={({ currentTarget: input }) => {
+		list?.activate_item_starting_with(input.value);
+	}}
+	onkeydown={event => {
+		if (event.key === 'Tab') {
+			// Prevent TextField focus handling from refocusing input when menu gets focus
+			menu_visible = false;
 		}
 	}}
 >
@@ -177,7 +183,7 @@
 			id={menu_id}
 			keyboard_capture={field_input_element}
 			on_select={option => {
-				selected_value = option ? options_value(option) : null;
+				selected_value = options_value(option);
 				menu_visible = false;
 				on_select?.(option);
 			}}

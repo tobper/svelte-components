@@ -58,6 +58,7 @@
 					<Button
 						disabled={in_progress || readonly}
 						id={button_id}
+						title="Add date"
 						variant="add"
 						onclick={() => {
 							menu_visible = true;

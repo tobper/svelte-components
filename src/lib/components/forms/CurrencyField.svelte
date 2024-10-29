@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
+	import { untrack, type ComponentProps } from 'svelte';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 	import { classes } from '../../classes.js';
 	import TextField from './TextField.svelte';
@@ -24,7 +24,7 @@
 	}
 
 	let {
-		value: props_value = $bindable(null),
+		value: field_value = $bindable(null),
 		...text_field_props
 	}: CurrencyField = $props();
 
@@ -33,21 +33,24 @@
 	let input_selection_start = $state<HTMLInputElement['selectionStart']>(null);
 	let input_selection_end = $state<HTMLInputElement['selectionEnd']>(null);
 	let input_value = $state('');
-	let input_value_previous = $state('');
 
-	// `input_value_previous` is used to avoid a circular update of `value` and `input_value`
-	// Updating `value` from outside the component should automatically update `input_value`
-	// If `input_value` equals `input_value_previous` then the value was changed from the outside
-	// If they don't match it means the value was changed by the user
-	$effect(() => {
-		if (input_value === input_value_previous) {
-			input_value = focused ? format_as_number(props_value) : format_as_pretty_text(props_value);
-			input_value_previous = input_value;
-		}
-		else {
-			props_value = parse_as_number(input_value);
-			input_value_previous = input_value;
-		}
+	$effect.pre(() => {
+		const tracked_value = field_value;
+		const tracked_focused = focused;
+
+		untrack(() => {
+			input_value = tracked_focused
+				? format_as_number(tracked_value)
+				: format_as_pretty_text(tracked_value);
+		});
+	});
+
+	$effect.pre(() => {
+		const value = input_value;
+
+		untrack(() => {
+			field_value = parse_as_number(value);
+		});
 	});
 
 	function format_as_pretty_text(value: number | null) {
@@ -71,7 +74,7 @@
 		if (text === '')
 			return null;
 
-		const amount = +(text.replace(',', '.'));
+		const amount = +(text.replace(/\s/g, '').replace(',', '.'));
 		if (isNaN(amount))
 			return null;
 
@@ -92,8 +95,8 @@
 	bind:focused
 	{...text_field_props}
 	input_class={classes({
-		'currency__negative': !focused && props_value !== null && props_value < 0,
-		'currency__positive': !focused && props_value !== null && props_value > 0,
+		'currency__negative': !focused && field_value !== null && field_value < 0,
+		'currency__positive': !focused && field_value !== null && field_value > 0,
 	})}
 	value={input_value}
 	oninput={event => {

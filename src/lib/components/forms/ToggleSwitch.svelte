@@ -4,7 +4,7 @@
 	interface ToggleSwitch {
 		id?: string;
 		class?: string;
-		label: string;
+		label?: string;
 		name?: string;
 		checked?: boolean;
 		disabled?: boolean;
@@ -14,34 +14,41 @@
 
 	let {
 		id = $bindable(unique_id()),
-		class: label_class,
+		class: class_name,
 		label,
-		name,
 		checked = $bindable(false),
-		disabled = false,
-		onchange,
-		onclick,
+		...input_props
 	}: ToggleSwitch = $props();
 </script>
 
-<label class={label_class}>
+{#if label}
+	<label class={class_name}>
+		{@render input()}
+		<span>{label}</span>
+	</label>
+{:else}
+	{@render input()}
+{/if}
+
+{#snippet input()}
 	<input
 		bind:checked
+		{...input_props}
 		{id}
-		{disabled}
-		{name}
-		{onchange}
-		{onclick}
+		class={label ? undefined : class_name}
 		type="checkbox"
 	>
-	<span>{label}</span>
-</label>
+{/snippet}
 
 <style>
 	label {
+		/* Content */
 		display: inline-flex;
 		column-gap: var(--space);
 		align-items: center;
+
+		/* Interaction */
+		user-select: none;
 	}
 
 	label:has(:enabled) {
@@ -74,7 +81,11 @@
 			box-shadow var(--field__transition-duration) ease-out;
 
 		/* Interaction */
-		cursor: inherit;
+		cursor: default;
+
+		&:enabled {
+			cursor: pointer;
+		}
 	}
  
 	input:checked {
