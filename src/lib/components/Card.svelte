@@ -2,20 +2,30 @@
 	import type { Snippet } from 'svelte';
 
 	interface Card {
-		children: Snippet;
 		header?: string;
+		children: Snippet;
+		footer?: Snippet;
 	}
 
 	let {
+		header,
 		children,
-		header
+		footer,
 	}: Card = $props();
 </script>
 
 <div class="card">
 	{#if header}
-		<h3>{header}</h3>
+		<header>
+			<h3>{header}</h3>
+		</header>
 	{/if}
 
 	{@render children()}
+
+	{#if footer}
+		<footer class="card-footer">
+			{@render footer()}
+		</footer>
+	{/if}
 </div>

@@ -3,7 +3,10 @@
 	--card__shadow: var(--panel__shadow);
 
 	.card {
-		background-color: var(--panel__background-color);
 		background: var(--panel__background);
+
+		.scheme-dark & {
+			border: var(--panel__border)
+		}
 	}
 }

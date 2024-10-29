@@ -1,36 +1,22 @@
 :root {
-	--card__padding-left: 2rem;
-	--card__padding-right: 2rem;
+	--card__background-color: var(--panel__background-color);
+	--card__padding-left: 1.5rem;
+	--card__padding-right: 1.5rem;
 }
 
 .card {
 	/* Appearance */
+	background-color: var(--card__background-color);
 	border-radius: var(--card__border-radius);
 	box-shadow: var(--card__shadow);
+
+	/* Content */
+	container: card / inline-size;
 
 	> * {
 		padding-left: var(--card__padding-left);
 		padding-right: var(--card__padding-right);
 		padding-block: 1rem;
-	}
-
-	> .table {
-		--table__padding-left: var(--card__padding-left);
-		--table__padding-right: var(--card__padding-right);
-		--table-row__background-color: var(--panel__background-color);
-
-		border-radius: inherit;
-		padding-left: 0;
-		padding-right: 0;
-
-		/* Remove padding before and after table if there is no other content there in the card */
-		&:first-child {
-			padding-top: 0;
-		}
-
-		&:last-child {
-			padding-bottom: 0;
-		}
 	}
 
 	> :where(header, h3, h4) {
@@ -44,6 +30,10 @@
 	> header {
 		box-sizing: content-box;
 		min-height: 3rem;
+
+		/* Content */
+		display: flex;
+		align-items: center;
 		justify-content: space-between;
 	}
 
@@ -52,7 +42,28 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: .5rem 1rem;
+		column-gap: var(--space);
+		row-gap: var(--space__small);
+	}
+
+	> .table-container,
+	> .table {
+		--table__padding-left: var(--card__padding-left);
+		--table__padding-right: var(--card__padding-right);
+		--table-row__background-color: var(--card__background-color);
+
+		border-radius: inherit;
+		padding-left: 0;
+		padding-right: 0;
+
+		/* Remove padding before and after table if there is no other content there in the card */
+		&:first-child {
+			padding-top: 0;
+		}
+
+		&:last-child {
+			padding-bottom: 0;
+		}
 	}
 }
 
