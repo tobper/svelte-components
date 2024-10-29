@@ -4,41 +4,44 @@
 		{
 			"label": "Build",
 			"dependsOn": [
-			  "Client",
-			  "Client type check",
-			  "Lint",
-			  "Spelling",
-			  "Test"
+				"Client",
+				"Client type check",
+				"Lint",
+				"Spelling",
+				"Test"
 			],
 			"group": {
-			  "kind": "build",
-			  "isDefault": true
+				"kind": "build",
+				"isDefault": true
 			}
-		 },
-		 {
+		},
+		{
 			"label": "Client",
 			"type": "npm",
-			"script": "dev"
-		 },
-		 {
+			"script": "dev",
+			"problemMatcher": [
+				"$tsc"
+			]
+		},
+		{
 			"label": "Client type check",
 			"type": "npm",
 			"script": "check:watch"
-		 },
-		 {
+		},
+		{
 			"label": "Lint",
 			"type": "npm",
 			"script": "lint"
-		 },
-		 {
+		},
+		{
 			"label": "Spelling",
 			"type": "npm",
 			"script": "check:spelling"
-		 },
-		 {
+		},
+		{
 			"label": "Test",
 			"type": "npm",
 			"script": "test"
-		 }
+		}
 	]
 }
