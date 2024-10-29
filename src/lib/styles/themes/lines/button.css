@@ -28,7 +28,7 @@
 
 		/* Hover */
 		&.button--hover,
-		&:hover:where(:not([aria-checked], [aria-current], [aria-disabled], :has(:disabled))) {
+		:where(.supports-hover) &:hover:where(:not([aria-checked], [aria-current], [aria-disabled], :has(:disabled))) {
 			color: color-mix(in lab, var(--button__color), var(--palette__accent-color) 25%);
 
 			.button-border > * {
@@ -47,7 +47,7 @@
 
 		/* Hover */
 		&.button--hover,
-		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
 			background-color: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 60%);
 		}
 	}
@@ -61,7 +61,7 @@
 
 		/* Hover */
 		&.button--hover,
-		&:hover:where(:not([aria-checked], [aria-current], [aria-disabled], :has(:disabled))) {
+		:where(.supports-hover) &:hover:where(:not([aria-checked], [aria-current], [aria-disabled], :has(:disabled))) {
 			.button-border > * {
 				stroke-dasharray: 100 0;
 			}
@@ -84,7 +84,7 @@
 
 		/* Hover */
 		&.button--hover,
-		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
 			color: color-mix(in lab, var(--palette__accent-color), var(--palette__scheme) 20%);
 
 			.button-text:has(+ .button-icon) {

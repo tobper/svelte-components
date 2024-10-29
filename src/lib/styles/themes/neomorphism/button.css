@@ -18,6 +18,9 @@
 		&:focus-visible,
 		&:has(:focus-visible) {
 			--button__focus-shadow: var(--focus__shadow);
+
+			/* Ensure focus shadow is not hidden by siblings */
+			z-index: 1;
 		}
 
 		/* Pressed */
@@ -28,7 +31,7 @@
 
 		/* Disabled */
 		&:is([aria-disabled], :has(:disabled)) {
-			--button-shadow: 0 .75px 1.5px rgb(0 0 0 / 20%);
+			--button-shadow: 0 .75px 2px -1px rgb(0 0 0 / 20%);
 		}
 	}
 
@@ -47,20 +50,13 @@
 		&:active:not([aria-disabled], :has(:disabled)) {
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 4%), rgb(0 0 0 / 4%));
 			box-shadow:
-				inset 0 1px var(--button__inner-shadow-blur) rgb(0 0 0 / var(--button__inner-shadow-opacity)),
+				var(--field__shadow),
 				var(--button__focus-shadow, 0 0 #0000);
-
-			--button__inner-shadow-blur: 2px;
-			--button__inner-shadow-opacity: 25%;
-
-			:where(.scheme-dark) & {
-				--button__inner-shadow-opacity: 60%;
-			}
 		}
 
 		/* Hover */
 		&.button--hover,
-		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
 			background-color: hsl(from var(--palette__accent-background) h s calc(l * .8));
 		}
 	}
@@ -69,11 +65,24 @@
 		Outlined
 	*/
 	.button-outlined {
-		--button-shadow: 0 .75px 2px rgb(0 0 0 / 20%);
+		--button-shadow:
+			0 1px 1px 0px rgb(0 0 0 / 15%),
+			1px 0 1px 0px rgb(0 0 0 / 3%),
+			-1px 0 1px 0px rgb(0 0 0 / 3%);
+
+		.scheme-dark & {
+			--button__background-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 8%);
+			--button__background-color--hover: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 2%);
+		}
+
+		.scheme-light & {
+			--button__background-color: #f8f8f8;
+			--button__background-color--hover: #f2f2f2;
+		}
 
 		color: var(--palette__accent-color);
-		background-color: var(--panel__background-color);
-		background-image: linear-gradient(to bottom, rgb(255 255 255 / 8%), rgb(0 0 0 / 4%));
+		background-color: var(--button__background-color);
+		background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 4%));
 		box-shadow:
 			var(--button-shadow),
 			var(--button__focus-shadow, 0 0 #0000);
@@ -82,23 +91,21 @@
 		&:is([aria-checked], [aria-current], [aria-selected]),
 		&:active:not([aria-disabled], :has(:disabled)) {
 			color: var(--palette__accent-contrast);
-			background-color: var(--palette__accent-color--bright);
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
 			box-shadow:
-				inset 0 1px var(--button__inner-shadow-blur) rgb(0 0 0 / var(--button__inner-shadow-opacity)),
+				var(--field__shadow),
 				var(--button__focus-shadow, 0 0 #0000);
 		}
 
-		--button__inner-shadow-blur: 2px;
-		--button__inner-shadow-opacity: 25%;
-
-		:where(.scheme-dark) & {
-			--button__inner-shadow-opacity: 50%;
+		/* Selected */
+		&:is([aria-checked], [aria-current], [aria-selected]) {
+			background-color: var(--palette__accent-color--bright);
 		}
 
 		/* Hover */
 		&.button--hover,
-		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+			--button__background-color:  var(--button__background-color--hover);
 			color: var(--palette__accent-contrast);
 		}
 	}
@@ -116,8 +123,8 @@
 
 		/* Hover */
 		&.button--hover,
-		&:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			color: color-mix(in lab, var(--palette__accent-color), var(--palette__scheme) 20%);
+		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+			color: var(--palette__accent-contrast);
 
 			.button-text:has(+ .button-icon) {
 				color: var(--palette__text--contrast);

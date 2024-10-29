@@ -1,5 +1,11 @@
 export function classes(
-  ...args: (string | Record<string, boolean> | null | undefined | false)[]
+  ...args: (
+		| string
+		| Record<string, boolean | null | undefined | false>
+		| null
+		| undefined
+		| false
+	)[]
 ) {
   const classes = new Set<string>()
 

@@ -87,7 +87,7 @@
 			justify-content: space-between;
 			gap: 1rem;
 
-			&:hover {
+			:where(.supports-hover) &:hover {
 				background-color: var(--list-item__background-color--active);
 			}
 		}

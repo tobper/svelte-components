@@ -205,6 +205,7 @@
 		<Button
 			class="field-clear"
 			focusable={false}
+			rounded={false}
 			onclick={() => {
 				// Make sure both bound value and input value is updated before calling callback
 				value = input_element!.value = '';
