@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Card, PageHeader, SelectList } from '$lib/index.js';
+	import { Card, PageContent, PageHeader, SelectList } from '$lib/index.js';
 	import { food, get_food_heading, random } from './data.js';
 
 	let value = $state<string | null>(null);
 </script>
 
-<article class="page-content" id="List">
+<PageContent id="List">
 	<PageHeader text="List" />
 	<Card>
 		<div class="flow-items">
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</Card>
-</article>
+</PageContent>
 
 <style>
 	.flow-items {

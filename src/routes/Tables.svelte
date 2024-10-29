@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Card, PageHeader } from '$lib/index.js';
+	import { Card, PageContent, PageHeader } from '$lib/index.js';
 	import { food, random } from './data.js';
 </script>
 
-<article class="page-content" id="Table">
+<PageContent id="Table">
 	<PageHeader text="Normal table" />
 	<Card>
 		<div class="table">
@@ -31,9 +31,9 @@
 			</footer>
 		</div>
 	</Card>
-</article>
+</PageContent>
 
-<article class="page-content">
+<PageContent>
 	<PageHeader text="Table features" />
 	<Card>
 		<h3>List</h3>
@@ -91,9 +91,9 @@
 			</div>
 		</div>
 	</Card>
-</article>
+</PageContent>
 
-<article class="page-content">
+<PageContent>
 	<PageHeader text="List" />
 	<div class="table">
 		<header>
@@ -112,4 +112,4 @@
 			{/each}
 		</ul>
 	</div>
-</article>
+</PageContent>

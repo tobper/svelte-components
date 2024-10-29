@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { PageHeader } from '$lib/index.js';
+	import { PageContent, PageHeader } from '$lib/index.js';
 
 	/* spellchecker:disable */
 </script>
 
-<article class="page-content" id="Page content">
+<PageContent id="Page content">
 	<PageHeader text="Page content" />
 	<p>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum magna ac orci convallis,
@@ -17,4 +17,4 @@
 		iaculis velit, at auctor purus porttitor eget. Nunc neque neque, interdum nec nulla eget,
 		elementum mattis enim. Donec id luctus ante, id fermentum lacus.
 	</p>
-</article>
+</PageContent>

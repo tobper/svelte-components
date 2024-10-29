@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Card, PageHeader } from '$lib/index.js';
+	import { Card, PageContent, PageHeader } from '$lib/index.js';
 </script>
 
-<article class="page-content" id="Palette">
+<PageContent id="Palette">
 	<PageHeader text="Palette" />
 	<Card>
 		<h3>Variant</h3>
@@ -22,7 +22,7 @@
 			<div class="status status-warning">Warning</div>
 		</div>
 	</Card>
-</article>
+</PageContent>
 
 <style>
 	.status {

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Calendar, Card, PageHeader } from '$lib/index.js';
+	import { Calendar, Card, PageContent, PageHeader } from '$lib/index.js';
 </script>
 
-<article class="page-content" id="Calendar">
+<PageContent id="Calendar">
 	<PageHeader text="Calendar" />
 	<Card>
 		<div class="flow-items-vertical">
 			<Calendar />
 		</div>
 	</Card>
-</article>
+</PageContent>

@@ -13,6 +13,7 @@ export { default as ListItemSeparator } from './components/ListItemSeparator.sve
 export { default as ListItemText } from './components/ListItemText.svelte';
 export { default as Loading } from './components/Loading.svelte';
 export { default as Menu } from './components/Menu.svelte';
+export { default as PageContent } from './components/PageContent.svelte';
 export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as SelectList } from './components/SelectList.svelte';
 export { default as SidebarToggleButton } from './components/SidebarToggleButton.svelte';

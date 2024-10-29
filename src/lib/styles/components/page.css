@@ -58,3 +58,13 @@
 	justify-content: space-between;
 	column-gap: var(--space__large);
 }
+
+.page-footer {
+	margin-top: var(--space);
+
+	/* Content */
+	display: flex;
+	align-items: center;
+	column-gap: var(--space);
+	row-gap: var(--space__small);
+}

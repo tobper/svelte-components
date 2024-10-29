@@ -3,7 +3,7 @@
 	import ChevronRightIcon from '$lib/components/icons/ChevronRightIcon.svelte';
 	import ClearIcon from '$lib/components/icons/ClearIcon.svelte';
 	import type { ButtonType, ButtonVariant } from '$lib/index.js';
-	import { Button, Card, PageHeader } from '$lib/index.js';
+	import { Button, Card, PageContent, PageHeader } from '$lib/index.js';
 
 	const button_types: [string, ButtonType][] = [
 		['Outlined', 'outlined'],
@@ -13,7 +13,7 @@
 	const button_variants: ButtonVariant[] = ['primary', 'secondary', 'tertiary', 'add', 'delete'];
 </script>
 
-<article class="page-content" id="Button">
+<PageContent id="Button">
 	<PageHeader text="Button" />
 	<Card>
 		{#each button_types as [heading, type]}
@@ -59,7 +59,7 @@
 			</div>
 		</div>
 	</Card>
-</article>
+</PageContent>
 
 {#snippet ButtonIcon()}<ClearIcon />{/snippet}
 {#snippet ChevronLeft()}<ChevronLeftIcon />{/snippet}

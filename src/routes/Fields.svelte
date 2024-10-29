@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, FormError, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CheckButton, CurrencyField, DateField, DateListField, Form, FormError, PageContent, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
 	import { food, fruits, get_food_heading } from './data.js';
@@ -13,7 +13,7 @@
 	let dates_value = $state<DateOnly[]>([]);
 </script>
 
-<article class="page-content" id="Form">
+<PageContent id="Form">
 	<PageHeader text="Text fields" />
 	<Card>
 		<Form error="Form error" field_errors={{ date: ['Invalid date'] }} loading={form_loading}>
@@ -78,9 +78,9 @@
 		<ToggleSwitch label="Form loading" bind:checked={form_loading} />
 		<ToggleSwitch label="Field loading" bind:checked={field_loading} />
  	</Card>
-</article>
+</PageContent>
 
-<article class="page-content">
+<PageContent>
 	<PageHeader text="Form transitions" />
 	<Card>
 		<Form loading={form_loading}>
@@ -107,9 +107,9 @@
 			<ToggleSwitch label="Submitting" disabled />
 		</div>
 	</Card>
-</article>
+</PageContent>
 
-<article class="page-content">
+<PageContent>
 	<PageHeader text="On / off" />
 	<Card>
 		<h3>Toggle switch</h3>
@@ -166,7 +166,7 @@
 			</RadioGroup>
 		</div>
 	</Card>
-</article>
+</PageContent>
 
 {#snippet CalendarIcon()}<IconCalendarMonth />{/snippet}
 {#snippet SearchIcon()}<IconSearch />{/snippet}

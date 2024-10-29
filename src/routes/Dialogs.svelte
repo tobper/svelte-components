@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { Button, Card, Dialog, PageHeader } from '$lib/index.js';
+	import { Button, Card, Dialog, PageContent, PageHeader } from '$lib/index.js';
 
 	let visible = $state(false);
 </script>
 
-<article class="page-content" id="Dialog">
+<PageContent id="Dialog">
 	<PageHeader text="Dialog" />
 	<Card>
 		<div class="flow-items">
 			<Button type="outlined" text="Open" onclick={() => { visible = true; }} />
 		</div>
 	</Card>
-</article>
+</PageContent>
 
 <Dialog bind:visible header="Header">
 	<div style="width: 400px;">

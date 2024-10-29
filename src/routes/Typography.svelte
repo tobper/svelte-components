@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Card, PageHeader } from '$lib/index.js';
+	import { Card, PageContent, PageHeader } from '$lib/index.js';
 </script>
 
-<article class="page-content" id="Typography">
+<PageContent id="Typography">
 	<PageHeader text="Typography" />
 	<Card>
 		<div class="flow-items-vertical">
@@ -13,4 +13,4 @@
 			<p>Paragraph</p>
 		</div>
 	</Card>
-</article>
+</PageContent>
