@@ -1,5 +1,5 @@
 hr {
-	border-color: var(--palette__neutral);
+	border-color: hsl(from var(--palette__neutral) h s l / 40%);
 	border-style: solid;
 	border-width: 1px 0 0;
 	height: 0;

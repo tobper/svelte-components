@@ -46,6 +46,14 @@
 		row-gap: var(--space__small);
 	}
 
+	> hr {
+		padding: 0;
+		margin-block: var(--space);
+		margin-left: var(--card__padding-left);
+		margin-right: var(--card__padding-right);
+		width: calc(100% - var(--card__padding-left) - var(--card__padding-right));
+	}
+
 	> .table-container,
 	> .table {
 		--table__padding-left: var(--card__padding-left);
