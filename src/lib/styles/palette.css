@@ -29,6 +29,7 @@
 	--palette__contrast-opacity: 3%;
 	--palette__neutral: oklch(70% 0 0);
 	--palette__neutral-background: oklch(90% 0 0);
+	--palette__neutral-background: var(--palette__background);
 
 	--palette__background: var(--palette__background-light);
 	--palette__text: #333;
@@ -66,7 +67,7 @@
 	--palette__contrast: white;
 	--palette__contrast-opacity: 4%;
 	--palette__neutral: oklch(57% 0 0);
-	--palette__neutral-background: oklch(45% 0 0);
+	--palette__neutral-background: color-mix(in lab, var(--palette__background), var(--palette__contrast) 25%);
 
 	--palette__background: var(--palette__background-dark);
 	--palette__text: #eee;

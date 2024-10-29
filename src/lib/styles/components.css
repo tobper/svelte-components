@@ -26,15 +26,6 @@
 	--glass__background-color: hsl(from var(--glass-bg, var(--palette__background)) h s l / 60%);
 	--glass__backdrop-filter: blur(7px);
 
-	--list__border-radius: .25rem;
-
-	--list-item__height: 3rem;
-	--list-item__padding: .75rem 1rem;
-	--list-item__background-color--active: var(--palette__neutral-background);
-	--list-item__background-color--selected: var(--palette__primary-background);
-	--list-item__text-color: var(--palette__text);
-	--list-item__text-color--selected: var(--palette__text--inverted);
-
 	--menu__backdrop-blur: 1px;
 
 	--skeleton__border-radius: 1.5rem;

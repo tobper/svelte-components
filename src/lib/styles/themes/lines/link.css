@@ -1,4 +1,9 @@
 :where(.theme-lines) {
+	--link__color: var(--palette__text);
+	--link__column-gap: 0.25rem;
+	--link__outline-radius--focus: .5rem;
+	--link__outline-width--focus: .125rem;
+
 	.link {
 		/*  Appearance */
 		color: var(--link__color);
@@ -15,21 +20,19 @@
 			outline-style: solid;
 		}
 
-		@media (hover: hover) {
-			&.link--hover,
-			&:hover:where(:not([aria-current])) {
-				/* Color entire link if it doesn't contain an h3 or p */
-				&:not(:has(h3, p)),
-				/* Also color contained h3 and p */
-				h3, p {
-					/* color: var(--link__color--hover, var(--link__color)); */
-					color: color-mix(in lab, var(--link__color), var(--palette__background) 25%);
-				}
+		&.link--hover,
+		:where(.supports-hover) &:hover:where(:not([aria-current])) {
+			/* Color entire link if it doesn't contain an h3 or p */
+			&:not(:has(h3, p)),
+			/* Also color contained h3 and p */
+			h3, p {
+				/* color: var(--link__color--hover, var(--link__color)); */
+				color: color-mix(in lab, var(--link__color), var(--palette__background) 25%);
+			}
 
-				/* TODO: Fix icons */
-				.icon  {
-					color: var(--link-icon-color--hover, var(--link-icon-color, inherit));
-				}
+			/* TODO: Fix icons */
+			.icon  {
+				color: var(--link-icon-color--hover, var(--link-icon-color, inherit));
 			}
 		}
 

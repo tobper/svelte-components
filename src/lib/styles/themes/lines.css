@@ -1,4 +1,3 @@
-@import './lines/button-group.css';
 @import './lines/button.css';
 @import './lines/calendar.css';
 @import './lines/card.css';
@@ -13,18 +12,10 @@
 @import './lines/panel.css';
 
 .theme-lines {
-	--button__color: var(--palette__text);
-	--button__border-radius: 5px;
-
 	--field-label__color: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 50%);
 	--field-content__margin-block: .125rem;
 	--field-input__padding-block: .125rem;
 	--field-input-line__color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 30%);
-
-	--link__color: var(--palette__text);
-	--link__column-gap: 0.25rem;
-	--link__outline-radius--focus: .5rem;
-	--link__outline-width--focus: .125rem;
 
 	--menu__border-radius: .5rem;
 	--menu__shadow: 0 4px 10px rgba(0, 0, 0, 0.25);

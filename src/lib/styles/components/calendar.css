@@ -12,11 +12,14 @@
 
 	.select-list {
 		grid-row: 2;
+
+		/* Content */
 		display: grid;
 		grid-template-columns: repeat(7, auto);
+		gap: 0px;
 
 		li {
-			padding: .125rem;
+			padding: 1px;
 		}
 	
 		[role=heading] {

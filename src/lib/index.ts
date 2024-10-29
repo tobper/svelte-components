@@ -9,6 +9,7 @@ export { default as EventHandler } from './components/EventHandler.svelte';
 export { default as Layout } from './components/Layout.svelte';
 export { default as List } from './components/List.svelte';
 export { default as ListItemHeading } from './components/ListItemHeading.svelte';
+export { default as ListItemLink } from './components/ListItemLink.svelte';
 export { default as ListItemOption } from './components/ListItemOption.svelte';
 export { default as ListItemSeparator } from './components/ListItemSeparator.svelte';
 export { default as ListItemText } from './components/ListItemText.svelte';

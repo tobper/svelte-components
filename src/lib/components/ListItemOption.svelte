@@ -40,7 +40,6 @@
 		current={selected}
 		focusable={list.focusable && current}
 		pseudo_focus={!list.focusable && current}
-		type="plain"
 	>
 		{@render children()}
 	</Button>
