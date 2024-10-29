@@ -1,5 +1,5 @@
 <script lang="ts" generics="Option">
-    import { unique_id } from '$lib/unique_id.js';
+    import { unique_id } from '../unique_id.js';
     import EventHandler from './EventHandler.svelte';
     import Menu from './Menu.svelte';
     import SelectList from './SelectList.svelte';

@@ -2,8 +2,7 @@
 	import ChevronLeftIcon from '$lib/components/icons/ChevronLeftIcon.svelte';
 	import ChevronRightIcon from '$lib/components/icons/ChevronRightIcon.svelte';
 	import ClearIcon from '$lib/components/icons/ClearIcon.svelte';
-	import type { ButtonType, ButtonVariant } from '$lib/index.js';
-	import { Button, Card, PageContent, PageHeader } from '$lib/index.js';
+	import { Button, Card, PageContent, PageHeader, type ButtonType, type ButtonVariant } from '$lib/index.js';
 
 	const button_types: [string, ButtonType][] = [
 		['Outlined', 'outlined'],

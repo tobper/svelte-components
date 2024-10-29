@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { unique_id } from '$lib/unique_id.js';
 	import { get_date_only_key, is_same_date, try_parse_date_only, type DateOnly } from '@tobper/eon';
 	import { device } from '../../device.js';
+	import { unique_id } from '../../unique_id.js';
 	import Calendar from '../Calendar.svelte';
 	import CalendarMenu from '../CalendarMenu.svelte';
 	import CalendarIcon from '../icons/CalendarIcon.svelte';

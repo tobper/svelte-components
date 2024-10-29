@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { unique_id } from '$lib/unique_id.js';
 	import type { DateOnly } from '@tobper/eon';
+	import { unique_id } from '../unique_id.js';
 	import Calendar from './Calendar.svelte';
 	import EventHandler from './EventHandler.svelte';
 	import Menu from './Menu.svelte';

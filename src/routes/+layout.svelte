@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { device } from '$lib/device.js';
-	import { Device, ElementClickOnMouseDown, Layout, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
+	import { Device, device, ElementClickOnMouseDown, Layout, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
 	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
