@@ -48,8 +48,7 @@
 }
 
 .scroll-shadow {
-  box-shadow: rgb(0 0 0 / 40%) 0 0 .5rem;
-  clip-path: inset(0 0 -1rem);
+	box-shadow: 0 1rem .5rem -1rem rgb(0 0 0 / 40%);
 }
 
 .scroll-snap-horizontal {
