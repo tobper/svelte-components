@@ -2,6 +2,7 @@
 	"name": "@tobper/svelte-components",
 	"version": "0.0.26",
 	"description": "Svelte components",
+	"license": "MIT",
 	"author": "Tobias Persson",
 	"repository": "github:tobper/svelte-components",
 	"scripts": {
