@@ -20,7 +20,7 @@
 		border-radius: .25rem;
 
 		button {
-			margin: .25rem;
+			margin: 3px;
 			border-radius: .15rem;
 		}
 	}
@@ -40,7 +40,7 @@
 	.field-clear,
 	.field-content,
 	.field-content > .icon {
-		transition-property: color, background-color, border-color, box-shadow, opacity;
+		transition-property: color, background-color, border-color, opacity;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		transition-duration: var(--field__transition-duration);
 	}
@@ -56,7 +56,7 @@
 		);
 		box-shadow:
 			var(--field__shadow),
-			var(--field__shadow--focused, 0 0 #0000);
+			var(--field__shadow--focus, 0 0 #0000);
 
 		--field__gradient-opacity: 0%;
 
@@ -68,8 +68,6 @@
 	/* Focus */
 	[type=checkbox]:focus-visible,
 	.field:has(input:focus-visible) .field-content {
-		.not-mobile & {
-			--field__shadow--focused: var(--focus__shadow);
-		}
+		--field__shadow--focus: var(--shadow__focus);
 	}
 }

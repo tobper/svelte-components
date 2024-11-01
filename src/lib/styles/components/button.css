@@ -6,6 +6,10 @@
 	selected: Button is pressed and can be interacted with (toggle button)
 */
 
+.button-group {
+	display: inline-flex;
+}
+
 .button-cta,
 .button-outlined {
 	/* Layout */

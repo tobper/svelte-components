@@ -1,5 +1,12 @@
 :root {
 	/*
+		Box shadows
+	*/
+	--shadow__medium:
+		0 4px 6px -1px rgb(0 0 0 / 0.1),
+		0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+	/*
 		Spacing
 	*/
 	--space: 1rem;
@@ -9,11 +16,13 @@
 	--space__large: calc(2 * var(--space));
 
 	/*
-		Box shadows
+		Stacking
 	*/
-	--shadow__medium:
-		0 4px 6px -1px rgb(0 0 0 / 0.1),
-		0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--z__focused: 1;
+	--z__overlay: 10;
+	--z__page-header: 20;
+	--z__layout: 50;
+	--z__menu: 100;
 
 	/*
 		Animation
@@ -25,6 +34,15 @@
 		--transition__duration--fast: 0s;
 		--transition__duration--instant: 0s;
 	}
+}
+
+.device-desktop *,
+.device-tablet * {
+	--shadow__focus: 0 0 1px 1px var(--palette__accent-color);
+}
+
+.device-mobile * {
+	--shadow__focus: 0 0 #0000;
 }
 
 .flow-items {

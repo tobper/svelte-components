@@ -59,7 +59,7 @@
 		--toggle__height: 1.25rem;
 		--toggle__background: var(--field__background, var(--palette__background));
 		--toggle__offset: calc(var(--toggle__height) * -1);
-		--toggle__shadow: var(--field__shadow, 0 0 #0000);
+		--toggle__shadow: var(--toggle__offset) 0 0 2px var(--toggle__background) inset;
 
 		/* Layout */
 		height: var(--toggle__height);
@@ -71,8 +71,8 @@
 		background-color: var(--palette__neutral);
 		border-radius: 9999px;
 		box-shadow:
+			var(--field__shadow, 0 0 #0000),
 			var(--toggle__shadow),
-			var(--toggle__offset) 0 0 2px var(--toggle__background) inset,
 			0 0 0 2px var(--toggle__background) inset,
 			var(--toggle__focus-shadow, 0 0 #0000);
 
@@ -96,6 +96,6 @@
 	}
  
 	input:focus-visible {
-		--toggle__focus-shadow: var(--focus__shadow);
+		--toggle__focus-shadow: var(--shadow__focus);
 	}
 </style>

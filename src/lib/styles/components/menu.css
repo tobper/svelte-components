@@ -4,7 +4,7 @@
 	min-width: anchor-size(width);
 	position-area: bottom span-right;
 	position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-	z-index: 20;
+	z-index: var(--z__menu);
 
 	/* Appearance */
 	background: var(--panel__background-color);

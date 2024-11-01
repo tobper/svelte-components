@@ -1,4 +1,47 @@
 :where(.theme-lines) {
+	--button__color: var(--palette__text);
+	--button__border-radius: 5px;
+
+	/* .button-group {
+		> .button--round:not(:last-child) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+
+			.button-border rect {
+				display: unset;
+			}
+
+			&:first-child .button-border {
+				circle {
+					stroke-dasharray: 0 25 50 25;
+				}
+
+				rect {
+					clip-path: inset(0 0 0 50%);
+				}
+			}
+		}
+
+		> .button--round:not(:first-child) {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+
+			.button-border rect {
+				display: unset;
+			}
+
+			&:last-child .button-border {
+				circle {
+					stroke-dasharray: 25 50 25;
+				}
+
+				rect {
+					clip-path: inset(0 50% 0 0);
+				}
+			}
+		}
+	} */
+
 	.button-cta,
 	.button-outlined,
 	.button-plain {

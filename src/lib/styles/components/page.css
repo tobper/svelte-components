@@ -47,7 +47,7 @@
 	padding-top: var(--page-header__padding-top);
 	height: var(--page-header__height);
 	box-sizing: content-box;
-	z-index: 1;
+	z-index: var(--z__page-header);
 
 	padding-left: var(--page-content__padding-left);
 	padding-right: var(--page-content__padding-right);

@@ -1,12 +1,32 @@
 :where(.theme-neomorphism) {
+	--button__border-radius: .25rem;
+	--button__height: 3rem;
+	--button__height--small: 2.5rem;
+
+	.button-group {
+		border-radius: var(--button__border-radius);
+
+		&[role=radiogroup]:has([type=radio]:focus-visible) {
+			box-shadow: var(--shadow__focus);
+		}
+
+		> :not(:first-child) {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+
+		> :not(:last-child) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+
 	/*
 		All buttons
 	*/
 	.button-cta,
 	.button-outlined,
 	.button-plain {
-		--focus__shadow: 0 0 1px 1px var(--palette__accent-color);
-
 		/* Layout */
 		height: var(--button__height);
 
@@ -16,11 +36,11 @@
 		/* Focus */
 		&.button--pseudo-focus,
 		&:focus-visible,
-		&:has(:focus-visible) {
-			--button__focus-shadow: var(--focus__shadow);
+		&:has(:focus-visible:not([type=radio])) {
+			--button__shadow--focus: var(--shadow__focus);
 
 			/* Ensure focus shadow is not hidden by siblings */
-			z-index: 1;
+			z-index: var(--z__focused);
 		}
 
 		/* Pressed */
@@ -31,19 +51,19 @@
 
 		/* Disabled */
 		&:is([aria-disabled], :has(:disabled)) {
-			--button-shadow: 0 .75px 2px -1px rgb(0 0 0 / 20%);
+			--button__shadow: 0 .75px 2px -1px rgb(0 0 0 / 20%);
 		}
 	}
 
 	.button-cta {
-		--button-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+		--button__shadow: 0 1px 2px rgb(0 0 0 / 20%);
 
 		color: var(--palette__text--inverted);
 		background-color: var(--palette__accent-background);
 		background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 10%));
 		box-shadow:
-			var(--button-shadow),
-			var(--button__focus-shadow, 0 0 #0000);
+			var(--button__shadow),
+			var(--button__shadow--focus, 0 0 #0000);
 		
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected]),
@@ -51,7 +71,7 @@
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 4%), rgb(0 0 0 / 4%));
 			box-shadow:
 				var(--field__shadow),
-				var(--button__focus-shadow, 0 0 #0000);
+				var(--button__shadow--focus, 0 0 #0000);
 		}
 
 		/* Hover */
@@ -65,7 +85,7 @@
 		Outlined
 	*/
 	.button-outlined {
-		--button-shadow:
+		--button__shadow:
 			0 1px 1px 0px rgb(0 0 0 / 15%),
 			1px 0 1px 0px rgb(0 0 0 / 3%),
 			-1px 0 1px 0px rgb(0 0 0 / 3%);
@@ -84,8 +104,8 @@
 		background-color: var(--button__background-color);
 		background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 4%));
 		box-shadow:
-			var(--button-shadow),
-			var(--button__focus-shadow, 0 0 #0000);
+			var(--button__shadow),
+			var(--button__shadow--focus, 0 0 #0000);
 
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected]),
@@ -94,7 +114,7 @@
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
 			box-shadow:
 				var(--field__shadow),
-				var(--button__focus-shadow, 0 0 #0000);
+				var(--button__shadow--focus, 0 0 #0000);
 		}
 
 		/* Selected */
@@ -115,7 +135,7 @@
 	*/
 	.button-plain {
 		color: var(--palette__accent-color);
-		box-shadow: var(--button__focus-shadow, 0 0 #0000);
+		box-shadow: var(--button__shadow--focus, 0 0 #0000);
 
 		.button-text:has(+ .button-icon) {
 			color: var(--palette__text);

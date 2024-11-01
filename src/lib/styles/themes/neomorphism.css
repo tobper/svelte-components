@@ -1,4 +1,3 @@
-@import './neomorphism/button-group.css';
 @import './neomorphism/button.css';
 @import './neomorphism/calendar.css';
 @import './neomorphism/card.css';
@@ -14,10 +13,6 @@
 @import './neomorphism/swap.css';
 
 .theme-neomorphism {
-	--button__border-radius: .25rem;
-	--button__height: 3rem;
-	--button__height--small: 2.5rem;
-
 	--field-content__margin-block: 0px;
 	--field-input__padding-block: .5rem;
 

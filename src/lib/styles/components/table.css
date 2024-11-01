@@ -41,7 +41,7 @@
 			position: absolute;
 			inset: 0;
 			content: '';
-			z-index: var(--z-index__table-overlay);
+			z-index: var(--z__overlay);
 			cursor: default;
 		}
 	}

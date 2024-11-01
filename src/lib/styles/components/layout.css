@@ -46,7 +46,7 @@
 			width: 100%;
 			padding-top: var(--layout__padding-top);
 			top: 0;
-			z-index: 10;
+			z-index: var(--z__layout);
 
 			/* Appearance */
 			background: var(--palette__background);
@@ -68,7 +68,7 @@
 			width: 100%;
 			bottom: 0;
 			padding-bottom: var(--layout__padding-bottom);
-			z-index: 10;
+			z-index: var(--z__layout);
 
 			/* Appearance */
 			background: var(--palette__background);
@@ -106,7 +106,7 @@
 	bottom: calc(var(--layout-footer__height) + var(--layout__padding-bottom));
 	padding-left: var(--layout__padding-left);
 	padding-bottom: var(--layout-content__padding-bottom);
-	z-index: 9;
+	z-index: var(--z__layout);
 	overflow: auto;
 
 	&.hidden {
