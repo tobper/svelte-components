@@ -1,29 +1,15 @@
 <script lang="ts">
-	import { autoPlacement, autoUpdate, computePosition, offset, size, type Placement } from '@floating-ui/dom';
+	import { autoPlacement, autoUpdate, computePosition, offset, size } from '@floating-ui/dom';
 	import { get_element } from '../html.js';
 
 	interface MenuPlugin {
 		anchor: HTMLElement | string;
 		anchored: HTMLElement | string;
-		placement?: Placement;
 	}
-
-	const middleware = [
-		autoPlacement(),
-		offset(6),
-		size({
-			apply({ rects, elements }) {
-				Object.assign(elements.floating.style, {
-					'min-width': `${rects.reference.width}px`,
-				})
-			}
-		})
-	];
 
 	let {
 		anchor: anchor_element_or_id,
 		anchored: anchored_element_or_id,
-		placement = 'bottom-start',
 	}: MenuPlugin = $props();
 
 	$effect(() => {
@@ -43,8 +29,19 @@
 				anchor,
 				anchored,
 				{
-					middleware,
-					placement,
+					middleware: [
+						autoPlacement({
+							alignment: 'start',
+						}),
+						offset(6),
+						size({
+							apply({ rects, elements }) {
+								Object.assign(elements.floating.style, {
+									'min-width': `max(var(--menu__min-width), ${rects.reference.width}px)`,
+								})
+							}
+						})
+					],
 					strategy
 				}
 			);

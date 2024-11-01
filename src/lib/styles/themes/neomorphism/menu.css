@@ -5,23 +5,24 @@
 
 /* Animation */
 .menu {
-	opacity: 0;
-	transform: translateY(1rem) scaleX(98%);
-	transition:
-		opacity .25s,
-		transform cubic-bezier(0.4, 0, 0.2, 1) .25s,
-		overlay .25s allow-discrete,
-		display .25s allow-discrete;
+	--menu__opacity: 0;
+	--menu__transform: translateY(1rem) scaleX(98%);
+
+	opacity: var(--menu__opacity);
+	transform: var(--menu__transform);
+
+	transition-behavior: allow-discrete;
+	transition-duration: var(--menu__transition-duration);
+	transition-property: opacity transform display overlay;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .menu[open] {
-	opacity: 1;
-	transform: translateY(0) scaleX(1);
-}
+	--menu__opacity: 1;
+	--menu__transform: translateY(0) scaleX(1);
 
-@starting-style {
-	.menu[open] {
-		opacity: 0;
-		transform: translateY(1rem) scaleX(98%);
+	@starting-style {
+		--menu__opacity: 0;
+		--menu__transform: translateY(1rem) scaleX(98%);
 	}
 }

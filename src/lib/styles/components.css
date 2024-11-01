@@ -25,8 +25,6 @@
 	--glass__background-color: hsl(from var(--glass-bg, var(--palette__background)) h s l / 60%);
 	--glass__backdrop-filter: blur(7px);
 
-	--menu__backdrop-blur: 1px;
-
 	--skeleton__border-radius: 1.5rem;
 	--skeleton__background: oklch(from var(--palette__background) calc(l - .03) c h);
 }
