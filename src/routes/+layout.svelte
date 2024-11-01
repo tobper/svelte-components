@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Device, device, ElementClickOnMouseDown, Layout, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
+	import { Device, device, ElementClickOnMouseDown, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
 	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
@@ -11,7 +11,7 @@
 		{ name: 'neomorphism', text: 'Neomorphism' },
 	];
 
-	const nav = [
+	const nav_items = [
 		'Typography',
 		'Palette',
 		'Button',
@@ -78,30 +78,24 @@
 	{/snippet}
 
 	{#snippet sidebar()}
-		<div class="sidebar">
-			<nav>
-				{#each nav as text}
-					<a class="link" href={`#${text}`}>{text}</a>
+		<nav>
+			<ul>
+				{#each nav_items as text}
+					<ListItemLink href={`#${text}`} {text} />
 				{/each}
-			</nav>
-			<div class="flow-items-vertical">
+			</ul>
+			<ul>
 				<Device mobile>
 					<hr />
 				</Device>
-				<nav>
-					{#each available_themes as available_theme}
-						<a
-							aria-current={current_theme === available_theme.name ? 'page' : undefined}
-							class="link"
-							data-sveltekit-reload
-							href={`?theme=${available_theme.name}`}
-						>
-							{available_theme.text}
-						</a>
-					{/each}
-				</nav>
-			</div>
-		</div>
+				{#each available_themes as available_theme}
+					{@const href = `?theme=${available_theme.name}`}
+					{@const text = available_theme.text}
+
+					<ListItemLink {href} {text} />
+				{/each}
+			</ul>
+		</nav>
 	{/snippet}
 
 	{#snippet main()}
@@ -163,32 +157,5 @@
 	.footer {
 		/* Do not add extra bottom padding if layout is already padded */
 		padding-bottom: max(0px, 1rem - var(--layout__padding-bottom));
-	}
-
-	.sidebar {
-		height: 100%;
-
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: 1rem;
-
-		:global(.layout-sidebar--fixed &) {
-			padding-right: 2rem;
-		}
-
-		:global(.device-mobile &) {
-			min-width: 15rem;
-		}
-
-		.link {
-			display: block;
-			font-size: var(--h4__font-size);
-			padding-block: var(--space__small);
-
-			:global(.device-mobile &) {
-				padding-block: var(--space);
-			}
-		}
 	}
 </style>

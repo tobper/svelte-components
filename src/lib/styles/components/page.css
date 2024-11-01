@@ -6,7 +6,7 @@
 	--page-header__padding-top: var(--layout__padding-top);
 	--page-header__height: 3rem;
 
-	--page-content__scroll-top: var(--layout-header__height);
+	--page-content__scroll-top: calc(var(--page-header__padding-top) + var(--layout-header__height));
 }
 
 .layout-sidebar--fixed + .layout-main {
@@ -30,6 +30,7 @@
 	.device-mobile & > .card,
 	> .page-header,
 	> .table {
+		border-inline: none;
 		margin-left: 0;
 		margin-right: 0;
 	}

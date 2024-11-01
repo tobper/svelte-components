@@ -6,7 +6,7 @@
 		background: var(--panel__background);
 
 		.scheme-dark & {
-			border: var(--panel__border)
+			border: var(--panel__border);
 		}
 	}
 }

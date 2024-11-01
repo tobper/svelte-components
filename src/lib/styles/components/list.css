@@ -14,6 +14,7 @@
 	--list__max-items: 6;
 }
 
+nav > ul,
 .navigation-list {
 	display: flex;
 
@@ -21,19 +22,15 @@
 		a {
 			width: 100%;
 			padding-block: var(--space__medium);
-
-			&[aria-current] {
-				/* color: var(--link__color--current); */
-			}
 		}
 
 		header {
-			/* color: var(--palette__primary-color); */
 			font-size: var(--h4__font-size);
-		}
 
-		small {
-			/* color: var(--palette__text); */
+			.device-mobile,
+			.device-tablet {
+				font-weight: 500;
+			}
 		}
 	}
 

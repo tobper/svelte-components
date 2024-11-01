@@ -47,16 +47,17 @@
 
 .flow-items {
 	display: flex;
+	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 1rem;
+	gap: var(--space);
 }
 
 .flow-items-vertical {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 1rem;
+	gap: var(--space);
 }
 
 .glass {
@@ -98,11 +99,4 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-@keyframes scale_in {
-	from {
-		opacity: 0;
-		scale: 1.02;
-	}
 }

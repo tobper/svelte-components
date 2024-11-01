@@ -6,12 +6,14 @@
 	interface SidebarToggleButton {
 		animation?: ComponentProps<typeof CheckButton>['animation'];
 		content: ComponentProps<typeof CheckButton>['content'];
+		text?: string;
 		type?: ComponentProps<typeof CheckButton>['type'];
 	}
 
 	let {
 		animation = 'rotate',
 		content,
+		text,
 		type = 'plain',
 	}: SidebarToggleButton = $props();
 
@@ -21,6 +23,7 @@
 <CheckButton
 	{animation}
 	{content}
+	{text}
 	{type}
 	bind:checked={layout.sidebar_visible}
 />
