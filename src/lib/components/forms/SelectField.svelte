@@ -1,5 +1,5 @@
 <script lang="ts" generics="Option">
-	import type { ComponentProps } from 'svelte';
+	import { tick, untrack, type ComponentProps } from 'svelte';
 	import { device } from '../../device.js';
 	import { async_value } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
@@ -80,17 +80,24 @@
 		text_field?.focus()
 	}
 
-	const async_options = async_value<Array<Option>>([]);
+	const async_options = async_value<Array<Option>>([], {
+		on_updated: async () => {
+			// Wait for list to update
+			await tick();
+			list?.activate_item_starting_with(selected_value);
+		}
+	});
+	const { delayed, loaded } = $derived(async_options);
+	const options = $derived(async_options.value);
+	const modal = $derived(device.mobile && type === 'select' && Array.isArray(options_source));
+	const menu_id = $derived(`${id}_menu`);
 
-	let active_descendant = $state<string | null>(null);
+	let active_item_id = $state<string | null>(null);
 	let field_element = $state<HTMLElement>();
 	let field_input_element = $state<HTMLElement>();
 	let focused = $state(false);
 	let list = $state<ReturnType<typeof SelectList>>();
-	let menu_id = $derived(`${id}_menu`);
 	let menu_visible = $state(false);
-	let modal = $derived(device.mobile && type === 'select' && Array.isArray(options_source));
-	let options = $derived(async_options.value);
 	let text_field = $state<ReturnType<typeof TextField>>();
 
 	let field_proxy = {
@@ -98,22 +105,33 @@
 		set value(value) { selected_value = !value ? null : value; }
 	}
 
-	let load = $derived<(query: string) => void>(
-		Array.isArray(options_source)
-			? () => {}
-			: query => async_options.set(options_source(query))
-	);
-
 	$effect(() => {
 		if (Array.isArray(options_source))
 			async_options.set(options_source)
 	});
 
 	$effect(() => {
-		// Show menu when options have been loaded and field has focus
-		if (focused && options.length)
-			menu_visible = true;
+		menu_visible = (focused && options.length > 0);
 	});
+
+	$effect(() => {
+		if (focused) {
+			const source = options_source;
+			const value = selected_value;
+
+			untrack(() => {
+				if (Array.isArray(source)) {
+					list?.activate_item_starting_with(value);
+				}
+				else {
+					if (value)
+						async_options.set(source(value));
+					else
+						async_options.reset();
+				}
+			})
+		}
+	})
 </script>
 
 <TextField
@@ -124,51 +142,43 @@
 	bind:value={field_proxy.value}
 	{...text_field_Props}
 	{id}
-	aria_activedescendant={list && active_descendant}
+	aria_activedescendant={list && active_item_id}
 	aria_autocomplete={list && 'list'}
 	aria_controls={list && menu_id}
 	aria_expanded={list && menu_visible}
 	aria_haspopup={list && 'menu'}
 	name={name}
-	loading={async_options.loading}
+	loading={delayed}
 	readonly={readonly || modal}
 	role={list && 'combobox'}
 	on_clear={() => {
-		on_clear?.();
 		selected_value = null;
+		on_clear?.();
 	}}
 	onclick={() => {
 		if (focused)
 			menu_visible = true;
 	}}
-	on_focus_in={() => {
-		load(selected_value ?? '');
+	onkeydown={event => {
+		if (event.key === 'Tab') {
+			// Prevent TextField focus handling from refocusing input when tabbing away
+			menu_visible = false;
+		}
 	}}
 	on_focus_out={() => {
-		menu_visible = false
-
 		const valid =
 			type === 'autocomplete' ||
-			async_options.loaded && options.some(option => options_value(option) === selected_value);
+			loaded && options.some(option => options_value(option) === selected_value);
 
 		if (!valid) {
 			selected_value = '';
 			on_clear?.();
 		}
 	}}
-	oninput={({ currentTarget: input }) => {
-		list?.activate_item_starting_with(input.value);
-	}}
-	onkeydown={event => {
-		if (event.key === 'Tab') {
-			// Prevent TextField focus handling from refocusing input when menu gets focus
-			menu_visible = false;
-		}
-	}}
 >
 	{#if !readonly && options.length > 0}
 		<SelectMenu
-			bind:active_descendant
+			bind:active_item_id
 			bind:list
 			bind:value={selected_value}
 			bind:visible={menu_visible}

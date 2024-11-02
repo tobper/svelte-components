@@ -2,7 +2,7 @@
 	import { Button, Card, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, DateListField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, PageHeader, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, type DateOnly } from '@tobper/eon';
-	import { food, fruits, get_food_heading } from './data.js';
+	import { find_fruit, food, get_food_heading } from './data.js';
 
 	let form_loading = $state(false);
 	let field_loading = $state(false);
@@ -71,7 +71,7 @@
 					<SelectField
 						bind:value={auto_complete_value}
 						label="Auto complete"
-						options={fruits}
+						options={find_fruit}
 						required
 						type="autocomplete"
 					/>

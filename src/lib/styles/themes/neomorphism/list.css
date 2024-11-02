@@ -1,7 +1,8 @@
 :where(.theme-neomorphism) {
 	.select-list {
 		/* Focus */
-		&:focus-visible {
+		&:focus-visible,
+		&:has(:focus-visible) {
 			box-shadow: var(--shadow__focus);
 		}
 	}

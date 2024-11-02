@@ -18,16 +18,12 @@
 		grid-template-columns: repeat(7, auto);
 		gap: 0px;
 
-		li {
-			padding: 1px;
-		}
-	
 		[role=heading] {
 			text-align: center;
+			padding-inline: 0;
 		}
 	
 		[role=option] button {
-			width: 100%;
 			min-width: 3rem;
 			height: 3rem;
 			padding-inline: 0;

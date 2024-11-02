@@ -1,3 +1,5 @@
+import { create_normalized_lookup, seconds } from '$lib';
+
 export const fruits = [
 	'Apple',
 	'Apricot',
@@ -61,6 +63,14 @@ export const food = [
 ];
 
 export type Food = typeof food[number];
+
+const fruit_lookup = create_normalized_lookup(fruits);
+
+export async function find_fruit(query: string) {
+	await new Promise(r => setTimeout(r, Math.random() * seconds(1)))
+
+	return fruit_lookup.find_all(query);
+}
 
 export function get_food_heading(food: Food) {
 	return `${food.type}s`;

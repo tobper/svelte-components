@@ -153,9 +153,6 @@ export function async_value_map<K, T>(
 	};
 }
 
-export type AsyncValueMapper<T, U> = (value: T) => U;
-export type AsyncValueUpdater<T> = (current_value: T) => T;
-
 export interface AsyncValue<T> {
 	readonly delayed: boolean;
 	readonly loaded: boolean;
@@ -165,7 +162,7 @@ export interface AsyncValue<T> {
 	as_readonly(): AsyncReadonlyValue<T>,
 	reset(): void,
 	set(new_value: T | Promise<T>): void,
-	update(updater: AsyncValueUpdater<T>): void
+	update(updater: (current_value: T) => T): void
 }
 
 export interface AsyncReadonlyValue<T> {
@@ -189,10 +186,11 @@ type AsyncDerivedSourceValues<T> =
 export function async_value<T>(
 	initial_value: T,
 	options?: {
-		on_update?: (value: T) => T
+		on_update?: (value: T) => T,
+		on_updated?: (value: T) => void,
 	}
 ): AsyncValue<T> {
-	const on_update = options?.on_update ?? (x => x);
+	const { on_update, on_updated } = options ?? {};
 	const loading_timer = delayed_timer();
 	let loaded = $state(false);
 	let loading = $state(false);
@@ -260,12 +258,17 @@ export function async_value<T>(
 				loaded = true;
 				loading = false;
 				loading_error = null;
-				value = on_update(new_value);
+				value = on_update
+					? on_update(new_value)
+					: new_value;
+
+				if (on_updated)
+					on_updated(new_value);
 			}
 		});
 	}
 
-	function update(updater: AsyncValueUpdater<T>) {
+	function update(updater: (current_value: T) => T) {
 		set(updater(value));
 	}
 }

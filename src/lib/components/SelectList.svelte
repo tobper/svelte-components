@@ -1,6 +1,6 @@
 <script lang="ts" generics="Option">
 	import type { HTMLColAttributes } from 'svelte/elements';
-	import { get_optional_button_element, scroll_into_view } from '../html.js';
+	import { scroll_into_view } from '../html.js';
 	import { create_normalized_lookup } from '../normalization.js';
 	import { unique_id } from '../unique_id.js';
 	import EventHandler from './EventHandler.svelte';
@@ -22,7 +22,7 @@
 		 * The id of the currently activated item.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_descendant?: string | null;
+		active_item_id?: string | null;
 		/**
 		 * A string value that labels the interactive list.
 		 */
@@ -77,13 +77,15 @@
 		on_select?: (option: Option) => void;
 	}
 
-	export function activate_item_starting_with(value: string) {
-		const item = normalized_lookup.find(value) ?? null;
-		activate(item);
+	export function activate_item_starting_with(value: string | null) {
+		if (value)
+			activate(normalized_lookup.find(value))
+		else
+			deactivate()
 	}
 
 	let {
-		active_descendant = $bindable(null),
+		active_item_id = $bindable(null),
 		empty_text,
 		focusable = true,
 		id = $bindable(unique_id()),
@@ -97,7 +99,6 @@
 		...list_props
 	}: SelectList = $props();
 
-	let list: ReturnType<typeof List>;
 	let grouped_items = $derived(
 		Object
 			.entries(
@@ -116,20 +117,8 @@
 	);
 	let sorted_items = $derived(grouped_items.flatMap(({ items }) => items));
 	let normalized_lookup = $derived(create_normalized_lookup(sorted_items, item => item.label));
-
-	async function focus_relevant_element() {
-		if (!focusable)
-			return;
-
-		const active_button = active_descendant
-			? get_optional_button_element(`#${active_descendant} > button`)
-			: null;
-
-		if (active_button)
-			active_button.focus();
-		else
-			list.focus();
-	}
+	let active_item = $derived(sorted_items.find(item => item.id === active_item_id));
+	let selected_item = $derived(sorted_items.find(item => item.value === selected_value));
 
 	function get_next_item() {
 		return get_item(
@@ -143,24 +132,16 @@
 		);
 	}
 
-	function get_current_item() {
+	function get_item(next_index: (current: number, length: number) => number) {
 		if (sorted_items.length === 0)
 			return null;
 
-		if (active_descendant)
-			return sorted_items.findIndex(item => item.id === active_descendant);
-		else if (selected_value)
-			return sorted_items.findIndex(item => item.value === selected_value);
-		else
-			return -1;
-	}
+		const current_item = active_item ?? selected_item;
+		const current_index = current_item
+			? sorted_items.indexOf(current_item)
+			: -1;
 
-	function get_item(next_index: (current: number, length: number) => number) {
-		const current = get_current_item();
-		if (current === null)
-			return null;
-
-		return sorted_items[next_index(current, sorted_items.length)];
+		return sorted_items[next_index(current_index, sorted_items.length)];
 	}
 
 
@@ -199,7 +180,7 @@
 				break;
 
 			case 'Escape':
-				if (active_descendant) {
+				if (active_item) {
 					deactivate();
 					event.preventDefault();
 					event.stopPropagation();
@@ -216,11 +197,10 @@
 	// Activate
 
 	function activate(item: ListItem | null) {
-		active_descendant = item ? item.id : null;
-		focus_relevant_element();
+		active_item_id = item && item.id;
 
-		if (active_descendant)
-			scroll_into_view(active_descendant);
+		if (active_item_id)
+			scroll_into_view(active_item_id);
 	}
 
 	function activate_next_item() {
@@ -257,19 +237,16 @@
 	// Select
 
 	function select(item: ListItem) {
+		active_item_id = item.id;
 		selected_value = item.value;
 		on_select?.(item.option);
 	}
 
 	export function select_active_option() {
-		const item =
-			active_descendant &&
-			sorted_items.find(item => item.id === active_descendant);
-
-		if (!item)
+		if (!active_item)
 			return false;
 
-		select(item);
+		select(active_item);
 		return true;
 	}
 
@@ -291,9 +268,8 @@
 </script>
 
 <List
-	bind:this={list}
+	bind:active_item_id
 	{...list_props}
-	{active_descendant}
 	{focusable}
 	{id}
 	onkeydown={handle_key_down}
@@ -312,10 +288,15 @@
 		{#each items as item}
 			<ListItemOption
 				id={item.id}
-				current={item.id === active_descendant}
+				current={item.id === active_item_id}
 				selected={item.value === selected_value}
-				onclick={() => {
-					active_descendant = item.id;
+				on_activate={() => {
+					active_item_id = item.id;
+				}}
+				on_deactivate={() => {
+					active_item_id = selected_item?.id ?? null;
+				}}
+				on_select={() => {
 					select(item);
 				}}
 			>

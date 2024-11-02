@@ -9,7 +9,7 @@
 		 * The id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_descendant?: string | null;
+		active_item_id?: string | null;
 		anchor: string | HTMLElement;
 		/**
 		 * Extra class to add to the menu.
@@ -58,7 +58,7 @@
 	}
 
 	let {
-		active_descendant = $bindable(null),
+		active_item_id = $bindable(null),
 		anchor,
 		class: class_menu,
 		empty_text,
@@ -85,12 +85,12 @@
 	{trigger}
 	class={class_menu}
 	on_open={() => {
-		active_descendant = null;
+		active_item_id = null;
 	}}
 >
 	<SelectList
 		bind:this={list}
-		bind:active_descendant
+		bind:active_item_id
 		bind:value
 		{empty_text}
 		{options}
@@ -118,7 +118,7 @@
 
 				case 'Escape':
 					// Close menu if no option is active
-					if (!active_descendant)
+					if (!active_item_id)
 						visible = false;
 					break;
 			}

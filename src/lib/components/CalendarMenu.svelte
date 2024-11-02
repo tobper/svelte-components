@@ -10,7 +10,7 @@
 		 * The id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_descendant?: string | null;
+		active_item_id?: string | null;
 		anchor: string | HTMLElement;
 		calendar?: ReturnType<typeof Calendar>,
 			/**
@@ -35,7 +35,7 @@
 	}
 
 	let {
-		active_descendant = $bindable(null),
+		active_item_id = $bindable(null),
 		anchor,
 		calendar = $bindable(),
 		id = $bindable(unique_id()),
@@ -60,7 +60,7 @@
 >
 	<Calendar
 		bind:this={calendar}
-		bind:active_descendant
+		bind:active_item_id
 		bind:selected_date
 		focusable={modal}
 		keyboard_capture={visible ? keyboard_capture : undefined}
@@ -76,10 +76,14 @@
 	onkeydown={event => {
 		if (visible) {
 			switch (event.key) {
+				case 'Enter':
+					if (calendar?.select_active_date())
+						event.preventDefault();
+					break;
+
 				case 'Escape':
-					console.log('active_descendant', active_descendant)
 					// Close menu if no date is active
-					if (!active_descendant)
+					if (!active_item_id)
 						visible = false;
 					break;
 			}

@@ -29,7 +29,7 @@
 		...text_field_props
 	}: DateField = $props();
 
-	let active_descendant = $state<string | null>(null);
+	let active_item_id = $state<string | null>(null);
 	let calendar = $state<ReturnType<typeof Calendar>>()
 	let focused = $state(false);
 	let field_element = $state<HTMLElement>();
@@ -54,7 +54,7 @@
 	bind:value={input_proxy.value}
 	{...text_field_props}
 	{id}
-	aria_activedescendant={calendar && active_descendant}
+	aria_activedescendant={calendar && active_item_id}
 	aria_controls={calendar && menu_id}
 	aria_expanded={calendar && menu_visible}
 	aria_haspopup={calendar && 'menu'}
@@ -84,7 +84,7 @@
 
 	{#if !readonly}
 		<CalendarMenu
-			bind:active_descendant
+			bind:active_item_id
 			bind:calendar
 			bind:selected_date
 			bind:visible={menu_visible}

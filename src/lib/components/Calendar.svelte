@@ -18,7 +18,6 @@
 	} from '@tobper/eon';
 	import { tick } from 'svelte';
 	import { classes } from '../classes.js';
-	import { get_optional_button_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
 	import Button from './Button.svelte';
 	import EventHandler from './EventHandler.svelte';
@@ -35,10 +34,10 @@
 		 */
 		id?: string;
 		/**
-		 * The id of the currently activated date.  
+		 * The list item id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_descendant?: string | null;
+		active_item_id?: string | null;
 		/**
 		 * Extra class to add to the calendar.
 		 */
@@ -84,28 +83,11 @@
 		active_date = selected_date;
 	}
 
-	export async function focus() {
-		if (!focusable)
-			return;
-
-		// Allow possible new period to be rendered first
-		await tick();
-
-		const active_button = active_descendant
-			? get_optional_button_element(`#${active_descendant} > button`)
-			: null;
-
-		if (active_button)
-			active_button.focus();
-		else
-			list.focus();
-	}
-
 	const today = get_date_today();
 
 	let {
 		id = $bindable(unique_id()),
-		active_descendant = $bindable(null),
+		active_item_id = $bindable(null),
 		class: calendar_class,
 		focusable = true,
 		keyboard_capture,
@@ -134,7 +116,9 @@
 	/** Text to display in the header */
 	let header = $derived(get_calendar_month_text(active_period));
 
-	let list: ReturnType<typeof List>;
+	$effect(() => {
+		active_date = selected_date;
+	});
 
 	function get_item_id(date: DateOnly) {
 		const key = get_date_only_key(date);
@@ -191,15 +175,8 @@
 				event.preventDefault();
 				break;
 
-			case 'Enter':
-				if (!focusable) {
-					select_active_date();
-					event.preventDefault();
-				}
-				break;
-
 			case 'Escape':
-				if (active_descendant) {
+				if (active_item_id) {
 					deactivate();
 					event.preventDefault();
 					event.stopPropagation();
@@ -226,14 +203,19 @@
 
 	// Activated date
 
-	function activate(new_date: DateOnly | null) {
+	async function activate(new_date: DateOnly | null) {
 		active_date = new_date;
-		active_descendant = active_date && get_item_id(active_date);
 
-		if (active_date && !period_contains_date(active_period, active_date))
+		if (active_date && !period_contains_date(active_period, active_date)) {
 			selected_period = get_period_for_date(active_date, period_first_day);
 
-		focus();
+			// Allow new period to be rendered before activating list item
+			await tick();
+		}
+
+		active_item_id =
+			active_date &&
+			get_item_id(active_date);
 	}
 
 	function activate_previous_day() {
@@ -279,15 +261,19 @@
 	}
 
 	// Selected date
+
+	export function select_active_date() {
+		if (!active_date)
+			return false;
+
+		select_date(active_date);
+		return true;
+	}
 	
 	function select_date(date_to_select: DateOnly | null) {
 		selected_date = date_to_select;
 		activate(date_to_select);
 		on_select?.(date_to_select);
-	}
-
-	function select_active_date() {
-		select_date(active_date);
 	}
 </script>
  
@@ -296,8 +282,7 @@
 	{id}
 >
 	<List
-		bind:this={list}
-		{active_descendant}
+		bind:active_item_id
 		{focusable}
 		aria_label="Calendar dates"
 		onkeydown={handle_key_down}
@@ -321,7 +306,13 @@
 					contrast={weekend}
 					current={date_is_active}
 					selected={date_is_selected}
-					onclick={() =>
+					on_activate={() =>
+						activate(date)
+					}
+					on_deactivate={() =>
+						activate(selected_date)
+					}
+					on_select={() =>
 						select_date(date)
 					}
 				>

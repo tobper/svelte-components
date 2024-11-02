@@ -84,9 +84,13 @@ nav > ul,
 			justify-content: space-between;
 			gap: 1rem;
 
-			:where(.supports-hover) &:hover {
-				background-color: var(--list-item__background-color--active);
-			}
+			/* Interaction */
+			cursor: pointer;
+			user-select: none;
+		}
+
+		&[aria-current=true] button {
+			background-color: var(--list-item__background-color--active);
 		}
 
 		&[aria-selected=true] button {

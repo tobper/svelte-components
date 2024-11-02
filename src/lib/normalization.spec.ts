@@ -7,14 +7,14 @@ describe('create_normalized_lookup', () => {
 			const source = ['Bob', 'Jane', 'John'];
 			const { find } = create_normalized_lookup(source);
 
-			expect(find('')).toEqual(undefined);
+			expect(find('')).toEqual(null);
 		});
 
 		it('returns undefined when no match is found', () => {
 			const source = ['Bob', 'Jane', 'John'];
 			const { find } = create_normalized_lookup(source);
 
-			expect(find('x')).toEqual(undefined);
+			expect(find('x')).toEqual(null);
 		});
 
 		it('returns first value containing query when multiple matches has the same length', () => {
