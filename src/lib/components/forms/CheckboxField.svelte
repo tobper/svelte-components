@@ -1,24 +1,30 @@
 <script lang="ts">
+	import type { ComponentProps } from 'svelte';
 	import Checkbox from './Checkbox.svelte';
 	import Field from './Field.svelte';
 
+	type CheckboxProps = ComponentProps<typeof Checkbox>;
+	type FieldProps = ComponentProps<typeof Field>;
+
 	interface CheckboxField {
-		checked?: boolean;
-		class?: string;
 		field_element?: HTMLElement | undefined;
-		disabled?: boolean;
-		error_hint?: boolean;
-		id?: string;
-		indeterminate?: boolean;
-		label?: string;
-		name?: string;
-		readonly?: boolean;
+
+		class?: FieldProps['class'];
+		error_hint?: FieldProps['error_hint'];
+		id?: FieldProps['id'];
+		label?: FieldProps['label'];
+		name?: FieldProps['name'];
+
+		checked?: CheckboxProps['checked'];
+		disabled?: CheckboxProps['disabled'];
+		indeterminate?: CheckboxProps['indeterminate'];
+		readonly?: CheckboxProps['readonly'];
 	}
 
 	let {
 		checked = $bindable(false),
 		class: field_class,
-		error_hint = false,
+		error_hint,
 		field_element = $bindable(),
 		id,
 		indeterminate = $bindable(false),

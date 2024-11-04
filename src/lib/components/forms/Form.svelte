@@ -1,6 +1,9 @@
 <script lang="ts" module>
+	type FieldProps = ComponentProps<typeof Field>;
+
 	const context_key = Symbol('Form');
 	const empty_context: FormContext = {
+		error_hints: 'auto',
 		error_message: null,
 		field_errors: {},
 		can_submit: true,
@@ -15,6 +18,8 @@
 	type Model = object;
 
 	export interface FormContext {
+		/** Default value for fields where it is not explicitly specified */
+		error_hints: NonNullable<FieldProps['error_hint']>;
 		error_message: FormFailure['error_message'];
 		field_errors: FormFailure['field_errors'];
 		/** Indicates that form is either loading, submitting or not tainted */
@@ -52,11 +57,12 @@
 <script lang="ts" generics="Model">
 	import { applyAction, enhance } from '$app/forms';
 	import { beforeNavigate } from '$app/navigation';
-	import { getContext, setContext, untrack, type Snippet } from 'svelte';
+	import { getContext, setContext, untrack, type ComponentProps, type Snippet } from 'svelte';
 	import type { HTMLFormAttributes } from 'svelte/elements';
 	import { classes } from '../../classes.js';
 	import { delayed_timer } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
+	import Field from './Field.svelte';
 
 	type SubmitAction = () => Promise<SubmitResult> | void;
 	type SubmitResult =
@@ -67,12 +73,16 @@
 	interface Form {
 		id?: string;
 		class?: string;
+
 		/**
 		 * This can either be a string, in which case the form will be posted to the specified url,
 		 * or it can be a function in which case the function will not be posted and this function
 		 * will be called instead.
 		 */
 		action?: string | SubmitAction;
+
+		/** Default value for fields where it is not explicitly specified */
+		error_hints?: FieldProps['error_hint'];
 		error_message?: string | null;
 		field_errors?: FieldErrors;
 		loading?: boolean;
@@ -98,6 +108,7 @@
 		id = $bindable(unique_id()),
 		action,
 		class: class_name,
+		error_hints = 'auto',
 		error_message = $bindable(''),
 		field_errors = $bindable({}),
 		loading = false,
@@ -124,6 +135,7 @@
 
 	const context = {
 		get delayed() { return timer.delayed; },
+		get error_hints() { return error_hints; },
 		get error_message() { return error_message; },
 		get field_errors() { return field_errors; },
 		get can_submit() { return can_submit; },
@@ -242,10 +254,8 @@
 				if (model && updated_model)
 					model = updated_model;
 
-				on_success?.(updated_model);
-
-				// Reset taint after on_success call to allow for callback to update model explicitly first
 				reset_tainted();
+				on_success?.(updated_model);
 			}
 		}
 	}

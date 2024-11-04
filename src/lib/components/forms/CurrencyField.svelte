@@ -1,26 +1,29 @@
 <script lang="ts">
 	import { untrack, type ComponentProps } from 'svelte';
-	import type { HTMLInputAttributes } from 'svelte/elements';
 	import { classes } from '../../classes.js';
 	import TextField from './TextField.svelte';
 
+	type TextFieldProps = ComponentProps<typeof TextField>;
+
 	interface CurrencyField {
-		class?: string;
-		disabled?: boolean;
-		error_hint?: ComponentProps<typeof TextField>['error_hint'];
-		errors?: string[];
-		id?: string;
-		label?: string;
-		name?: string;
-		placeholder?: HTMLInputAttributes['placeholder'];
-		readonly?: boolean;
-		required?: boolean;
 		value?: number | null;
 
-		prefix?: ComponentProps<typeof TextField>['prefix'];
-		prefix_icon?: ComponentProps<typeof TextField>['prefix_icon'];
-		suffix?: ComponentProps<typeof TextField>['suffix'];
-		suffix_icon?: ComponentProps<typeof TextField>['suffix_icon'];
+		class?: TextFieldProps['class'];
+		disabled?: TextFieldProps['disabled'];
+		error_hint?: TextFieldProps['error_hint'];
+		errors?: TextFieldProps['errors'];
+		id?: TextFieldProps['id'];
+		label?: TextFieldProps['label'];
+		name?: TextFieldProps['name'];
+		placeholder?: TextFieldProps['placeholder'];
+		readonly?: TextFieldProps['readonly'];
+		required?: TextFieldProps['required'];
+		title?: TextFieldProps['title'];
+
+		prefix?: TextFieldProps['prefix'];
+		prefix_icon?: TextFieldProps['prefix_icon'];
+		suffix?: TextFieldProps['suffix'];
+		suffix_icon?: TextFieldProps['suffix_icon'];
 	}
 
 	let {
@@ -174,5 +177,8 @@
 		input_selection_direction = input.selectionDirection;
 		input_selection_start = input.selectionStart;
 		input_selection_end = input.selectionEnd;
+	}}
+	on_clear={() => {
+		input_value = '';
 	}}
 />

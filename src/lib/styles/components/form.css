@@ -10,4 +10,8 @@
 .form-error {
 	color: var(--palette__error);
 	min-height: 1.5em; /* Same as line height */
+
+	&:first-of-type {
+		margin-top: var(--space__small);
+	}
 }

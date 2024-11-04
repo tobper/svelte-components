@@ -12,9 +12,7 @@
 
 	interface SelectField {
 		class_menu?: string;
-		disabled?: boolean;
 		empty_text?: string;
-		error_hint?: boolean;
 		options: Option[] | ((query: string) => Option[] | Promise<Option[]>);
 		/** 
 		 * Callback is called for each option to determine the label of the option.
@@ -46,6 +44,9 @@
 
 		id?: TextFieldProps['id'];
 		class?: TextFieldProps['class'];
+		disabled?: TextFieldProps['disabled'];
+		error_hint?: TextFieldProps['error_hint'];
+		errors?: TextFieldProps['errors'];
 		label?: TextFieldProps['label'];
 		name?: TextFieldProps['name'];
 		placeholder?: TextFieldProps['placeholder'];

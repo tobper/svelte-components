@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { get_date_only_key, is_same_date, try_parse_date_only, type DateOnly } from '@tobper/eon';
+	import type { ComponentProps } from 'svelte';
 	import { device } from '../../device.js';
 	import { unique_id } from '../../unique_id.js';
 	import Calendar from '../Calendar.svelte';
@@ -8,18 +9,21 @@
 	import { input_value_proxy } from './internal/input_value_proxy.js';
 	import TextField from './TextField.svelte';
 
+	type TextFieldProps = ComponentProps<typeof TextField>;
+
 	interface DateField {
-		calendar_default_date?: DateOnly;
-		class?: string;
-		disabled?: boolean;
-		error_hint?: boolean;
 		id?: string;
-		label?: string;
-		name?: string;
-		placeholder?: string;
 		readonly?: boolean;
-		required?: boolean;
 		value?: DateOnly | null;
+
+		class?: TextFieldProps['class'];
+		disabled?: TextFieldProps['disabled'];
+		error_hint?: TextFieldProps['error_hint'];
+		errors?: TextFieldProps['errors'];
+		label?: TextFieldProps['label'];
+		name?: TextFieldProps['name'];
+		placeholder?: TextFieldProps['placeholder'];
+		required?: TextFieldProps['required'];
 	}
 
 	let {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Snippet } from 'svelte';
+	import { type ComponentProps, type Snippet } from 'svelte';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 	import { classes } from '../../classes.js';
 	import { unique_id } from '../../unique_id.js';
@@ -7,6 +7,8 @@
 	import ClearIcon from '../icons/ClearIcon.svelte';
 	import Loading from '../Loading.svelte';
 	import Field from './Field.svelte';
+
+	type FieldProps = ComponentProps<typeof Field>;
 
 	interface TextField {
 		aria_activedescendant?: HTMLInputAttributes['aria-activedescendant'];
@@ -19,13 +21,10 @@
 		field_element?: HTMLElement | undefined;
 		field_input_element?: HTMLElement | undefined;
 		disabled?: boolean;
-		error_hint?: boolean;
 		focused?: boolean;
-		id?: string;
 		input_class?: string;
 		input_element?: HTMLInputElement;
 		inputmode?: HTMLInputAttributes['inputmode'];
-		label?: string;
 		list?: HTMLInputAttributes['list'];
 		loading?: boolean;
 		name?: string;
@@ -34,8 +33,14 @@
 		role?: HTMLInputAttributes['role'];
 		readonly?: boolean;
 		required?: boolean;
+		title?: HTMLInputAttributes['title'];
 		type?: HTMLInputAttributes['type'];
 		value?: string | null;
+
+		error_hint?: FieldProps['error_hint'];
+		errors?: FieldProps['errors'];
+		id?: FieldProps['id'];
+		label?: FieldProps['label'];
 
 		onclick?: HTMLInputAttributes['onclick'];
 		onkeydown?: HTMLInputAttributes['onkeydown'];
@@ -64,7 +69,8 @@
 		field_element = $bindable(),
 		field_input_element = $bindable(),
 		disabled = false,
-		error_hint = false,
+		error_hint,
+		errors,
 		focused = $bindable(false),
 		id = $bindable(unique_id()),
 		input_class,
@@ -79,6 +85,7 @@
 		role,
 		readonly = false,
 		required = false,
+		title,
 		type = 'text',
 		value = $bindable(''),
 
@@ -113,6 +120,7 @@
 <Field
 	bind:element={field_element}
 	{error_hint}
+	{errors}
 	{id}
 	{label}
 	{name}
@@ -157,6 +165,7 @@
 		{placeholder}
 		{required}
 		{role}
+		{title}
 		{type}
 		bind:this={input_element}
 		bind:value
