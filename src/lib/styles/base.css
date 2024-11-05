@@ -1,25 +1,27 @@
-@import './reset.css';
-@import './components.css';
-@import './palette.css';
-@import './utilities.css';
+@import './reset.css' layer(reset);
+@import './palette.css' layer(base);
+@import './components.css' layer(components);
+@import './utilities.css' layer(utilities);
 
-html {
-	/* Ensure controls adjust to dark/light theme */
-	color-scheme: dark light;
+@layer base {
+	html {
+		/* Ensure controls adjust to dark/light theme */
+		color-scheme: dark light;
 
-	/* Prevent font scaling in landscape while allowing user zoom */
-	-webkit-text-size-adjust: 100%;
+		/* Prevent font scaling in landscape while allowing user zoom */
+		-webkit-text-size-adjust: 100%;
 
-	/* Firefox */
-	/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
-	scrollbar-color: rgba(0, 0, 0, 0.2) rgba(255, 255, 255, 0.05);
+		/* Firefox */
+		/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
+		scrollbar-color: rgba(0, 0, 0, 0.2) rgba(255, 255, 255, 0.05);
 
-	&.dark {
-		scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.05);
+		&.dark {
+			scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.05);
+		}
 	}
-}
 
-body {
-	background: var(--palette__background);
-	margin: 0;
+	body {
+		background: var(--palette__background);
+		margin: 0;
+	}
 }

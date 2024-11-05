@@ -14,27 +14,30 @@
 
 		%sveltekit.head%
 	</head>
+
+	<style>
+		@layer reset, base, components, theme, utilities;
+
+		.device-mobile {
+			font-size: 80%;
+		}
+	
+		body {
+			font-family: system-ui, sans-serif;
+		}
+	
+		body > div {
+			display: contents;
+		}
+	
+		/* Ensure icons resize along with font */
+		.tabler-icon {
+			width: 1.5rem;
+			height: 1.5rem;
+		}
+	</style>
+
 	<body data-sveltekit-preload-data="hover">
 		<div>%sveltekit.body%</div>
 	</body>
 </html>
-
-<style>
-	.device-mobile {
-		font-size: 80%;
-	}
-
-	body {
-		font-family: system-ui, sans-serif;
-	}
-
-	body > div {
-		display: contents;
-	}
-
-	/* Ensure icons resize along with font */
-	.tabler-icon {
-		width: 1.5rem;
-		height: 1.5rem;
-	}
-</style>
