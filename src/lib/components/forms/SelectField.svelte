@@ -11,21 +11,27 @@
 	type TextFieldProps = ComponentProps<typeof TextField>;
 
 	interface SelectField {
+		/**
+		 * Class to apply to the menu element.
+		 */
 		class_menu?: string;
 		empty_text?: string;
+		/**
+		 * Options to display in the popup menu.
+		 */
 		options: Option[] | ((query: string) => Option[] | Promise<Option[]>);
 		/** 
-		 * Callback is called for each option to determine the label of the option.
-		 * @default No header
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default No header is displayed.
 		 */
 		options_heading?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the label of the option.
-		 * @default Same as value.
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default Value is displayed as label.
 		 */
 		options_label?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the value of the option.
+		 * Callback that is called for each option to determine the value of the option.
 		 * @default Option is converted to a string.
 		 */
 		options_value?: (option: Option) => string;
@@ -85,14 +91,17 @@
 		on_updated: async () => {
 			// Wait for list to update
 			await tick();
-			list?.activate_item_starting_with(selected_value);
+
+			if (menu_visible)
+				list?.activate_item_starting_with(selected_value);
 		}
 	});
 	const { delayed, loaded } = $derived(async_options);
 	const options = $derived(async_options.value);
-	const modal = $derived(device.mobile && type === 'select' && Array.isArray(options_source));
+	const modal = $derived((device.tablet || device.mobile) && type === 'select' && Array.isArray(options_source));
 	const menu_id = $derived(`${id}_menu`);
 
+	let input_value = $state('');
 	let active_item_id = $state<string | null>(null);
 	let field_element = $state<HTMLElement>();
 	let field_input_element = $state<HTMLElement>();
@@ -101,38 +110,55 @@
 	let menu_visible = $state(false);
 	let text_field = $state<ReturnType<typeof TextField>>();
 
-	let field_proxy = {
-		get value() { return selected_value ?? ''; },
-		set value(value) { selected_value = !value ? null : value; }
-	}
-
-	$effect(() => {
+	// Set provided options when it is an array
+	$effect.pre(() => {
 		if (Array.isArray(options_source))
-			async_options.set(options_source)
+			async_options.set(options_source);
+		else
+			async_options.reset();
 	});
 
-	$effect(() => {
-		menu_visible = (focused && options.length > 0);
+	// Always update input value when selected value changes
+	$effect.pre(() => {
+		input_value = selected_value ?? '';
 	});
 
-	$effect(() => {
-		if (focused) {
-			const source = options_source;
-			const value = selected_value;
+	// Always expose input value as selected for auto complete fields	
+	$effect.pre(() => {
+		if (type === 'autocomplete')
+			selected_value = input_value ? input_value : null;
+	});
 
-			untrack(() => {
-				if (Array.isArray(source)) {
-					list?.activate_item_starting_with(value);
-				}
-				else {
-					if (value)
-						async_options.set(source(value));
-					else
-						async_options.reset();
-				}
-			})
-		}
-	})
+	// When autocomplete field has focus, toggle menu depending on if a value has been entered
+	$effect(() => {
+		if (focused && type === 'autocomplete')
+			menu_visible = !!input_value;
+	});
+
+	// Activate item or load items when input value changes depending on source of options
+	$effect(() => {
+		const value = input_value;
+
+		untrack(() => {
+			if (!focused)
+				return;
+
+			load_options();
+
+			if (Array.isArray(options_source) && menu_visible)
+				list?.activate_item_starting_with(value);
+		});
+	});
+
+	function load_options() {
+		if (Array.isArray(options_source))
+			return;
+
+		if (input_value)
+			async_options.set(options_source(input_value));
+		else
+			async_options.reset();
+	}
 </script>
 
 <TextField
@@ -140,7 +166,7 @@
 	bind:field_element
 	bind:field_input_element
 	bind:focused
-	bind:value={field_proxy.value}
+	bind:value={input_value}
 	{...text_field_Props}
 	{id}
 	aria_activedescendant={list && active_item_id}
@@ -152,32 +178,46 @@
 	loading={delayed}
 	readonly={readonly || modal}
 	role={list && 'combobox'}
+	onclick={() => {
+		if (options.length > 0 || !!empty_text)
+			menu_visible = true;
+	}}
 	on_clear={() => {
+		menu_visible = false;
 		selected_value = null;
 		on_clear?.();
 	}}
-	onclick={() => {
-		if (focused)
-			menu_visible = true;
-	}}
-	onkeydown={event => {
-		if (event.key === 'Tab') {
-			// Prevent TextField focus handling from refocusing input when tabbing away
-			menu_visible = false;
-		}
+	on_focus_in={() => {
+		menu_visible = type === 'select' || !!input_value;
+
+		if (!loaded)
+			load_options();
 	}}
 	on_focus_out={() => {
-		const valid =
-			type === 'autocomplete' ||
-			loaded && options.some(option => options_value(option) === selected_value);
+		menu_visible = false;
 
-		if (!valid) {
-			selected_value = '';
-			on_clear?.();
+		if (type === 'select') {
+			const option =
+				loaded &&
+				options.find(option => options_value(option) === input_value);
+
+			if (option) {
+				const option_value = options_value(option);
+
+				if (selected_value !== option_value) {
+					selected_value = option_value;
+					on_select?.(option);
+				}
+			}
+			else {
+				input_value = '';
+				selected_value = null;
+				on_clear?.();
+			}
 		}
 	}}
 >
-	{#if !readonly && options.length > 0}
+	{#if field_element && !readonly}
 		<SelectMenu
 			bind:active_item_id
 			bind:list
@@ -189,14 +229,16 @@
 			{options_heading}
 			{options_label}
 			{options_value}
-			anchor={field_element!}
+			anchor={field_element}
 			class={class_menu}
 			id={menu_id}
 			keyboard_capture={field_input_element}
-			on_select={option => {
-				selected_value = options_value(option);
-				menu_visible = false;
+			on_select={async option => {
 				on_select?.(option);
+
+				// Wait for effects to update input_value and then close the menu
+				await tick()
+				menu_visible = false;
 			}}
 		/>
 	{/if}

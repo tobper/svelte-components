@@ -114,6 +114,7 @@
 	}
 
 	let children_element = $state<HTMLElement>();
+	let clear_element = $state<HTMLElement>();
 	let label_id = unique_id();
 </script>
 
@@ -133,13 +134,13 @@
 				{@render prefix()}
 			{/if}
 
-			<label class="field-input">
+			<div class="field-input">
 				{@render field_prefix_icon()}
 				{@render input(content_id, error_text, in_progress)}
 				{@render field_clear()}
 				{@render field_suffix_icon()}
 				{@render field_loading()}
-			</label>
+			</div>
 
 			{#if suffix}
 				{@render suffix()}
@@ -193,11 +194,14 @@
 		}}
 		onfocusout={event => {
 			const { relatedTarget } = event;
-			const input_or_children_focused =
+			const child_focused =
 				relatedTarget instanceof Element &&
-				children_element?.contains(relatedTarget);
+				(
+					relatedTarget === clear_element ||
+					children_element?.contains(relatedTarget)
+				);
 
-			if (input_or_children_focused) {
+			if (child_focused) {
 				// Reset focus to input element
 				focus();
 			}
@@ -212,6 +216,7 @@
 {#snippet field_clear()}
 	{#if value}
 		<Button
+			bind:element={clear_element}
 			class="field-clear"
 			focusable={false}
 			rounded={false}

@@ -84,7 +84,7 @@
 	aria-label={aria_label}
 	class={classes('select-list variant-primary', list_class)}
 	role="listbox"
-	tabindex={focusable ? (active_item_id ? -1 : 0) : undefined}
+	tabindex={focusable && active_item_id ? 0 : -1}
 >
 	{@render children()}
 </ol>

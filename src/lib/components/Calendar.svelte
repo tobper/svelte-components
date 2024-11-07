@@ -16,7 +16,7 @@
 	    type DateOnly,
 	    type Period
 	} from '@tobper/eon';
-	import { tick } from 'svelte';
+	import { tick, untrack } from 'svelte';
 	import { classes } from '../classes.js';
 	import { unique_id } from '../unique_id.js';
 	import Button from './Button.svelte';
@@ -34,12 +34,12 @@
 		 */
 		id?: string;
 		/**
-		 * The list item id of the currently activated date.  
+		 * Id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
 		/**
-		 * Extra class to add to the calendar.
+		 * Class to apply to the calendar element.
 		 */
 		class?: string;
 		/**
@@ -56,31 +56,13 @@
 		 */
 		period?: Period | null;
 		/**
-		 * The first day of the period. 
-		 * @default The first day of specified period or 1 if no period is specified.
-		 */
-		period_first_day?: number | null;
-		/**
 		 * The currently selected date.
 		 */
 		selected_date?: DateOnly | null;
 		/**
 		 * Callback is called when a date is selected.
 		 */
-		on_select?: (new_date: DateOnly | null) => void;
-	}
-
-	export function reset(options?: {
-		period?: Calendar['period'];
-		selected_date?: Calendar['selected_date'];
-	}) {
-		if (options?.period !== undefined)
-			selected_period = options.period;
-
-		if (options?.selected_date !== undefined)
-			selected_date = options.selected_date;
-
-		active_date = selected_date;
+		on_select?: (new_date: DateOnly) => void;
 	}
 
 	const today = get_date_today();
@@ -88,24 +70,23 @@
 	let {
 		id = $bindable(unique_id()),
 		active_item_id = $bindable(null),
-		class: calendar_class,
 		focusable = true,
 		keyboard_capture,
-		period: selected_period = null,
 		selected_date = $bindable(null),
+
 		on_select,
+
 		...props
 	}: Calendar = $props();
 
-	let active_date = $state<DateOnly | null>(null);
-
-	/** Used to determine the start of the period when it is based on a date (active/selected/today) */
-	let period_first_day = $derived(selected_period?.first_day.day ?? props.period_first_day ?? 1)
+	/** The date currently highlighted */
+	let active_date = $state(selected_date);
 
 	/** The period currently being displayed */
-	let active_period = $derived(
-		selected_period || get_period_for_date(active_date || selected_date || today, period_first_day)
-	);
+	let active_period = $state(props.period ?? get_period_for_date(selected_date ?? today, 1));
+
+	/** Used to determine the start of the period when it is based on a date (active/selected/today) */
+	let period_first_day = $derived(active_period.first_day.day);
 
 	/** Active period contains today */
 	let active_period_contains_today = $derived(period_contains_date(active_period, today));
@@ -116,8 +97,23 @@
 	/** Text to display in the header */
 	let header = $derived(get_calendar_month_text(active_period));
 
-	$effect(() => {
-		active_date = selected_date;
+	// Update active period and deactivate date when selected date is updated
+	$effect.pre(() => {
+		const date = selected_date;
+
+		untrack(() => {
+			deactivate();
+			activate_period(date)
+		});
+	});
+
+	// Update active period when active date is updated
+	$effect.pre(() => {
+		const date = active_date;
+
+		untrack(() => {
+			activate_period(date)
+		});
 	});
 
 	function get_item_id(date: DateOnly) {
@@ -125,9 +121,6 @@
 
 		return `${id}_${key}`;
 	}
-
-
-	// Handlers
 
 	function handle_key_down(event: KeyboardEvent) { 
 		const modifier = event.ctrlKey;
@@ -193,29 +186,28 @@
 	// Visible month
 
 	function goto_next_month() {
-		selected_period = get_next_period(active_period);
+		active_period = get_next_period(active_period);
 	}
 
 	function goto_previous_month() {
-		selected_period = get_previous_period(active_period);
+		active_period = get_previous_period(active_period);
 	}
 
 
 	// Activated date
 
-	async function activate(new_date: DateOnly | null) {
-		active_date = new_date;
+	function activate_period(date: DateOnly | null) {
+		if (date)
+			active_period = get_period_for_date(date, period_first_day);
+	}
 
-		if (active_date && !period_contains_date(active_period, active_date)) {
-			selected_period = get_period_for_date(active_date, period_first_day);
-
-			// Allow new period to be rendered before activating list item
+	export async function activate(new_date: DateOnly | null) {
+		// Allow new period to be rendered before activating list item
+		if (new_date && !period_contains_date(active_period, new_date))
 			await tick();
-		}
 
-		active_item_id =
-			active_date &&
-			get_item_id(active_date);
+		active_date = new_date;
+		active_item_id = active_date && get_item_id(active_date);
 	}
 
 	function activate_previous_day() {
@@ -262,6 +254,11 @@
 
 	// Selected date
 
+	/**
+	 * Selects active date.
+	 * 
+	 * @returns true if a date was active; otherwise false.
+	 */
 	export function select_active_date() {
 		if (!active_date)
 			return false;
@@ -270,15 +267,15 @@
 		return true;
 	}
 	
-	function select_date(date_to_select: DateOnly | null) {
+	function select_date(date_to_select: DateOnly) {
 		selected_date = date_to_select;
 		activate(date_to_select);
-		on_select?.(date_to_select);
+		on_select?.(selected_date);
 	}
 </script>
  
 <div
-	class={classes('calendar variant-primary', calendar_class)}
+	class={classes('calendar variant-primary', props.class)}
 	{id}
 >
 	<header>
@@ -339,7 +336,7 @@
 						activate(date)
 					}
 					on_deactivate={() =>
-						activate(selected_date)
+						deactivate()
 					}
 					on_select={() =>
 						select_date(date)

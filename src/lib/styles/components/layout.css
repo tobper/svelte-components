@@ -132,6 +132,7 @@
 	padding-bottom: var(--layout-content__padding-bottom);
 
 	/* Content */
+	container: main / inline-size;
 	display: flex;
 	flex-direction: column;
 	row-gap: max(3px, var(--space__large) - var(--page-header__padding-top)); /* Leave 3px room for panel shadows */

@@ -13,6 +13,7 @@
 	interface Button {
 		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
 		disabled?: boolean;
+		element?: HTMLElement;
 		focusable?: boolean;
 		id?: string;
 		loading?: boolean;
@@ -29,6 +30,8 @@
 		text?: unknown;
 
 		onclick?: HTMLButtonAttributes['onclick'];
+		onfocusout?: HTMLButtonAttributes['onfocusout'];
+		onfocusin?: HTMLButtonAttributes['onfocusin'];
 
 		// Rest
 		class?: HTMLButtonAttributes['class'];
@@ -38,6 +41,7 @@
 	let {
 		current,
 		disabled = false,
+		element = $bindable(),
 		focusable = true,
 		id = $bindable(unique_id()),
 		loading = false,
@@ -58,6 +62,7 @@
 </script>
 
 <button
+	bind:this={element}
 	{id}
 	aria-current={current === false ? undefined : current}
 	aria-disabled={disabled || loading ? true : undefined}

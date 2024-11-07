@@ -19,14 +19,16 @@
 		grid-template-columns: repeat(7, 1fr);
 		gap: 0px;
 
-		li {
-			min-width: 3rem;
-			padding-inline: 0;
+		[role=heading],
+		[role=presentation] {
+			padding: 0;
 			text-align: center;
 		}
 
 		[role=option] button {
+			min-width: 3rem;
 			height: 3rem;
+			padding: 0;
 			justify-content: center;
 		}
 
@@ -36,6 +38,6 @@
 	}
 }
 
-.menu > .calendar {
-	padding: .5rem;
+.menu:has(> .calendar) {
+	padding: var(--space__small);
 }

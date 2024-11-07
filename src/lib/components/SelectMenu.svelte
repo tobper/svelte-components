@@ -6,13 +6,17 @@
 
 	interface SelectMenu {
 		/**
-		 * The id of the currently activated date.  
+		 * Id of the currently activated list item.  
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
+		/**
+		 * Element to anchor the menu to.  
+		 * The menu will be positioned near the anchor and sized to at the least the same width as the anchor.
+		 */
 		anchor: string | HTMLElement;
 		/**
-		 * Extra class to add to the menu.
+		 * Class to apply to the menu element.
 		 */
 		class?: string;
 		/**
@@ -30,26 +34,25 @@
 		list?: ReturnType<typeof SelectList>,
 		modal?: boolean;
 		/**
-		 * The currently selected option.
+		 * Options to display in the menu.
 		 */
 		options: Option[];
 		/** 
-		 * Callback is called for each option to determine the label of the option.
-		 * @default No header
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default No header is displayed.
 		 */
-		options_heading?: (option: Option) => string;
+		 options_heading?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the label of the option.
-		 * @default Same as value.
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default Value is displayed as label.
 		 */
 		options_label?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the value of the option.
+		 * Callback that is called for each option to determine the value of the option.
 		 * @default Option is converted to a string.
 		 */
 		options_value?: (option: Option) => string;
 		value?: string | null;
-		trigger?: string | HTMLElement;
 		visible?: boolean;
 		/**
 		 * Callback is called when an option is selected.
@@ -71,21 +74,22 @@
 		options_label,
 		options_value,
 		value = $bindable(null),
-		trigger,
 		visible = $bindable(false),
+
 		on_select,
 	}: SelectMenu = $props();
+	let has_options = $derived(options.length > 0);
 </script>
 
 <Menu
-	bind:visible
 	{anchor}
 	{id}
 	{modal}
-	{trigger}
 	class={class_menu}
-	on_open={() => {
-		active_item_id = null;
+	visible={(visible && has_options) || !!empty_text}
+	width="anchor"
+	on_close={() => {
+		visible = false;
 	}}
 >
 	<SelectList
@@ -97,12 +101,9 @@
 		{options_heading}
 		{options_label}
 		{options_value}
+		{on_select}
 		focusable={modal}
-		keyboard_capture={visible ? keyboard_capture : undefined}
-		on_select={option => {
-			visible = false;
-			on_select?.(option);
-		}}
+		keyboard_capture={visible && has_options ? keyboard_capture : undefined}
 	/>
 </Menu>
 
@@ -117,9 +118,7 @@
 					break;
 
 				case 'Escape':
-					// Close menu if no option is active
-					if (!active_item_id)
-						visible = false;
+					visible = false;
 					break;
 			}
 		}

@@ -221,16 +221,18 @@ export function async_value<T>(
 	}
 
 	function reset() {
-		loading_timer.reset();
-		active_promise = null;
-		loaded = false;
-		loading = false;
-		loading_error = null;
-		value = initial_value;
+		untrack(() => {
+			loading_timer.reset();
+			active_promise = null;
+			loaded = false;
+			loading = false;
+			loading_error = null;
+			value = initial_value;
+		});
 	}
 
 	function set(new_value: T | Promise<T>) {
-		// Ensure we don't end up in infinite llo when running in effects
+		// Ensure we don't end up in infinite loop when running in effects
 		untrack(() => {
 			if (is_promise(new_value)) {
 				loading_timer.start();

@@ -5,20 +5,32 @@
 	interface MenuPlugin {
 		anchor: HTMLElement | string;
 		anchored: HTMLElement | string;
+		width?: 'anchor' | 'content';
 	}
 
 	let {
 		anchor: anchor_element_or_id,
 		anchored: anchored_element_or_id,
+		width = 'content'
 	}: MenuPlugin = $props();
 
 	$effect(() => {
 		const anchor = get_element(anchor_element_or_id);
 		const anchored = get_element(anchored_element_or_id);
 		const strategy = 'absolute'
-
-		anchored.style.marginTop = `0px`;
-		anchored.style.position = strategy;
+		const middleware = [
+			autoPlacement({
+				allowedPlacements: ['top-start', 'bottom-start']
+			}),
+			offset(6),
+			width === 'anchor' && size({
+				apply({ rects, elements }) {
+					Object.assign(elements.floating.style, {
+						width: `max(var(--menu__min-width), ${rects.reference.width}px)`
+					})
+				}
+			})
+		];
 
 		updatePosition();
 
@@ -29,23 +41,12 @@
 				anchor,
 				anchored,
 				{
-					middleware: [
-						autoPlacement({
-							alignment: 'start',
-						}),
-						offset(6),
-						size({
-							apply({ rects, elements }) {
-								Object.assign(elements.floating.style, {
-									'min-width': `max(var(--menu__min-width), ${rects.reference.width}px)`,
-								})
-							}
-						})
-					],
+					middleware,
 					strategy
 				}
 			);
 
+			anchored.style.position = strategy;
 			anchored.style.left = `${result.x}px`;
 			anchored.style.top = `${result.y}px`;
 		}

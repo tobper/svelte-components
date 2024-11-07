@@ -19,7 +19,7 @@
 
 	interface SelectList {
 		/**
-		 * The id of the currently activated item.  
+		 * Id of the currently activated list item.  
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
@@ -28,7 +28,7 @@
 		 */
 		aria_label?: HTMLColAttributes['aria-label'];
 		/**
-		 * Extra class to add to the list.
+		 * Class to apply to the list element.
 		 */
 		class?: string;
 		/**
@@ -53,17 +53,17 @@
 		 */
 		options: Option[];
 		/** 
-		 * Callback is called for each option to determine the label of the option.
-		 * @default No header
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default No header is displayed.
 		 */
-		options_heading?: (option: Option) => string;
+		 options_heading?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the label of the option.
-		 * @default Same as value.
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default Value is displayed as label.
 		 */
 		options_label?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the value of the option.
+		 * Callback that is called for each option to determine the value of the option.
 		 * @default Option is converted to a string.
 		 */
 		options_value?: (option: Option) => string;
@@ -95,7 +95,9 @@
 		options_label,
 		options_value = option => `${option}`,
 		value: selected_value = $bindable(null),
+
 		on_select,
+
 		...list_props
 	}: SelectList = $props();
 
@@ -237,17 +239,21 @@
 	// Select
 
 	function select(item: ListItem) {
-		active_item_id = item.id;
+		if (item.value === selected_value)
+			return false;
+
 		selected_value = item.value;
+		active_item_id = item.id;
 		on_select?.(item.option);
+
+		return true;
 	}
 
 	export function select_active_option() {
 		if (!active_item)
 			return false;
 
-		select(active_item);
-		return true;
+		return select(active_item);
 	}
 
 	// https://stackoverflow.com/a/52171480
@@ -294,7 +300,7 @@
 					active_item_id = item.id;
 				}}
 				on_deactivate={() => {
-					active_item_id = selected_item?.id ?? null;
+					active_item_id = null;
 				}}
 				on_select={() => {
 					select(item);

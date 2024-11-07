@@ -8,6 +8,12 @@
 	--list-item__background-color--selected: var(--palette__primary-background);
 	--list-item__text-color: var(--palette__text);
 	--list-item__text-color--selected: var(--palette__text--inverted);
+
+	--list-menu__padding: var(--space__tiny);
+}
+
+.device-touch {
+	--list-item__height: 3.5rem;
 }
 
 .device-mobile {
@@ -40,7 +46,6 @@ nav > ul,
 }
 
 .select-list {
-	padding: 0.25rem;
 	border-radius: var(--list__border-radius);
 
 	/* Content */
@@ -49,8 +54,8 @@ nav > ul,
 	gap: 1px;
 
 	.menu > & {
-		/* Max x items in a menu list, but no more than half the screen height */
-		max-height: min(var(--list__max-items) * var(--list-item__height), 50vh);
+		/* Max x items in a menu list, but no more than 30% of the screen height */
+		max-height: min((var(--list__max-items) * var(--list-item__height)), 30vh);
 		overflow-y: auto;
 	}
 
@@ -70,7 +75,7 @@ nav > ul,
 	}
 
 	[role=option] {
-		scroll-margin-top: .25rem;
+		scroll-margin-top: var(--list-menu__padding);
 
 		button {
 			width: 100%;
@@ -107,4 +112,8 @@ nav > ul,
 	> [role=separator] {
 		padding: .25rem;
 	}
+}
+
+.menu:has(> .select-list) {
+	padding: var(--list-menu__padding);
 }

@@ -11,8 +11,6 @@
 	box-shadow: var(--card__shadow);
 
 	/* Content */
-	container: card / inline-size;
-
 	> * {
 		padding-left: var(--card__padding-left);
 		padding-right: var(--card__padding-right);

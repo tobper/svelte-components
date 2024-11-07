@@ -5,24 +5,23 @@
 
 /* Animation */
 .menu {
-	--menu__opacity: 0;
-	--menu__transform: translateY(1rem) scaleX(98%);
-
-	opacity: var(--menu__opacity);
-	transform: var(--menu__transform);
+	opacity: 0;
+	transform: translateY(1rem) scaleX(98%);
 
 	transition-behavior: allow-discrete;
 	transition-duration: var(--menu__transition-duration);
-	transition-property: opacity transform display overlay;
+	transition-property: opacity, transform, display, overlay;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.menu[open] {
-	--menu__opacity: 1;
-	--menu__transform: translateY(0) scaleX(1);
+.menu:popover-open {
+	opacity: 1;
+	transform: translateY(0) scaleX(1);
+}
 
-	@starting-style {
-		--menu__opacity: 0;
-		--menu__transform: translateY(1rem) scaleX(98%);
+@starting-style {
+	.menu:popover-open {
+		opacity: 0;
+		transform: translateY(1rem) scaleX(98%);
 	}
 }

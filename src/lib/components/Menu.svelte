@@ -1,26 +1,31 @@
 <script lang="ts">
 	import { type Snippet } from 'svelte';
-	import type { HTMLDialogAttributes } from 'svelte/elements';
 	import { classes } from '../classes.js';
 	import { get_style, set_style } from '../css.js';
 	import { get_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
 	import AnchorPlugin from './AnchorPlugin.svelte';
-	import EventHandler from './EventHandler.svelte';
 
 	interface Menu {
 		id?: string;
 		anchor: string | HTMLElement;
 		class?: string;
+		element?: HTMLElement;
 		modal?: boolean;
-		trigger?: string | HTMLElement;
 		visible?: boolean;
+		/**
+		 * width of the menu can be either the same as anchor or determined by its own content.
+		 */
+		width?: 'anchor' | 'content';
 		children: Snippet;
-		on_open?: () => void;
+		/**
+		 * Callback is called when menu is closed by this component,
+		 * not when visible is changed from the outside.
+		 */
 		on_close?: () => void;
-		onkeydown?: HTMLDialogAttributes['onkeydown'];
-		onmouseover?: HTMLDialogAttributes['onmouseover'];
-		onmouseout?: HTMLDialogAttributes['onmouseout'];
+		onkeydown?: HTMLElement['onkeydown'];
+		onmouseover?: HTMLElement['onmouseover'];
+		onmouseout?: HTMLElement['onmouseout'];
 	}
 
 	const anchoring_supported = 'anchorName' in document.documentElement.style;
@@ -28,76 +33,64 @@
 	let {
 		id = $bindable(unique_id()),
 		anchor,
-		class: dialog_class,
+		class: menu_class,
+		element = $bindable(),
 		modal = false,
-		trigger,
 		visible = $bindable(false),
+		width,
 		children,
-		on_open,
 		on_close,
 		...dialog_props
 	}: Menu = $props();
 	let anchor_name = $state<string>();
-	let dialog = $state<HTMLDialogElement>();
 
 	$effect(() => {
-		const anchor_element = get_element(anchor);
-		anchor_name = get_style(anchor_element, 'anchor-name');
+		if (anchoring_supported) {
+			const anchor_element = get_element(anchor);
+			anchor_name = get_style(anchor_element, 'anchor-name');
 
-		if (anchor_name === 'none') {
-			anchor_name = `--${unique_id()}`;
-			set_style(anchor_element, 'anchor-name', anchor_name);
+			if (anchor_name === 'none') {
+				anchor_name = `--${unique_id()}`;
+				set_style(anchor_element, 'anchor-name', anchor_name);
+			}
 		}
 	});
 
 	$effect(() => {
-		if (visible) {
-			on_open?.();
-
-			if (modal)
-				dialog!.showModal();
-			else
-				dialog!.show();
-		}
-		else {
-			dialog!.close();
-		}
+		if (visible)
+			element!.showPopover();
+		else
+			element!.hidePopover();
 	});
+
+	function close() {
+		on_close?.();
+		visible = false;
+	}
 </script>	
 
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<dialog
-	bind:this={dialog}
-	{id}
+<div
+	bind:this={element}
 	{...dialog_props}
-	class={classes('menu', dialog_class)}
+	{id}
+	class={classes('menu', menu_class)}
+	class:match-anchor-width={width === 'anchor'}
+	class:modal
+	role="menu"
+	popover="manual"
+	tabindex="-1"
 	style:position-anchor={anchor_name}
-	onclick={({ target }) => {
-		// Click event on the dialog itself means that the backdrop is clicked,
-		// otherwise the target would be a child element.
-		if (target === dialog)
-			dialog.close();
-	}}
-	onclose={() => {
-		visible = false;
-		on_close?.();
-	}}
 	onkeydown={event => {
 		switch (event.key) {
 			case 'Escape':
-				visible = false;
+				close();
 				break;
 		}
 	}}
 >
 	{@render children()}
-</dialog>
-
-<EventHandler element={trigger} onclick={event => {
-	if (!event.altKey && !event.ctrlKey && !event.metaKey)
-		visible = true;
-}} />
+</div>
 
 {#if !anchoring_supported}
-	<AnchorPlugin {anchor} anchored={dialog} />
+	<AnchorPlugin {anchor} anchored={element} {width} />
 {/if}

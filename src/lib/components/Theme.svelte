@@ -69,6 +69,7 @@
 		toggle_root_class('device-mobile', device.mobile);
 		toggle_root_class('device-tablet', device.tablet);
 		toggle_root_class('device-desktop', device.desktop);
+		toggle_root_class('device-touch', device.touch);
 		toggle_root_class('orientation-landscape', device.landscape);
 		toggle_root_class('orientation-portrait', device.portrait);
 		toggle_root_class('scheme-dark', dark_mode);

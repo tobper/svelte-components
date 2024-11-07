@@ -6,10 +6,7 @@
 	--menu__min-width: 15rem;
 
 	/* Position */
-	margin-top: .5rem;
-	min-width: max(var(--menu__min-width), anchor-size(width));
-	position-area: bottom span-right;
-	position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+	min-width: fit-content;
 	z-index: var(--z__menu);
 
 	/* Appearance */
@@ -18,9 +15,20 @@
 	border: 1px solid var(--panel__border-color);
 	border-radius: var(--menu__border-radius);
 	box-shadow: var(--menu__shadow);
-}
 
-.menu::backdrop {
+	@supports (anchor-name: --anchor) {
+		inset: auto;
+		margin-top: .5rem;
+		position-area: bottom span-right;
+		position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+
+		&.match-anchor-width {
+			width: max(var(--menu__min-width), anchor-size(width));
+		}
+	}
+}
+ 
+.menu.modal::backdrop {
 	--menu-backdrop__blur: 0;
 	--menu-backdrop__opacity: 0;
 
@@ -29,23 +37,18 @@
 
 	transition-behavior: allow-discrete;
 	transition-duration: var(--menu__transition-duration);
-	transition-property: backdrop-filter background-color display overlay;
+	transition-property: backdrop-filter, background-color, display, overlay;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.menu[open]::backdrop {
-	--menu-backdrop__blur: 1px;
+.menu.modal:popover-open::backdrop {
+	--menu-backdrop__blur: .5px;
 	--menu-backdrop__opacity: 25%;
+}
 
-	@starting-style {
+@starting-style {
+	.menu.modal:popover-open::backdrop {
 		--menu-backdrop__blur: 0;
 		--menu-backdrop__opacity: 0;
 	}
-}
-
-/* Reset */
-dialog:where(.menu) {
-	margin: unset;
-	inset: unset;
-	max-height: fit-content;
-	max-width: fit-content;
 }

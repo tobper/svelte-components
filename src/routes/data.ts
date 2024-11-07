@@ -67,7 +67,7 @@ export type Food = typeof food[number];
 const fruit_lookup = create_normalized_lookup(fruits);
 
 export async function find_fruit(query: string) {
-	await new Promise(r => setTimeout(r, Math.random() * seconds(1)))
+	await new Promise(r => setTimeout(r, Math.random() * seconds(.25)))
 
 	return fruit_lookup.find_all(query);
 }
