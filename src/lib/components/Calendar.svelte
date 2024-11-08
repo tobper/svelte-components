@@ -281,6 +281,35 @@
 	class={classes('calendar variant-primary', calendar_class)}
 	{id}
 >
+	<header>
+		{header}
+
+		<div class="button-group">
+			<Button
+				{focusable}
+				onclick={goto_previous_month}
+				small
+				title="Previous month"
+				type="outlined"
+			>
+				{#snippet icon()}
+					<ChevronLeftIcon />
+				{/snippet}
+			</Button>
+			<Button
+				{focusable}
+				onclick={goto_next_month}
+				small
+				title="Next month"
+				type="outlined"
+			>
+				{#snippet icon()}
+					<ChevronRightIcon />
+				{/snippet}
+			</Button>
+		</div>
+	</header>
+
 	<List
 		bind:active_item_id
 		{focusable}
@@ -325,35 +354,6 @@
 			{/if}
 		{/each}
 	</List>
-
-	<header>
-		{header}
-
-		<div class="button-group">
-			<Button
-				{focusable}
-				onclick={goto_previous_month}
-				small
-				title="Previous month"
-				type="outlined"
-			>
-				{#snippet icon()}
-					<ChevronLeftIcon />
-				{/snippet}
-			</Button>
-			<Button
-				{focusable}
-				onclick={goto_next_month}
-				small
-				title="Next month"
-				type="outlined"
-			>
-				{#snippet icon()}
-					<ChevronRightIcon />
-				{/snippet}
-			</Button>
-		</div>
-	</header>
 </div>
 
 <EventHandler

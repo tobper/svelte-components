@@ -1,32 +1,32 @@
 .calendar {
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	row-gap: 0.5rem;
 
 	> header {
 		/* Layout */
-		grid-row: 1;
+		padding-left: var(--space__small);
+
+		/* Content */
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
 	.select-list {
-		grid-row: 2;
-
 		/* Content */
 		display: grid;
-		grid-template-columns: repeat(7, auto);
+		grid-template-columns: repeat(7, 1fr);
 		gap: 0px;
 
-		[role=heading] {
-			text-align: center;
-			padding-inline: 0;
-		}
-	
-		[role=option] button {
+		li {
 			min-width: 3rem;
-			height: 3rem;
 			padding-inline: 0;
+			text-align: center;
+		}
+
+		[role=option] button {
+			height: 3rem;
 			justify-content: center;
 		}
 
