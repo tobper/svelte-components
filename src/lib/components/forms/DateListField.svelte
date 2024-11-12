@@ -112,7 +112,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		column-gap: var(--space__small);
+		column-gap: var(--space);
 	}
 
 	.field-input :global(button) {

@@ -1,3 +1,11 @@
+:root {
+	--calendar-button__size: 3rem;
+}
+
+.device-touch {
+	--calendar-button__size: 3.5rem;
+}
+
 .calendar {
 	display: flex;
 	flex-direction: column;
@@ -26,8 +34,8 @@
 		}
 
 		[role=option] button {
-			min-width: 3rem;
-			height: 3rem;
+			min-width: var(--calendar-button__size);
+			height: var(--calendar-button__size);
 			padding: 0;
 			justify-content: center;
 		}

@@ -3,6 +3,11 @@
 	--button__height: 3rem;
 	--button__height--small: 2.5rem;
 
+	&.device-touch {
+		--button__height: 3.25rem;
+		--button__height--small: 2.75rem;
+	}
+
 	.button-group {
 		border-radius: var(--button__border-radius);
 

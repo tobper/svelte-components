@@ -26,3 +26,7 @@
 	--glass__backdrop-filter: blur(7px);
 
 }
+
+.device-touch {
+	--field-input__height: 2.25rem;
+}
