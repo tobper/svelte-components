@@ -8,6 +8,9 @@
 
 	--layout-content__padding-bottom: 2rem;
 
+	--layout__zoom-delay: var(--transition__duration--instant);
+	--layout__zoom-duration: var(--transition__duration--fast);
+
 	/* Layout component sets these variables */
 	--layout-header__height: 0px;
 	--layout-footer__height: 0px;
@@ -81,10 +84,13 @@
 	}
 
 	/* Animate when dialog is open */
-	transition: scale var(--transition__duration--fast) ease-in;
+	transition: scale ease-in;
+	transition-delay: var(--layout__zoom-delay);
+	transition-duration: var(--layout__zoom-duration);
 
 	body:has(.dialog[open]) & {
 		scale: 0.97;
+		transition-delay: 0s;
 	}
 }
 

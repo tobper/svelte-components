@@ -1,16 +1,15 @@
 <script lang="ts">
-	import { Card, PageContent, PageHeader } from '$lib/index.js';
+	import { Card, CardContent, PageContent } from '$lib/index.js';
 </script>
 
-<PageContent id="Typography">
-	<PageHeader text="Typography" />
+<PageContent id="Typography" header="Typography">
 	<Card>
-		<div class="flow-items-vertical">
+		<CardContent>
 			<h1>Header 1</h1>
 			<h2>Header 2</h2>
 			<h3>Header 3</h3>
 			<h4>Header 4</h4>
 			<p>Paragraph</p>
-		</div>
+		</CardContent>
 	</Card>
 </PageContent>

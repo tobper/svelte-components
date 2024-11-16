@@ -57,7 +57,7 @@
 <script lang="ts" generics="Model">
 	import { applyAction, enhance } from '$app/forms';
 	import { beforeNavigate } from '$app/navigation';
-	import { getContext, setContext, untrack, type ComponentProps, type Snippet } from 'svelte';
+	import { getContext, onMount, setContext, untrack, type ComponentProps, type Snippet } from 'svelte';
 	import type { HTMLFormAttributes } from 'svelte/elements';
 	import { classes } from '../../classes.js';
 	import { delayed_timer } from '../../reactivity.svelte.js';
@@ -92,7 +92,6 @@
 
 		children?: Snippet;
 		content?: Snippet<[FormContext]>;
-		footer?: Snippet<[FormContext]>;
 
 		on_failure?: (failure: FormFailure) => void;
 		on_success?: (result?: Model) => void;
@@ -118,7 +117,6 @@
 
 		children,
 		content,
-		footer,
 
 		on_failure,
 		on_success,
@@ -160,13 +158,35 @@
 		untrack(reset);
 	});
 
-	beforeNavigate(navigation => {
-		if (tainted && tainted_navigation_message) {
-			const allow_navigation = window.confirm(tainted_navigation_message);
-			if (!allow_navigation)
-				navigation.cancel();
+	onMount(() => {
+		const dialog = element?.closest('dialog');
+		if (!dialog)
+			return;
+
+		dialog.addEventListener('cancel', on_close);
+
+		return function cleanup() {
+			dialog.removeEventListener('cancel', on_close);
+		}
+
+		function on_close(event: Event) {
+			check_navigation(() => event.preventDefault());
 		}
 	});
+
+	beforeNavigate(navigation => {
+		check_navigation(() => navigation.cancel());
+	});
+
+	function check_navigation(on_cancel: () => void) {
+		if (tainted && tainted_navigation_message) {
+			const allow_navigation = window.confirm(tainted_navigation_message);
+			if (allow_navigation)
+				reset_tainted();
+			else
+				on_cancel();
+		}
+	}
 
 	function hash(value: unknown) {
 		return JSON.stringify(value);
@@ -262,10 +282,4 @@
 >
 	{@render children?.()}
 	{@render content?.(context)}
-	
-	{#if footer}
-		<footer>
-			{@render footer(context)}
-		</footer>
-	{/if}
 </form>

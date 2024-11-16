@@ -1,9 +1,15 @@
 export { default as Button } from './components/Button.svelte';
 export { default as Calendar } from './components/Calendar.svelte';
 export { default as Card } from './components/Card.svelte';
+export { default as CardContent } from './components/CardContent.svelte';
+export { default as CardFooter } from './components/CardFooter.svelte';
+export { default as CardHeader } from './components/CardHeader.svelte';
 export { default as Device } from './components/Device.svelte';
 export { default as Dialog } from './components/Dialog.svelte';
 export { default as DialogCloseButton } from './components/DialogCloseButton.svelte';
+export { default as DialogContent } from './components/DialogContent.svelte';
+export { default as DialogFooter } from './components/DialogFooter.svelte';
+export { default as DialogHeader } from './components/DialogHeader.svelte';
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte';
 export { default as EventHandler } from './components/EventHandler.svelte';
 export { default as Layout } from './components/Layout.svelte';

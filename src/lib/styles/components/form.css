@@ -1,9 +1,8 @@
 .form {
+	display: contents;
+
 	> footer {
-		display: flex;
-		justify-content: end;
-		column-gap: var(--space);
-		margin-top: var(--space__large);
+		justify-content: flex-end;
 	}
 }
 
