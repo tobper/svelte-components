@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { get_date_only_key, is_same_date, try_parse_date_only, type DateOnly, type Period } from '@tobper/eon';
-	import { untrack, type ComponentProps } from 'svelte';
+	import { type ComponentProps } from 'svelte';
 	import { device } from '../../device.js';
 	import { unique_id } from '../../unique_id.js';
 	import Calendar from '../Calendar.svelte';
@@ -62,24 +62,6 @@
 	$effect.pre(() => {
 		input_value = selected_date ? get_date_only_key(selected_date) : '';
 	});
-
-	// Set selected date when input is a valid date
-	$effect.pre(() => {
-		const value = input_value;
-
-		untrack(() => {
-			if (value === '') {
-				selected_date = null;
-			}
-			else {
-				const input_as_date = try_parse_date_only(value);
-				if (input_as_date)
-					selected_date = input_as_date;
-				else
-					calendar?.activate(null);
-			}
-		});
-	});
 </script>
 
 <TextField
@@ -99,13 +81,24 @@
 	onclick={() => {
 		menu_visible = true;
 	}}
+	oninput={() => {
+		menu_visible = true;
+
+		if (input_value === '') {
+			selected_date = null;
+		}
+		else {
+			const input_date = try_parse_date_only(input_value);
+			if (input_date)
+				selected_date = input_date;
+			else
+				calendar?.activate(null);
+		}
+	}}
 	on_clear={() => {
 		menu_visible = false;
 		selected_date = null;
 		on_clear?.();
-	}}
-	on_focus_in={() => {
-		menu_visible = true;
 	}}
 	on_focus_out={() => {
 		menu_visible = false;

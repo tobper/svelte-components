@@ -1,5 +1,5 @@
 <script lang="ts" generics="Option">
-	import { tick, untrack, type ComponentProps } from 'svelte';
+	import { tick, type ComponentProps } from 'svelte';
 	import { device } from '../../device.js';
 	import { async_value } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
@@ -128,37 +128,6 @@
 		if (type === 'autocomplete')
 			selected_value = input_value ? input_value : null;
 	});
-
-	// When autocomplete field has focus, toggle menu depending on if a value has been entered
-	$effect(() => {
-		if (focused && type === 'autocomplete')
-			menu_visible = !!input_value;
-	});
-
-	// Activate item or load items when input value changes depending on source of options
-	$effect(() => {
-		const value = input_value;
-
-		untrack(() => {
-			if (!focused)
-				return;
-
-			load_options();
-
-			if (Array.isArray(options_source) && menu_visible)
-				list?.activate_item_starting_with(value);
-		});
-	});
-
-	function load_options() {
-		if (Array.isArray(options_source))
-			return;
-
-		if (input_value)
-			async_options.set(options_source(input_value));
-		else
-			async_options.reset();
-	}
 </script>
 
 <TextField
@@ -182,16 +151,20 @@
 		if (options.length > 0 || !!empty_text)
 			menu_visible = true;
 	}}
+	oninput={() => {
+		menu_visible = true;
+
+		if (Array.isArray(options_source))
+			list?.activate_item_starting_with(input_value);
+		else  if (input_value)
+			async_options.set(options_source(input_value));
+		else
+			async_options.reset();
+	}}
 	on_clear={() => {
 		menu_visible = false;
 		selected_value = null;
 		on_clear?.();
-	}}
-	on_focus_in={() => {
-		menu_visible = type === 'select' || !!input_value;
-
-		if (!loaded)
-			load_options();
 	}}
 	on_focus_out={() => {
 		menu_visible = false;
