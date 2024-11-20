@@ -82,16 +82,6 @@
 			padding-bottom: calc(var(--layout-footer__height) + var(--layout__padding-bottom));
 		}
 	}
-
-	/* Animate when dialog is open */
-	transition: scale ease-in;
-	transition-delay: var(--layout__zoom-delay);
-	transition-duration: var(--layout__zoom-duration);
-
-	body:has(.dialog[open]) & {
-		scale: 0.97;
-		transition-delay: 0s;
-	}
 }
 
 .layout-header,
@@ -147,6 +137,23 @@
 	.layout-sidebar--fixed + & {
 		margin-left: calc(var(--layout__padding-left) + var(--layout-sidebar__width) + var(--layout-sidebar__gutter));
 	}
+
+	/* Scale when dialog is open */
+	/*
+		This is not working as intended
+		Scaling everything causes fixed position elements (header, sidebar and footer) to be part of the flow
+		Scaling just layout-main causes stuck headers to move along with page
+	*/
+	/*
+	transition: scale ease-in;
+	transition-delay: var(--layout__zoom-delay);
+	transition-duration: var(--layout__zoom-duration);
+
+	body:has(.dialog[open]) & {
+		scale: 0.97;
+		transition-delay: 0s;
+	}
+	*/
 }
 
 /*
