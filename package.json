@@ -31,7 +31,6 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"@floating-ui/dom": "^1.6.12",
 		"@sveltejs/kit": "^2.8.1",
 		"@tobper/eon": "^0.0.16",
 		"svelte": "^5.2.7",
@@ -55,6 +54,7 @@
 		"vitest": "^2.1.5"
 	},
 	"dependencies": {
+		"@oddbird/css-anchor-positioning": "^0.4.0",
 		"esm-env": "^1.1.4",
 		"ua-parser-js": "^1.0.39"
 	},

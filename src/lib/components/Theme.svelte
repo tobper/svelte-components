@@ -55,6 +55,14 @@
 
 	let theme_color = $state('');
 
+	// Polyfills
+	$effect(() => {
+		// const anchor_positioning_supported = 'anchorName' in document.documentElement.style;
+		// if (!anchor_positioning_supported)
+		// 	import('@oddbird/css-anchor-positioning');
+	});
+
+	// Themes
 	$effect.pre(() => {
 		if (style === 'lines')
 			import('../styles/themes/lines.css');
@@ -65,6 +73,7 @@
 		context.style = style;
 	});
 
+	// Style classes
 	$effect.pre(() => {
 		toggle_root_class('device-mobile', device.mobile);
 		toggle_root_class('device-tablet', device.tablet);

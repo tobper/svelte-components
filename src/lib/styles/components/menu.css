@@ -6,8 +6,8 @@
 	--menu__min-width: 15rem;
 
 	/* Position */
+	margin-top: .5rem;
 	min-width: fit-content;
-	z-index: var(--z__menu);
 
 	/* Appearance */
 	background: var(--panel__background-color);
@@ -16,15 +16,15 @@
 	border-radius: var(--menu__border-radius);
 	box-shadow: var(--menu__shadow);
 
-	@supports (anchor-name: --anchor) {
-		inset: auto;
-		margin-top: .5rem;
-		position-area: bottom span-right;
-		position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+	/* Anchor */
+	position: absolute;
+	inset: auto;
+	top: anchor(bottom);
+	left: anchor(left);
+	position-try-fallbacks: flip-block;
 
-		&.match-anchor-width {
-			width: max(var(--menu__min-width), anchor-size(width));
-		}
+	&.match-anchor-width {
+		width: max(var(--menu__min-width), anchor-size(width));
 	}
 }
  
