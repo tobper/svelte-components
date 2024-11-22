@@ -4,16 +4,10 @@
 			color: var(--link__color);
 		}
 
-		[aria-current] {
-			color: var(--palette__primary-color);
-			font-weight: bold;
-			font-size: var(--h4__font-size);
-		}
-
-		.today button:not([aria-current]) {
+		.today button {
 			color: var(--palette__secondary-color);
+			font-size: var(--h3__font-size);
 			font-weight: bold;
-			font-size: var(--h4__font-size);
 		}
 	}
 }

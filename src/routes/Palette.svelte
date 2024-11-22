@@ -1,28 +1,25 @@
 <script lang="ts">
-	import { Card, PageHeader } from '$lib/index.js';
+	import { Card, CardContent, PageContent } from '$lib/index.js';
 </script>
 
-<article class="page-content" id="Palette">
-	<PageHeader text="Palette" />
+<PageContent id="Palette" header="Palette">
 	<Card>
-		<h3>Variant</h3>
-		<div class="flow-items">
+		<CardContent header="Variant" horizontal>
 			<div class="status primary">Primary</div>
 			<div class="status secondary">Secondary</div>
 			<div class="status tertiary">Tertiary</div>
 			<div class="status add">Add</div>
 			<div class="status delete">Delete</div>
-		</div>
+		</CardContent>
 
-		<h3>Status</h3>
-		<div class="flow-items">
+		<CardContent header="Status" horizontal>
 			<div class="status status-error">Error</div>
 			<div class="status status-info">Information</div>
 			<div class="status status-success">Success</div>
 			<div class="status status-warning">Warning</div>
-		</div>
+		</CardContent>
 	</Card>
-</article>
+</PageContent>
 
 <style>
 	.status {
@@ -30,6 +27,7 @@
 		border-width: 1px;
 		border-radius: .25rem;
 		padding: 1rem;
+		width: 8rem;
 	}
 
 	.status.primary {

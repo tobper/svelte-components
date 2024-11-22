@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Snippet } from 'svelte';
+	import { type ComponentProps, type Snippet } from 'svelte';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 	import { classes } from '../../classes.js';
 	import { unique_id } from '../../unique_id.js';
@@ -7,6 +7,8 @@
 	import ClearIcon from '../icons/ClearIcon.svelte';
 	import Loading from '../Loading.svelte';
 	import Field from './Field.svelte';
+
+	type FieldProps = ComponentProps<typeof Field>;
 
 	interface TextField {
 		aria_activedescendant?: HTMLInputAttributes['aria-activedescendant'];
@@ -19,22 +21,26 @@
 		field_element?: HTMLElement | undefined;
 		field_input_element?: HTMLElement | undefined;
 		disabled?: boolean;
-		error_hint?: boolean;
 		focused?: boolean;
-		id?: string;
 		input_class?: string;
 		input_element?: HTMLInputElement;
 		inputmode?: HTMLInputAttributes['inputmode'];
-		label?: string;
 		list?: HTMLInputAttributes['list'];
 		loading?: boolean;
 		name?: string;
+		pattern?: HTMLInputAttributes['pattern'];
 		placeholder?: HTMLInputAttributes['placeholder'];
 		role?: HTMLInputAttributes['role'];
 		readonly?: boolean;
 		required?: boolean;
+		title?: HTMLInputAttributes['title'];
 		type?: HTMLInputAttributes['type'];
-		value?: string;
+		value?: string | null;
+
+		error_hint?: FieldProps['error_hint'];
+		errors?: FieldProps['errors'];
+		id?: FieldProps['id'];
+		label?: FieldProps['label'];
 
 		onclick?: HTMLInputAttributes['onclick'];
 		onkeydown?: HTMLInputAttributes['onkeydown'];
@@ -63,7 +69,8 @@
 		field_element = $bindable(),
 		field_input_element = $bindable(),
 		disabled = false,
-		error_hint = false,
+		error_hint,
+		errors,
 		focused = $bindable(false),
 		id = $bindable(unique_id()),
 		input_class,
@@ -73,10 +80,12 @@
 		list,
 		loading: input_loading = false,
 		name,
+		pattern,
 		placeholder,
 		role,
 		readonly = false,
 		required = false,
+		title,
 		type = 'text',
 		value = $bindable(''),
 
@@ -105,12 +114,14 @@
 	}
 
 	let children_element = $state<HTMLElement>();
+	let clear_element = $state<HTMLElement>();
 	let label_id = unique_id();
 </script>
 
 <Field
 	bind:element={field_element}
 	{error_hint}
+	{errors}
 	{id}
 	{label}
 	{name}
@@ -123,13 +134,13 @@
 				{@render prefix()}
 			{/if}
 
-			<label class="field-input">
+			<div class="field-input">
 				{@render field_prefix_icon()}
 				{@render input(content_id, error_text, in_progress)}
 				{@render field_clear()}
 				{@render field_suffix_icon()}
 				{@render field_loading()}
-			</label>
+			</div>
 
 			{#if suffix}
 				{@render suffix()}
@@ -151,16 +162,18 @@
 		{inputmode}
 		{list}
 		{name}
+		{pattern}
 		{placeholder}
 		{required}
 		{role}
+		{title}
 		{type}
 		bind:this={input_element}
 		bind:value
 		aria-activedescendant={aria_activedescendant}
 		aria-autocomplete={aria_autocomplete}
 		aria-controls={aria_controls}
-		aria-expanded={aria_expanded ? true : undefined}
+		aria-expanded={aria_expanded}
 		aria-haspopup={aria_haspopup ? true : undefined}
 		aria-invalid={error_text ? true : undefined}
 		aria-labelledby={label_id}
@@ -181,11 +194,14 @@
 		}}
 		onfocusout={event => {
 			const { relatedTarget } = event;
-			const input_or_children_focused =
+			const child_focused =
 				relatedTarget instanceof Element &&
-				children_element?.contains(relatedTarget);
+				(
+					relatedTarget === clear_element ||
+					children_element?.contains(relatedTarget)
+				);
 
-			if (input_or_children_focused) {
+			if (child_focused) {
 				// Reset focus to input element
 				focus();
 			}
@@ -200,8 +216,10 @@
 {#snippet field_clear()}
 	{#if value}
 		<Button
+			bind:element={clear_element}
 			class="field-clear"
 			focusable={false}
+			rounded={false}
 			onclick={() => {
 				// Make sure both bound value and input value is updated before calling callback
 				value = input_element!.value = '';
@@ -232,5 +250,9 @@
 {/snippet}
 
 {#snippet field_loading()}
-	<Loading bars class="field-loading" visible={input_loading} />
+	{#if input_loading}
+		<div class="field-loading">
+			<Loading bars />
+		</div>
+	{/if}
 {/snippet}

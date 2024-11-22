@@ -1,5 +1,5 @@
 <script lang="ts" generics="Option">
-	import type { ComponentProps } from 'svelte';
+	import { tick, type ComponentProps } from 'svelte';
 	import { device } from '../../device.js';
 	import { async_value } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
@@ -7,27 +7,31 @@
 	import SelectMenu from '../SelectMenu.svelte';
 	import TextField from './TextField.svelte';
 
-	type SelectListProps = ComponentProps<typeof SelectList>;
+	type SelectListProps = ComponentProps<typeof SelectList<Option>>;
 	type TextFieldProps = ComponentProps<typeof TextField>;
 
 	interface SelectField {
+		/**
+		 * Class to apply to the menu element.
+		 */
 		class_menu?: string;
-		disabled?: boolean;
 		empty_text?: string;
-		error_hint?: boolean;
+		/**
+		 * Options to display in the popup menu.
+		 */
 		options: Option[] | ((query: string) => Option[] | Promise<Option[]>);
 		/** 
-		 * Callback is called for each option to determine the label of the option.
-		 * @default No header
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default No header is displayed.
 		 */
 		options_heading?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the label of the option.
-		 * @default Same as value.
+		 * Callback that is called for each option to determine the label of the option.
+		 * @default Value is displayed as label.
 		 */
 		options_label?: (option: Option) => string;
 		/**
-		 * Callback is called for each option to determine the value of the option.
+		 * Callback that is called for each option to determine the value of the option.
 		 * @default Option is converted to a string.
 		 */
 		options_value?: (option: Option) => string;
@@ -46,6 +50,9 @@
 
 		id?: TextFieldProps['id'];
 		class?: TextFieldProps['class'];
+		disabled?: TextFieldProps['disabled'];
+		error_hint?: TextFieldProps['error_hint'];
+		errors?: TextFieldProps['errors'];
 		label?: TextFieldProps['label'];
 		name?: TextFieldProps['name'];
 		placeholder?: TextFieldProps['placeholder'];
@@ -80,39 +87,46 @@
 		text_field?.focus()
 	}
 
-	const async_options = async_value<Array<Option>>([]);
+	const async_options = async_value<Array<Option>>([], {
+		on_updated: async () => {
+			// Wait for list to update
+			await tick();
 
-	let active_descendant = $state<string | null>(null);
+			if (menu_visible)
+				list?.activate_item_starting_with(selected_value);
+		}
+	});
+	const { delayed, loaded } = $derived(async_options);
+	const options = $derived(async_options.value);
+	const modal = $derived((device.tablet || device.mobile) && type === 'select' && Array.isArray(options_source));
+	const menu_id = $derived(`${id}_menu`);
+
+	let input_value = $state('');
+	let active_item_id = $state<string | null>(null);
 	let field_element = $state<HTMLElement>();
 	let field_input_element = $state<HTMLElement>();
 	let focused = $state(false);
 	let list = $state<ReturnType<typeof SelectList>>();
-	let menu_id = $derived(`${id}_menu`);
 	let menu_visible = $state(false);
-	let modal = $derived(device.mobile && type === 'select' && Array.isArray(options_source));
-	let options = $derived(async_options.value);
 	let text_field = $state<ReturnType<typeof TextField>>();
 
-	let field_proxy = {
-		get value() { return selected_value ?? ''; },
-		set value(value) { selected_value = !value ? null : value; }
-	}
-
-	let load = $derived<(query: string) => void>(
-		Array.isArray(options_source)
-			? () => {}
-			: query => async_options.set(options_source(query))
-	);
-
-	$effect(() => {
+	// Set provided options when it is an array
+	$effect.pre(() => {
 		if (Array.isArray(options_source))
-			async_options.set(options_source)
+			async_options.set(options_source);
+		else
+			async_options.reset();
 	});
 
-	$effect(() => {
-		// Show menu when options have been loaded and field has focus
-		if (focused && options.length)
-			menu_visible = true;
+	// Always update input value when selected value changes
+	$effect.pre(() => {
+		input_value = selected_value ?? '';
+	});
+
+	// Always expose input value as selected for auto complete fields	
+	$effect.pre(() => {
+		if (type === 'autocomplete')
+			selected_value = input_value ? input_value : null;
 	});
 </script>
 
@@ -121,48 +135,64 @@
 	bind:field_element
 	bind:field_input_element
 	bind:focused
-	bind:value={field_proxy.value}
+	bind:value={input_value}
 	{...text_field_Props}
 	{id}
-	aria_activedescendant={list && active_descendant}
+	aria_activedescendant={list && active_item_id}
 	aria_autocomplete={list && 'list'}
 	aria_controls={list && menu_id}
 	aria_expanded={list && menu_visible}
 	aria_haspopup={list && 'menu'}
 	name={name}
-	loading={async_options.loading}
+	loading={delayed}
 	readonly={readonly || modal}
 	role={list && 'combobox'}
 	onclick={() => {
-		if (focused)
+		if (options.length > 0 || !!empty_text)
 			menu_visible = true;
 	}}
-	oninput={({ currentTarget: input }) => {
-		list?.activate_item_starting_with(input.value);
+	oninput={() => {
+		menu_visible = true;
+
+		if (Array.isArray(options_source))
+			list?.activate_item_starting_with(input_value);
+		else  if (input_value)
+			async_options.set(options_source(input_value));
+		else
+			async_options.reset();
 	}}
 	on_clear={() => {
-		on_clear?.();
+		menu_visible = false;
 		selected_value = null;
-	}}
-	on_focus_in={() => {
-		load(selected_value ?? '');
+		on_clear?.();
 	}}
 	on_focus_out={() => {
-		menu_visible = false
+		menu_visible = false;
 
-		const valid =
-			type === 'autocomplete' ||
-			async_options.loaded && options.some(option => options_value(option) === selected_value);
+		if (type === 'select') {
+			const option =
+				loaded &&
+				options.find(option => options_value(option) === input_value);
 
-		if (!valid) {
-			selected_value = '';
-			on_clear?.();
+			if (option) {
+				const option_value = options_value(option);
+
+				if (selected_value !== option_value) {
+					selected_value = option_value;
+					on_select?.(option);
+				}
+			}
+			else {
+				input_value = '';
+				selected_value = null;
+				on_clear?.();
+			}
 		}
 	}}
 >
-	{#if !readonly && options.length > 0}
+	{#if field_element && !readonly}
 		<SelectMenu
-			bind:active_descendant
+			bind:active_item_id
 			bind:list
 			bind:value={selected_value}
 			bind:visible={menu_visible}
@@ -172,14 +202,16 @@
 			{options_heading}
 			{options_label}
 			{options_value}
-			anchor={field_element!}
+			anchor={field_element}
 			class={class_menu}
 			id={menu_id}
 			keyboard_capture={field_input_element}
-			on_select={option => {
-				selected_value = option ? options_value(option) : null;
-				menu_visible = false;
+			on_select={async option => {
 				on_select?.(option);
+
+				// Wait for effects to update input_value and then close the menu
+				await tick()
+				menu_visible = false;
 			}}
 		/>
 	{/if}

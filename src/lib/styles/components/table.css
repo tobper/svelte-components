@@ -4,6 +4,9 @@
 
 	--table-header__color: hsl(from var(--palette__text) h s l / 65%);
 	--table-header__letter-spacing: .1em;
+
+	--table-row__background-color: var(--palette__background);
+	--table-row__opacity--zebra: 0%;
 }
 
 .table-container {
@@ -38,15 +41,12 @@
 			position: absolute;
 			inset: 0;
 			content: '';
-			z-index: var(--z-index__table-overlay);
+			z-index: var(--z__overlay);
 			cursor: default;
 		}
 	}
 
 	/* Colors */
-	--table-row__background-color: var(--palette__background);
-	--table-row__opacity--zebra: 0%;
-
 	tr, th, .table-body > * {
 		background-color: color-mix(in lab, var(--table-row__background-color), var(--palette__contrast) var(--table-row__opacity--zebra));
 		transition-property: background-color, color;
@@ -62,20 +62,6 @@
 div.table {
 	container: table / inline-size;
 	display: block;
-
-	.table-row {
-		display: flex;
-		align-items: center;
-	
-		> * {
-			box-sizing: content-box;
-			flex: 1;
-
-			&.icon {
-				flex: none;
-			}
-		}
-	}
 }
 
 table.table {
@@ -89,23 +75,37 @@ table.table {
 }
 
 .table-row {
-	padding-left: var(--table__padding-left);
-	padding-right: var(--table__padding-right);
+	display: flex;
+	align-items: center;
+
+	> * {
+		box-sizing: content-box;
+		flex: 1;
+
+		&.icon {
+			/* Avoid extra space around icons */
+			display: flex;
+			/* Do not resize icon cells */
+			flex: none;
+		}
+	}
 }
 
 .table-row > *,
 table.table td,
 table.table th {
 	/* Cell formatting */
-	padding-block: var(--space__small);
-	padding-inline: var(--space__medium);
+	padding-block: var(--space__medium);
+	padding-inline: var(--space__small);
 
 	&:first-child {
 		padding-left: 0px;
+		padding-left: var(--table__padding-left);
 	}
 
 	&:last-child {
 		padding-right: 0px;
+		padding-right: var(--table__padding-right);
 	}
 
 	/* Truncate text */
@@ -116,6 +116,13 @@ table.table th {
 	.checkbox {
 		vertical-align: middle;
 	}
+}
+
+.table-row > .button-plain {
+	/* Allow space for focus shadow within table cell */
+	margin-block: 1px;
+	height: auto;
+	place-self: stretch;
 }
 
 .table-row--error {

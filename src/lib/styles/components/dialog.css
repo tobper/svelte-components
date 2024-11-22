@@ -1,7 +1,7 @@
 :root {
 	--dialog__backdrop-blur: 1px;
 	--dialog__margin: 1rem;
-	--dialog__padding: 1rem;
+	--dialog__padding-inline: var(--space);
 	--dialog__shadow: 0 1.5rem 3rem rgb(0 0 0 / .25);
 }
 
@@ -10,8 +10,15 @@
 	margin: auto;
 
 	/* Position */
-	max-width: calc(100% - var(--dialog__margin) * 2);
-	padding: var(--dialog__padding);
+	max-width: calc(
+		100%
+		- 2 * var(--dialog__margin)
+	);
+	max-height: calc(
+		100%
+		- 2 * max(var(--layout__padding-top), var(--layout__padding-bottom))
+		- 2rem
+	);
 
 	/* Appearance */
 	background: var(--panel__background-color);
@@ -20,29 +27,68 @@
 	border-radius: var(--dialog__border-radius);
 	box-shadow: var(--dialog__shadow);
 
-	> header,
-	> footer {
-		/* Content */
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 1rem;
+	/* Content */
+	flex-direction: column;
+}
+
+.dialog-header {
+	/* Layout */
+	flex: none;
+	padding-top: var(--space);
+	padding-inline: var(--dialog__padding-inline);
+
+	/* Content */
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	column-gap: var(--space);
+	row-gap: var(--space__small);
+
+	hr {
+		margin-top: var(--space__small);
+	}
+}
+
+.dialog-content {
+	flex: 1 1 min-content;
+	padding-block: var(--space);
+	overflow: auto;
+
+	/* Content */
+	display: flex;
+	flex-direction: column;
+	gap: var(--space);
+
+	&.dialog-content--fill {
+		align-items: stretch;
 	}
 
-	> header {
-		/* Layout */
-		margin-bottom: 1rem;
-
-		/* Content */
-		justify-content: space-between;
+	> * {
+		padding-inline: var(--dialog__padding-inline);
 	}
 
-	> footer {
-		/* Layout */
-		margin-top: 2rem;
+	h3, h4 {
+		flex: none;
+		margin-top: var(--space);
+	}
+}
 
-		/* Content */
-		justify-content: flex-end;
+.dialog-footer {
+	/* Layout */
+	flex: none;
+	padding-bottom: var(--space);
+	padding-inline: var(--dialog__padding-inline);
+
+	/* Content */
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	column-gap: var(--space);
+	row-gap: var(--space__small);
+
+	hr {
+		margin-bottom: var(--space__small);
 	}
 }
 
@@ -52,22 +98,23 @@
 .dialog {
 	opacity: 0;
 	transform: scale(1.04);
-	transition:
-		opacity var(--transition__duration--fast) ease-in,
-		transform var(--transition__duration--fast) ease-in,
-		overlay var(--transition__duration--fast) allow-discrete,
-		display var(--transition__duration--fast) allow-discrete;
-}
 
-.dialog[open] {
-	opacity: 1;
-	transform: unset;
-}
+	transition-behavior: allow-discrete;
+	transition-delay: 0s;
+	transition-duration: var(--layout__zoom-duration);
+	transition-property: opacity, transform, display, overlay;
+	transition-timing-function: ease-in;
 
-@starting-style {
-	.dialog[open] {
-		opacity: 0;
-		transform: scale(1.04);
+	&[open] {
+		display: flex;
+		opacity: 1;
+		transform: unset;
+		transition-delay: var(--layout__zoom-delay);
+
+		@starting-style {
+			opacity: 0;
+			transform: scale(1.04);
+		}
 	}
 }
 
@@ -77,29 +124,24 @@
 .dialog::backdrop {
 	background-color: transparent;
 	backdrop-filter: blur(0px) opacity(0);
-	-webkit-backdrop-filter: blur(0px) opacity(0);
 
-	transition:
-		backdrop-filter var(--transition__duration--fast) ease-in,
-		background-color var(--transition__duration--fast) ease-in,
-		overlay var(--transition__duration--fast) allow-discrete,
-		display var(--transition__duration--fast) allow-discrete;
+	transition-behavior: allow-discrete;
+	transition-delay: 0s;
+	transition-duration: var(--layout__zoom-duration);
+	transition-property: backdrop-filter, background-color, display, overlay;
+	transition-timing-function: ease-in;
 }
 
 .dialog[open]::backdrop {
 	background-color: rgb(0 0 0 / 65%);
 	backdrop-filter: blur(var(--dialog__backdrop-blur)) opacity(1);
-	-webkit-backdrop-filter: blur(var(--dialog__backdrop-blur)) opacity(1);
+	transition-delay: var(--layout__zoom-delay);
 }
 
 @starting-style {
-	/*
-	 * TODO: This doesn't work for some reason (Works on iPhone).
-	 * See https://blog.logrocket.com/animating-dialog-popover-elements-css-starting-style/
-	 */
 	.dialog[open]::backdrop {
 		background-color: transparent;
 		backdrop-filter: blur(0px) opacity(0);
-		-webkit-backdrop-filter: blur(0px) opacity(0);
+		transition-delay: 0s;
 	}
 }

@@ -9,6 +9,7 @@
 		name?: string;
 		options: Option[];
 		text?: string;
+		title?: string;
 		type?: 'outlined' | 'plain';
 		value: Option;
 		onchange?: (value: Option) => void;
@@ -25,16 +26,19 @@
 		onclick,
 		options,
 		text,
-		type = 'outlined',
+		title,
+		type = 'plain',
 		value = $bindable(),
 	}: ToggleButton = $props();
 </script>
 
 <button
+	{title}
 	class={label_class}
 	class:button-outlined={type === 'outlined'}
 	class:button-plain={type === 'plain'}
 	class:button--round={!text}
+	type="button"
 	onclick={event => {
 		if (disabled) {
 			event.preventDefault()

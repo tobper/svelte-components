@@ -73,6 +73,8 @@ export function assert_element<T>(element: unknown, type?: ({ new(...args: []): 
 
 	if (type && !is_of_type(element, type))
 		throw new Error(`Element is not of type ${type.name}`);
+
+	return element;
 }
 
 export function focus_element(element_or_id: string | HTMLElement) {

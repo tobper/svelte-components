@@ -2,8 +2,7 @@
 	import ChevronLeftIcon from '$lib/components/icons/ChevronLeftIcon.svelte';
 	import ChevronRightIcon from '$lib/components/icons/ChevronRightIcon.svelte';
 	import ClearIcon from '$lib/components/icons/ClearIcon.svelte';
-	import type { ButtonType, ButtonVariant } from '$lib/index.js';
-	import { Button, Card, PageHeader } from '$lib/index.js';
+	import { Button, Card, CardContent, CardHeader, PageContent, type ButtonType, type ButtonVariant } from '$lib/index.js';
 
 	const button_types: [string, ButtonType][] = [
 		['Outlined', 'outlined'],
@@ -13,13 +12,13 @@
 	const button_variants: ButtonVariant[] = ['primary', 'secondary', 'tertiary', 'add', 'delete'];
 </script>
 
-<article class="page-content" id="Button">
-	<PageHeader text="Button" />
+<PageContent id="Button" header="Button">
 	<Card>
 		{#each button_types as [heading, type]}
-			<h3>{heading}</h3>
+			<CardHeader text={heading} />
+
 			{#each button_variants as variant}
-				<div class="flow-items">
+				<CardContent horizontal>
 					<Button {variant} {type} text="Default" />
 					<Button {variant} {type} text="Hover" class="button--hover" />
 					<Button {variant} {type} text="Pressed" current />
@@ -37,17 +36,15 @@
 						<Button {variant} {type} icon={ButtonIcon} small />
 						<Button {variant} {type} icon={ButtonIcon} disabled small />
 					</div>
-				</div>
+				</CardContent>
 			{/each}
 		{/each}
 
-		<h3>Variants</h3>
-		<div class="flow-items">
+		<CardContent header="Variants" horizontal>
 			<Button type="cta" text="Loading" loading />
-		</div>
+		</CardContent>
 
-		<h3>Group</h3>
-		<div class="flow-items">
+		<CardContent header="Group" horizontal>
 			<div class="button-group">
 				<Button type="outlined" text="Vegetables" />
 				<Button type="outlined" text="Fruits" />
@@ -57,9 +54,9 @@
 				<Button type="outlined" icon={ChevronLeft} />
 				<Button type="outlined" icon={ChevronRight} />
 			</div>
-		</div>
+		</CardContent>
 	</Card>
-</article>
+</PageContent>
 
 {#snippet ButtonIcon()}<ClearIcon />{/snippet}
 {#snippet ChevronLeft()}<ChevronLeftIcon />{/snippet}

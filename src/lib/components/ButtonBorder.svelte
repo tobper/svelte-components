@@ -13,5 +13,7 @@
 	<svg class="button-border">
 		<circle pathLength="100"></circle>
 		<rect pathLength="100"></rect>
+
+		<!-- <path class="button-border-left-edge"  -->
 	</svg>
 {/if}

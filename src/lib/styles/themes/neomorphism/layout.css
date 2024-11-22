@@ -4,6 +4,10 @@
 		background: var(--panel__background-color);
 		background: var(--panel__background);
 		box-shadow: var(--panel__shadow);
+
+		.scheme-dark & {
+			border-top: var(--panel__border)
+		}
 	}
 
 	.layout-sidebar {

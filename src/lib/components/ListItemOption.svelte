@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
-	import Button from './Button.svelte';
 	import { get_list_context } from './List.svelte';
 
 	interface ListItemOption {
@@ -12,7 +10,9 @@
 		current?: boolean;
 		selected?: boolean;
 		children: Snippet;
-		onclick?: HTMLButtonAttributes['onclick'];
+		on_activate?: () => void;
+		on_deactivate?: () => void;
+		on_select?: () => void;
 	}
 
 	let {
@@ -21,7 +21,9 @@
 		current = false,
 		selected = false,
 		children,
-		onclick,
+		on_activate,
+		on_deactivate,
+		on_select,
 		...li_props
 	}: ListItemOption = $props();
 	let list = get_list_context();
@@ -35,13 +37,14 @@
 	class:contrast
 	role="option"
 >
-	<Button
-		{onclick}
-		current={selected}
-		focusable={list.focusable && current}
-		pseudo_focus={!list.focusable && current}
-		type="plain"
+	<!-- svelte-ignore a11y_mouse_events_have_key_events -->
+	<button
+		onclick={() => on_select?.()}
+		onmouseover={() => on_activate?.()}
+		onmouseout={() => on_deactivate?.()}
+		tabindex={list.focusable && current ? 0 : -1}
+		type="button"
 	>
 		{@render children()}
-	</Button>
+	</button>
 </li>

@@ -1,22 +1,22 @@
 <script lang="ts">
-	import { Button, Card, Dialog, PageHeader } from '$lib/index.js';
+	import { Button, Card, CardContent, Dialog, DialogContent, PageContent } from '$lib/index.js';
+	import { lorem } from './data.js';
 
 	let visible = $state(false);
 </script>
 
-<article class="page-content" id="Dialog">
-	<PageHeader text="Dialog" />
+<PageContent id="Dialog" header="Dialog">
 	<Card>
-		<div class="flow-items">
+		<CardContent>
 			<Button type="outlined" text="Open" onclick={() => { visible = true; }} />
-		</div>
+		</CardContent>
 	</Card>
-</article>
+</PageContent>
 
-<Dialog bind:visible header="Header">
-	<div style="width: 400px;">
-		Hello
-	</div>
+<Dialog bind:visible header="Header" width="600px">
+	<DialogContent>
+		<p>{lorem}</p>
+	</DialogContent>
 
 	{#snippet footer()}
 		<form method="dialog">

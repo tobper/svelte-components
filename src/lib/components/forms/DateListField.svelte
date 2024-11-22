@@ -24,6 +24,7 @@
 	}: DateListField = $props();
 
 	let input_element = $state<HTMLElement>();
+	let menu_element = $state<HTMLElement>();
 	let menu_visible = $state(false);
 
 	function is_same_date_as(other: DateOnly) {
@@ -43,11 +44,11 @@
 
 						<Button
 							disabled={in_progress || readonly}
+							text={value}
+							variant="delete"
 							onclick={() => {
 								dates = dates.toSpliced(index, 1);
 							}}
-							text={value}
-							variant="delete"
 						>
 							{#snippet icon()}
 								<ClearIcon />
@@ -58,9 +59,23 @@
 					<Button
 						disabled={in_progress || readonly}
 						id={button_id}
+						rounded={false}
+						title="Add date"
 						variant="add"
 						onclick={() => {
 							menu_visible = true;
+						}}
+						onfocusout={event => {
+							const menu_focused =
+								event.relatedTarget instanceof Element &&
+								menu_element?.contains(event.relatedTarget);
+
+							// Refocus button if focus was moved to the menu
+							// Otherwise close the menu
+							if (menu_focused)
+								event.currentTarget.focus();
+							else
+								menu_visible = false;
 						}}
 					>
 						{#snippet icon()}
@@ -76,12 +91,15 @@
 		</div>
 
 		<CalendarMenu
+			bind:element={menu_element}
 			bind:visible={menu_visible}
 			anchor={input_element}
 			keyboard_capture={button_id}
 			modal
 			selected_date={get_date_today()}
 			on_select={selected_date => {
+				menu_visible = false;
+
 				if (selected_date && !dates.some(is_same_date_as(selected_date)))
 					dates = sort_dates([...dates, selected_date]);
 			}}
@@ -94,7 +112,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		column-gap: var(--space__small);
+		column-gap: var(--space);
 	}
 
 	.field-input :global(button) {

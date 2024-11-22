@@ -8,6 +8,9 @@
 
 	--layout-content__padding-bottom: 2rem;
 
+	--layout__zoom-delay: var(--transition__duration--instant);
+	--layout__zoom-duration: var(--transition__duration--fast);
+
 	/* Layout component sets these variables */
 	--layout-header__height: 0px;
 	--layout-footer__height: 0px;
@@ -26,6 +29,7 @@
 		width: 100%;
 		max-width: var(--layout__max-width);
 		margin-inline: auto;
+		padding-bottom: var(--layout__padding-bottom);
 	}
 
 	> footer {
@@ -46,7 +50,7 @@
 			width: 100%;
 			padding-top: var(--layout__padding-top);
 			top: 0;
-			z-index: 10;
+			z-index: var(--z__layout);
 
 			/* Appearance */
 			background: var(--palette__background);
@@ -68,7 +72,7 @@
 			width: 100%;
 			bottom: 0;
 			padding-bottom: var(--layout__padding-bottom);
-			z-index: 10;
+			z-index: var(--z__layout);
 
 			/* Appearance */
 			background: var(--palette__background);
@@ -77,13 +81,6 @@
 		> main {
 			padding-bottom: calc(var(--layout-footer__height) + var(--layout__padding-bottom));
 		}
-	}
-
-	/* Animate when dialog is open */
-	transition: scale var(--transition__duration--fast) ease-in;
-
-	body:has(.dialog[open]) & {
-		scale: 0.97;
 	}
 }
 
@@ -106,11 +103,23 @@
 	bottom: calc(var(--layout-footer__height) + var(--layout__padding-bottom));
 	padding-left: var(--layout__padding-left);
 	padding-bottom: var(--layout-content__padding-bottom);
-	z-index: 9;
+	z-index: var(--z__layout);
 	overflow: auto;
 
 	&.hidden {
 		display: none;
+	}
+
+	nav {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	ul {
+		flex-direction: column;
 	}
 }
 
@@ -119,14 +128,32 @@
 	padding-bottom: var(--layout-content__padding-bottom);
 
 	/* Content */
+	container: main / inline-size;
 	display: flex;
 	flex-direction: column;
-	row-gap: max(0px, var(--space__large) - var(--page-header__padding-top));
+	row-gap: max(3px, var(--space__large) - var(--page-header__padding-top)); /* Leave 3px room for panel shadows */
 
 	/* Padding when fixed sidebar */
 	.layout-sidebar--fixed + & {
-		padding-left: calc(var(--layout__padding-left) + var(--layout-sidebar__width));
+		margin-left: calc(var(--layout__padding-left) + var(--layout-sidebar__width) + var(--layout-sidebar__gutter));
 	}
+
+	/* Scale when dialog is open */
+	/*
+		This is not working as intended
+		Scaling everything causes fixed position elements (header, sidebar and footer) to be part of the flow
+		Scaling just layout-main causes stuck headers to move along with page
+	*/
+	/*
+	transition: scale ease-in;
+	transition-delay: var(--layout__zoom-delay);
+	transition-duration: var(--layout__zoom-duration);
+
+	body:has(.dialog[open]) & {
+		scale: 0.97;
+		transition-delay: 0s;
+	}
+	*/
 }
 
 /*
@@ -187,8 +214,18 @@
 		top: unset;
 		left: unset;
 		right: 0;
-		max-height: calc(100% - var(--space) - var(--layout__padding-top) - var(--layout-header__height) - var(--layout-footer__height) - var(--layout__padding-bottom));
-		padding-block: 0;
+		box-sizing: border-box;
+		min-width: 70%;
+		max-height: calc(
+			100%
+			- var(--space__large)
+			- var(--layout__padding-top)
+			- var(--layout-header__height)
+			- var(--layout-footer__height)
+			- var(--layout__padding-bottom)
+		);
+		padding-top: var(--space);
+		padding-bottom: var(--space);
 		padding-left: var(--space__large);
 		padding-right: var(--layout__padding-right);
 	

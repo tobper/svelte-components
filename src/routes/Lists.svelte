@@ -1,16 +1,14 @@
 <script lang="ts">
-	import { Card, PageHeader, SelectList } from '$lib/index.js';
+	import { Card, CardContent, PageContent, SelectList } from '$lib/index.js';
 	import { food, get_food_heading, random } from './data.js';
 
 	let value = $state<string | null>(null);
 </script>
 
-<article class="page-content" id="List">
-	<PageHeader text="List" />
+<PageContent id="List" header="List">
 	<Card>
-		<div class="flow-items">
+		<CardContent>
 			<div class="list-container">
-				<h4>Groups</h4>
 				<SelectList
 					bind:value
 					options={random(food, 5)}
@@ -21,20 +19,15 @@
 					Selected: {value ? value : '-'}
 				</output>
 			</div>
-		</div>
+		</CardContent>
 	</Card>
-</article>
+</PageContent>
 
 <style>
-	.flow-items {
-		align-items: flex-start;
-	}
-
 	.list-container {
-		flex: 1;
-		max-width: 20rem;
+		min-width: 20rem;
 
-		:global(.device-mobile &) {
+		:global(.device-mobile) & {
 			min-width: 100%;
 		}
 	}

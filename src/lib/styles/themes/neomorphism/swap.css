@@ -2,7 +2,7 @@
 	.swap {
 		/* Theme */
 		&.action:focus {
-			color: var(--link-color--hover);
+			color: var(--link__color--hover);
 		}
 	}
 }

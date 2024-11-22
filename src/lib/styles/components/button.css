@@ -6,12 +6,19 @@
 	selected: Button is pressed and can be interacted with (toggle button)
 */
 
+.button-group {
+	display: inline-flex;
+}
+
+.button-cta,
+.button-outlined {
+	/* Layout */
+	padding-inline: var(--space);
+}
+
 .button-cta,
 .button-outlined,
 .button-plain {
-	/* Layout */
-	padding-inline: var(--space);
-
 	/* Appearance */
 	border-radius: var(--button__border-radius);
 
@@ -26,7 +33,7 @@
 	}
 
 	svg {
-		width: 1.25rem;
+		width: 1.5rem;
 	}
 
 	/* Hide overflow, for instance when rotating content in check buttons */

@@ -1,14 +1,9 @@
 :where(.theme-neomorphism) {
 	.select-list {
-		--list__shadow--focus: 0 0 1px 1px var(--palette__accent-color);
-
-		.device-mobile & {
-			--list__shadow--focus: unset;
-		}
-	
 		/* Focus */
-		&:focus-visible {
-			box-shadow: var(--list__shadow--focus);
+		&:focus-visible,
+		&:has(:focus-visible) {
+			box-shadow: var(--shadow__focus);
 		}
 	}
 }

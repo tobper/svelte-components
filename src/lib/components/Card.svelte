@@ -1,21 +1,43 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { classes } from '../classes';
+	import CardContent from './CardContent.svelte';
+	import CardFooter from './CardFooter.svelte';
+	import CardHeader from './CardHeader.svelte';
 
 	interface Card {
-		children: Snippet;
+		class?: string;
 		header?: string;
+		children?: Snippet;
+		content?: Snippet;
+		footer?: Snippet;
 	}
 
 	let {
+		class: card_class,
+		header,
 		children,
-		header
+		content,
+		footer,
 	}: Card = $props();
 </script>
 
-<div class="card">
+<div class={classes('card', card_class)}>
 	{#if header}
-		<h3>{header}</h3>
+		<CardHeader text={header} />
 	{/if}
 
-	{@render children()}
+	{#if content}
+		<CardContent>
+			{@render content()}
+		</CardContent>
+	{:else if children}
+		{@render children()}
+	{/if}
+
+	{#if footer}
+		<CardFooter>
+			{@render footer()}
+		</CardFooter>
+	{/if}
 </div>

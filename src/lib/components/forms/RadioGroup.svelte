@@ -39,7 +39,7 @@
 		class: group_class,
 		disabled = false,
 		name = unique_id(),
-		selected_value = $bindable(undefined),
+		selected_value = $bindable(null),
 		children,
 	}: RadioGroup = $props();
 
@@ -55,7 +55,7 @@
 		disabled: false,
 		name: unique_id(),
 		select: value => selected_value = value,
-		selected_value: undefined,
+		selected_value: null,
 	});
 
 	set_context(context);

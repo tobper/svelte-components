@@ -1,6 +1,6 @@
 :where(.theme-neomorphism) {
 	&.scheme-light {
-		--field__background: color-mix(in lab, var(--panel__background-color), black 4%);
+		--field__background: color-mix(in lab, var(--panel__background-color), black 2%);
 	}
 
 	&.scheme-dark {
@@ -8,57 +8,7 @@
 	}
 
 	.checkbox {
-		--checkbox__background--checked: var(--palette__accent--scheme);
-		--checkbox__color--checked: var(--palette__accent);
-
-		appearance: none;
-		background-origin: border-box;
-		background-repeat: no-repeat;
-		border-radius: 0.25rem;
-		width: 1.25rem;
-		height: 1.25rem;
-		transition: background calc(var(--field__transition-duration) / 2) ease-out;
-
-		&:enabled {
-			cursor: pointer;
-
-			&:checked,
-			&:indeterminate {
-				animation: checkbox_mark var(--field__transition-duration) ease-out;
-				background-color: var(--checkbox__background--checked);
-			}
-		}
-
-		&:checked {
-			background-image:
-				linear-gradient(-45deg, transparent 65%, var(--checkbox__background--checked) 65.99%),
-				linear-gradient(45deg, transparent 75%, var(--checkbox__background--checked) 75.99%),
-				linear-gradient(-45deg, var(--checkbox__background--checked) 40%, transparent 40.99%),
-				linear-gradient(45deg, var(--checkbox__background--checked) 30%, var(--checkbox__color--checked) 30.99%, var(--checkbox__color--checked) 40%, transparent 40.99%),
-				linear-gradient(-45deg, var(--checkbox__color--checked) 50%, var(--checkbox__background--checked) 50.99%);
-		}
-
-		&:indeterminate {
-			background-image:
-				linear-gradient(90deg, transparent 80%, var(--checkbox__background--checked) 80%),
-				linear-gradient(-90deg, transparent 80%, var(--checkbox__background--checked) 80%),
-				linear-gradient(0deg, var(--checkbox__background--checked) 43%, var(--checkbox__color--checked) 43%, var(--checkbox__color--checked) 57%, var(--checkbox__background--checked) 57%);
-		}
-
-		/* Interaction */
-		user-select: none;
-	}
-
-	@keyframes checkbox_mark {
-		0% {
-			background-position-y: 5px;
-		}
-		50% {
-			background-position-y: -2px;
-		}
-		100% {
-			background-position-y: 0;
-		}
+		--checkbox__background--checked: var(--palette__accent-color--bright);
 	}
 
 	.field-label {
@@ -70,7 +20,7 @@
 		border-radius: .25rem;
 
 		button {
-			margin: .25rem;
+			margin: 3px;
 			border-radius: .15rem;
 		}
 	}
@@ -90,7 +40,7 @@
 	.field-clear,
 	.field-content,
 	.field-content > .icon {
-		transition-property: color, background-color, border-color, box-shadow, opacity;
+		transition-property: color, background-color, border-color, opacity;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		transition-duration: var(--field__transition-duration);
 	}
@@ -104,9 +54,12 @@
 			rgb(0 0 0 / 0%),
 			rgb(255 255 255 / var(--field__gradient-opacity))
 		);
-		box-shadow:
-			var(--field__shadow),
-			var(--field__shadow--focused, 0 0 #0000);
+
+		&:not(.skeleton) {
+			box-shadow:
+				var(--field__shadow),
+				var(--field__shadow--focus, 0 0 #0000);
+		}
 
 		--field__gradient-opacity: 0%;
 
@@ -118,8 +71,6 @@
 	/* Focus */
 	[type=checkbox]:focus-visible,
 	.field:has(input:focus-visible) .field-content {
-		.not-mobile & {
-			--field__shadow--focused: var(--focus__shadow);
-		}
+		--field__shadow--focus: var(--shadow__focus);
 	}
 }

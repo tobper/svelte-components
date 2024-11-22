@@ -1,19 +1,25 @@
 <script lang="ts">
-	import { unique_id } from '$lib/unique_id.js';
-	import type { DateOnly } from '@tobper/eon';
+	import type { DateOnly, Period } from '@tobper/eon';
+	import { device } from '../device.js';
+	import { unique_id } from '../unique_id.js';
 	import Calendar from './Calendar.svelte';
 	import EventHandler from './EventHandler.svelte';
 	import Menu from './Menu.svelte';
 
 	interface CalendarMenu {
 		/**
-		 * The id of the currently activated date.  
+		 * Id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_descendant?: string | null;
+		active_item_id?: string | null;
 		anchor: string | HTMLElement;
 		calendar?: ReturnType<typeof Calendar>,
-			/**
+		/**
+		 * Class to apply to the menu element.
+		 */
+		class?: string;
+		element?: HTMLElement;
+		/**
 		 * The element id of the menu.
 		 */
 		id?: string;
@@ -23,51 +29,54 @@
 		keyboard_capture?: HTMLElement | string;
 		modal?: boolean;
 		/**
+		 * The period currently being displayed.
+		 */
+		period?: Period | null;
+		/**
 		 * The currently selected date.
 		 */
 		selected_date?: DateOnly | null;
-		trigger?: string | HTMLElement;
 		visible?: boolean;
 		/**
 		 * Callback is called when a date is selected.
 		 */
-		 on_select?: (new_date: DateOnly | null) => void;
+		 on_select?: (new_date: DateOnly) => void;
 	}
 
 	let {
-		active_descendant = $bindable(null),
+		active_item_id = $bindable(null),
 		anchor,
 		calendar = $bindable(),
+		class: class_menu,
+		element = $bindable(),
 		id = $bindable(unique_id()),
 		keyboard_capture,
 		modal,
+		period,
 		selected_date = $bindable(null),
-		trigger,
 		visible = $bindable(false),
+
 		on_select,
 	}: CalendarMenu = $props();
 </script>
 
 <Menu
+	bind:element
 	bind:visible
 	{anchor}
 	{id}
 	{modal}
-	{trigger}
-	on_open={() => {
-		calendar?.reset();
-	}}
+	class={class_menu}
+	width={device.mobile ? 'anchor' : 'content'}
 >
 	<Calendar
 		bind:this={calendar}
-		bind:active_descendant
+		bind:active_item_id
 		bind:selected_date
 		focusable={modal}
 		keyboard_capture={visible ? keyboard_capture : undefined}
-		on_select={new_date => {
-			visible = false;
-			on_select?.(new_date);
-		}}
+		{period}
+		{on_select}
 	/>
 </Menu>
 
@@ -76,11 +85,13 @@
 	onkeydown={event => {
 		if (visible) {
 			switch (event.key) {
+				case 'Enter':
+					if (calendar?.select_active_date())
+						event.preventDefault();
+					break;
+
 				case 'Escape':
-					console.log('active_descendant', active_descendant)
-					// Close menu if no date is active
-					if (!active_descendant)
-						visible = false;
+					visible = false;
 					break;
 			}
 		}

@@ -16,7 +16,8 @@
 		}]>;
 		id?: string;
 		class?: string;
-		error_hint?: boolean;
+		error_hint?: boolean | 'auto' | 'always' | 'never';
+		errors?: string[];
 		element?: HTMLElement;
 		name?: string;
 		label?: string;
@@ -28,18 +29,24 @@
 	let {
 		id = $bindable(unique_id()),
 		class: field_class,
-		error_hint,
+		error_hint = form.error_hints,
+		errors: input_errors = [],
 		element = $bindable(),
 		label,
 		name,
 		required = false,
 		content,
 	}: Field = $props();
-	let { field_errors, loading = false, submitting = false } = $derived(form);
+	let { in_progress, loading, submitting } = $derived(form);
 	let content_id = $derived(`${id}_content`);
-	let errors = $derived((name ? field_errors[name] : null) ?? []);
-	let error_text = $derived(errors.length ? errors[0] : null);
-	let in_progress = $derived(loading || submitting);
+	let form_errors = $derived((name && form.field_errors[name]) ?? []);
+	let errors = $derived([...input_errors, ...form_errors]);
+	let error_text = $derived(errors[0] ?? null);
+	let error_visible = $derived(
+		error_hint === true ||
+		error_hint === 'always' ||
+		(error_hint === 'auto' && !!error_text)
+	);
 </script>
 
 <div
@@ -59,7 +66,7 @@
 
 	{@render content({ content_id, errors, error_text, in_progress, loading, submitting })}
 
-	{#if error_hint || error_text}
+	{#if error_visible}
 		<div class="field-error" transition:slide={{ duration: 100 }}>
 			{error_text}
 		</div>

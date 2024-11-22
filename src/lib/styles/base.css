@@ -10,9 +10,6 @@ html {
 	/* Prevent font scaling in landscape while allowing user zoom */
 	-webkit-text-size-adjust: 100%;
 
-	/* Make scrolling to id's smoother */
-	scroll-behavior: smooth;
-
 	/* Firefox */
 	/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
 	scrollbar-color: rgba(0, 0, 0, 0.2) rgba(255, 255, 255, 0.05);
@@ -25,9 +22,4 @@ html {
 body {
 	background: var(--palette__background);
 	margin: 0;
-
-	/* Prevent scrolling when dialog is open */
-	&:has(dialog[open]) {
-		overflow: hidden;
-	}
 }

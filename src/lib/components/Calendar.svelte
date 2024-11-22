@@ -16,9 +16,8 @@
 	    type DateOnly,
 	    type Period
 	} from '@tobper/eon';
-	import { tick } from 'svelte';
+	import { tick, untrack } from 'svelte';
 	import { classes } from '../classes.js';
-	import { get_optional_button_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
 	import Button from './Button.svelte';
 	import EventHandler from './EventHandler.svelte';
@@ -35,12 +34,12 @@
 		 */
 		id?: string;
 		/**
-		 * The id of the currently activated date.  
+		 * Id of the currently activated date.  
 		 * Used to set active descendant in parent controls.
 		 */
-		active_descendant?: string | null;
+		active_item_id?: string | null;
 		/**
-		 * Extra class to add to the calendar.
+		 * Class to apply to the calendar element.
 		 */
 		class?: string;
 		/**
@@ -57,73 +56,37 @@
 		 */
 		period?: Period | null;
 		/**
-		 * The first day of the period. 
-		 * @default The first day of specified period or 1 if no period is specified.
-		 */
-		period_first_day?: number | null;
-		/**
 		 * The currently selected date.
 		 */
 		selected_date?: DateOnly | null;
 		/**
 		 * Callback is called when a date is selected.
 		 */
-		on_select?: (new_date: DateOnly | null) => void;
-	}
-
-	export function reset(options?: {
-		period?: Calendar['period'];
-		selected_date?: Calendar['selected_date'];
-	}) {
-		if (options?.period !== undefined)
-			selected_period = options.period;
-
-		if (options?.selected_date !== undefined)
-			selected_date = options.selected_date;
-
-		active_date = selected_date;
-	}
-
-	export async function focus() {
-		if (!focusable)
-			return;
-
-		// Allow possible new period to be rendered first
-		await tick();
-
-		const active_button = active_descendant
-			? get_optional_button_element(`#${active_descendant} > button`)
-			: null;
-
-		if (active_button)
-			active_button.focus();
-		else
-			list.focus();
+		on_select?: (new_date: DateOnly) => void;
 	}
 
 	const today = get_date_today();
 
 	let {
 		id = $bindable(unique_id()),
-		active_descendant = $bindable(null),
-		class: calendar_class,
+		active_item_id = $bindable(null),
 		focusable = true,
 		keyboard_capture,
-		period: selected_period = null,
 		selected_date = $bindable(null),
+
 		on_select,
+
 		...props
 	}: Calendar = $props();
 
-	let active_date = $state<DateOnly | null>(null);
-
-	/** Used to determine the start of the period when it is based on a date (active/selected/today) */
-	let period_first_day = $derived(selected_period?.first_day.day ?? props.period_first_day ?? 1)
+	/** The date currently highlighted */
+	let active_date = $state(selected_date);
 
 	/** The period currently being displayed */
-	let active_period = $derived(
-		selected_period || get_period_for_date(active_date || selected_date || today, period_first_day)
-	);
+	let active_period = $state(props.period ?? get_period_for_date(selected_date ?? today, 1));
+
+	/** Used to determine the start of the period when it is based on a date (active/selected/today) */
+	let period_first_day = $derived(active_period.first_day.day);
 
 	/** Active period contains today */
 	let active_period_contains_today = $derived(period_contains_date(active_period, today));
@@ -134,16 +97,30 @@
 	/** Text to display in the header */
 	let header = $derived(get_calendar_month_text(active_period));
 
-	let list: ReturnType<typeof List>;
+	// Update active period and deactivate date when selected date is updated
+	$effect.pre(() => {
+		const date = selected_date;
+
+		untrack(() => {
+			deactivate();
+			activate_period(date)
+		});
+	});
+
+	// Update active period when active date is updated
+	$effect.pre(() => {
+		const date = active_date;
+
+		untrack(() => {
+			activate_period(date)
+		});
+	});
 
 	function get_item_id(date: DateOnly) {
 		const key = get_date_only_key(date);
 
 		return `${id}_${key}`;
 	}
-
-
-	// Handlers
 
 	function handle_key_down(event: KeyboardEvent) { 
 		const modifier = event.ctrlKey;
@@ -191,15 +168,8 @@
 				event.preventDefault();
 				break;
 
-			case 'Enter':
-				if (!focusable) {
-					select_active_date();
-					event.preventDefault();
-				}
-				break;
-
 			case 'Escape':
-				if (active_descendant) {
+				if (active_item_id) {
 					deactivate();
 					event.preventDefault();
 					event.stopPropagation();
@@ -216,24 +186,28 @@
 	// Visible month
 
 	function goto_next_month() {
-		selected_period = get_next_period(active_period);
+		active_period = get_next_period(active_period);
 	}
 
 	function goto_previous_month() {
-		selected_period = get_previous_period(active_period);
+		active_period = get_previous_period(active_period);
 	}
 
 
 	// Activated date
 
-	function activate(new_date: DateOnly | null) {
+	function activate_period(date: DateOnly | null) {
+		if (date)
+			active_period = get_period_for_date(date, period_first_day);
+	}
+
+	export async function activate(new_date: DateOnly | null) {
+		// Allow new period to be rendered before activating list item
+		if (new_date && !period_contains_date(active_period, new_date))
+			await tick();
+
 		active_date = new_date;
-		active_descendant = active_date && get_item_id(active_date);
-
-		if (active_date && !period_contains_date(active_period, active_date))
-			selected_period = get_period_for_date(active_date, period_first_day);
-
-		focus();
+		active_item_id = active_date && get_item_id(active_date);
 	}
 
 	function activate_previous_day() {
@@ -279,62 +253,31 @@
 	}
 
 	// Selected date
+
+	/**
+	 * Selects active date.
+	 * 
+	 * @returns true if a date was active; otherwise false.
+	 */
+	export function select_active_date() {
+		if (!active_date)
+			return false;
+
+		select_date(active_date);
+		return true;
+	}
 	
-	function select_date(date_to_select: DateOnly | null) {
+	function select_date(date_to_select: DateOnly) {
 		selected_date = date_to_select;
 		activate(date_to_select);
-		on_select?.(date_to_select);
-	}
-
-	function select_active_date() {
-		select_date(active_date);
+		on_select?.(selected_date);
 	}
 </script>
  
 <div
-	class={classes('calendar variant-primary', calendar_class)}
+	class={classes('calendar variant-primary', props.class)}
 	{id}
 >
-	<List
-		bind:this={list}
-		{active_descendant}
-		{focusable}
-		aria_label="Calendar dates"
-		onkeydown={handle_key_down}
-	>
-		{#each week_days_short as week_day}
-			<ListItemHeading>
-				{week_day}
-			</ListItemHeading>
-		{/each}
-
-		{#each dates as { same_month, weekend, ...date }}
-			{#if same_month}
-				{@const date_is_active = !!active_date && is_same_date(date, active_date)}
-				{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
-				{@const date_is_today = same_month && is_same_date(date, today)}
-				{@const item_id = get_item_id(date)}
-
-				<ListItemOption
-					id={item_id}
-					class={classes({ today: date_is_today })}
-					contrast={weekend}
-					current={date_is_active}
-					selected={date_is_selected}
-					onclick={() =>
-						select_date(date)
-					}
-				>
-					{date.day}
-				</ListItemOption>
-			{:else}
-				<ListItemText>
-					{date.day}
-				</ListItemText>
-			{/if}
-		{/each}
-	</List>
-
 	<header>
 		{header}
 
@@ -363,6 +306,51 @@
 			</Button>
 		</div>
 	</header>
+
+	<List
+		bind:active_item_id
+		{focusable}
+		aria_label="Calendar dates"
+		onkeydown={handle_key_down}
+	>
+		{#each week_days_short as week_day}
+			<ListItemHeading>
+				{week_day}
+			</ListItemHeading>
+		{/each}
+
+		{#each dates as { same_month, weekend, ...date }}
+			{#if same_month}
+				{@const date_is_active = !!active_date && is_same_date(date, active_date)}
+				{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
+				{@const date_is_today = same_month && is_same_date(date, today)}
+				{@const item_id = get_item_id(date)}
+
+				<ListItemOption
+					id={item_id}
+					class={classes({ today: date_is_today })}
+					contrast={weekend}
+					current={date_is_active}
+					selected={date_is_selected}
+					on_activate={() =>
+						activate(date)
+					}
+					on_deactivate={() =>
+						deactivate()
+					}
+					on_select={() =>
+						select_date(date)
+					}
+				>
+					{date.day}
+				</ListItemOption>
+			{:else}
+				<ListItemText>
+					{date.day}
+				</ListItemText>
+			{/if}
+		{/each}
+	</List>
 </div>
 
 <EventHandler

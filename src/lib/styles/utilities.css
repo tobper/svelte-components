@@ -1,5 +1,12 @@
 :root {
 	/*
+		Box shadows
+	*/
+	--shadow__medium:
+		0 4px 6px -1px rgb(0 0 0 / 0.1),
+		0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+	/*
 		Spacing
 	*/
 	--space: 1rem;
@@ -9,11 +16,13 @@
 	--space__large: calc(2 * var(--space));
 
 	/*
-		Box shadows
+		Stacking
 	*/
-	--shadow__medium:
-		0 4px 6px -1px rgb(0 0 0 / 0.1),
-		0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--z__focused: 1;
+	--z__overlay: 10;
+	--z__page-header: 20;
+	--z__layout: 50;
+	--z__menu: 100;
 
 	/*
 		Animation
@@ -27,29 +36,37 @@
 	}
 }
 
+.device-desktop *,
+.device-tablet * {
+	--shadow__focus: 0 0 1px 1px var(--palette__accent-color);
+}
+
+.device-mobile * {
+	--shadow__focus: 0 0 #0000;
+}
+
 .flow-items {
 	display: flex;
+	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 1rem;
+	gap: var(--space);
 }
 
 .flow-items-vertical {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 1rem;
+	gap: var(--space);
 }
 
 .glass {
 	background-color: var(--glass__background-color);
 	backdrop-filter: var(--glass__backdrop-filter);
-	-webkit-backdrop-filter: var(--glass__backdrop-filter);
 }
 
 .scroll-shadow {
-  box-shadow: rgb(0 0 0 / 40%) 0 0 .5rem;
-  clip-path: inset(0 0 -1rem);
+	box-shadow: 0 1rem .5rem -1rem rgb(0 0 0 / 40%);
 }
 
 .scroll-snap-horizontal {
@@ -62,6 +79,7 @@
 		scroll-snap-align: center;
 	}
 }
+
 .staggered-transition,
 .field {
 	--staggered-transition-delay: .025s;
@@ -81,11 +99,4 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-@keyframes scale_in {
-	from {
-		opacity: 0;
-		scale: 1.02;
-	}
 }

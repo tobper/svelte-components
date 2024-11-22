@@ -4,5 +4,9 @@
 		/* color: color-mix(in lab, var(--palette__text), var(--palette__primary-color) 50%); */
 		/* color: var(--palette__text); */
 		font-weight: 500;
+
+		a & {
+			color: inherit;
+		}
 	}
 }

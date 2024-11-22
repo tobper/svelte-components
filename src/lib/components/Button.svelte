@@ -13,10 +13,12 @@
 	interface Button {
 		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
 		disabled?: boolean;
+		element?: HTMLElement;
 		focusable?: boolean;
 		id?: string;
 		loading?: boolean;
 		pseudo_focus?: boolean;
+		rounded?: boolean;
 		small?: boolean;
 		submit?: boolean;
 		title?: string;
@@ -28,6 +30,8 @@
 		text?: unknown;
 
 		onclick?: HTMLButtonAttributes['onclick'];
+		onfocusout?: HTMLButtonAttributes['onfocusout'];
+		onfocusin?: HTMLButtonAttributes['onfocusin'];
 
 		// Rest
 		class?: HTMLButtonAttributes['class'];
@@ -37,10 +41,12 @@
 	let {
 		current,
 		disabled = false,
+		element = $bindable(),
 		focusable = true,
 		id = $bindable(unique_id()),
 		loading = false,
 		pseudo_focus = false,
+		rounded,
 		small = false,
 		submit = false,
 		type = 'plain',
@@ -56,6 +62,7 @@
 </script>
 
 <button
+	bind:this={element}
 	{id}
 	aria-current={current === false ? undefined : current}
 	aria-disabled={disabled || loading ? true : undefined}
@@ -63,7 +70,7 @@
 	class:button-plain={type === 'plain'}
 	class:button-outlined={type === 'outlined'}
 	class:button--pseudo-focus={pseudo_focus}
-	class:button--round={!!icon && !text}
+	class:button--round={rounded !== undefined ? rounded : !!icon && !text}
 	class:button--small={small}
 	class:variant-secondary={variant === 'secondary'}
 	class:variant-tertiary={variant === 'tertiary'}
@@ -92,14 +99,12 @@
 		</span>
 	{/if}
 
-	{#if icon}
+	{#if loading}
+		<Loading bars />
+	{:else if icon}
 		<span class="button-icon">
 			{@render icon()}
 		</span>
-	{/if}
-
-	{#if loading}
-		<Loading bars />
 	{/if}
 
 	<ButtonBorder {type} />

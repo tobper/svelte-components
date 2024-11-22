@@ -31,7 +31,7 @@ export function create_normalized_lookup<T>(
 	function find(query: unknown) {
 		const matcher = get_matcher(query);
 		if (!matcher)
-			return undefined;
+			return null;
 
 		let match: ({ value: T; normalized_value: string; rank: number; }) | undefined = undefined;
 
@@ -46,7 +46,7 @@ export function create_normalized_lookup<T>(
 			match = { value, normalized_value, rank };
 		}
 
-		return match?.value;
+		return match ? match.value : null;
 	}
 
 	function find_all(query: unknown) {

@@ -4,7 +4,7 @@
 	interface ToggleSwitch {
 		id?: string;
 		class?: string;
-		label: string;
+		label?: string;
 		name?: string;
 		checked?: boolean;
 		disabled?: boolean;
@@ -14,34 +14,41 @@
 
 	let {
 		id = $bindable(unique_id()),
-		class: label_class,
+		class: class_name,
 		label,
-		name,
 		checked = $bindable(false),
-		disabled = false,
-		onchange,
-		onclick,
+		...input_props
 	}: ToggleSwitch = $props();
 </script>
 
-<label class={label_class}>
+{#if label}
+	<label class={class_name}>
+		{@render input()}
+		<span>{label}</span>
+	</label>
+{:else}
+	{@render input()}
+{/if}
+
+{#snippet input()}
 	<input
 		bind:checked
+		{...input_props}
 		{id}
-		{disabled}
-		{name}
-		{onchange}
-		{onclick}
+		class={label ? undefined : class_name}
 		type="checkbox"
 	>
-	<span>{label}</span>
-</label>
+{/snippet}
 
 <style>
 	label {
+		/* Content */
 		display: inline-flex;
 		column-gap: var(--space);
 		align-items: center;
+
+		/* Interaction */
+		user-select: none;
 	}
 
 	label:has(:enabled) {
@@ -52,7 +59,7 @@
 		--toggle__height: 1.25rem;
 		--toggle__background: var(--field__background, var(--palette__background));
 		--toggle__offset: calc(var(--toggle__height) * -1);
-		--toggle__shadow: var(--field__shadow, 0 0 #0000);
+		--toggle__shadow: var(--toggle__offset) 0 0 2px var(--toggle__background) inset;
 
 		/* Layout */
 		height: var(--toggle__height);
@@ -64,8 +71,8 @@
 		background-color: var(--palette__neutral);
 		border-radius: 9999px;
 		box-shadow:
+			var(--field__shadow, 0 0 #0000),
 			var(--toggle__shadow),
-			var(--toggle__offset) 0 0 2px var(--toggle__background) inset,
 			0 0 0 2px var(--toggle__background) inset,
 			var(--toggle__focus-shadow, 0 0 #0000);
 
@@ -74,7 +81,11 @@
 			box-shadow var(--field__transition-duration) ease-out;
 
 		/* Interaction */
-		cursor: inherit;
+		cursor: default;
+
+		&:enabled {
+			cursor: pointer;
+		}
 	}
  
 	input:checked {
@@ -85,6 +96,6 @@
 	}
  
 	input:focus-visible {
-		--toggle__focus-shadow: var(--focus__shadow);
+		--toggle__focus-shadow: var(--shadow__focus);
 	}
 </style>

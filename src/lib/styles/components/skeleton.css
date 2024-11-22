@@ -1,11 +1,30 @@
+:root {
+	--skeleton__border-radius: 1.5rem;
+}
+
+.scheme-light {
+	--skeleton__background: hsl(from var(--palette__background) h s calc(l * .9));
+	--skeleton__highlight: hsl(from var(--palette__background) h s calc(l * .8));
+}
+
+.scheme-dark {
+	--skeleton__background: hsl(from var(--palette__background) h s calc(l * .8));
+	--skeleton__highlight: hsl(from var(--palette__background) h s calc(l * 1.1));
+}
+
 /* Increase specificity */
 .skeleton.skeleton.skeleton {
 	animation: skeleton 1.8s ease-in-out infinite;
-	/* background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 5%); */
 	background-color: var(--skeleton__background);
-	/* background-image: linear-gradient(105deg, transparent 0%, transparent 40%, var(--palette__background) 50%, transparent 60%, transparent 100%); */
-	background-image: linear-gradient(105deg, transparent 0%, transparent 40%, #8883 50%, transparent 60%, transparent 100%);
-	background-size: 200% auto;
+	background-image: linear-gradient(
+		105deg,
+		transparent 0%,
+		transparent 40%,
+		var(--skeleton__highlight) 50%,
+		transparent 60%,
+		transparent 100%
+	);
+	background-size: 175% auto;
 	background-repeat: no-repeat;
 	background-position-x: -50%;
 	border-radius: var(--skeleton__border-radius);

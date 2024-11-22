@@ -29,7 +29,7 @@ export function get_style_property(element: HTMLElement | SVGElement, property: 
 }
 
 export function get_root_style(property: string) {
-	return get_style_property(document.documentElement, property);
+	return get_style(document.documentElement, property);
 }
 
 export function set_root_style(property: string, value?: string) {
