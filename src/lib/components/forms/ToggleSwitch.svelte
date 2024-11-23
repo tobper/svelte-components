@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { unique_id } from '../../unique_id.js';
+    import type { HTMLInputAttributes } from 'svelte/elements';
+    import { unique_id } from '../../unique_id.js';
 
 	interface ToggleSwitch {
 		id?: string;
@@ -8,8 +9,9 @@
 		name?: string;
 		checked?: boolean;
 		disabled?: boolean;
-		onchange?: () => void;
-		onclick?: () => void;
+		onchange?: HTMLInputAttributes['onchange'];
+		onclick?: HTMLInputAttributes['onclick'];
+		on_checked?: (checked: boolean) => void;
 	}
 
 	let {
@@ -17,6 +19,7 @@
 		class: class_name,
 		label,
 		checked = $bindable(false),
+		on_checked,
 		...input_props
 	}: ToggleSwitch = $props();
 </script>
@@ -37,6 +40,10 @@
 		{id}
 		class={label ? undefined : class_name}
 		type="checkbox"
+		onchange={event => {
+			on_checked?.(checked);
+			input_props.onchange?.(event);
+		}}
 	>
 {/snippet}
 
