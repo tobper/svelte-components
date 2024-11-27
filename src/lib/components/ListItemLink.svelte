@@ -60,6 +60,9 @@
 	.list-item-link__icon {
 		grid-area: icon;
 		margin-right: var(--space__small);
+
+		/* Remove white space around icon */
+		display: flex;
 	}
 
 	.list-item-link__text {
