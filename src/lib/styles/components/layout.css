@@ -193,18 +193,11 @@
 	clip-path: inset(0 100% 0 0);
 }
 
-/*
-	Device adjustments
-*/
-.device-desktop, .device-tablet {
-	/* Move header to same level as card header if a card is following directly after this */
-	.page-header:has(~ .card) {
-		padding-left: calc(var(--page-content__padding-left) + var(--card__padding-left));
-		padding-right: calc(var(--page-content__padding-right) + var(--card__padding-right));
-	}
-}
-
 .device-mobile {
+	--card__border-radius: 0;
+	--card__padding-left: var(--page-content__padding-left);
+	--card__padding-right: var(--page-content__padding-right);
+
 	.layout > main {
 		padding-left: 0;
 		padding-right: 0;
@@ -232,11 +225,5 @@
 		&:not(.layout-sidebar--visible) {
 			clip-path: inset(100% -10rem 0 -10rem);
 		}
-	}
-	
-	.page-content > .card {
-		--card__border-radius: 0;
-		--card__padding-left: var(--page-content__padding-left);
-		--card__padding-right: var(--page-content__padding-right);
 	}
 }
