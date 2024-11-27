@@ -6,13 +6,12 @@
 		text: string;
 		value?: unknown;
 		small?: boolean;
-		onchange?: (value: unknown) => void;
 	}
 
 	const radio_group = get_radio_group_context()
 
-	let { text, value, small, onchange }: RadioButton = $props();
-	let { disabled, name, selected_value, select } = $derived(radio_group);
+	let { text, value, small }: RadioButton = $props();
+	let { disabled, name, required, selected_value, deselect, select } = $derived(radio_group);
 	let checked = $derived(value === selected_value);
 </script>
 
@@ -20,6 +19,7 @@
 	aria-current={checked ? true : undefined}
 	class="button-outlined"
 	class:button--small={small}
+	class:radio-button--optional={!required}
 >
 	<div class="input-container">
 		<input
@@ -28,8 +28,10 @@
 			{value}
 			type="radio"
 			onclick={() => {
-				select(value);
-				onchange?.(value);
+				if (value !== selected_value)
+					select(value);
+				else if (!required)
+					deselect();
 			}}
 			onkeydown={event => event.stopPropagation()}
 			bind:group={radio_group.selected_value}

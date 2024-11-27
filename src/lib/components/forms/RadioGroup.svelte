@@ -4,6 +4,8 @@
 	interface RadioGroupContext {
 		disabled: boolean;
 		name: string;
+		required: boolean;
+		deselect: () => void;
 		select: (value: unknown) => void;
 		selected_value: unknown;
 	}
@@ -30,8 +32,11 @@
 		class?: string;
 		disabled?: boolean;
 		name?: string;
+		required?: boolean;
 		selected_value?: unknown;
 		children: Snippet;
+		on_deselect?: () => void;
+		on_select?: (value: unknown) => void;
 	}
 
 	let {
@@ -39,8 +44,11 @@
 		class: group_class,
 		disabled = false,
 		name = unique_id(),
+		required = false,
 		selected_value = $bindable(null),
 		children,
+		on_deselect,
+		on_select,
 	}: RadioGroup = $props();
 
 	let transition = $derived(
@@ -54,7 +62,18 @@
 	const context = $state<RadioGroupContext>({
 		disabled: false,
 		name: unique_id(),
-		select: value => selected_value = value,
+		required: false,
+		deselect: () => {
+			if (required)
+				throw new Error('Required radio group must have a value');
+
+			selected_value = null;
+			on_deselect?.();
+		},
+		select: value => {
+			selected_value = value
+			on_select?.(value);
+		},
 		selected_value: null,
 	});
 
@@ -63,6 +82,7 @@
 	$effect.pre(() => {
 		context.disabled = disabled;
 		context.name = name;
+		context.required = required;
 		context.selected_value = selected_value;
 	});
 </script>
