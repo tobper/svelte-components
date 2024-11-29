@@ -200,9 +200,15 @@ input[type=search]::-webkit-search-cancel-button {
 	}
 
 	/* Clear button when field is out of focus/hover */
-	.supports-hover &:not(:focus-within, :hover:hover) .field-clear {
+	.field-clear {
 		opacity: 0;
 		pointer-events: none;
+	}
+
+	&:focus-within .field-clear,
+	.supports-hover &:hover .field-clear {
+		opacity: 1;
+		pointer-events: auto;
 	}
 
 	/* Hide icon when loading is visible */
