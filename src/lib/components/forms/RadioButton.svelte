@@ -1,14 +1,19 @@
-<script lang="ts">
+<script lang="ts" module>
+	// Needed to avoid lint error "'Value' is not defined"
+	type Value = object;
+</script>
+
+<script lang="ts" generics="Value">
 	import ButtonBorder from '../ButtonBorder.svelte';
 	import { get_radio_group_context } from './RadioGroup.svelte';
 
 	interface RadioButton {
 		text: string;
-		value?: unknown;
+		value: Value;
 		small?: boolean;
 	}
 
-	const radio_group = get_radio_group_context()
+	const radio_group = get_radio_group_context<Value>()
 
 	let { text, value, small }: RadioButton = $props();
 	let { disabled, name, required, selected_value, deselect, select } = $derived(radio_group);

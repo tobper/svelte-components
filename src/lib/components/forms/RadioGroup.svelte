@@ -1,46 +1,52 @@
 <script lang="ts" module>
 	import { getContext, setContext, type Snippet } from 'svelte';
 
-	interface RadioGroupContext {
+	// Needed to avoid lint error "'Value' is not defined"
+	type Value = object;
+
+	interface RadioGroupContext<Value> {
 		disabled: boolean;
 		name: string;
 		required: boolean;
 		deselect: () => void;
-		select: (value: unknown) => void;
-		selected_value: unknown;
+		select: (value: Value) => void;
+		selected_value: Value | null;
 	}
 
 	const context_key = Symbol('RadioGroup');
 
-	function set_context(state: RadioGroupContext) {
+	function set_context<Value>(state: RadioGroupContext<Value>) {
 		return setContext(context_key, state);
 	}
  
-	export function get_radio_group_context() {
-		return getContext<RadioGroupContext>(context_key);
+	export function get_radio_group_context<Value>() {
+		return getContext<RadioGroupContext<Value>>(context_key);
 	}
  </script>
  
- <script lang="ts">
+ <script lang="ts" generics="Value">
 	import { classes } from '../../classes.js';
 	import { match } from '../../match.js';
 	import { scale_fast, slide_fast } from '../../transitions/index.js';
 	import { unique_id } from '../../unique_id.js';
+	import RadioButton from './RadioButton.svelte';
 
 	interface RadioGroup {
 		animation?: 'slide' | 'scale' | 'none';
+		buttons?: Array<{ text: string; value: Value }>;
 		class?: string;
 		disabled?: boolean;
 		name?: string;
 		required?: boolean;
-		selected_value?: unknown;
-		children: Snippet;
+		selected_value?: Value | null;
+		children?: Snippet;
 		on_deselect?: () => void;
-		on_select?: (value: unknown) => void;
+		on_select?: (value: Value) => void;
 	}
 
 	let {
 		animation = 'none',
+		buttons,
 		class: group_class,
 		disabled = false,
 		name = unique_id(),
@@ -59,7 +65,7 @@
 		})
 	);
 
-	const context = $state<RadioGroupContext>({
+	const context = $state<RadioGroupContext<Value>>({
 		disabled: false,
 		name: unique_id(),
 		required: false,
@@ -92,5 +98,11 @@
 	role="radiogroup"
 	transition:transition
 >
-	{@render children()}
+	{#if buttons}
+		{#each buttons as { text, value }}
+			<RadioButton {text} {value} />
+		{/each}
+	{/if}
+
+	{@render children?.()}
 </div>
