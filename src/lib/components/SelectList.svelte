@@ -56,7 +56,7 @@
 		 * Callback that is called for each option to determine the label of the option.
 		 * @default No header is displayed.
 		 */
-		 options_heading?: (option: Option) => string;
+		options_heading?: (option: Option) => string;
 		/**
 		 * Callback that is called for each option to determine the label of the option.
 		 * @default Value is displayed as label.
@@ -182,11 +182,7 @@
 				break;
 
 			case 'Escape':
-				if (active_item) {
-					deactivate();
-					event.preventDefault();
-					event.stopPropagation();
-				}
+				deactivate();
 				break;
 
 			case 'Tab':
@@ -296,6 +292,7 @@
 				id={item.id}
 				current={item.id === active_item_id}
 				selected={item.value === selected_value}
+				text={item.label}
 				on_activate={() => {
 					active_item_id = item.id;
 				}}
@@ -305,9 +302,7 @@
 				on_select={() => {
 					select(item);
 				}}
-			>
-				{item.label}
-			</ListItemOption>
+			/>
 		{/each}
 	{/each}
 

@@ -169,11 +169,7 @@
 				break;
 
 			case 'Escape':
-				if (active_item_id) {
-					deactivate();
-					event.preventDefault();
-					event.stopPropagation();
-				}
+				deactivate();
 				break;
 
 			case 'Tab':
@@ -332,6 +328,7 @@
 					contrast={weekend}
 					current={date_is_active}
 					selected={date_is_selected}
+					text={`${date.day}`}
 					on_activate={() =>
 						activate(date)
 					}
@@ -341,9 +338,7 @@
 					on_select={() =>
 						select_date(date)
 					}
-				>
-					{date.day}
-				</ListItemOption>
+				/>
 			{:else}
 				<ListItemText>
 					{date.day}

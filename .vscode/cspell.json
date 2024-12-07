@@ -39,7 +39,8 @@
 		{
 			"filename": "*.svelte",
 			"words": [
-				"onclickcapture"
+				"onclickcapture",
+				"popovertarget"
 			]
 		},
 		{

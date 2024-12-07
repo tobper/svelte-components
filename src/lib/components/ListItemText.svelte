@@ -10,6 +10,6 @@
 	}: ListItemHeading = $props();
 </script>
 
-<li role="presentation">
+<li class="list-item-text" role="presentation">
 	{@render children()}
 </li>

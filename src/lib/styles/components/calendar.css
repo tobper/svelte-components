@@ -26,26 +26,25 @@
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		gap: 0px;
-
-		[role=heading],
-		[role=presentation] {
-			padding: 0;
-			text-align: center;
-		}
-
-		[role=option] button {
-			min-width: var(--calendar-button__size);
-			height: var(--calendar-button__size);
-			padding: 0;
-			justify-content: center;
-		}
-
-		[role=presentation] {
-			color: transparent;
-		}
 	}
-}
 
-.menu:has(> .calendar) {
-	padding: var(--space__small);
+	.list-item-heading,
+	.list-item-text {
+		padding: 0;
+		text-align: center;
+	}
+
+	.list-item-option {
+		min-width: var(--calendar-button__size);
+		height: var(--calendar-button__size);
+		padding: 0;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.list-item-text {
+		color: transparent;
+	}
 }

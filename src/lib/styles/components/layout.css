@@ -119,7 +119,25 @@
 	}
 
 	ul {
+		display: flex;
 		flex-direction: column;
+	}
+
+	.list-item-link {
+		padding-block: var(--space__medium);
+
+		header {
+			font-size: var(--h4__font-size);
+
+			.device-mobile,
+			.device-tablet {
+				font-weight: 500;
+			}
+		}
+	}
+
+	[role=separator] {
+		padding-block: var(--space);
 	}
 }
 

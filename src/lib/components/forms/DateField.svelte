@@ -133,12 +133,9 @@
 			bind:visible={menu_visible}
 			{modal}
 			{period}
+			{on_select}
 			anchor={field_element}
 			keyboard_capture={field_input_element}
-			on_select={date => {
-				menu_visible = false;
-				on_select?.(date);
-			}}
 		/>
 	{/if}
 </TextField>

@@ -1,75 +1,29 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte';
 
-	interface ListItemLink {
+	interface ListItemLinkProps extends ListItemContentProps {
 		current?: boolean;
 		href: string;
-		text: string;
-		children?: Snippet;
-		icon?: Snippet;
 	}
 
 	let {
 		current = false,
 		href,
-		text,
+
+		// LisItemContent
 		children,
 		icon,
-	}: ListItemLink = $props();
+		kbd,
+		text,
+	}: ListItemLinkProps = $props();
 </script>
 
-<li class="list-item-link">
+<li>
 	<a
 		aria-current={current ? 'page' : undefined}
-		class="link"
+		class="link list-item-link"
 		{href}
 	>
-		<header>
-			{#if icon}
-				<div class="list-item-link__icon">
-					{@render icon()}
-				</div>
-			{/if}
-
-			<div class="list-item-link__text">
-				{text}
-			</div>
-		</header>
-
-		{#if children}
-			<div class="list-item-link__subtext">
-				{@render children?.()}
-			</div>
-		{/if}
+		<ListItemContent {children} {icon} {kbd} {text} /> 
 	</a>
 </li>
-
-<style>
-	a {
-		display: grid;
-		grid-template-areas:
-			"icon text"
-			"_ sub_text";
-		grid-template-columns: auto 1fr;
-	}
-
-	header {
-		display: contents;
-	}
-
-	.list-item-link__icon {
-		grid-area: icon;
-		margin-right: var(--space__small);
-
-		/* Remove white space around icon */
-		display: flex;
-	}
-
-	.list-item-link__text {
-		grid-area: text;
-	}
-
-	.list-item-link__subtext {
-		grid-area: sub_text;
-	}
-</style>
