@@ -8,7 +8,22 @@
 
 	interface Menu {
 		id?: string;
+		/**
+		 * Element to anchor the menu to.  
+		 * The menu will be positioned near the anchor and sized to at the least the same width as the anchor.
+		 */
 		anchor: string | HTMLElement;
+		/**
+		 * Anchor menu to the right side instead of the left.
+		 */
+		anchor_right?: boolean;
+		/**
+		 * Animation to trigger when opening and closing menu.
+		 */
+		animation?: 'fade' | 'slide';
+		/**
+		 * Class to apply to the menu element.
+		 */
 		class?: string;
 		element?: HTMLElement;
 		modal?: boolean;
@@ -19,10 +34,13 @@
 		width?: 'anchor' | 'content';
 		children: Snippet;
 		/**
-		 * Callback is called when menu is closed by this component,
-		 * not when visible is changed from the outside.
+		 * Callback is called when menu is closed.
 		 */
 		on_close?: () => void;
+		/**
+		 * Callback is called when menu is opened.
+		 */
+		on_open?: () => void;
 		onkeydown?: HTMLElement['onkeydown'];
 		onmouseover?: HTMLElement['onmouseover'];
 		onmouseout?: HTMLElement['onmouseout'];
@@ -33,6 +51,8 @@
 	let {
 		id = $bindable(unique_id()),
 		anchor,
+		anchor_right,
+		animation = 'fade',
 		class: menu_class,
 		element = $bindable(),
 		modal = false,
@@ -40,6 +60,7 @@
 		width,
 		children,
 		on_close,
+		on_open,
 		...dialog_props
 	}: Menu = $props();
 	let anchor_name = $state<string>();
@@ -57,16 +78,8 @@
 	});
 
 	$effect(() => {
-		if (visible)
-			element!.showPopover();
-		else
-			element!.hidePopover();
+		element!.togglePopover(visible);
 	});
-
-	function close() {
-		on_close?.();
-		visible = false;
-	}
 </script>	
 
 <div
@@ -74,23 +87,27 @@
 	{...dialog_props}
 	{id}
 	class={classes('menu', menu_class)}
-	class:match-anchor-width={width === 'anchor'}
+	class:anchor--right={anchor_right}
+	class:anchor--target-width={width === 'anchor'}
+	class:menu--fade={animation === 'fade'}
+	class:menu--slide={animation === 'slide'}
 	class:modal
 	role="menu"
-	popover="manual"
+	popover="auto"
 	tabindex="-1"
 	style:position-anchor={anchor_name}
-	onkeydown={event => {
-		switch (event.key) {
-			case 'Escape':
-				close();
-				break;
-		}
+	ontoggle={event => {
+		visible = event.newState === 'open';
+
+		if (event.newState === 'closed')
+			on_close?.();
+		else
+			on_open?.();
 	}}
 >
 	{@render children()}
 </div>
 
 {#if !anchoring_supported}
-	<AnchorPlugin {anchor} anchored={element} {width} />
+	<AnchorPlugin {anchor} {anchor_right} anchored={element} {width} />
 {/if}

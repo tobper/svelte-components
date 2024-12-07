@@ -76,7 +76,10 @@
 		focusable={modal}
 		keyboard_capture={visible ? keyboard_capture : undefined}
 		{period}
-		{on_select}
+		on_select={new_date => {
+			visible = false;
+			on_select?.(new_date);
+		}}
 	/>
 </Menu>
 
@@ -88,10 +91,6 @@
 				case 'Enter':
 					if (calendar?.select_active_date())
 						event.preventDefault();
-					break;
-
-				case 'Escape':
-					visible = false;
 					break;
 			}
 		}

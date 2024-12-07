@@ -21,7 +21,7 @@ h1 {
 }
 
 h2 {
-	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 25%);
+	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 15%);
 
 	color: var(--h2__color);
 	font-size: var(--h2__font-size);

@@ -2,14 +2,22 @@
 	import type { Snippet } from 'svelte';
 
 	interface ListItemHeading {
-		children: Snippet;
+		text?: string;
+		children?: Snippet;
 	}
 
 	let {
-		children
+		text,
+		children,
 	}: ListItemHeading = $props();
 </script>
 
-<li role="heading" aria-level={4}>
-	{@render children()}
+<li class="list-item-heading" role="heading" aria-level={4}>
+	{#if text}
+		{text}
+	{/if}
+
+	{#if children}
+		{@render children()}
+	{/if}
 </li>

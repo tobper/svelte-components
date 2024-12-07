@@ -169,11 +169,7 @@
 				break;
 
 			case 'Escape':
-				if (active_item_id) {
-					deactivate();
-					event.preventDefault();
-					event.stopPropagation();
-				}
+				deactivate();
 				break;
 
 			case 'Tab':

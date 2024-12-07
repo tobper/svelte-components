@@ -3,6 +3,7 @@
 	disabled: Button can not be interacted with
 	current: Button is pressed and can not be interacted with (required radio button)
 	checked: Button is pressed and can be interacted with (check button)
+	pressed: Button is pressed and can be interacted with (Popover button)
 	selected: Button is pressed and can be interacted with (toggle button)
 */
 

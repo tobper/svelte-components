@@ -202,17 +202,11 @@
 			{options_heading}
 			{options_label}
 			{options_value}
+			{on_select}
 			anchor={field_element}
 			class={class_menu}
 			id={menu_id}
 			keyboard_capture={field_input_element}
-			on_select={async option => {
-				on_select?.(option);
-
-				// Wait for effects to update input_value and then close the menu
-				await tick()
-				menu_visible = false;
-			}}
 		/>
 	{/if}
 </TextField>

@@ -8,6 +8,7 @@
 		checked?: boolean;
 		content?: Snippet<[boolean]>;
 		disabled?: boolean;
+		element?: HTMLElement;
 		name?: string;
 		text?: string;
 		type?: 'plain' | 'outlined';
@@ -22,6 +23,7 @@
 		checked = $bindable(false),
 		content,
 		disabled = false,
+		element = $bindable(),
 		name,
 		onchange,
 		onclick,
@@ -32,6 +34,7 @@
 </script>
 
 <label
+	bind:this={element}
 	aria-checked={checked ? true : undefined}
 	class={label_class}
 	class:button-outlined={type === 'outlined'}

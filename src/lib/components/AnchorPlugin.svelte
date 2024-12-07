@@ -4,12 +4,14 @@
 
 	interface MenuPlugin {
 		anchor: HTMLElement | string;
+		anchor_right?: boolean;
 		anchored: HTMLElement | string;
 		width?: 'anchor' | 'content';
 	}
 
 	let {
 		anchor: anchor_element_or_id,
+		anchor_right = false,
 		anchored: anchored_element_or_id,
 		width = 'content'
 	}: MenuPlugin = $props();
@@ -20,7 +22,9 @@
 		const strategy = 'absolute'
 		const middleware = [
 			autoPlacement({
-				allowedPlacements: ['top-start', 'bottom-start']
+				allowedPlacements: anchor_right
+					? ['top-end', 'bottom-end']
+					: ['top-start', 'bottom-start']
 			}),
 			offset(6),
 			width === 'anchor' && size({

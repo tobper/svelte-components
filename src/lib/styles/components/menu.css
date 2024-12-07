@@ -1,11 +1,11 @@
 :root {
-	--menu__transition-duration: .25s;
+	--menu__min-width: 15rem;
+	--menu__transition-duration: var(--transition__duration--fast);
 }
 
 .menu {
-	--menu__min-width: 15rem;
-
 	/* Position */
+	width: var(--menu__min-width);
 	min-width: fit-content;
 	z-index: var(--z__menu);
 
@@ -14,6 +14,7 @@
 	background: var(--panel__background);
 	border: 1px solid var(--panel__border-color);
 	border-radius: var(--menu__border-radius);
+	padding: var(--space__tiny);
 	box-shadow: var(--menu__shadow);
 
 	@supports (anchor-name: --anchor) {
@@ -21,13 +22,21 @@
 		margin-top: .5rem;
 		position-area: bottom span-right;
 		position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+	}
 
-		&.match-anchor-width {
+	&.anchor--right {
+		@supports (anchor-name: --anchor) {
+			position-area: bottom span-left;
+		}
+	}
+
+	&.anchor--target-width {
+		@supports (anchor-name: --anchor) {
 			width: max(var(--menu__min-width), anchor-size(width));
 		}
 	}
 }
- 
+
 .menu.modal::backdrop {
 	--menu-backdrop__blur: 0;
 	--menu-backdrop__opacity: 0;
