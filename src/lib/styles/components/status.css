@@ -1,21 +1,21 @@
 :root {
 	--status__error: oklch(70% 0.1 25);
-	--status__error-background: color-mix(in lab, var(--status__error), var(--panel__background-color) 75%);
+	--status__error-background: color-mix(in lab, var(--status__error), var(--panel__background-color) 85%);
 	--status__error-border: color-mix(in lab, var(--status__error), var(--panel__border-color) 50%);
 	--status__error-color: color-mix(in lab, var(--status__error), var(--palette__text) 50%);
  
 	--status__info: oklch(70% 0.14 240);
-	--status__info-background: color-mix(in lab, var(--status__info), var(--panel__background-color) 75%);
+	--status__info-background: color-mix(in lab, var(--status__info), var(--panel__background-color) 85%);
 	--status__info-border: color-mix(in lab, var(--status__info), var(--panel__border-color) 50%);
 	--status__info-color: color-mix(in lab, var(--status__info), var(--palette__text) 50%);
  
 	--status__success: oklch(70% 0.14 150);
-	--status__success-background: color-mix(in lab, var(--status__success), var(--panel__background-color) 75%);
+	--status__success-background: color-mix(in lab, var(--status__success), var(--panel__background-color) 85%);
 	--status__success-border: color-mix(in lab, var(--status__success), var(--panel__border-color) 50%);
 	--status__success-color: color-mix(in lab, var(--status__success), var(--palette__text) 50%);
  
 	--status__warning: oklch(70% 0.14 70);
-	--status__warning-background: color-mix(in lab, var(--status__warning), var(--panel__background-color) 75%);
+	--status__warning-background: color-mix(in lab, var(--status__warning), var(--panel__background-color) 85%);
 	--status__warning-border: color-mix(in lab, var(--status__warning), var(--panel__border-color) 50%);
 	--status__warning-color: color-mix(in lab, var(--status__warning), var(--palette__text) 50%);
  }
