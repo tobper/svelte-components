@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Device, device, ElementClickOnMouseDown, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
-	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
+	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = data;
@@ -12,16 +12,17 @@
 	];
 
 	const nav_items = [
-		'Typography',
-		'Palette',
-		'Button',
-		'Dialog',
-		'List',
-		'Calendar',
-		'Form',
-		'Table',
-		'Page content',
-	];
+		[IconTypography, 'Typography'],
+		[IconPalette, 'Palette'],
+		[IconRectangle, 'Button'],
+		[IconMessage, 'Dialog'],
+		[IconList, 'List'],
+		[IconMenu, 'Menu'],
+		[IconCalendar, 'Calendar'],
+		[IconForms, 'Form'],
+		[IconTable, 'Table'],
+		[IconAlignJustified, 'Page content'],
+	] as const;
 
 	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
 </script>
@@ -80,8 +81,12 @@
 	{#snippet sidebar()}
 		<nav>
 			<ul>
-				{#each nav_items as text}
-					<ListItemLink href={`#${text}`} {text} />
+				{#each nav_items as [Icon, text]}
+					<ListItemLink href={`#${text}`} {text}>
+						{#snippet icon()}
+							<Icon />
+						{/snippet}
+					</ListItemLink>
 				{/each}
 			</ul>
 			<ul>
