@@ -110,15 +110,9 @@ input[type=search]::-webkit-search-cancel-button {
 	/* Layout */
 	max-width: 100%;
 
-	/* Content */
+	/* Vertical Content */
 	display: flex;
 	flex-direction: column;
-
-	/* Invalid state */
-	&:has(input:is(:user-invalid, [aria-invalid])) {
-		--palette__accent-color: var(--palette__error);
-		--palette__accent-contrast: var(--palette__error-contrast);
-	}
 }
 
 .field-label {
@@ -126,11 +120,6 @@ input[type=search]::-webkit-search-cancel-button {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-
-	/* Invalid state */
-	.field:has(input:is(:user-invalid, [aria-invalid])) & {
-		color: var(--palette__accent-color);
-	}
 }
 
 .field-label-optional {
@@ -142,34 +131,22 @@ input[type=search]::-webkit-search-cancel-button {
 .field-content {
 	--skeleton__border-radius: .25rem;
 
-	/* Content */
+	/* Horizontal Content */
 	display: flex;
-	margin-block: var(--field-content__margin-block);
 
-	button {
+	/* Adjust layout of buttons */
+	:where(&) button {
 		padding-inline: var(--field-button__padding-inline);
 		height: auto;
 	}
 
 	.field-clear {
+		height: 100%;
 		margin: 0;
-	
-		svg {
-			width: var(--field-icon__size);
-		}
-	}
-	
-	/* Interaction */
-	label {
-		cursor: text;
 	}
 }
 
 .field-input {
-	--field-input__padding-left: 0px;
-	--field-input__padding-right: 0px;
-	--field-input__padding-right-offset: 0px;
-
 	/* Layout */
 	flex: 1;
 
@@ -177,112 +154,35 @@ input[type=search]::-webkit-search-cancel-button {
 	position: relative;
 	display: flex;
 	align-items: center;
- 
-	/* Disabled */
-	input:disabled {
-		-webkit-opacity: 100%;
-		color: var(--field-input__color--readonly);
-	}
 
-	/* Readonly */
-	.form--in_progress &,
-	&:has(input[readonly]:not([aria-haspopup])) {
-		/* SelectField will not have a popup when it is actually readonly */
-		input,
-		.field-loading,
-		.field-icon {
-			color: var(--field-input__color--readonly);
-		}
+	--field-input__padding-left: 0px;
+	--field-input__padding-right: 0px;
 
-		.field-clear {
-			display: none;
-		}
-	}
-
-	/* Clear button when field is out of focus/hover */
-	.field-clear {
-		opacity: 0;
-		pointer-events: none;
-	}
-
-	&:focus-within .field-clear,
-	.supports-hover &:hover .field-clear {
-		opacity: 1;
-		pointer-events: auto;
-	}
-
-	/* Hide icon when loading is visible */
-	.field-icon:has(+ .field-loading:not(.hidden)) {
-		display: none;
-	}
-
-	.field-loading.hidden {
-		display: none;
-	}
-
-
-	/* Content */
-	--field-value__padding-left--initial: 0px;
-	--field-value__padding-left--icon: 0px;
-	--field-value__padding-right--initial: 0px;
-	--field-value__padding-right--icon: 0px;
-	--field-value__padding-right--clear: 0px;
+	--field-value__padding-left: 0px;
+	--field-value__padding-left--offset: 0px;
+	--field-value__padding-right: 0px;
+	--field-value__padding-right--offset: 0px;
 
 	&:first-child {
-		--field-value__padding-left--initial: var(--field-input__padding-left);
+		--field-value__padding-left: var(--field-input__padding-left);
+	}
+
+	&:has(.field-prefix-icon) {
+		--field-value__padding-left--offset: calc(var(--field-icon__size) + var(--space__small));
 	}
 
 	&:last-child {
-		--field-value__padding-right--initial: var(--field-input__padding-right);
+		--field-value__padding-right: var(--field-input__padding-right);
 	}
 
-	&:has(.field-icon ~ .field-value) {
-		--field-value__padding-left--icon: calc(var(--field-icon__size) + var(--space__small));
-	}
-
-	&:has(.field-value ~ .field-icon),
-	&:has(.field-value ~ .field-loading:not(.hidden)) {
-		--field-value__padding-right--icon: calc(var(--field-icon__size) + var(--space__small));
-	}
-
-	&:has(.field-clear) {
-		--field-value__padding-right--clear: calc(var(--field-icon__size) + 2 * var(--field-button__padding-inline));
-	}
-
-	.field-icon:has(~ .field-value) {
-		position: absolute;
-		left: var(--field-value__padding-left--initial);
-	}
-
-	.field-value {
-		padding-left: calc(
-			var(--field-value__padding-left--initial) +
-			var(--field-value__padding-left--icon)
-		);
-		padding-right: calc(
-			var(--field-value__padding-right--clear) +
-			var(--field-value__padding-right--icon) +
-			var(--field-value__padding-right--initial)
-		);
-	}
-
-	.field-clear {
-		position: absolute;
-		right: calc(
-			var(--field-value__padding-right--icon) +
-			var(--field-value__padding-right--initial)
-		);
-		height: 100%;
-	}
-
-	.field-value ~ .field-icon,
-	.field-loading {
-		position: absolute;
-		right: var(--field-value__padding-right--initial);
+	&:has(.field-suffix-icon),
+	&:has(.field-loading.visible) {
+		--field-value__padding-right--offset: calc(var(--field-icon__size) + var(--space__small));
 	}
 }
 
 .field-value {
+	/* Appearance */
 	&::selection {
 		background-color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 70%);
 	}
@@ -292,26 +192,56 @@ input[type=search]::-webkit-search-cancel-button {
 	box-sizing: content-box;
 	min-height: var(--field-input__height);
 	padding-block: var(--field-input__padding-block);
+	padding-left: calc(
+		var(--field-value__padding-left) +
+		var(--field-value__padding-left--offset)
+	);
+	padding-right: calc(
+		var(--field-value__padding-right) +
+		var(--field-value__padding-right--offset)
+	);
 
 	/* Content */
 	position: relative;
 }
 
-.field-loading,
-.field-icon {
-	/* Appearance */
-	color: var(--palette__accent-color);
-
-	/* Ensure span is same size as content */
+.field-prefix-icon,
+.field-suffix-icon {
+	/* Ensure element is same size as content */
 	display: flex;
 
 	svg {
 		width: var(--field-icon__size);
-		height: var(--field-icon__size);
 	}
+}
 
-	/* Interaction */
+.field-loading,
+.field-prefix-icon,
+.field-suffix-icon {
+	color: var(--palette__accent-color);
 	pointer-events: none;
+	position: absolute;
+}
+
+.field-prefix-icon {
+	left: var(--field-value__padding-left);
+}
+
+.field-loading,
+.field-suffix-icon {
+	right: var(--field-value__padding-right);
+}
+
+.field-clear {
+	/* Appearance */
+	position: absolute;
+	right: 0;
+	padding-left: 0;
+	padding-right: var(--field-value__padding-right);
+
+	svg {
+		width: var(--field-icon__size);
+	}
 }
 
 .field-error {
@@ -324,4 +254,86 @@ input[type=search]::-webkit-search-cancel-button {
 .field:has(:disabled) .field-label,
 label:has([type=checkbox]:disabled) {
 	opacity: 50%;
+}
+
+/* Invalid state */
+.field:has(input:is(:user-invalid, [aria-invalid])) {
+	--palette__accent-color: var(--palette__error);
+	--palette__accent-contrast: var(--palette__error-contrast);
+
+	.field-label {
+		color: var(--palette__accent-color);
+	}
+}
+ 
+/* Disabled */
+.field-input input:disabled {
+	-webkit-opacity: 100%;
+	color: var(--field-input__color--readonly);
+}
+
+/* Readonly */
+.form--in_progress,
+.field-input:has([readonly]:not([aria-haspopup])) {
+	/* SelectField will not have a popup when it is actually readonly */
+	.field-prefix-icon,
+	.field-value,
+	.field-loading,
+	.field-suffix-icon {
+		color: var(--field-input__color--readonly);
+	}
+}
+
+/* Animation */
+.field-clear,
+.field-content,
+.field-loading,
+.field-suffix-icon {
+	transition-property: color, background-color, border-color, opacity, rotate;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: var(--field__transition-duration);
+}
+
+/* Hide clear button and loading indicator by default */
+.field-clear {
+	opacity: 0;
+	pointer-events: none;
+	rotate: 90deg;
+}
+
+.field-loading {
+	opacity: 0;
+	rotate: -90deg;
+}
+
+/* Hide suffix icon when clear button is visible */
+.field-input:has(.field-clear--enabled) {
+	&:focus-within,
+	.supports-hover &:hover {
+		--field-value__padding-right--offset: calc(var(--field-icon__size) + var(--space__small));
+
+		.field-clear {
+			opacity: 1;
+			pointer-events: auto;
+			rotate: 0deg;
+		}
+
+		.field-suffix-icon {
+			opacity: 0;
+			rotate: -90deg;
+		}
+	}
+}
+
+/* Hide suffix icon when loading indicator is visible */
+.field-input:has(.field-loading.visible) {
+	.field-loading {
+		opacity: 1;
+		rotate: 0deg;
+	}
+
+	.field-suffix-icon {
+		opacity: 0;
+		rotate: -90deg;
+	}
 }

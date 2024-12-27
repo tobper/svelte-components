@@ -50,9 +50,6 @@
 
 		/*  Appearance */
 		color: var(--button__color);
-		transition:
-			background ease-out var(--transition__duration--instant),
-			color ease-out var(--transition__duration--instant);
 
 		/* Focus */
 		&.button--pseudo-focus,

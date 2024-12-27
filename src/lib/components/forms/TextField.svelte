@@ -137,7 +137,7 @@
 			<div class="field-input">
 				{@render field_prefix_icon()}
 				{@render input(content_id, error_text, in_progress)}
-				{@render field_clear()}
+				{@render field_clear(in_progress)}
 				{@render field_suffix_icon()}
 				{@render field_loading()}
 			</div>
@@ -213,29 +213,32 @@
 	>
 {/snippet}
 
-{#snippet field_clear()}
-	{#if value}
-		<Button
-			bind:element={clear_element}
-			class="field-clear"
-			focusable={false}
-			rounded={false}
-			onclick={() => {
-				// Make sure both bound value and input value is updated before calling callback
-				value = input_element!.value = '';
-				on_clear?.();
-			}}
-		>
-			{#snippet icon()}
-				<ClearIcon />
-			{/snippet}
-		</Button>
-	{/if}
+{#snippet field_clear(in_progress: boolean)}
+	<Button
+		bind:element={clear_element}
+		class={[
+			'field-clear',
+			{
+				'field-clear--enabled': !!value && !disabled && !input_loading && !readonly && !in_progress
+			}
+		]}
+		focusable={false}
+		rounded={false}
+		onclick={() => {
+			// Make sure both bound value and input value is updated before calling callback
+			value = input_element!.value = '';
+			on_clear?.();
+		}}
+	>
+		{#snippet icon()}
+			<ClearIcon />
+		{/snippet}
+	</Button>
 {/snippet}
 
 {#snippet field_prefix_icon()}
 	{#if prefix_icon}
-		<div class="field-icon">
+		<div class="field-prefix-icon">
 			{@render prefix_icon()}
 		</div>
 	{/if}
@@ -243,16 +246,14 @@
 
 {#snippet field_suffix_icon()}
 	{#if suffix_icon}
-		<div class="field-icon">
+		<div class="field-suffix-icon" class:visible={!input_loading}>
 			{@render suffix_icon()}
 		</div>
 	{/if}
 {/snippet}
 
 {#snippet field_loading()}
-	{#if input_loading}
-		<div class="field-loading">
-			<Loading bars />
-		</div>
-	{/if}
+	<div class="field-loading" class:visible={input_loading}>
+		<Loading bars />
+	</div>
 {/snippet}

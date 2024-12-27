@@ -84,7 +84,7 @@
 					</Button>
 				</div>
 
-				<span class="field-icon">
+				<span class="field-suffix-icon">
 					<CalendarIcon />
 				</span>
 			</div>
