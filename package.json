@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.0.28",
+	"version": "0.0.29",
 	"description": "Svelte components",
 	"license": "MIT",
 	"author": "Tobias Persson",
@@ -32,31 +32,31 @@
 	],
 	"peerDependencies": {
 		"@floating-ui/dom": "^1.6.12",
-		"@sveltejs/kit": "^2.8.1",
+		"@sveltejs/kit": "^2.15.1",
 		"@tobper/eon": "^0.0.16",
-		"svelte": "^5.2.7",
-		"typescript": "^5.6.3"
+		"svelte": "^5.16.0"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "^3.0.6",
+		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/package": "^2.3.7",
-		"@sveltejs/vite-plugin-svelte": "^4.0.1",
-		"@tabler/icons-svelte": "^3.22.0",
+		"@sveltejs/vite-plugin-svelte": "^4.0.4",
+		"@tabler/icons-svelte": "^3.26.0",
 		"@types/eslint": "^9.6.1",
 		"@types/ua-parser-js": "^0.7.39",
-		"cspell": "^8.16.0",
-		"eslint": "^9.15.0",
-		"eslint-plugin-svelte": "^2.46.0",
-		"globals": "^15.12.0",
+		"cspell": "^8.17.1",
+		"eslint": "^9.17.0",
+		"eslint-plugin-svelte": "^2.46.1",
+		"globals": "^15.14.0",
 		"publint": "^0.2.12",
-		"svelte-check": "^4.0.9",
-		"typescript-eslint": "^8.15.0",
+		"svelte-check": "^4.1.1",
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.19.0",
 		"vite": "^5.4.11",
-		"vitest": "^2.1.5"
+		"vitest": "^2.1.8"
 	},
 	"dependencies": {
-		"esm-env": "^1.1.4",
-		"ua-parser-js": "^1.0.39"
+		"esm-env": "^1.2.1",
+		"ua-parser-js": "^1.0.40"
 	},
 	"types": "./dist/index.d.ts",
 	"type": "module"
