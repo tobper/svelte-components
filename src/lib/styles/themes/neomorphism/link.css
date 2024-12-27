@@ -3,8 +3,8 @@
 	--link__color--current: var(--palette__secondary-color);
 	--link__color--hover: color-mix(in lab, var(--link__color), var(--palette__background) 25%);
 
-	--link-header__color: var(--palette__primary-color);
-	--link-header__color--hover: var(--palette__primary--contrast);
+	--link-header__color: var(--palette__primary--contrast);
+	--link-header__color--hover: var(--palette__primary-color);
 
 	.link {
 		/*  Appearance */
@@ -18,9 +18,11 @@
 		&.link--hover,
 		:where(.supports-hover) &:hover:where(:not([aria-current])) {
 			/* Set hover color to the entire link if it has no header */
-			&:not(:has(header)) {
+			/* &:not(:has(header)) {
 				color: var(--link__color--hover);
-			}
+			} */
+
+			color: var(--link__color--hover);
 
 			/* Set color to the header if one exist */
 			header {
