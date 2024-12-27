@@ -8,6 +8,7 @@
 		label?: string;
 		name?: string;
 		checked?: boolean;
+		direction?: 'normal' | 'reversed';
 		disabled?: boolean;
 		onchange?: HTMLInputAttributes['onchange'];
 		onclick?: HTMLInputAttributes['onclick'];
@@ -19,13 +20,14 @@
 		class: class_name,
 		label,
 		checked = $bindable(false),
+		direction = 'normal',
 		on_checked,
 		...input_props
 	}: ToggleSwitch = $props();
 </script>
 
 {#if label}
-	<label class={class_name}>
+	<label class={class_name} class:reversed={direction === 'reversed'}>
 		{@render input()}
 		<span>{label}</span>
 	</label>
@@ -53,6 +55,10 @@
 		display: inline-flex;
 		column-gap: var(--space);
 		align-items: center;
+
+		&.reversed {
+			flex-direction: row-reverse;
+		}
 
 		/* Interaction */
 		user-select: none;
