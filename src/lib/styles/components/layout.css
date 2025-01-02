@@ -237,7 +237,7 @@
 		);
 		padding-top: var(--space);
 		padding-bottom: var(--space);
-		padding-left: var(--space__large);
+		padding-left: var(--space);
 		padding-right: var(--layout__padding-right);
 	
 		&:not(.layout-sidebar--visible) {

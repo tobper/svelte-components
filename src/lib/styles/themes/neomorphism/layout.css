@@ -20,6 +20,11 @@
 				border-top-left-radius: .5rem;
 				background-color: var(--panel__background-color);
 				background: var(--panel__background);
+
+				.scheme-dark & {
+					border: var(--panel__border);
+					border-right-width: 0;
+				}
 			}
 		}
 	}
