@@ -28,6 +28,7 @@
 	}
 
 	footer {
+		background-color: var(--table-row__background-color);
 		font-style: italic;
 	}
 
@@ -112,10 +113,6 @@ table.table th {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-
-	.checkbox {
-		vertical-align: middle;
-	}
 }
 
 .table-row > .button-plain {
