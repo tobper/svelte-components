@@ -4,6 +4,7 @@
 	import { interaction_observer } from '../html.js';
 	import { get_layout_context } from './Layout.svelte';
 	import Loading from './Loading.svelte';
+	import Stack from './Stack.svelte';
 
 	interface PageHeader {
 		children?: Snippet;
@@ -45,7 +46,7 @@
 <header class="page-header" {id} bind:this={header_element}>
 	{#if text}
 		<div class="text">
-			<div class="flow-items">
+			<Stack horizontal>
 				{#if href}
 					<a class="link" {href}>
 						<h2>
@@ -61,7 +62,7 @@
 				<div class="loading">
 					<Loading bars visible={loading} />
 				</div>
-			</div>
+			</Stack>
 
 			{#if sub_text}
 				<div class="sub_text truncate">
@@ -71,9 +72,9 @@
 		</div>
 
 		{#if children}
-			<div class="flow-items">
+			<Stack horizontal>
 				{@render children()}
-			</div>
+			</Stack>
 		{/if}
 	{:else if children}
 		{@render children()}

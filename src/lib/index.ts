@@ -26,6 +26,7 @@ export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as PageSubHeader } from './components/PageSubHeader.svelte';
 export { default as SelectList } from './components/SelectList.svelte';
 export { default as SidebarToggleButton } from './components/SidebarToggleButton.svelte';
+export { default as Stack } from './components/Stack.svelte';
 export { default as Theme } from './components/Theme.svelte';
 export { default as ToggleButton } from './components/ToggleButton.svelte';
 

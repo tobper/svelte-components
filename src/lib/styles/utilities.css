@@ -60,6 +60,26 @@
 	gap: var(--space);
 }
 
+.gap {
+	gap: var(--space);
+}
+
+.gap-tiny {
+	gap: var(--space__tiny);
+}
+
+.gap-small {
+	gap: var(--space__small);
+}
+
+.gap-medium {
+	gap: var(--space__medium);
+}
+
+.gap-large {
+	gap: var(--space__large);
+}
+
 .glass {
 	background-color: var(--glass__background-color);
 	backdrop-filter: var(--glass__backdrop-filter);
