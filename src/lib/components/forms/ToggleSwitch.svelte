@@ -35,7 +35,7 @@
 		{#if description}
 			<Stack gap="tiny" >
 				<span>{label}</span>
-				<span>{description}</span>
+				<p>{description}</p>
 			</Stack>
 		{:else}
 			<span>{label}</span>
@@ -72,10 +72,6 @@
 
 		span {
 			line-height: 1.25rem;
-		}
-
-		span + span {
-			opacity: 60%;
 		}
 
 		input {

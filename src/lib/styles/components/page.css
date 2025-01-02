@@ -3,7 +3,7 @@
 	--page-content__padding-right: var(--layout__padding-right);
 
 	--page-header__top: 0px;
-	--page-header__padding-top: var(--layout__padding-top);
+	--page-header__padding-top: max(0px, var(--layout__padding-top) - 1rem);
 	--page-header__height: 3rem;
 
 	--page-content__scroll-top: calc(var(--page-header__padding-top) + var(--layout-header__height));

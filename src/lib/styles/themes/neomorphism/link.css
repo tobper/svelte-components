@@ -1,32 +1,36 @@
 :where(.theme-neomorphism) {
 	--link__color: var(--palette__text);
 	--link__color--current: var(--palette__secondary-color);
-	--link__color--hover: color-mix(in lab, var(--link__color), var(--palette__background) 25%);
+	--link__color--hover: var(--palette__primary-color);
 
-	--link-header__color: var(--palette__primary--contrast);
-	--link-header__color--hover: var(--palette__primary-color);
+	--link-header__color: var(--palette__primary-color);
+	--link-header__color--hover: var(--palette__primary--contrast);
 
 	.link {
 		/*  Appearance */
 		color: var(--link__color);
 
-		header {
-			color: var(--link-header__color);
+		&:has(header) {
+			/* color: var(--palette__text--weak); */
+
+			header {
+				color: var(--link-header__color);
+				font-weight: 500;
+			}
 		}
 
 		/* Hover */
 		&.link--hover,
 		:where(.supports-hover) &:hover:where(:not([aria-current])) {
-			/* Set hover color to the entire link if it has no header */
-			/* &:not(:has(header)) {
-				color: var(--link__color--hover);
-			} */
-
 			color: var(--link__color--hover);
 
 			/* Set color to the header if one exist */
 			header {
 				color: var(--link-header__color--hover);
+			}
+
+			.list-item__children {
+				color: var(--palette__text);
 			}
 		}
 

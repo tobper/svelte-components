@@ -65,6 +65,7 @@
 
 		/* Remove white space around icon */
 		display: flex;
+		align-items: center;
 	}
 
 	.list-item__text {

@@ -80,6 +80,11 @@
 	}
 }
 
+.list-item__kbd,
+.list-item__children {
+	color: var(--palette__text--weak);
+}
+
 .list-item-separator {
 	padding: .25rem;
 }

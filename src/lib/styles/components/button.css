@@ -57,7 +57,7 @@
 	&:is([aria-disabled], :has(:disabled)) {
 		/* Appearance */
 		filter: grayscale(100%);
-		opacity: 60%;
+		opacity: var(--palette__opacity--disabled);
 
 		/* Interaction */
 		cursor: not-allowed;

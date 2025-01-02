@@ -125,6 +125,7 @@
 
 	.list-item-link {
 		padding-block: var(--space__medium);
+		padding-inline: 0;
 
 		header {
 			font-size: var(--h4__font-size);
@@ -138,6 +139,7 @@
 
 	[role=separator] {
 		padding-block: var(--space);
+		padding-inline: 0;
 	}
 }
 
@@ -153,7 +155,7 @@
 
 	/* Padding when fixed sidebar */
 	.layout-sidebar--fixed + & {
-		margin-left: calc(var(--layout__padding-left) + var(--layout-sidebar__width) + var(--layout-sidebar__gutter));
+		margin-left: calc(var(--layout__padding-left) + var(--layout-sidebar__width));
 	}
 
 	/* Scale when dialog is open */
@@ -237,7 +239,7 @@
 		);
 		padding-top: var(--space);
 		padding-bottom: var(--space);
-		padding-left: var(--space);
+		padding-left: var(--space__large);
 		padding-right: var(--layout__padding-right);
 	
 		&:not(.layout-sidebar--visible) {

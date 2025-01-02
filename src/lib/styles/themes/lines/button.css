@@ -128,7 +128,7 @@
 			color: color-mix(in lab, var(--palette__accent-color), var(--palette__scheme) 20%);
 
 			.button-text:has(+ .button-icon) {
-				color: var(--palette__text--contrast);
+				color: var(--palette__text--weak);
 			}
 		}
 

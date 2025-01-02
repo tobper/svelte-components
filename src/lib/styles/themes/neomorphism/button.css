@@ -34,6 +34,7 @@
 	.button-plain {
 		/* Layout */
 		height: var(--button__height);
+		font-weight: 500;
 
 		/* Interaction */
 		padding-block: 1px;
@@ -52,11 +53,6 @@
 		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
 		&:active:not([aria-disabled], :has(:disabled)) {
 			padding-block: 2px 0px;
-		}
-
-		/* Disabled */
-		&:is([aria-disabled], :has(:disabled)) {
-			--button__shadow: 0 .75px 2px -1px rgb(0 0 0 / 20%);
 		}
 	}
 
@@ -152,7 +148,7 @@
 			color: var(--palette__accent-contrast);
 
 			.button-text:has(+ .button-icon) {
-				color: var(--palette__text--contrast);
+				color: var(--palette__text--weak);
 			}
 		}
 	}

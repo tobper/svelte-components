@@ -253,7 +253,7 @@ input[type=search]::-webkit-search-cancel-button {
 /* Disabled */
 .field:has(:disabled) .field-label,
 label:has([type=checkbox]:disabled) {
-	opacity: 50%;
+	opacity: 38%;
 }
 
 /* Invalid state */
@@ -269,7 +269,7 @@ label:has([type=checkbox]:disabled) {
 /* Disabled */
 .field-input input:disabled {
 	-webkit-opacity: 100%;
-	color: var(--field-input__color--readonly);
+	color: var(--palette__text--disabled);
 }
 
 /* Readonly */
@@ -280,7 +280,7 @@ label:has([type=checkbox]:disabled) {
 	.field-value,
 	.field-loading,
 	.field-suffix-icon {
-		color: var(--field-input__color--readonly);
+		color: var(--palette__text--weak);
 	}
 }
 

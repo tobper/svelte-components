@@ -3,7 +3,7 @@
 	.layout > footer {
 		background: var(--panel__background-color);
 		background: var(--panel__background);
-		box-shadow: var(--panel__shadow);
+		box-shadow: var(--shadow__medium);
 
 		.scheme-dark & {
 			border-top: var(--panel__border)
@@ -14,7 +14,7 @@
 		padding-top: var(--page-header__height);
 
 		&.layout-sidebar--folding {
-			box-shadow: var(--panel__shadow);
+			box-shadow: var(--shadow__x-large);
 
 			.device-mobile & {
 				border-top-left-radius: .5rem;
