@@ -34,6 +34,7 @@
 	.button-plain {
 		/* Layout */
 		height: var(--button__height);
+		font-weight: 500;
 
 		/* Interaction */
 		padding-block: 1px;
@@ -49,14 +50,9 @@
 		}
 
 		/* Pressed */
-		&:is([aria-checked], [aria-current], [aria-selected]),
+		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
 		&:active:not([aria-disabled], :has(:disabled)) {
 			padding-block: 2px 0px;
-		}
-
-		/* Disabled */
-		&:is([aria-disabled], :has(:disabled)) {
-			--button__shadow: 0 .75px 2px -1px rgb(0 0 0 / 20%);
 		}
 	}
 
@@ -71,7 +67,7 @@
 			var(--button__shadow--focus, 0 0 #0000);
 		
 		/* Pressed */
-		&:is([aria-checked], [aria-current], [aria-selected]),
+		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
 		&:active:not([aria-disabled], :has(:disabled)) {
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 4%), rgb(0 0 0 / 4%));
 			box-shadow:
@@ -113,7 +109,7 @@
 			var(--button__shadow--focus, 0 0 #0000);
 
 		/* Pressed */
-		&:is([aria-checked], [aria-current], [aria-selected]),
+		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
 		&:active:not([aria-disabled], :has(:disabled)) {
 			color: var(--palette__accent-contrast);
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
@@ -123,7 +119,7 @@
 		}
 
 		/* Selected */
-		&:is([aria-checked], [aria-current], [aria-selected]) {
+		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]) {
 			background-color: var(--palette__accent-color--bright);
 		}
 
@@ -152,7 +148,7 @@
 			color: var(--palette__accent-contrast);
 
 			.button-text:has(+ .button-icon) {
-				color: var(--palette__text--contrast);
+				color: var(--palette__text--weak);
 			}
 		}
 	}

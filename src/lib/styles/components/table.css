@@ -2,7 +2,7 @@
 	--table__padding-left: .5rem;
 	--table__padding-right: .5rem;
 
-	--table-header__color: hsl(from var(--palette__text) h s l / 65%);
+	--table-header__color: var(--palette__text--weak);
 	--table-header__letter-spacing: .1em;
 
 	--table-row__background-color: var(--palette__background);
@@ -28,6 +28,7 @@
 	}
 
 	footer {
+		background-color: var(--table-row__background-color);
 		font-style: italic;
 	}
 
@@ -112,10 +113,6 @@ table.table th {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-
-	.checkbox {
-		vertical-align: middle;
-	}
 }
 
 .table-row > .button-plain {

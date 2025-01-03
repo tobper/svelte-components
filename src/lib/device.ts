@@ -17,9 +17,9 @@ const tablet = ua_device.type === 'tablet';
 const desktop = !mobile && !tablet;
 
 export const device = {
-	mobile,
-	tablet,
-	desktop,
+	get mobile() { return mobile },
+	get tablet() { return tablet },
+	get desktop() { return desktop },
 
 	get engine() { return `${ua_engine.name} ${ua_engine.version}`; },
 

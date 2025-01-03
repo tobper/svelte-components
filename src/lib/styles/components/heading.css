@@ -13,22 +13,39 @@ h1, h2, h3, h4 {
 }
 
 h1 {
+	--h1__color: var(--palette__accent-color);
+
+	color: var(--h1__color);
 	font-size: var(--h1__font-size);
 	line-height: 2.25rem;
 }
 
 h2 {
+	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 5%);
+
+	color: var(--h2__color);
 	font-size: var(--h2__font-size);
 	line-height: 2rem;
 	row-gap: 0;
 }
 
 h3 {
+	--h3__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 15%);
+	--h3__color--hover: color-mix(in lab, var(--h3__color), var(--palette__background) 25%);
+
+	--link__color: var(--h3__color);
+	--link__color--hover: var(--h3__color--hover);
+
+	color: var(--h3__color);
 	font-size: var(--h3__font-size);
 	line-height: 1.75rem;
 }
 
 h4 {
+	--h4__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 25%);
+	--h4__color--hover: color-mix(in lab, var(--h4__color), var(--palette__background) 25%);
+
+	color: var(--h4__color);
 	font-size: var(--h4__font-size);
 	line-height: 1.5rem;
 }

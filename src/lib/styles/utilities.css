@@ -2,9 +2,9 @@
 	/*
 		Box shadows
 	*/
-	--shadow__medium:
-		0 4px 6px -1px rgb(0 0 0 / 0.1),
-		0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--shadow__medium: 0 .25rem .5rem #0003;
+	--shadow__large: 0 .5rem 1rem #0003;
+	--shadow__x-large: 0 .75rem 1.5rem #0003;
 
 	/*
 		Spacing
@@ -60,13 +60,33 @@
 	gap: var(--space);
 }
 
+.gap {
+	gap: var(--space);
+}
+
+.gap-tiny {
+	gap: var(--space__tiny);
+}
+
+.gap-small {
+	gap: var(--space__small);
+}
+
+.gap-medium {
+	gap: var(--space__medium);
+}
+
+.gap-large {
+	gap: var(--space__large);
+}
+
 .glass {
 	background-color: var(--glass__background-color);
 	backdrop-filter: var(--glass__backdrop-filter);
 }
 
 .scroll-shadow {
-	box-shadow: 0 1rem .5rem -1rem rgb(0 0 0 / 40%);
+	box-shadow: 0 1rem .5rem -1rem rgb(0 0 0 / 20%);
 }
 
 .scroll-snap-horizontal {

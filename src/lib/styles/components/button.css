@@ -1,8 +1,9 @@
 /*
 	Aria states
 	disabled: Button can not be interacted with
-	current: Button is pressed and can not be interacted with (radio button)
+	current: Button is pressed and can not be interacted with (required radio button)
 	checked: Button is pressed and can be interacted with (check button)
+	pressed: Button is pressed and can be interacted with (Popover button)
 	selected: Button is pressed and can be interacted with (toggle button)
 */
 
@@ -45,18 +46,18 @@
 	white-space: nowrap;
 
 	/* Interaction */
-	cursor: default;
+	cursor: pointer;
 	user-select: none;
 
-	&:not([aria-current]) {
-		cursor: pointer;
+	&[aria-current]:not(.radio-button--optional) {
+		cursor: default;
 	}
 
 	/* Disabled */
 	&:is([aria-disabled], :has(:disabled)) {
 		/* Appearance */
 		filter: grayscale(100%);
-		opacity: 60%;
+		opacity: var(--palette__opacity--disabled);
 
 		/* Interaction */
 		cursor: not-allowed;

@@ -77,7 +77,7 @@
 .dialog-footer {
 	/* Layout */
 	flex: none;
-	padding-bottom: var(--space);
+	padding-block: var(--space);
 	padding-inline: var(--dialog__padding-inline);
 
 	/* Content */
@@ -86,10 +86,6 @@
 	justify-content: flex-end;
 	column-gap: var(--space);
 	row-gap: var(--space__small);
-
-	hr {
-		margin-bottom: var(--space__small);
-	}
 }
 
 /*

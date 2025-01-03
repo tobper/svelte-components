@@ -4,6 +4,7 @@
 	import { interaction_observer } from '../html.js';
 	import { get_layout_context } from './Layout.svelte';
 	import Loading from './Loading.svelte';
+	import Stack from './Stack.svelte';
 
 	interface PageHeader {
 		children?: Snippet;
@@ -44,8 +45,8 @@
 
 <header class="page-header" {id} bind:this={header_element}>
 	{#if text}
-		<div class="text">
-			<div class="flow-items">
+		<div class="page-header-text">
+			<Stack horizontal>
 				{#if href}
 					<a class="link" {href}>
 						<h2>
@@ -58,22 +59,22 @@
 					</h2>
 				{/if}
 
-				<div class="loading">
-					<Loading bars visible={loading} />
-				</div>
-			</div>
+				{#if loading}
+					<Loading bars />
+				{/if}
+			</Stack>
 
 			{#if sub_text}
-				<div class="sub_text truncate">
+				<div class="page-header-sub-text truncate">
 					{sub_text}
 				</div>
 			{/if}
 		</div>
 
 		{#if children}
-			<div class="flow-items">
+			<Stack horizontal>
 				{@render children()}
-			</div>
+			</Stack>
 		{/if}
 	{:else if children}
 		{@render children()}
@@ -81,15 +82,15 @@
 </header>
 
 <style>
-	.text {
+	.page-header-text {
 		overflow: hidden;
 	}
 
-	.sub_text {
-		color: var(--palette__secondary-color);
+	.page-header-text :global([role=status]) {
+		color: var(--palette__primary-color);
 	}
 
-	.loading {
-		color: var(--palette__primary-color);
+	.page-header-sub-text {
+		color: var(--palette__secondary-color);
 	}
 </style>

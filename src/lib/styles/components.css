@@ -18,11 +18,10 @@
 @import './components/table.css';
 
 :root {
-	--field__transition-duration: .1s;
-	--field-input__color--readonly: #888;
+	--field__transition-duration: var(--transition__duration--fast);
 	--field-input__height: 2rem;
 
-	--glass__background-color: hsl(from var(--glass-bg, var(--palette__background)) h s l / 60%);
+	--glass__background-color: hsl(from var(--glass-bg, var(--palette__background)) h s l / 75%);
 	--glass__backdrop-filter: blur(7px);
 
 }

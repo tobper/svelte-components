@@ -125,6 +125,7 @@
 		<CardContent header="Toggle switch">
 			<ToggleSwitch />
 			<ToggleSwitch label="Label" />
+			<ToggleSwitch label="Label" description="Extra long description for switch" />
 			<ToggleSwitch disabled label="Disabled" />
 			<ToggleSwitch disabled checked label="Disabled checked" />
 		</CardContent>
@@ -164,14 +165,19 @@
 		</CardContent>
 
 		<CardContent header="Radio button">
-			<RadioGroup selected_value="yes">
+			<RadioGroup required selected_value="yes">
 				<RadioButton value="yes" text="Yes" />
 				<RadioButton value="no" text="No" />
 				<RadioButton value="maybe" text="Maybe" />
 			</RadioGroup>
-		</CardContent>
 
-		<CardContent>
+			<h4>Optional</h4>
+			<RadioGroup>
+				<RadioButton value="true" text="Finished" />
+				<RadioButton value="false" text="Not finished" />
+			</RadioGroup>
+
+			<h4>Disabled</h4>
 			<RadioGroup disabled selected_value="1">
 				<RadioButton value="1" text="Disabled 1" />
 				<RadioButton value="2" text="Disabled 2" />

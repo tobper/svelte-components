@@ -9,6 +9,5 @@
 </script>
 
 <footer class="dialog-footer">
-	<hr>
 	{@render children()}
 </footer>

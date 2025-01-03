@@ -26,6 +26,7 @@
  
  <span
 	class:hidden={!visible}
+	class:visible
 	class:small
 	class:large
 	class:ball

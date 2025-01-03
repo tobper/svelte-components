@@ -1,18 +1,22 @@
-<script lang="ts">
+<script lang="ts" module>
+	// Needed to avoid lint error "'Value' is not defined"
+	type Value = object;
+</script>
+
+<script lang="ts" generics="Value">
 	import ButtonBorder from '../ButtonBorder.svelte';
 	import { get_radio_group_context } from './RadioGroup.svelte';
 
 	interface RadioButton {
 		text: string;
-		value?: unknown;
+		value: Value;
 		small?: boolean;
-		onchange?: (value: unknown) => void;
 	}
 
-	const radio_group = get_radio_group_context()
+	const radio_group = get_radio_group_context<Value>()
 
-	let { text, value, small, onchange }: RadioButton = $props();
-	let { disabled, name, selected_value, select } = $derived(radio_group);
+	let { text, value, small }: RadioButton = $props();
+	let { disabled, name, required, selected_value, deselect, select } = $derived(radio_group);
 	let checked = $derived(value === selected_value);
 </script>
 
@@ -20,6 +24,7 @@
 	aria-current={checked ? true : undefined}
 	class="button-outlined"
 	class:button--small={small}
+	class:radio-button--optional={!required}
 >
 	<div class="input-container">
 		<input
@@ -28,8 +33,10 @@
 			{value}
 			type="radio"
 			onclick={() => {
-				select(value);
-				onchange?.(value);
+				if (value !== selected_value)
+					select(value);
+				else if (!required)
+					deselect();
 			}}
 			onkeydown={event => event.stopPropagation()}
 			bind:group={radio_group.selected_value}

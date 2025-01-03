@@ -1,13 +1,16 @@
 <script lang="ts">
     import type { HTMLInputAttributes } from 'svelte/elements';
     import { unique_id } from '../../unique_id.js';
+    import Stack from '../Stack.svelte';
 
 	interface ToggleSwitch {
 		id?: string;
 		class?: string;
 		label?: string;
+		description?: string;
 		name?: string;
 		checked?: boolean;
+		direction?: 'normal' | 'reversed';
 		disabled?: boolean;
 		onchange?: HTMLInputAttributes['onchange'];
 		onclick?: HTMLInputAttributes['onclick'];
@@ -18,16 +21,25 @@
 		id = $bindable(unique_id()),
 		class: class_name,
 		label,
+		description,
 		checked = $bindable(false),
+		direction = 'normal',
 		on_checked,
 		...input_props
 	}: ToggleSwitch = $props();
 </script>
 
 {#if label}
-	<label class={class_name}>
+	<label class={class_name} class:reversed={direction === 'reversed'}>
 		{@render input()}
-		<span>{label}</span>
+		{#if description}
+			<Stack gap="tiny" >
+				<span>{label}</span>
+				<p>{description}</p>
+			</Stack>
+		{:else}
+			<span>{label}</span>
+		{/if}
 	</label>
 {:else}
 	{@render input()}
@@ -52,7 +64,19 @@
 		/* Content */
 		display: inline-flex;
 		column-gap: var(--space);
-		align-items: center;
+		align-items: start;
+
+		&.reversed {
+			flex-direction: row-reverse;
+		}
+
+		span {
+			line-height: 1.25rem;
+		}
+
+		input {
+			flex: none;
+		}
 
 		/* Interaction */
 		user-select: none;
@@ -71,7 +95,6 @@
 		/* Layout */
 		height: var(--toggle__height);
 		width: calc(var(--toggle__height) * 2);
-		margin-block: 0.25rem;
 
 		/* Appearance */
 		appearance: none;

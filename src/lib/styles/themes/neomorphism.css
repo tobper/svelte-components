@@ -13,7 +13,6 @@
 @import './neomorphism/swap.css';
 
 .theme-neomorphism {
-	--field-content__margin-block: 0px;
 	--field-input__padding-block: .5rem;
 
 	&.scheme-light {

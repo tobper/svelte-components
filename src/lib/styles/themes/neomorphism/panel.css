@@ -4,12 +4,11 @@
 	--panel__shadow: 0 .75px 2px #0003;
 
 	&.scheme-light {
-		--panel__background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 50%);
+		--panel__background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 60%);
 		--panel__background-color--contrast: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
 		--panel__background: linear-gradient(
 			178deg,
-			var(--panel__background-color) 0%,
-			color-mix(in lab, var(--panel__background-color), white 60%),
+			color-mix(in lab, var(--panel__background-color), white 30%),
 			var(--panel__background-color) 100%
 		);
 	}

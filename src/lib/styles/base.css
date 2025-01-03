@@ -21,5 +21,14 @@ html {
 
 body {
 	background: var(--palette__background);
+	color: var(--palette__text);
 	margin: 0;
+}
+
+p {
+	color: var(--palette__text--weak);
+
+	/* Text should not be too wide from a typography viewpoint */
+	max-width: 65ch;
+	text-wrap: pretty;
 }
