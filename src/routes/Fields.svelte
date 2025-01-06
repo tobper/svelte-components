@@ -6,7 +6,8 @@
 
 	let form_loading = $state(false);
 	let field_loading = $state(false);
-	let select_value = $state<string | null>(null);
+	let select_few_value = $state<string | null>(null);
+	let select_many_value = $state<string | null>(null);
 	let auto_complete_value = $state<string | null>(null);
 	let currency_value = $state<number | null>(null);
 	let date_value = $state<DateOnly | null>(null);
@@ -57,15 +58,25 @@
 					</div>
 					<div class="field-with-output">
 						<SelectField
-							bind:value={select_value}
-							label="Select"
+							bind:value={select_few_value}
+							label="Select (few items)"
+							options={['Orange', 'Red', 'Blue']}
+							required
+							type="select"
+						/>
+						<output>Value: {select_few_value ? select_few_value : '-'}</output>
+					</div>
+					<div class="field-with-output">
+						<SelectField
+							bind:value={select_many_value}
+							label="Select (many items)"
 							options={food}
 							options_heading={get_food_heading}
 							options_value={option => option.name}
 							required
 							type="select"
 						/>
-						<output>Value: {select_value ? select_value : '-'}</output>
+						<output>Value: {select_many_value ?? '-'}</output>
 					</div>
 					<div class="field-with-output">
 						<SelectField

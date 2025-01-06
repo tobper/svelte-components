@@ -98,7 +98,13 @@
 	});
 	const { delayed, loaded } = $derived(async_options);
 	const options = $derived(async_options.value);
-	const modal = $derived((device.tablet || device.mobile) && type === 'select' && Array.isArray(options_source));
+	const modal_options_limit = 6
+	const modal = $derived(
+		device.touch &&
+		type === 'select' &&
+		Array.isArray(options_source) &&
+		options_source.length <= modal_options_limit
+	);
 	const menu_id = $derived(`${id}_menu`);
 
 	let input_value = $state('');
