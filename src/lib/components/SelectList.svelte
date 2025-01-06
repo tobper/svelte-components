@@ -235,21 +235,21 @@
 	// Select
 
 	function select(item: ListItem) {
-		if (item.value === selected_value)
-			return false;
-
 		selected_value = item.value;
 		active_item_id = item.id;
 		on_select?.(item.option);
-
-		return true;
 	}
 
+	/**
+	 * Selects active item if an item is active.
+	 * @returns true if an item was selected, otherwise false.
+	 */
 	export function select_active_option() {
 		if (!active_item)
 			return false;
 
-		return select(active_item);
+		select(active_item);
+		return false;
 	}
 
 	// https://stackoverflow.com/a/52171480
