@@ -286,6 +286,7 @@ label:has([type=checkbox]:disabled) {
 
 /* Animation */
 .field-clear,
+.field-clear .button-icon,
 .field-content,
 .field-loading,
 .field-suffix-icon {
@@ -296,9 +297,14 @@ label:has([type=checkbox]:disabled) {
 
 /* Hide clear button and loading indicator by default */
 .field-clear {
+	--field-clear-icon__rotation: 90deg;
+
 	opacity: 0;
 	pointer-events: none;
-	rotate: 90deg;
+
+	.button-icon {
+		rotate: var(--field-clear-icon__rotation);
+	}
 }
 
 .field-loading {
@@ -313,9 +319,9 @@ label:has([type=checkbox]:disabled) {
 		--field-value__padding-right--offset: calc(var(--field-icon__size) + var(--space__small));
 
 		.field-clear {
+			--field-clear-icon__rotation: 0deg;
 			opacity: 1;
 			pointer-events: auto;
-			rotate: 0deg;
 		}
 
 		.field-suffix-icon {
