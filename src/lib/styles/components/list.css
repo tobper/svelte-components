@@ -2,7 +2,7 @@
 	--list__border-radius: .25rem;
 	--list__max-items: 10;
 
-	--list-item__height: 3rem;
+	--list-item__min-height: calc(1.5rem + 2 * .75rem);
 	--list-item__padding: .75rem 1rem;
 	--list-item__background-color--active: var(--palette__neutral-background);
 	--list-item__background-color--selected: var(--palette__primary-background);
@@ -13,11 +13,12 @@
 }
 
 .device-touch {
-	--list-item__height: 3.5rem;
+	--list-item__min-height: calc(1.5rem + 2 * 1rem);
+	--list-item__padding: 1rem;
 }
 
 .device-mobile {
-	--list__max-items: 5;
+	--list__max-items: 4;
 }
 
 .select-list {
@@ -29,17 +30,18 @@
 	row-gap: 1px;
 
 	.menu > & {
-		/* Max x items in a menu list, but no more than 30% of the screen height */
-		max-height: min((var(--list__max-items) * var(--list-item__height)), 30vh);
 		overflow-y: auto;
+		/* Max 8 items and no more than 50% of the screen height */
+		max-height: min((8 * var(--list-item__min-height)), 40vh);
+	}
+
+	.device-mobile .menu:not(.modal) > & {
+		/* Max 4 items in a non modal mobile menu list, and no more than 25% of the screen height */
+		max-height: min((4 * var(--list-item__min-height)), 25vh);
 	}
 
 	.contrast {
 		background: color-mix(in lab, transparent, var(--palette__contrast) var(--palette__contrast-opacity));
-	}
-
-	> li {
-		scroll-margin-top: var(--list-menu__padding);
 	}
 }
 
