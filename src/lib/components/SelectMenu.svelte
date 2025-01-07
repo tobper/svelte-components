@@ -105,6 +105,7 @@
 	}}
 	on_open={() => {
 		visible = true
+		list?.scroll_to_selected_item();
 	}}
 >
 	<SelectList

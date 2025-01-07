@@ -56,10 +56,13 @@ export function resize_observer(
 /*
 
 */
-export function scroll_into_view(element_id: string | undefined) {
+export function scroll_into_view(
+	element_id: string | undefined,
+	position: ScrollLogicalPosition = 'nearest'
+) {
 	const element = element_id && document.querySelector(`#${element_id}`);
 	if (element)
-		element.scrollIntoView({ block: 'nearest' });
+		element.scrollIntoView({ block: position });
 }
 
 /*

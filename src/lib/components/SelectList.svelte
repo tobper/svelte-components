@@ -84,6 +84,11 @@
 			deactivate()
 	}
 
+	export function scroll_to_selected_item() {
+		if (selected_item)
+			scroll_into_view(selected_item.id);
+	}
+
 	let {
 		active_item_id = $bindable(null),
 		empty_text,
