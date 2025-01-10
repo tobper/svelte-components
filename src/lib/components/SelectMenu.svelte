@@ -98,7 +98,7 @@
 	{id}
 	{modal}
 	class={class_menu}
-	visible={(visible && has_options) || !!empty_text}
+	visible={visible && (has_options || !!empty_text)}
 	width="anchor"
 	on_close={() => {
 		visible = false
