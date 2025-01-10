@@ -254,7 +254,7 @@
 			return false;
 
 		select(active_item);
-		return false;
+		return true;
 	}
 
 	// https://stackoverflow.com/a/52171480
