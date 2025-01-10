@@ -61,6 +61,7 @@ export * from './classes.js';
 export * from './css.js';
 export * from './device.js';
 export * from './html.js';
+export * from './logging.js';
 export * from './match.js';
 export * from './media.svelte.js';
 export * from './normalization.js';
