@@ -111,13 +111,14 @@
 			.entries(
 				Object.groupBy(
 					options.map(option => {
+						const heading = options_heading?.(option) ?? '';
 						const value = options_value?.(option) ?? `${option}`;
 						const label = options_label?.(option) ?? value;
-						const item_id = `${id}_${hash(label)}`;
+						const item_id = `${id}_${hash(heading)}_${hash(value)}`;
 
-						return { option, id: item_id, label, value };
+						return { option, id: item_id, heading, label, value };
 					}),
-					({ option }) => options_heading?.(option) ?? ''
+					item => item.heading
 				)
 			)
 			.map(([heading, items = []]) => ({ heading, items }))
@@ -258,10 +259,10 @@
 	}
 
 	// https://stackoverflow.com/a/52171480
-	function hash(value: string, seed = 0) {
+	function hash(source: string, seed = 0) {
 		let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
-		for(let i = 0, ch; i < value.length; i++) {
-			ch = value.charCodeAt(i);
+		for (let i = 0, ch; i < source.length; i++) {
+			ch = source.charCodeAt(i);
 			h1 = Math.imul(h1 ^ ch, 2654435761);
 			h2 = Math.imul(h2 ^ ch, 1597334677);
 		}
