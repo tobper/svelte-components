@@ -80,7 +80,7 @@
 		on_clear,
 		on_select,
 
-		...text_field_Props
+		...text_field_props
 	}: SelectField = $props();
 	
 	export function focus() {
@@ -110,7 +110,7 @@
 	let input_value = $state('');
 	let active_item_id = $state<string | null>(null);
 	let field_element = $state<HTMLElement>();
-	let field_input_element = $state<HTMLElement>();
+	let input_element = $state<HTMLInputElement>();
 	let focused = $state(false);
 	let list = $state<ReturnType<typeof SelectList>>();
 	let menu_visible = $state(false);
@@ -139,10 +139,10 @@
 <TextField
 	bind:this={text_field}
 	bind:field_element
-	bind:field_input_element
+	bind:input_element
 	bind:focused
 	bind:value={input_value}
-	{...text_field_Props}
+	{...text_field_props}
 	{id}
 	aria_activedescendant={list && active_item_id}
 	aria_autocomplete={list && 'list'}
@@ -208,11 +208,19 @@
 			{options_heading}
 			{options_label}
 			{options_value}
-			{on_select}
 			anchor={field_element}
 			class={class_menu}
 			id={menu_id}
-			keyboard_capture={field_input_element}
+			keyboard_capture={input_element}
+			on_select={async option => {
+				on_select?.(option);
+
+				if (device.touch) {
+					// Let effects update input_value and then remove focus
+					await tick();
+					input_element?.blur();
+				}
+			}}
 		/>
 	{/if}
 </TextField>

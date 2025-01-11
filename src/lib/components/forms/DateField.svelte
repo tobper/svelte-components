@@ -53,7 +53,7 @@
 	let calendar = $state<ReturnType<typeof Calendar>>()
 	let focused = $state(false);
 	let field_element = $state<HTMLElement>();
-	let field_input_element = $state<HTMLElement>();
+	let input_element = $state<HTMLInputElement>();
 	let menu_id = $derived(`${id}_menu`);
 	let menu_visible = $state(false);
 	let modal = device.mobile || device.tablet;
@@ -66,7 +66,7 @@
 
 <TextField
 	bind:field_element
-	bind:field_input_element
+	bind:input_element
 	bind:focused
 	bind:value={input_value}
 	{...text_field_props}
@@ -135,7 +135,7 @@
 			{period}
 			{on_select}
 			anchor={field_element}
-			keyboard_capture={field_input_element}
+			keyboard_capture={input_element}
 		/>
 	{/if}
 </TextField>

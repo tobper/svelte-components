@@ -19,7 +19,6 @@
 		autocomplete?: HTMLInputAttributes['autocomplete'];
 		class?: string;
 		field_element?: HTMLElement | undefined;
-		field_input_element?: HTMLElement | undefined;
 		disabled?: boolean;
 		focused?: boolean;
 		input_class?: string;
@@ -67,7 +66,6 @@
 		autocomplete = 'off',
 		class: field_class,
 		field_element = $bindable(),
-		field_input_element = $bindable(),
 		disabled = false,
 		error_hint,
 		errors,
@@ -129,7 +127,7 @@
 	class={field_class}	
 >
 	{#snippet content({ content_id, error_text, loading, in_progress })}
-		<div bind:this={field_input_element} class="field-content" class:skeleton={loading}>
+		<div class="field-content" class:skeleton={loading}>
 			{#if prefix}
 				{@render prefix()}
 			{/if}
