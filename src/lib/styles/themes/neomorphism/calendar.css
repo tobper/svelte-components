@@ -1,6 +1,6 @@
 :where(.theme-neomorphism) {
 	.calendar {
-		.today button {
+		.today {
 			color: var(--palette__secondary-color);
 			font-size: var(--h4__font-size);
 			font-weight: bold;

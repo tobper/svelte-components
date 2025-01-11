@@ -1,10 +1,6 @@
 :where(.theme-lines) {
 	.calendar {
-		button {
-			color: var(--link__color);
-		}
-
-		.today button {
+		.today {
 			color: var(--palette__secondary-color);
 			font-size: var(--h3__font-size);
 			font-weight: bold;
