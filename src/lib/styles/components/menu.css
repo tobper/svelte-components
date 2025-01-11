@@ -1,6 +1,7 @@
 :root {
 	--menu__min-width: 15rem;
 	--menu__transition-duration: var(--transition__duration--fast);
+	--menu__transition-duration: 2s;
 }
 
 .menu {
@@ -34,6 +35,11 @@
 		@supports (anchor-name: --anchor) {
 			width: max(var(--menu__min-width), anchor-size(width));
 		}
+	}
+
+	&.plugin-anchored:not(:popover-open) {
+		display: block;
+		pointer-events: none;
 	}
 }
 

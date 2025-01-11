@@ -19,12 +19,12 @@
 	$effect(() => {
 		const anchor = get_element(anchor_element_or_id);
 		const anchored = get_element(anchored_element_or_id);
-		const strategy = 'absolute'
+		const strategy = 'absolute';
 		const middleware = [
 			autoPlacement({
 				allowedPlacements: anchor_right
 					? ['top-end', 'bottom-end']
-					: ['top-start', 'bottom-start']
+					: ['top-start', 'bottom-start'],
 			}),
 			offset(6),
 			width === 'anchor' && size({
@@ -36,9 +36,17 @@
 			})
 		];
 
+		anchored.classList.add('plugin-anchored');
+		anchored.style.position = strategy;
+
 		updatePosition();
 
-		return autoUpdate(anchor, anchored, updatePosition)
+		const cleanup = autoUpdate(anchor, anchored, updatePosition);
+
+		return () => {
+			anchored.classList.remove('plugin-anchored');
+			cleanup();
+		}
 
 		async function updatePosition() {
 			const result = await computePosition(
@@ -50,7 +58,6 @@
 				}
 			);
 
-			anchored.style.position = strategy;
 			anchored.style.left = `${result.x}px`;
 			anchored.style.top = `${result.y}px`;
 		}

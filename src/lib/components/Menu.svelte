@@ -46,7 +46,7 @@
 		onmouseout?: HTMLElement['onmouseout'];
 	}
 
-	const anchoring_supported = 'anchorName' in document.documentElement.style;
+	const anchoring_supported = 'anchorName' in document.documentElement.style && false;
 
 	let {
 		id = $bindable(unique_id()),
