@@ -17,23 +17,20 @@
 	padding: var(--space__tiny);
 	box-shadow: var(--menu__shadow);
 
-	@supports (anchor-name: --anchor) {
-		inset: auto;
-		margin-top: .5rem;
-		position-area: bottom span-right;
-		position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-	}
+	inset: auto;
+	margin-top: .5rem;
+	/* position-area: bottom span-right; */
+	position: absolute;
+	top: anchor(bottom);
+	left: anchor(left);
+	/* position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline; */
 
 	&.anchor--right {
-		@supports (anchor-name: --anchor) {
-			position-area: bottom span-left;
-		}
+		position-area: bottom span-left;
 	}
 
 	&.anchor--target-width {
-		@supports (anchor-name: --anchor) {
-			width: max(var(--menu__min-width), anchor-size(width));
-		}
+		width: max(var(--menu__min-width), anchor-size(width));
 	}
 }
 

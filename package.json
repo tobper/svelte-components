@@ -37,6 +37,7 @@
 		"svelte": "^5.16.0"
 	},
 	"devDependencies": {
+		"@oddbird/css-anchor-positioning": "^0.4.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/package": "^2.3.7",
 		"@sveltejs/vite-plugin-svelte": "^4.0.4",

@@ -1,11 +1,11 @@
 <script lang="ts">
+	import polyfill from '@oddbird/css-anchor-positioning/fn';
 	import { type Snippet } from 'svelte';
 	import { classes } from '../classes.js';
 	import { get_style, set_style } from '../css.js';
 	import { get_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
-	import AnchorPlugin from './AnchorPlugin.svelte';
-
+	
 	interface Menu {
 		id?: string;
 		/**
@@ -46,8 +46,6 @@
 		onmouseout?: HTMLElement['onmouseout'];
 	}
 
-	const anchoring_supported = 'anchorName' in document.documentElement.style;
-
 	let {
 		id = $bindable(unique_id()),
 		anchor,
@@ -66,15 +64,17 @@
 	let anchor_name = $state<string>();
 
 	$effect(() => {
-		if (anchoring_supported) {
-			const anchor_element = get_element(anchor);
-			anchor_name = get_style(anchor_element, 'anchor-name');
+		const anchor_element = get_element(anchor);
+		anchor_name = get_style(anchor_element, 'anchor-name');
 
-			if (anchor_name === 'none') {
-				anchor_name = `--${unique_id()}`;
-				set_style(anchor_element, 'anchor-name', anchor_name);
-			}
+		if (anchor_name === 'none') {
+			anchor_name = `--${unique_id()}`;
+			set_style(anchor_element, 'anchor-name', anchor_name);
 		}
+
+		polyfill({
+			elements: [element!],
+		});
 	});
 
 	$effect(() => {
@@ -107,7 +107,3 @@
 >
 	{@render children()}
 </div>
-
-{#if !anchoring_supported}
-	<AnchorPlugin {anchor} {anchor_right} anchored={element} {width} />
-{/if}
