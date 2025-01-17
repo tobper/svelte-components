@@ -98,8 +98,8 @@
 	bind:focused
 	{...text_field_props}
 	input_class={classes({
-		'currency__negative': !focused && field_value !== null && field_value < 0,
-		'currency__positive': !focused && field_value !== null && field_value > 0,
+		'text-negative': !focused && field_value !== null && field_value < 0,
+		'text-positive': !focused && field_value !== null && field_value > 0,
 	})}
 	value={input_value}
 	oninput={event => {

@@ -65,7 +65,7 @@
 			</Stack>
 
 			{#if sub_text}
-				<div class="page-header-sub-text truncate">
+				<div class="page-header-sub-text text-truncate">
 					{sub_text}
 				</div>
 			{/if}

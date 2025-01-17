@@ -117,8 +117,30 @@
 	&:nth-child(9) { --transition-delay: calc(8 * var(--staggered-transition-delay)); }
 }
 
-.truncate {
+.text-truncate {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.text-negative {
+	color: var(--palette__text--negative);
+	font-variant-numeric: tabular-nums;
+
+	.inactive & {
+		color: color-mix(in lab, var(--palette__text--negative) 60%, var(--palette__background));
+	}
+}
+
+.text-positive {
+	color: var(--palette__text--positive);
+	font-variant-numeric: tabular-nums;
+
+	.inactive & {
+		color: color-mix(in lab, var(--palette__text--positive) 60%, var(--palette__background));
+	}
+}
+
+.text-weak {
+	color: var(--palette__text--weak);
 }

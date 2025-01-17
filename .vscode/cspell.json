@@ -33,7 +33,8 @@
 				"combobox",
 				"datetime",
 				"haspopup",
-				"radiogroup"
+				"radiogroup",
+				"tabular-nums"
 			]
 		},
 		{
