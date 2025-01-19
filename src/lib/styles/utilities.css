@@ -27,10 +27,12 @@
 	/*
 		Animation
 	*/
+	--transition__duration--medium: .5s;
 	--transition__duration--fast: .25s;
 	--transition__duration--instant: .1s;
 
 	@media (prefers-reduced-motion) {
+		--transition__duration--medium: 0s;
 		--transition__duration--fast: 0s;
 		--transition__duration--instant: 0s;
 	}
