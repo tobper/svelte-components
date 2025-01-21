@@ -14,9 +14,6 @@
 		tainted: false,
 	};
 
-	// Needed to avoid lint error "'Model' is not defined"
-	type Model = object;
-
 	export interface FormContext {
 		/** Default value for fields where it is not explicitly specified */
 		error_hints: NonNullable<FieldProps['error_hint']>;
