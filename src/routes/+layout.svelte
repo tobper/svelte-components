@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Device, device, ElementClickOnMouseDown, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
-	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
+	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSortAscendingNumbers, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = data;
@@ -19,6 +19,7 @@
 		[IconList, 'List'],
 		[IconMenu, 'Menu'],
 		[IconCalendar, 'Calendar'],
+		[IconSortAscendingNumbers, 'Odometer'],
 		[IconForms, 'Form'],
 		[IconTable, 'Table'],
 		[IconAlignJustified, 'Page content'],

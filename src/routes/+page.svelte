@@ -5,6 +5,7 @@
 	import Fields from './Fields.svelte';
 	import Lists from './Lists.svelte';
 	import Menus from './Menus.svelte';
+	import Odometers from './Odometers.svelte';
 	import PageContent from './PageContent.svelte';
 	import Palette from './Palette.svelte';
 	import Tables from './Tables.svelte';
@@ -18,6 +19,7 @@
 <Lists />
 <Menus />
 <Calendars />
+<Odometers />
 <Fields />
 <Tables />
 <PageContent />

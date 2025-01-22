@@ -28,19 +28,28 @@
 			"words": [ "persson" ]
 		},
 		{
+			"filename": "*.{css,svelte}",
+			"words": [
+				"tabular-nums"
+			]
+		},
+		{
 			"filename": "*.css",
 			"words": [
 				"combobox",
 				"datetime",
 				"haspopup",
-				"radiogroup",
-				"tabular-nums"
+				"radiogroup"
 			]
 		},
 		{
 			"filename": "*.svelte",
 			"words": [
 				"onclickcapture",
+				"onintrostart",
+				"onintroend",
+				"onoutrostart",
+				"onoutroend",
 				"popovertarget"
 			]
 		},
