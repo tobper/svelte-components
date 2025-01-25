@@ -1,12 +1,12 @@
 import { untrack } from 'svelte';
 import { seconds } from './time.js';
 
-const durations = {
+export const durations = {
 	short: seconds(0.75),
 	long: seconds(5),
 } as const;
 
-type Duration = keyof typeof durations;
+export type Duration = keyof typeof durations;
 
 export interface DelayTimer {
 	/** Indicates whether the timer was started and has expired. */
@@ -18,10 +18,14 @@ export interface DelayTimer {
 }
 
 export function delayed_timer(
-	duration: Duration | number = 'short'
+	duration: Duration | number = 'short',
+	on_delayed?: () => void
 ): DelayTimer {
-	const duration_time = typeof duration === 'number' ? duration : durations[duration];
-	const timeout = timer(duration_time, () => delayed = true);
+	const timeout = timer(get_duration(duration), () => {
+		delayed = true;
+		on_delayed?.();
+	});
+
 	let delayed = $state(false);
 
 	return {
@@ -54,11 +58,11 @@ export interface Timer {
  * Creates a timeout in a stopped state
  *
  * @param time The time to wait before it expires
- * @param action The action to call when the timer expires
+ * @param on_expired The action to call when the timer expires
  */
 export function timer(
-	time: number,
-	action: () => void
+	duration: Duration | number,
+	on_expired: () => void
 ): Timer {
 	let timeout = $state<ReturnType<typeof setTimeout>>();
 
@@ -77,15 +81,21 @@ export function timer(
 		start() {
 			if (timeout)
 				clearTimeout(timeout);
-	
-			timeout = setTimeout(on_expired, time);
+
+			timeout = setTimeout(timeout_handler, get_duration(duration));
 		},
 	};
 
-	function on_expired() {
+	function timeout_handler() {
 		timeout = undefined;
-		action();
+		on_expired();
 	}
+}
+
+function get_duration(duration: Duration | number): number {
+	return typeof duration === 'number'
+		? duration
+		: durations[duration];
 }
 
 export function async_value_map<K, T>(
@@ -313,10 +323,20 @@ export function async_derived<S extends AsyncDerivedSource, T>(
 
 export function is_promise(value: unknown): value is Promise<unknown> {
 	return (
-	  !!value &&
-	  (typeof value === 'object' || typeof value === 'function') &&
-	  'then' in value &&
-	  typeof value.then === 'function'
+		!!value &&
+		(typeof value === 'object' || typeof value === 'function') &&
+		'then' in value &&
+		typeof value.then === 'function'
 	)
- }
- 
+}
+
+export type ReactiveBoolean = ReactiveValue<boolean>;
+export type ReactiveNumber = ReactiveValue<number>;
+export type ReactiveString = ReactiveValue<string>;
+export type ReactiveValue<T extends string | number | boolean> = T | { current: T };
+
+export function reactive_value<T extends string | number | boolean>(value: ReactiveValue<T>): T {
+	return typeof value === 'object'
+		? value.current
+		: value;
+}
