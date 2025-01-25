@@ -1,9 +1,5 @@
 .form {
 	display: contents;
-
-	> footer {
-		justify-content: flex-end;
-	}
 }
 
 .form-error {

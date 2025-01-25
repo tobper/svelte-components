@@ -1,20 +1,21 @@
 <script lang="ts">
+    import { reactive_value, type ReactiveBoolean } from '$lib/reactivity.svelte';
     import type { Snippet } from 'svelte';
 
 	interface Stack {
 		children: Snippet;
 		class?: string;
-		content?: 'center' | 'normal' | 'spread' | 'stretch';
+		justify?: 'start' | 'end' | 'center' | 'spread' | 'stretch';
 		gap?: boolean | 'none' |  'tiny' | 'small' | 'medium' | 'default' | 'large'
-		horizontal?: boolean;
-		reversed?: boolean;
-		wrap?: boolean;
+		horizontal?: ReactiveBoolean;
+		reversed?: ReactiveBoolean;
+		wrap?: ReactiveBoolean;
 	}
 
 	let {
 		children,
 		class: element_class,
-		content = 'normal',
+		justify = 'start',
 		gap = true,
 		horizontal = false,
 		reversed = false,
@@ -29,16 +30,17 @@
 	'gap-medium': gap === 'medium',
 	'gap-large': gap === 'large',
 
-	'stack--content-center': content === 'center',
-	'stack--content-spread': content === 'spread',
-	'stack--content-stretch': content === 'stretch',
+	'stack--justify-start': justify === 'start',
+	'stack--justify-end': justify === 'end',
+	'stack--justify-center': justify === 'center',
+	'stack--justify-spread': justify === 'spread',
+	'stack--justify-stretch': justify === 'stretch',
 
-	'stack--horizontal': horizontal && !reversed,
-	'stack--horizontal-reversed': horizontal && reversed,
-	'stack--vertical': !horizontal && !reversed,
-	'stack--vertical-reversed': !horizontal && reversed,
+	'stack--horizontal': reactive_value(horizontal),
+	'stack--vertical': !reactive_value(horizontal),
+	'stack--reversed': reactive_value(reversed),
 
-	'stack--wrap': wrap,
+	'stack--wrap': reactive_value(wrap),
 }]}>
 	{@render children()}
 </div>
@@ -48,33 +50,40 @@
 		display: flex;
 	}
 
-	.stack--content-center {
+	.stack--justify-start {
+		justify-content: start;
+	}
+
+	.stack--justify-end {
+		justify-content: end;
+	}
+
+	.stack--justify-center {
 		justify-content: center;
 	}
 
-	.stack--content-spread {
+	.stack--justify-spread {
 		justify-content: space-between;
 	}
 
-	.stack--content-stretch {
+	.stack--justify-stretch {
 		justify-content: stretch;
 	}
 
 	.stack--horizontal {
 		align-items: center;
-	}
 
-	.stack--horizontal-reversed {
-		align-items: center;
-		flex-direction: row-reverse;
+		&.stack--reversed {
+			flex-direction: row-reverse;
+		}
 	}
 
 	.stack--vertical {
 		flex-direction: column;
-	}
 
-	.stack--vertical-reversed {
-		flex-direction: column-reverse;
+		&.stack--reversed {
+			flex-direction: column-reverse;
+		}
 	}
 
 	.stack--wrap {

@@ -113,4 +113,24 @@
 	hr {
 		margin-bottom: var(--space__small);
 	}
+
+	&.card-footer--justify-start {
+		justify-content: flex-start;
+	}
+
+	&.card-footer--justify-end {
+		justify-content: flex-end;
+	}
+
+	&.card-footer--justify-center {
+		justify-content: flex-center;
+	}
+
+	&.card-footer--justify-spread {
+		justify-content: flex-spread;
+	}
+
+	&.card-footer--justify-stretch {
+		justify-content: flex-stretch;
+	}
 }
