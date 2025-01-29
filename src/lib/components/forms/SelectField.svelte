@@ -97,7 +97,7 @@
 		}
 	});
 	const { delayed, loaded } = $derived(async_options);
-	const options = $derived(async_options.value);
+	const options = $derived(async_options.current);
 	const modal_options_limit = 6
 	const modal = $derived(
 		device.touch &&

@@ -98,14 +98,27 @@ function get_duration(duration: Duration | number): number {
 		: durations[duration];
 }
 
+export interface AsyncValueMap<K, T> {
+	get(key: K): AsyncReadonlyValue<T>;
+	has(key: K): boolean;
+	set(key: K, new_value: T | Promise<T>): void;
+	reset(): void;
+	update(updater: (key: K) => (current_value: T) => T): void;
+}
+
+export interface AsyncValueMapOptions<K, T> {
+	on_error?: (error: Error, key: K) => void;
+	on_update?: (value: T, key: K) => T;
+	on_updated?: (value: T, key: K) => void,
+}
+
 export function async_value_map<K, T>(
 	initial_value: T,
 	// loader: (key: K) => Promise<T>,
-	options?: {
-		on_update?: (value: T) => T
-	}
-) {
+	options?: AsyncValueMapOptions<K, T>
+): AsyncValueMap<K, T> {
 	const values_map = new Map<K, ReturnType<typeof async_value<T>>>();
+	const { on_error, on_update, on_updated } = options ?? {};
 
 	return {
 		get(key: K): AsyncReadonlyValue<T> {
@@ -116,7 +129,7 @@ export function async_value_map<K, T>(
 			console.warn(`Value have not been loaded for ${key}`);
 
 			return {
-				value: initial_value,
+				current: initial_value,
 				delayed: false,
 				loading: false,
 				loading_error: null,
@@ -143,7 +156,19 @@ export function async_value_map<K, T>(
 			let values = values_map.get(key);
 
 			if (!values) {
-				values = async_value(initial_value, options);
+				values = async_value(initial_value, {
+					on_error(error) {
+						on_error?.(error, key)
+					},
+					on_update(value) {
+						return on_update
+							? on_update(value, key)
+							: value
+					},
+					on_updated(value) {
+						on_updated?.(value, key)
+					},
+				});
 				values_map.set(key, values);
 			}
 
@@ -167,20 +192,26 @@ export interface AsyncValue<T> {
 	readonly delayed: boolean;
 	readonly loaded: boolean;
 	readonly loading: boolean;
-	readonly loading_error: string | null;
-	readonly value: T;
+	readonly loading_error: Error | null;
+	readonly current: T;
 	as_readonly(): AsyncReadonlyValue<T>,
 	reset(): void,
 	set(new_value: T | Promise<T>): void,
-	update(updater: (current_value: T) => T): void
+	update(updater: (current_value: T) => T | Promise<T>): void
+}
+
+export interface AsyncValueOptions<T> {
+	on_error?: (value: Error) => void,
+	on_update?: (value: T) => T,
+	on_updated?: (value: T) => void,
 }
 
 export interface AsyncReadonlyValue<T> {
 	readonly delayed: boolean;
 	readonly loaded: boolean;
 	readonly loading: boolean;
-	readonly loading_error: string | null;
-	readonly value: T;
+	readonly loading_error: Error | null;
+	readonly current: T;
 }
 
 type AsyncDerivedSource =
@@ -195,17 +226,14 @@ type AsyncDerivedSourceValues<T> =
 
 export function async_value<T>(
 	initial_value: T,
-	options?: {
-		on_update?: (value: T) => T,
-		on_updated?: (value: T) => void,
-	}
+	options?: AsyncValueOptions<T>
 ): AsyncValue<T> {
 	const { on_update, on_updated } = options ?? {};
 	const loading_timer = delayed_timer();
 	let loaded = $state(false);
 	let loading = $state(false);
-	let loading_error = $state<string | null>(null);
-	let value = $state<T>(initial_value);
+	let loading_error = $state<Error | null>(null);
+	let current = $state<T>(initial_value);
 	let active_promise: Promise<T> | null = null;
 
 	return {
@@ -213,7 +241,7 @@ export function async_value<T>(
 		get loaded() { return loaded; },
 		get loading() { return loading; },
 		get loading_error() { return loading_error; },
-		get value() { return value; },
+		get current() { return current; },
 		as_readonly,
 		reset,
 		set,
@@ -226,7 +254,7 @@ export function async_value<T>(
 			get loaded() { return loaded; },
 			get loading() { return loading; },
 			get loading_error() { return loading_error; },
-			get value() { return value; },
+			get current() { return current; },
 		};
 	}
 
@@ -237,7 +265,7 @@ export function async_value<T>(
 			loaded = false;
 			loading = false;
 			loading_error = null;
-			value = initial_value;
+			current = initial_value;
 		});
 	}
 
@@ -256,11 +284,12 @@ export function async_value<T>(
 						if (active_promise === new_value)
 							set(resolved_value);
 					})
-					.catch(reason => {
+					.catch(error => {
 						// Ignore result if another promise has been set after this one
 						if (active_promise === new_value) {
 							reset();
-							loading_error = `${reason}`;
+							loading_error = error instanceof Error ? error : new Error(`${error}`);
+							options?.on_error?.(error);
 						}
 					});
 			}
@@ -270,7 +299,7 @@ export function async_value<T>(
 				loaded = true;
 				loading = false;
 				loading_error = null;
-				value = on_update
+				current = on_update
 					? on_update(new_value)
 					: new_value;
 
@@ -280,8 +309,8 @@ export function async_value<T>(
 		});
 	}
 
-	function update(updater: (current_value: T) => T) {
-		set(updater(value));
+	function update(updater: (current_value: T) => T | Promise<T>) {
+		set(updater(current));
 	}
 }
 
@@ -296,7 +325,7 @@ export function async_derived<S extends AsyncDerivedSource, T>(
 		const loading_error = $derived(source.find(s => !!s.loading_error)?.loading_error ?? null);
 		const mapped_value = $derived(
 			mapper(
-				source.map(s => s.value) as AsyncDerivedSourceValues<S>
+				source.map(s => s.current) as AsyncDerivedSourceValues<S>
 			)
 		);
 
@@ -305,11 +334,11 @@ export function async_derived<S extends AsyncDerivedSource, T>(
 			get loaded() { return loaded; },
 			get loading() { return loading; },
 			get loading_error() { return loading_error; },
-			get value() { return mapped_value; },
+			get current() { return mapped_value; },
 		};
 	}
 
-	const source_value = source.value as AsyncDerivedSourceValues<S>;
+	const source_value = source.current as AsyncDerivedSourceValues<S>;
 	const mapped_value = $derived(mapper(source_value));
 
 	return {
@@ -317,7 +346,7 @@ export function async_derived<S extends AsyncDerivedSource, T>(
 		get loaded() { return source.loaded; },
 		get loading() { return source.loading; },
 		get loading_error() { return source.loading_error; },
-		get value() { return mapped_value; },
+		get current() { return mapped_value; },
 	}
 }
 
@@ -333,7 +362,7 @@ export function is_promise(value: unknown): value is Promise<unknown> {
 export type ReactiveBoolean = ReactiveValue<boolean>;
 export type ReactiveNumber = ReactiveValue<number>;
 export type ReactiveString = ReactiveValue<string>;
-export type ReactiveValue<T extends string | number | boolean> = T | { current: T };
+export type ReactiveValue<T> = T | { current: T };
 
 export function reactive_value<T extends string | number | boolean>(value: ReactiveValue<T>): T {
 	return typeof value === 'object'
