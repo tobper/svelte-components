@@ -4,7 +4,7 @@
 	--layout__padding-left: max(2rem, env(safe-area-inset-left));
 	--layout__padding-right: max(2rem, env(safe-area-inset-right));
 
-	--layout-sidebar__gutter: var(--space__large);
+	--layout-sidebar__gutter: var(--space__xx-large);
 
 	--layout-content__padding-bottom: 2rem;
 

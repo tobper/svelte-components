@@ -39,6 +39,10 @@ h3 {
 	color: var(--h3__color);
 	font-size: var(--h3__font-size);
 	line-height: 1.75rem;
+
+	&.emphasis {
+		--h3__font-size: var(--h2__font-size);
+	}
 }
 
 h4 {

@@ -71,8 +71,8 @@
 
 .page-sub-header {
 	/* Position */
-	padding-top: var(--space__large);
-	padding-bottom: var(--space__tiny);
+	padding-top: var(--space__x-large);
+	padding-bottom: var(--space__medium);
 
 	.page-header + & {
 		padding-top: 0;

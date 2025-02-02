@@ -4,6 +4,7 @@
 
 	interface PageHeader {
 		class?: string;
+		emphasis?: boolean;
 		text?: string;
 		sub_text?: string;
 		children?: Snippet;
@@ -11,15 +12,16 @@
 
 	let {
 		class: header_class,
+		emphasis = false,
 		text,
 		sub_text,
 		children,
 	}: PageHeader = $props();
 </script>
 
-<header class={classes('page-sub-header', header_class)}>
+<header class={classes('page-sub-header', header_class, { 'variant-secondary': emphasis })}>
 	<div class="text">
-		<h3>
+		<h3 class={{ emphasis }}>
 			{text}
 		</h3>
 
