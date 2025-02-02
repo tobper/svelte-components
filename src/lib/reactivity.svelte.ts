@@ -100,13 +100,16 @@ function get_duration(duration: Duration | number): number {
 
 export interface AsyncValueMap<K, T> {
 	get(key: K): AsyncReadonlyValue<T>;
+	getOrAdd(key: K, load: (key: K) => Promise<T>): AsyncReadonlyValue<T>;
 	has(key: K): boolean;
-	set(key: K, new_value: T | Promise<T>): void;
+	preload(key: K): void;
+	set(key: K, new_value: T | Promise<T>): AsyncReadonlyValue<T>;
 	reset(): void;
 	update(updater: (key: K) => (current_value: T) => T): void;
 }
 
 export interface AsyncValueMapOptions<K, T> {
+	load?: (key: K) => Promise<T>,
 	on_error?: (error: Error, key: K) => void;
 	on_update?: (value: T, key: K) => T;
 	on_updated?: (value: T, key: K) => void,
@@ -114,78 +117,98 @@ export interface AsyncValueMapOptions<K, T> {
 
 export function async_value_map<K, T>(
 	initial_value: T,
-	// loader: (key: K) => Promise<T>,
 	options?: AsyncValueMapOptions<K, T>
 ): AsyncValueMap<K, T> {
 	const values_map = new Map<K, ReturnType<typeof async_value<T>>>();
-	const { on_error, on_update, on_updated } = options ?? {};
+	const { load, on_error, on_update, on_updated } = options ?? {};
 
-	return {
-		get(key: K): AsyncReadonlyValue<T> {
-			const value = values_map.get(key);
-			if (value)
-				return value.as_readonly();
+	return { get, getOrAdd, has, preload, set, reset, update };
 
-			console.warn(`Value have not been loaded for ${key}`);
+	function get(key: K): AsyncReadonlyValue<T> {
+		const value = values_map.get(key);
+		if (value)
+			return value.as_readonly();
 
-			return {
-				current: initial_value,
-				delayed: false,
-				loading: false,
-				loading_error: null,
-				loaded: false,
-			}
-		},
+		if (load)
+			return set(key, load(key));
 
-		// async load(key: K) {
-		// 	if (values_map.has(key))
-		// 		return;
+		console.warn(`Value have not been loaded for ${key}`);
 
-		// 	const values = async_value(initial_value, options);
-
-		// 	values_map.set(key, values);
-
-		// 	await values.set(loader(key));
-		// },
-
-		has(key: K) {
-			return values_map.has(key);
-		},
-
-		set(key: K, new_value: T | Promise<T>) {
-			let values = values_map.get(key);
-
-			if (!values) {
-				values = async_value(initial_value, {
-					on_error(error) {
-						on_error?.(error, key)
-					},
-					on_update(value) {
-						return on_update
-							? on_update(value, key)
-							: value
-					},
-					on_updated(value) {
-						on_updated?.(value, key)
-					},
-				});
-				values_map.set(key, values);
-			}
-
-			return values.set(new_value);
-		},
-
-		reset() {
-			values_map.forEach(value => value.reset());
-			values_map.clear();
-		},
-
-		update(updater: (key: K) => (current_value: T) => T) {
-			values_map.forEach((value, key) =>
-				value.update(updater(key))
-			);
+		return {
+			current: initial_value,
+			delayed: false,
+			loading: false,
+			loading_error: null,
+			loaded: false,
 		}
-	};
+	}
+
+	function getOrAdd(key: K, load: (key: K) => Promise<T>): AsyncReadonlyValue<T> {
+		const value = values_map.get(key);
+
+		return value
+			? value.as_readonly()
+			: set(key, load(key));
+	}
+
+	function has(key: K): boolean {
+		return values_map.has(key);
+	}
+
+	// async function load(key: K) {
+	// 	if (values_map.has(key))
+	// 		return;
+
+	// 	const values = async_value(initial_value, options);
+
+	// 	values_map.set(key, values);
+
+	// 	await values.set(loader(key));
+	// }
+
+	function preload(key: K): void {
+		if (!load)
+			throw new Error(`Value can only be preloaded when a load function has been specified`);
+
+		get(key);
+	}
+
+	function set(key: K, new_value: T | Promise<T>): AsyncReadonlyValue<T> {
+		let value = values_map.get(key);
+
+		if (!value) {
+			value = async_value(initial_value, {
+				on_error(error) {
+					on_error?.(error, key)
+				},
+				on_update(value) {
+					return on_update
+						? on_update(value, key)
+						: value
+				},
+				on_updated(value) {
+					on_updated?.(value, key)
+				},
+			});
+
+			values_map.set(key, value);
+		}
+
+		value.set(new_value);
+
+		return value.as_readonly();
+	}
+
+	function reset(): void {
+		values_map.forEach(value => value.reset());
+		values_map.clear();
+	}
+
+	function update(updater: (key: K) => (current_value: T) => T): void {
+		values_map.forEach((value, key) =>
+			value.update(updater(key))
+		);
+	}
 }
 
 export interface AsyncValue<T> {
@@ -364,8 +387,13 @@ export type ReactiveNumber = ReactiveValue<number>;
 export type ReactiveString = ReactiveValue<string>;
 export type ReactiveValue<T> = T | { current: T };
 
-export function reactive_value<T extends string | number | boolean>(value: ReactiveValue<T>): T {
-	return typeof value === 'object'
+export function reactive_value<T>(value: ReactiveValue<T>): T {	
+	const is_reactive =
+		value &&
+		typeof value === 'object' &&
+		'current' in value;
+
+	return is_reactive
 		? value.current
 		: value;
 }
