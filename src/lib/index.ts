@@ -21,6 +21,10 @@ export { default as ListItemSeparator } from './components/ListItemSeparator.sve
 export { default as ListItemText } from './components/ListItemText.svelte';
 export { default as Loading } from './components/Loading.svelte';
 export { default as Menu } from './components/Menu.svelte';
+export { default as MenuItem } from './components/MenuItem.svelte';
+export { default as MenuItemHeading } from './components/MenuItemHeading.svelte';
+export { default as MenuItemOption } from './components/MenuItemOption.svelte';
+export { default as MenuItemSeparator } from './components/MenuItemSeparator.svelte';
 export { default as Odometer } from './components/Odometer.svelte';
 export { default as PageContent } from './components/PageContent.svelte';
 export { default as PageHeader } from './components/PageHeader.svelte';

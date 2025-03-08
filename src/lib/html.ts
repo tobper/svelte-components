@@ -66,6 +66,37 @@ export function scroll_into_view(
 }
 
 /*
+	Register multiple event listeners on an element
+*/
+export function on<Element extends HTMLElement>(
+	element: Element,
+	handler_map: {
+		[Type in keyof HTMLElementEventMap]?: (this: Element, event: HTMLElementEventMap[Type]) => void;
+	}
+) {
+	const handlers = Object.entries(handler_map) as [type: string, handler: EventListener][];
+	const listeners = handlers.map(([event_type, handler]) => {
+		element.addEventListener(event_type, handler);
+
+		return {
+			remove() {
+				element.removeEventListener(event_type, handler);
+			}
+		}
+	});
+
+	return function remove_event_listeners() {
+		listeners.forEach(listener =>
+			listener.remove()
+		);
+	};
+}
+
+export type ElementReference<T extends HTMLElement = HTMLElement> =
+	| string
+	| T;
+
+/*
 	Element query
 */
 export function assert_element<T>(element: T): asserts element is NonNullable<T>;
@@ -96,13 +127,26 @@ export function get_button_element(selector: string) {
 	return ensure_type(selector, element, HTMLButtonElement);
 }
 
-export function get_element(element_or_id: string | HTMLElement) {
-	if (element_or_id instanceof HTMLElement)
-		return element_or_id;
+export function get_element<T extends HTMLElement>(element: ElementReference<T>): T
+export function get_element(parent_element: HTMLElement, element_id: string): HTMLElement
+export function get_element(
+	...args:
+		| [element_or_id: ElementReference]
+		| [parent_element: HTMLElement, element_id: string]
+) {
+	const [parent_element, element_or_id] = args.length === 1
+		? [document, args[0]]
+		: args;
 
-	const element = document.querySelector(`#${element_or_id}`);
+	if (typeof element_or_id === 'string') {
+		const selector = `#${element_or_id}`;
+		const element = parent_element.querySelector(selector);
 
-	return ensure_type(element_or_id, element, HTMLElement);
+		return ensure_type(selector, element, HTMLElement);
+	}
+
+	return element_or_id;
+
 }
 
 function ensure_type<T>(

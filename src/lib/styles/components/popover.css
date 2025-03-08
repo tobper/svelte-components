@@ -1,0 +1,67 @@
+:root {
+	--popover__transition-duration: var(--transition__duration--fast);
+}
+
+.popover {
+	/* body:has(&:popover-open) {
+		overflow:  hidden;
+		overscroll-behavior: contain;
+	} */
+
+	/* Appearance */
+	&:not(:popover-open) {
+		display: none;
+	}
+
+	/* Ensure menu items can be clicked when everything else is disabled */
+	&:popover-open {
+		pointer-events: all;
+	}
+
+	.layout:has(&:popover-open) {
+		pointer-events: none;
+	}
+}
+
+@supports (anchor-name: --anchor) {
+	.popover {
+		inset: auto;
+		margin-top: .5rem;
+		position-area: bottom span-right;
+		position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+		overscroll-behavior: contain;
+
+		&.anchor--right {
+			position-area: bottom span-left;
+		}
+	
+		&.anchor--match-width {
+			width: max(var(--menu__min-width), anchor-size(width));
+		}
+	}
+}
+
+.popover--modal::backdrop {
+	--menu-backdrop__blur: 0;
+	--menu-backdrop__opacity: 0;
+
+	backdrop-filter: blur(var(--menu-backdrop__blur));
+	background-color: rgb(0 0 0 / var(--menu-backdrop__opacity));
+
+	transition-behavior: allow-discrete;
+	transition-duration: var(--popover__transition-duration);
+	transition-property: backdrop-filter, background-color, display, overlay;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.popover--modal:popover-open::backdrop {
+	--menu-backdrop__blur: .5px;
+	--menu-backdrop__opacity: 25%;
+}
+
+@starting-style {
+	.popover--modal:popover-open::backdrop {
+		--menu-backdrop__blur: 0;
+		--menu-backdrop__opacity: 0;
+	}
+}
