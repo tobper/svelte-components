@@ -48,15 +48,17 @@
 		...text_field_props
 	}: DateField = $props();
 
+	const calendar_id = $derived(`${id}_calendar`);
+	const menu_id = $derived(`${id}_menu`);
+	const modal = device.mobile || device.tablet;
+
 	let input_value = $state('');
 	let active_item_id = $state<string | null>(null);
 	let calendar = $state<ReturnType<typeof Calendar>>()
 	let focused = $state(false);
 	let field_element = $state<HTMLElement>();
 	let input_element = $state<HTMLInputElement>();
-	let menu_id = $derived(`${id}_menu`);
 	let menu_visible = $state(false);
-	let modal = device.mobile || device.tablet;
 
 	// Always update input value when selected date changes
 	$effect.pre(() => {
@@ -72,7 +74,7 @@
 	{...text_field_props}
 	{id}
 	aria_activedescendant={calendar && active_item_id}
-	aria_controls={calendar && menu_id}
+	aria_controls={calendar && calendar_id}
 	aria_expanded={calendar && menu_visible}
 	aria_haspopup={calendar && 'menu'}
 	readonly={readonly || modal}
@@ -84,16 +86,9 @@
 	oninput={() => {
 		menu_visible = true;
 
-		if (input_value === '') {
-			selected_date = null;
-		}
-		else {
-			const input_date = try_parse_date_only(input_value);
-			if (input_date)
-				selected_date = input_date;
-			else
-				calendar?.activate(null);
-		}
+		const input_date = try_parse_date_only(input_value);
+		if (input_date)
+			selected_date = input_date;
 	}}
 	on_clear={() => {
 		menu_visible = false;
@@ -125,17 +120,20 @@
 		<CalendarIcon />
 	{/snippet}
 
-	{#if field_element && !readonly}
+	{#if input_element && !readonly}
 		<CalendarMenu
 			bind:active_item_id
 			bind:calendar
-			bind:selected_date
+			bind:date={selected_date}
 			bind:visible={menu_visible}
-			{modal}
+			{calendar_id}
 			{period}
-			{on_select}
-			anchor={field_element}
-			keyboard_capture={input_element}
+			controlled_by={input_element}
+			id={menu_id}
+			on_select={new_date => {
+				menu_visible = false;
+				on_select?.(new_date);
+			}}
 		/>
 	{/if}
 </TextField>

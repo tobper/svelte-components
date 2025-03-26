@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { type ElementReference } from '$lib/html.js';
 	import {
 	    add_days,
 	    add_months,
@@ -12,21 +13,16 @@
 	    get_previous_period,
 	    is_same_date,
 	    period_contains_date,
+	    to_date,
 	    week_days_short,
 	    type DateOnly,
 	    type Period
 	} from '@tobper/eon';
 	import { tick, untrack } from 'svelte';
-	import { classes } from '../classes.js';
 	import { unique_id } from '../unique_id.js';
-	import Button from './Button.svelte';
 	import EventHandler from './EventHandler.svelte';
 	import ChevronLeftIcon from './icons/ChevronLeftIcon.svelte';
 	import ChevronRightIcon from './icons/ChevronRightIcon.svelte';
-	import List from './List.svelte';
-	import ListItemHeading from './ListItemHeading.svelte';
-	import ListItemOption from './ListItemOption.svelte';
-	import ListItemText from './ListItemText.svelte';
 
 	interface Calendar {
 		/**
@@ -43,14 +39,10 @@
 		 */
 		class?: string;
 		/**
-		 * Determines if it should be possible to tab to the list.  
-		 * Set this to false when displayed in combobox menus.
+		 * A calendar controller by another element cannot receive focus and
+		 * keyboard handlers for navigation are attached to the controlling element.
 		 */
-		focusable?: boolean;
-		/**
-		 * Element to attach navigation keyboard events to.
-		 */
-		keyboard_capture?: HTMLElement | string;
+		controlled_by?: ElementReference;
 		/**
 		 * The period currently being displayed.
 		 */
@@ -58,61 +50,47 @@
 		/**
 		 * The currently selected date.
 		 */
-		selected_date?: DateOnly | null;
+		date?: DateOnly | null;
 		/**
 		 * Callback is called when a date is selected.
 		 */
 		on_select?: (new_date: DateOnly) => void;
 	}
 
+	const aria_label_format: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
 	const today = get_date_today();
 
 	let {
 		id = $bindable(unique_id()),
 		active_item_id = $bindable(null),
-		focusable = true,
-		keyboard_capture,
-		selected_date = $bindable(null),
+		controlled_by,
+		date: selected_date = $bindable(null),
 
 		on_select,
 
 		...props
 	}: Calendar = $props();
 
+	let listbox_element = $state<HTMLElement>();
+
 	/** The date currently highlighted */
-	let active_date = $state(selected_date);
+	let active_date = $state<DateOnly | null>(null);
 
 	/** The period currently being displayed */
 	let active_period = $state(props.period ?? get_period_for_date(selected_date ?? today, 1));
 
-	/** Used to determine the start of the period when it is based on a date (active/selected/today) */
-	let period_first_day = $derived(active_period.first_day.day);
+	const active_period_contains_today = $derived(period_contains_date(active_period, today));
+	const can_focus = $derived(!controlled_by);
+	const visible_dates = $derived(get_calendar_dates(active_period));
+	const header_text = $derived(get_calendar_month_text(active_period));
 
-	/** Active period contains today */
-	let active_period_contains_today = $derived(period_contains_date(active_period, today));
-
-	/** Dates to display */
-	let dates = $derived(get_calendar_dates(active_period));
-
-	/** Text to display in the header */
-	let header = $derived(get_calendar_month_text(active_period));
-
-	// Update active period and deactivate date when selected date is updated
+	// Update active date and period when selected date is updated
 	$effect.pre(() => {
 		const date = selected_date;
 
 		untrack(() => {
-			deactivate();
-			activate_period(date)
-		});
-	});
-
-	// Update active period when active date is updated
-	$effect.pre(() => {
-		const date = active_date;
-
-		untrack(() => {
-			activate_period(date)
+			activate(date);
+			goto_period_for_date(date)
 		});
 	});
 
@@ -123,87 +101,145 @@
 	}
 
 	function handle_key_down(event: KeyboardEvent) { 
-		const modifier = event.ctrlKey;
+		const { key, ctrlKey } = event;
 
-		switch (event.key) {
+		switch (key) {
 			case 'ArrowLeft':
-				if (modifier)
+				event.preventDefault();
+
+				if (ctrlKey)
 					activate_previous_month();
 				else
 					activate_previous_day();
-				event.preventDefault();
+
+				goto_period_for_date(active_date);
 				break;
 
 			case 'ArrowRight':
-				if (modifier)
+				event.preventDefault();
+
+				if (ctrlKey)
 					activate_next_month();
 				else
 					activate_next_day();
-				event.preventDefault();
+
+				goto_period_for_date(active_date);
 				break;
 
 			case 'ArrowUp':
-				if (modifier)
+				event.preventDefault();
+
+				if (ctrlKey)
 					activate_previous_month();
 				else
 					activate_previous_week();
-				event.preventDefault();
+
+				goto_period_for_date(active_date);
 				break;
 
 			case 'ArrowDown':
-				if (modifier)
+				event.preventDefault();
+
+				if (ctrlKey)
 					activate_next_month();
 				else
 					activate_next_week();
-				event.preventDefault();
+
+				goto_period_for_date(active_date);
 				break;
 
-			case 'Home':
-				activate_first_of_month();
-				event.preventDefault();
-				break;
-
-			case 'End':
-				activate_last_of_month();
-				event.preventDefault();
+			case 'Enter':
+				select_active_date();
 				break;
 
 			case 'Escape':
-				deactivate();
+				activate_selected_date();
 				break;
 
 			case 'Tab':
 				select_active_date();
 				break;
+
+			case ' ':
+				if (!controlled_by) {
+					event.preventDefault();
+					select_active_date();
+				}
+				break;
 		}
 	}
 
-
-	// Visible month
-
-	function goto_next_month() {
-		active_period = get_next_period(active_period);
+	function has_focus() {
+		return listbox_element
+			? listbox_element.matches(':focus, :focus-within')
+			: false;
 	}
 
-	function goto_previous_month() {
-		active_period = get_previous_period(active_period);
+	function refocus() {
+		if (!can_focus)
+			return;
+
+		const active_element = document.querySelector<HTMLElement>(`#${active_item_id}`);
+
+		(active_element ?? listbox_element)?.focus();
 	}
 
+
+	// Visible period
+
+	function goto_next_period() {
+		activate_period(
+			get_next_period(active_period)
+		);
+	}
+
+	function goto_previous_period() {
+		activate_period(
+			get_previous_period(active_period)
+		);
+	}
+
+	function goto_period_for_date(date: DateOnly | null) {
+		if (!date)
+			return;
+
+		activate_period(
+			get_period_for_date(date, active_period.first_day.day)
+		);
+	}
+
+	async function activate_period(period: Period) {
+		// TODO: Replace with is_same_period
+		if (is_same_date(period.first_day, active_period.first_day))
+			return;
+
+		active_period = period;
+
+		// Keep track of focused state since updating DOM will remove focus from an active option
+		const focused = has_focus();
+
+		// Ensure focus is contained in component to prevent onfocusout handler from resetting active date
+		if (focused)
+			listbox_element?.focus();
+
+		// Wait for DOM update
+		await tick();
+
+		if (!active_date || !period_contains_date(period, active_date))
+			activate_selected_date();
+
+		if (focused)
+			refocus();
+	}
 
 	// Activated date
 
-	function activate_period(date: DateOnly | null) {
-		if (date)
-			active_period = get_period_for_date(date, period_first_day);
-	}
-
 	export async function activate(new_date: DateOnly | null) {
-		// Allow new period to be rendered before activating list item
-		if (new_date && !period_contains_date(active_period, new_date))
-			await tick();
-
 		active_date = new_date;
 		active_item_id = active_date && get_item_id(active_date);
+
+		if (has_focus())
+			refocus();
 	}
 
 	function activate_previous_day() {
@@ -236,16 +272,11 @@
 		activate(base_date ? add_months(base_date, 1) : (active_period_contains_today ? today : active_period.first_day));
 	}
 
-	function activate_first_of_month() {
-		activate(active_period.first_day);
-	}
-
-	function activate_last_of_month() {
-		activate(active_period.last_day);
-	}
-
-	function deactivate() {
-		activate(null);
+	function activate_selected_date() {
+		if (selected_date && period_contains_date(active_period, selected_date))
+			activate(selected_date);
+		else
+			activate(null);
 	}
 
 	// Selected date
@@ -265,90 +296,117 @@
 	
 	function select_date(date_to_select: DateOnly) {
 		selected_date = date_to_select;
-		activate(date_to_select);
 		on_select?.(selected_date);
 	}
 </script>
  
 <div
-	class={classes('calendar variant-primary', props.class)}
 	{id}
+	class={['calendar variant-primary', props.class]}
+	onfocusout={event => {
+		const focused_element = event.relatedTarget;
+		const option_focused =
+			focused_element instanceof Node &&
+			listbox_element?.contains(focused_element);
+
+		if (!option_focused)
+			activate_selected_date();
+	}}
 >
 	<header>
-		{header}
+		{header_text}
 
 		<div class="button-group">
-			<Button
-				{focusable}
-				onclick={goto_previous_month}
-				small
+			<button
+				class="button-outlined button--round button--small"
 				title="Previous month"
-				type="outlined"
+				tabindex={can_focus ? 0 : -1}
+				type="button"
+				onclick={
+					goto_previous_period
+				}
 			>
-				{#snippet icon()}
+				<span class="button-icon">
 					<ChevronLeftIcon />
-				{/snippet}
-			</Button>
-			<Button
-				{focusable}
-				onclick={goto_next_month}
-				small
+				</span>
+			</button>
+			<button
+				class="button-outlined button--round button--small"
 				title="Next month"
-				type="outlined"
+				tabindex={can_focus ? 0 : -1}
+				type="button"
+				onclick={
+					goto_next_period
+				}
 			>
-				{#snippet icon()}
+				<span class="button-icon">
 					<ChevronRightIcon />
-				{/snippet}
-			</Button>
+				</span>
+			</button>
 		</div>
 	</header>
 
-	<List
-		bind:active_item_id
-		{focusable}
-		aria_label="Calendar dates"
-		onkeydown={handle_key_down}
+	<!-- svelte-ignore a11y_mouse_events_have_key_events -->
+	<div
+		bind:this={listbox_element}
+		aria-label="Dates"
+		class={''}
+		role="listbox"
+		tabindex={can_focus ? (active_item_id ? -1 : 0) : undefined}
+		onkeydown={
+			handle_key_down
+		}
+		onmouseout={() => {
+			activate_selected_date();
+		}}
 	>
 		{#each week_days_short as week_day}
-			<ListItemHeading>
+			<div role="heading" aria-level="4">
 				{week_day}
-			</ListItemHeading>
+			</div>
 		{/each}
 
-		{#each dates as { same_month, weekend, ...date }}
-			{#if same_month}
-				{@const date_is_active = !!active_date && is_same_date(date, active_date)}
-				{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
-				{@const date_is_today = same_month && is_same_date(date, today)}
-				{@const item_id = get_item_id(date)}
+		{#each visible_dates as { same_month, weekend, ...date }}
+			{@const date_is_active = !!active_date && is_same_date(date, active_date)}
+			{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
+			{@const date_is_today = same_month && is_same_date(date, today)}
+			{@const item_id = get_item_id(date)}
 
-				<ListItemOption
-					id={item_id}
-					class={classes({ today: date_is_today })}
-					contrast={weekend}
-					current={date_is_active}
-					selected={date_is_selected}
-					text={`${date.day}`}
-					on_activate={() =>
-						activate(date)
-					}
-					on_deactivate={() =>
-						deactivate()
-					}
-					on_select={() =>
-						select_date(date)
-					}
-				/>
-			{:else}
-				<ListItemText>
-					{date.day}
-				</ListItemText>
-			{/if}
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<div
+				aria-current={date_is_active ? true : undefined}
+				aria-selected={date_is_selected ? true : undefined}
+				aria-label={to_date(date).toLocaleDateString('en', aria_label_format)}
+				class={[{
+					'background-contrast': weekend,
+					'text-weak': !same_month,
+					'today': date_is_today,
+				}]}
+				id={item_id}
+				role="option"
+				tabindex={can_focus ? (date_is_active ? 0 : -1) : undefined}
+				onclick={() => {
+					select_date(date)
+				}}
+				onmouseover={() => {
+					activate(date);
+				}}
+			>
+				{date.day}
+			</div>
 		{/each}
-	</List>
+	</div>
 </div>
 
 <EventHandler
-	element={keyboard_capture}
+	element={controlled_by}
 	onkeydown={handle_key_down}
 />
+
+<style>
+	[role=listbox] {
+		&:focus-visible {
+			box-shadow: var(--shadow__focus);
+		}
+	}
+</style>

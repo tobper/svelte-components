@@ -19,7 +19,6 @@
 <script lang="ts">
 	import type { ElementReference } from '$lib/html.js';
 	import { type Snippet } from 'svelte';
-	import { classes } from '../classes.js';
 	import { unique_id } from '../unique_id.js';
 	import { anchor, anchoring_supported } from './anchor.js';
 	import AnchorPlugin from './AnchorPlugin.svelte';
@@ -96,10 +95,11 @@
 	}}
 	{...element_props}
 	{id}
-	class={classes('menu popover', menu_class)}
-	class:popover--fade={animation === 'fade'}
-	class:popover--slide={animation === 'slide'}
-	class:popover--modal={modal}
+	class={['menu popover', menu_class, {
+		'popover--fade': animation === 'fade',
+		'popover--slide': animation === 'slide',
+		'popover--modal': modal,
+	}]}
 	role="menu"
 	popover="auto"
 	ontoggle={event => {

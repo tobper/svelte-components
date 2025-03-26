@@ -46,15 +46,21 @@
 						<CurrencyField bind:value={currency_value} label="Currency" required>
 							{#snippet suffix_icon()}kr{/snippet}
 						</CurrencyField>
-						<output>Value: {currency_value === null ? 'null' : currency_value}</output>
+						<output>
+							Value: {currency_value === null ? 'null' : currency_value}
+						</output>
 					</div>
 					<div class="field-with-output">
 						<DateField bind:value={date_value} label="Date" required />
-						<output>Value: {date_value === null ? 'null' : get_date_only_key(date_value)}</output>
+						<output>
+							Value: {date_value === null ? 'null' : get_date_only_key(date_value)}
+						</output>
 					</div>
 					<div class="field-with-output">
 						<DateListField bind:dates={dates_value} label="Date list" required />
-						<output>Value: {dates_value.map(get_date_only_key).join(', ')}</output>
+						<output>
+							Value: {dates_value.map(get_date_only_key).join(', ')}
+						</output>
 					</div>
 					<div class="field-with-output">
 						<SelectField
@@ -64,7 +70,9 @@
 							required
 							type="select"
 						/>
-						<output>Value: {select_few_value ? select_few_value : '-'}</output>
+						<output>
+							Value: {select_few_value ? select_few_value : '-'}
+						</output>
 					</div>
 					<div class="field-with-output">
 						<SelectField
@@ -76,7 +84,9 @@
 							required
 							type="select"
 						/>
-						<output>Value: {select_many_value ?? '-'}</output>
+						<output>
+							Value: {select_many_value ?? '-'}
+						</output>
 					</div>
 					<div class="field-with-output">
 						<SelectField
@@ -86,7 +96,9 @@
 							required
 							type="autocomplete"
 						/>
-						<output>Value: {auto_complete_value ? auto_complete_value : '-'}</output>
+						<output>
+							Value: {auto_complete_value ? auto_complete_value : '-'}
+						</output>
 					</div>
 					<CheckboxField label="Checkbox" />
 				</div>
@@ -220,10 +232,5 @@
 
 	.error {
 		margin-top: 1rem;
-	}
-
-	output {
-		font-style: italic;
-		opacity: 60%;
 	}
 </style>

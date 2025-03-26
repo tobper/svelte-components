@@ -12,15 +12,6 @@
 	&:not(:popover-open) {
 		display: none;
 	}
-
-	/* Ensure menu items can be clicked when everything else is disabled */
-	&:popover-open {
-		pointer-events: all;
-	}
-
-	.layout:has(&:popover-open) {
-		pointer-events: none;
-	}
 }
 
 @supports (anchor-name: --anchor) {
@@ -36,8 +27,19 @@
 		}
 	
 		&.anchor--match-width {
-			width: max(var(--menu__min-width), anchor-size(width));
+			min-width: max(anchor-size(width), var(--menu__min-width));
 		}
+	}
+}
+
+.popover--modal {
+	/* Disable events on everything but the modal popover */
+	&:popover-open {
+		pointer-events: all;
+	}
+
+	body:has(&:popover-open) {
+		pointer-events: none;
 	}
 }
 

@@ -1,9 +1,9 @@
 :root {
-	--calendar-button__size: 3rem;
+	--calendar-option__size: 3rem;
 }
 
 .device-touch {
-	--calendar-button__size: 3.5rem;
+	--calendar-option__size: 3.5rem;
 }
 
 .calendar {
@@ -11,7 +11,11 @@
 	flex-direction: column;
 	row-gap: 0.5rem;
 
-	> header {
+	/* Interaction */
+	cursor: default;
+	user-select: none;
+
+	header {
 		/* Layout */
 		padding-left: var(--space__small);
 
@@ -21,30 +25,49 @@
 		justify-content: space-between;
 	}
 
-	.select-list {
+	[role=listbox] {
 		/* Content */
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		gap: 0px;
 	}
 
-	.list-item-heading,
-	.list-item-text {
-		padding: 0;
+	[role=heading] {
+		/* Layout */
+		letter-spacing: var(--list-item-heading__letter-spacing);
+		line-height: var(--space__large);
+
+		/* Appearance */
+		color: var(--list-item-heading__color);
+		font-size: var(--list-item-heading__font-size);
+
+		/* Content */
 		text-align: center;
 	}
 
-	.list-item-option {
-		min-width: var(--calendar-button__size);
-		height: var(--calendar-button__size);
-		padding: 0;
+	[role=option] {
+		/* Layout */
+		min-width: var(--calendar-option__size);
+		min-height: var(--calendar-option__size);
+		border-radius: .15rem;
 
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		/* Content */
+		align-content: center;
+		text-align: center;
+
+		/* Interaction */
+		cursor: pointer;
 	}
 
-	.list-item-text {
-		color: transparent;
+	[role=presentation] {
+		color: var(--palette__text--weak);
+	}
+
+	[aria-current] {
+		background-color: var(--list-item__background-color--active);
+	}
+
+	[aria-selected] {
+		background-color: var(--list-item__background-color--selected);
 	}
 }

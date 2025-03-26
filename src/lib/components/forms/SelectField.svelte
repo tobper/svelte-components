@@ -126,12 +126,12 @@
 		list_element?.togglePopover(list?.visible);
 	});
 
-	// Always update input value when selected value changes
+	// Always update input value when bound value changes
 	$effect.pre(() => {
 		input_text = bound_value ?? '';
 	});
 
-	// Always expose input value as selected for auto complete fields	
+	// Always expose input value as bound for auto complete fields	
 	$effect.pre(() => {
 		if (type === 'autocomplete')
 			bound_value = input_text || null;
@@ -287,7 +287,7 @@
 		list?.close();
 	}}
 >
-	{#if list && input_element}
+	{#if input_element && list && list.items.length > 0}
 		<div
 			bind:this={list_element}
 			use:anchor={{
@@ -322,8 +322,8 @@
 					<!-- svelte-ignore a11y_click_events_have_key_events -->
 					<!-- svelte-ignore a11y_mouse_events_have_key_events -->
 					<div
-						aria-current={item === list.active_item}
-						aria-selected={type === 'select' && item.value === bound_value}
+						aria-current={item === list.active_item ? true : undefined}
+						aria-selected={type === 'select' && item.value === bound_value ? true : undefined}
 						id={item.id}
 						onclick={() => {
 							select(item);
@@ -374,6 +374,7 @@
 	}
 
 	[role=heading] {
+		cursor: default;
 		color: var(--list-item-heading__color);
 		font-size: var(--list-item-heading__font-size);
 		letter-spacing: var(--list-item-heading__letter-spacing);
@@ -385,11 +386,15 @@
 		min-height: var(--space__x-large);
 	}
 
+	[role=option] {
+		cursor: pointer;
+	}
+
 	[role=separator] {
 		padding: var(--space__tiny) 0;
 	}
 
-	[aria-current=true] {
+	[aria-current] {
 		background-color: var(--list-item__background-color--active);
 	}
 </style>
