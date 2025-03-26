@@ -29,7 +29,6 @@ export { default as Odometer } from './components/Odometer.svelte';
 export { default as PageContent } from './components/PageContent.svelte';
 export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as PageSubHeader } from './components/PageSubHeader.svelte';
-export { default as PopoverButton } from './components/PopoverButton.svelte';
 export { default as SelectList } from './components/SelectList.svelte';
 export { default as SelectMenu } from './components/SelectMenu.svelte';
 export { default as SidebarToggleButton } from './components/SidebarToggleButton.svelte';
