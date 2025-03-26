@@ -1,3 +1,8 @@
+.theme-neomorphism {
+	--field-input__padding-left: .75rem;
+	--field-input__padding-right: .75rem;
+}
+
 :where(.theme-neomorphism) {
 	&.scheme-light {
 		--field__background: color-mix(in lab, var(--panel__background-color), black 2%);
@@ -26,9 +31,6 @@
 	}
 
 	.field-input {
-		--field-input__padding-left: .75rem;
-		--field-input__padding-right: .75rem;
-
 		input[type=checkbox] {
 			/* Margins + checkbox height of (1.25rem) should match height (3rem) of input-fields */
 			margin-top: 1rem;
