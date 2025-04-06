@@ -138,15 +138,23 @@ input[type=search]::-webkit-search-cancel-button {
 	display: flex;
 
 	/* Adjust layout of buttons */
-	:where(&) button {
-		padding-inline: var(--field-button__padding-inline);
+	button {
+		font-weight: normal;
 		height: auto;
+		min-height: calc(
+			var(--field-input__height) + 
+			var(--field-input__padding-block) * 2
+		);
+		gap: var(--space__tiny);
+		padding-inline: var(--field-button__padding-inline);
 	}
 
 	.field-clear {
 		height: 100%;
 		margin: 0;
 	}
+
+	flex-wrap: wrap;
 }
 
 .field-input {
@@ -191,6 +199,7 @@ input[type=search]::-webkit-search-cancel-button {
 	flex: 1;
 	box-sizing: content-box;
 	min-height: var(--field-input__height);
+	min-width: 5rem;
 	padding-block: var(--field-input__padding-block);
 	padding-left: calc(
 		var(--field-value__padding-left) +

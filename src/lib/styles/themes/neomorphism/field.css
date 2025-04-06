@@ -27,6 +27,11 @@
 		button {
 			margin: 3px;
 			border-radius: .15rem;
+			min-height: calc(
+				var(--field-input__height) + 
+				2 * var(--field-input__padding-block) -
+				2 * 3px
+			);
 		}
 	}
 

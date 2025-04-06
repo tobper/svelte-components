@@ -12,6 +12,10 @@
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
+		/**
+		 * The reference to the element that is controlling the calendar.
+		 */
+		anchored_to?: ElementReference;
 		calendar?: ReturnType<typeof Calendar>,
 		calendar_id?: string;
 		/**
@@ -48,6 +52,7 @@
 
 	let {
 		active_item_id = $bindable(null),
+		anchored_to,
 		calendar = $bindable(),
 		calendar_id = $bindable(unique_id()),
 		class: class_menu,
@@ -70,7 +75,7 @@
 <div
 	bind:this={element}
 	use:anchor={{
-		anchor: controlled_by,
+		anchor: anchored_to ?? controlled_by,
 		match_width: true,
 	}}
 	class={['menu popover popover--fade', class_menu, {

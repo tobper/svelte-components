@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, DateListField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
-	import { get_date_only_key, type DateOnly } from '@tobper/eon';
+	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
 	import { find_fruit, food, get_food_heading } from './data.js';
 
 	let form_loading = $state(false);
@@ -10,8 +10,8 @@
 	let select_many_value = $state<string | null>(null);
 	let auto_complete_value = $state<string | null>(null);
 	let currency_value = $state<number | null>(null);
-	let date_value = $state<DateOnly | null>(null);
-	let dates_value = $state<DateOnly[]>([]);
+	let date_value = $state<DateOnly | null>(get_date_today());
+	let dates_value = $state<DateOnly[]>([get_date_today()]);
 
 	let form = $state({
 		name: '',
@@ -57,7 +57,7 @@
 						</output>
 					</div>
 					<div class="field-with-output">
-						<DateListField bind:dates={dates_value} label="Date list" required />
+						<DateField bind:value={dates_value} label="Date list" required />
 						<output>
 							Value: {dates_value.map(get_date_only_key).join(', ')}
 						</output>
@@ -121,7 +121,7 @@
 				<div class="fields">
 					<TextField label="Name" loading placeholder="Placeholder" required bind:value={form.name} />
 					<TextField label="Category" bind:value={form.category} />
-					<DateListField label="Date list" required bind:dates={form.dates} />
+					<DateField label="Date list" required bind:value={form.dates} />
 					<SelectField
 						bind:value={form.select}
 						label="Select"
