@@ -3,8 +3,7 @@
 	import { type ComponentProps } from 'svelte';
 	import { device } from '../../device.js';
 	import { unique_id } from '../../unique_id.js';
-	import { anchor, anchoring_supported } from '../anchor.js';
-	import AnchorPlugin from '../AnchorPlugin.svelte';
+	import { anchor } from '../anchor.js';
 	import { create_list, type ListItemOption } from '../list.svelte.js';
 	import SelectList from '../SelectList.svelte';
 	import TextField from './TextField.svelte';
@@ -341,14 +340,6 @@
 		</div>
 	{/if}
 </TextField>
-
-{#if !anchoring_supported && input_element && list_element}
-	<AnchorPlugin
-		anchor={input_element}
-		anchored={list_element}
-		width="anchor"
-	/>
-{/if}
 
 <style>
 	.menu {

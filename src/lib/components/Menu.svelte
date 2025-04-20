@@ -20,8 +20,7 @@
 	import type { ElementReference } from '$lib/html.js';
 	import { type Snippet } from 'svelte';
 	import { unique_id } from '../unique_id.js';
-	import { anchor, anchoring_supported } from './anchor.js';
-	import AnchorPlugin from './AnchorPlugin.svelte';
+	import { anchor } from './anchor.js';
 	import { menu_handlers } from './menu.js';
 
 	interface Menu {
@@ -114,7 +113,3 @@
 >
 	{@render children()}
 </div>
-
-{#if !anchoring_supported && trigger}
-	<AnchorPlugin anchor={trigger} {anchor_right} anchored={element} {width} />
-{/if}
