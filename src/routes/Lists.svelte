@@ -31,10 +31,4 @@
 			min-width: 100%;
 		}
 	}
-
-	output {
-		display: block;
-		font-style: italic;
-		opacity: 60%;
-	}
 </style>

@@ -1,5 +1,5 @@
 /* Animation */
-.menu {
+.popover {
 	opacity: 0;
 
 	transition-behavior: allow-discrete;
@@ -7,12 +7,12 @@
 	transition-property: opacity, display, overlay;
 }
 
-.menu:popover-open {
+.popover:popover-open {
 	opacity: 1;
 }
 
 @starting-style {
-	.menu:popover-open {
+	.popover:popover-open {
 		opacity: 0;
 	}
 }

@@ -3,11 +3,18 @@
 	--list__max-items: 10;
 
 	--list-item__min-height: calc(1.5rem + 2 * .75rem);
-	--list-item__padding: .75rem 1rem;
+	--list-item__padding-block: .75rem;
+	--list-item__padding-inline: 1rem;
+	--list-item__padding: var(--list-item__padding-block) var(--list-item__padding-inline);
 	--list-item__background-color--active: var(--palette__neutral-background);
 	--list-item__background-color--selected: var(--palette__primary-background);
 	--list-item__text-color: var(--palette__text);
 	--list-item__text-color--selected: var(--palette__text--inverted);
+
+	--list-item-heading__color: var(--palette__text--weak);
+	--list-item-heading__font-size: .8rem;
+	--list-item-heading__line-height: 2rem;
+	--list-item-heading__letter-spacing: .1em;
 
 	--list-menu__padding: var(--space__tiny);
 }
@@ -47,13 +54,12 @@
 
 .list-item-heading {
 	padding-inline: 1rem;
-	padding-block: .25rem;
 
 	/* Appearance */
-	color: var(--table-header__color);
-	letter-spacing: var(--table-header__letter-spacing);
-	line-height: 1.5rem;
-	font-size: .8rem;
+	color: var(--list-item-heading__color);
+	letter-spacing: var(--list-item-heading__letter-spacing);
+	line-height: var(--list-item-heading__line-height);
+	font-size: var(--list-item-heading__font-size);
 }
 
 .list-item-link {

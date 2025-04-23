@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Device, device, ElementClickOnMouseDown, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
+	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
 	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSortAscendingNumbers, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
@@ -28,7 +28,7 @@
 	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
 </script>
 
-<ElementClickOnMouseDown />
+<!-- <ElementClickOnMouseDown /> -->
 
 <svelte:head>
 	<title>Components · {available_themes.find(({ name }) => name === current_theme)!.text}</title>

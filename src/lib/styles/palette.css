@@ -98,12 +98,20 @@
 	--palette__error-contrast: color-mix(in lab, var(--palette__error), var(--palette__contrast) 40%);
 }
 
-.scheme-light,
-.scheme-dark {
+.scheme-light {
 	--palette__opacity--strong: 87%;
 	--palette__opacity--weak: 60%;
 	--palette__opacity--disabled: 38%;
+}
 
+.scheme-dark {
+	--palette__opacity--strong: 95%;
+	--palette__opacity--weak: 50%;
+	--palette__opacity--disabled: 38%;
+}
+
+.scheme-light,
+.scheme-dark {
 	--palette__text: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--strong));
 	--palette__text--weak: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--weak));
 	--palette__text--disabled: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--disabled));

@@ -47,6 +47,7 @@
 
 	hr {
 		margin-top: var(--space__small);
+		width: 100%;
 	}
 }
 

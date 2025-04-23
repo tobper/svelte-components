@@ -21,13 +21,15 @@ export { default as ListItemSeparator } from './components/ListItemSeparator.sve
 export { default as ListItemText } from './components/ListItemText.svelte';
 export { default as Loading } from './components/Loading.svelte';
 export { default as Menu } from './components/Menu.svelte';
+export { default as MenuItem } from './components/MenuItem.svelte';
+export { default as MenuItemHeading } from './components/MenuItemHeading.svelte';
+export { default as MenuItemOption } from './components/MenuItemOption.svelte';
+export { default as MenuItemSeparator } from './components/MenuItemSeparator.svelte';
 export { default as Odometer } from './components/Odometer.svelte';
 export { default as PageContent } from './components/PageContent.svelte';
 export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as PageSubHeader } from './components/PageSubHeader.svelte';
-export { default as PopoverButton } from './components/PopoverButton.svelte';
 export { default as SelectList } from './components/SelectList.svelte';
-export { default as SelectMenu } from './components/SelectMenu.svelte';
 export { default as SidebarToggleButton } from './components/SidebarToggleButton.svelte';
 export { default as Stack } from './components/Stack.svelte';
 export { default as Theme } from './components/Theme.svelte';
@@ -43,7 +45,6 @@ export { default as CheckboxField } from './components/forms/CheckboxField.svelt
 export { default as CheckButton } from './components/forms/CheckButton.svelte';
 export { default as CurrencyField } from './components/forms/CurrencyField.svelte';
 export { default as DateField } from './components/forms/DateField.svelte';
-export { default as DateListField } from './components/forms/DateListField.svelte';
 export { default as Field } from './components/forms/Field.svelte';
 export { default as Form } from './components/forms/Form.svelte';
 export { default as FormCancelButton } from './components/forms/FormCancelButton.svelte';

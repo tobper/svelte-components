@@ -1,10 +1,10 @@
 <script lang="ts">
+	import type { ElementReference } from '$lib/html.js';
 	import type { DateOnly, Period } from '@tobper/eon';
-	import { device } from '../device.js';
 	import { unique_id } from '../unique_id.js';
+	import { anchor } from './anchor.js';
 	import Calendar from './Calendar.svelte';
 	import EventHandler from './EventHandler.svelte';
-	import Menu from './Menu.svelte';
 
 	interface CalendarMenu {
 		/**
@@ -12,30 +12,37 @@
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
-		anchor: string | HTMLElement;
+		/**
+		 * The reference to the element that is controlling the calendar.
+		 */
+		anchored_to?: ElementReference;
 		calendar?: ReturnType<typeof Calendar>,
+		calendar_id?: string;
 		/**
 		 * Class to apply to the menu element.
 		 */
 		class?: string;
+		/**
+		 * The reference to the element that is controlling the calendar.
+		 */
+		controlled_by: ElementReference;
+		/**
+		 * The currently selected date.
+		 */
+		date?: DateOnly | null;
+		/**
+		 * The menu element.
+		 */
 		element?: HTMLElement;
 		/**
 		 * The element id of the menu.
 		 */
 		id?: string;
-		/**
-		 * Element to attach navigation keyboard events to.
-		 */
-		keyboard_capture?: HTMLElement | string;
 		modal?: boolean;
 		/**
 		 * The period currently being displayed.
 		 */
 		period?: Period | null;
-		/**
-		 * The currently selected date.
-		 */
-		selected_date?: DateOnly | null;
 		visible?: boolean;
 		/**
 		 * Callback is called when a date is selected.
@@ -45,63 +52,77 @@
 
 	let {
 		active_item_id = $bindable(null),
-		anchor,
+		anchored_to,
 		calendar = $bindable(),
+		calendar_id = $bindable(unique_id()),
 		class: class_menu,
+		controlled_by,
 		element = $bindable(),
 		id = $bindable(unique_id()),
-		keyboard_capture,
 		modal,
 		period,
-		selected_date = $bindable(null),
+		date = $bindable(null),
 		visible = $bindable(false),
 
 		on_select,
 	}: CalendarMenu = $props();
+
+	$effect(() => {
+		element?.togglePopover(visible);
+	});
 </script>
 
-<Menu
-	bind:element
-	bind:visible
-	{anchor}
+<div
+	bind:this={element}
+	use:anchor={{
+		anchor: anchored_to ?? controlled_by,
+		match_width: true,
+	}}
+	class={['menu popover popover--fade', class_menu, {
+		'popover--modal': modal,
+	}]}
 	{id}
-	{modal}
-	class={class_menu}
-	width={device.mobile ? 'anchor' : 'content'}
+	popover="manual"
+	role="menu"
+	tabindex="-1"
 >
 	<Calendar
 		bind:this={calendar}
 		bind:active_item_id
-		bind:selected_date
-		focusable={modal}
-		keyboard_capture={visible ? keyboard_capture : undefined}
+		bind:date
+		bind:id={calendar_id}
 		{period}
+		controlled_by={visible ? controlled_by : undefined}
 		on_select={new_date => {
 			visible = false;
 			on_select?.(new_date);
 		}}
 	/>
-</Menu>
+</div>
 
 <EventHandler
-	element={keyboard_capture}
+	element={controlled_by}
 	onkeydown={event => {
-		if (visible) {
-			switch (event.key) {
-				case 'Enter':
-					if (calendar?.select_active_date())
-						event.preventDefault();
-					break;
-			}
-		}
-		else {
-			switch (event.key) {
-				case 'ArrowDown':
-				case 'ArrowUp':
-					visible = true;
+		switch (event.key) {
+			case 'ArrowDown':
+			case 'ArrowUp':
+				if (!visible) {
 					event.preventDefault();
-					break;
-			}
+					visible = true;
+				}
+				break;
+
+			case 'Enter':
+				if (calendar?.select_active_date())
+					event.preventDefault();
+				break;
+
+
+			case 'Escape':
+				event.preventDefault();
+				visible = false;
+				break;
 		}
 	}}
 />
+

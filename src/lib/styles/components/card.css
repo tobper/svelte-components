@@ -112,6 +112,7 @@
 
 	hr {
 		margin-bottom: var(--space__small);
+		width: 100%;
 	}
 
 	&.card-footer--justify-start {

@@ -10,6 +10,7 @@
 @import './neomorphism/menu.css';
 @import './neomorphism/page.css';
 @import './neomorphism/panel.css';
+@import './neomorphism/popover.css';
 @import './neomorphism/swap.css';
 
 .theme-neomorphism {

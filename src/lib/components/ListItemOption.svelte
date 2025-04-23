@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { classes } from '$lib/classes.js';
+	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
 	import { get_list_context } from './List.svelte';
 	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte';
 
 	interface ListItemOption extends ListItemContentProps {
 		id?: string;
-		class?: string;
+		class?: ClassValue;
 		contrast?: boolean;
 		current?: boolean;
 		selected?: boolean;
@@ -40,7 +40,7 @@
 	{id}
 	aria-current={current ? true : undefined}
 	aria-selected={selected ? true : undefined}
-	class={classes('list-item-option', li_class)}
+	class={['list-item-option', li_class]}
 	class:contrast
 	onclick={() => on_select?.()}
 	onmouseover={() => {

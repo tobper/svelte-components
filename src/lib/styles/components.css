@@ -10,6 +10,7 @@
 @import './components/list.css';
 @import './components/menu.css';
 @import './components/page.css';
+@import './components/popover.css';
 @import './components/separator.css';
 @import './components/skeleton.css';
 @import './components/status.css';

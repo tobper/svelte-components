@@ -1,22 +1,30 @@
+<script lang="ts" module>
+	import { getContext, setContext } from 'svelte';
+
+	const context_key = Symbol('Menu');
+
+	export interface MenuContext {
+		close(): void;
+	}
+
+	export function get_menu_context() {
+		return getContext<MenuContext>(context_key);
+	}
+
+	function set_menu_context(state: MenuContext) {
+		return setContext(context_key, state);
+	}
+</script>
+
 <script lang="ts">
+	import type { ElementReference } from '$lib/html.js';
 	import { type Snippet } from 'svelte';
-	import { classes } from '../classes.js';
-	import { get_style, set_style } from '../css.js';
-	import { get_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
-	import AnchorPlugin from './AnchorPlugin.svelte';
+	import { anchor } from './anchor.js';
+	import { menu_handlers } from './menu.js';
 
 	interface Menu {
 		id?: string;
-		/**
-		 * Element to anchor the menu to.  
-		 * The menu will be positioned near the anchor and sized to at the least the same width as the anchor.
-		 */
-		anchor: string | HTMLElement;
-		/**
-		 * Anchor menu to the right side instead of the left.
-		 */
-		anchor_right?: boolean;
 		/**
 		 * Animation to trigger when opening and closing menu.
 		 */
@@ -41,17 +49,16 @@
 		 * Callback is called when menu is opened.
 		 */
 		on_open?: () => void;
-		onkeydown?: HTMLElement['onkeydown'];
-		onmouseover?: HTMLElement['onmouseover'];
-		onmouseout?: HTMLElement['onmouseout'];
+		/**
+		 * Element to attach the the menu to.  
+		 * The menu will be anchored to the trigger and sized to at the least the same width as the trigger.
+		 * Click and key handlers will be attached to the trigger.
+		 */
+		trigger: ElementReference;
 	}
-
-	const anchoring_supported = 'anchorName' in document.documentElement.style;
 
 	let {
 		id = $bindable(unique_id()),
-		anchor,
-		anchor_right,
 		animation = 'fade',
 		class: menu_class,
 		element = $bindable(),
@@ -61,21 +68,15 @@
 		children,
 		on_close,
 		on_open,
-		...dialog_props
+		trigger,
+		...element_props
 	}: Menu = $props();
-	let anchor_name = $state<string>();
 
-	$effect(() => {
-		if (anchoring_supported) {
-			const anchor_element = get_element(anchor);
-			anchor_name = get_style(anchor_element, 'anchor-name');
-
-			if (anchor_name === 'none') {
-				anchor_name = `--${unique_id()}`;
-				set_style(anchor_element, 'anchor-name', anchor_name);
-			}
+	set_menu_context({
+		close() {
+			visible = false;
 		}
-	});
+	})
 
 	$effect(() => {
 		element!.togglePopover(visible);
@@ -84,18 +85,22 @@
 
 <div
 	bind:this={element}
-	{...dialog_props}
+	use:anchor={{
+		anchor: trigger,
+		match_width: width === 'anchor',
+	}}
+	use:menu_handlers={{
+		trigger
+	}}
+	{...element_props}
 	{id}
-	class={classes('menu', menu_class)}
-	class:anchor--right={anchor_right}
-	class:anchor--target-width={width === 'anchor'}
-	class:menu--fade={animation === 'fade'}
-	class:menu--slide={animation === 'slide'}
-	class:modal
+	class={['menu popover', menu_class, {
+		'popover--fade': animation === 'fade',
+		'popover--slide': animation === 'slide',
+		'popover--modal': modal,
+	}]}
 	role="menu"
 	popover="auto"
-	tabindex="-1"
-	style:position-anchor={anchor_name}
 	ontoggle={event => {
 		visible = event.newState === 'open';
 
@@ -104,10 +109,7 @@
 		else
 			on_open?.();
 	}}
+	tabindex="-1"
 >
 	{@render children()}
 </div>
-
-{#if !anchoring_supported}
-	<AnchorPlugin {anchor} {anchor_right} anchored={element} {width} />
-{/if}

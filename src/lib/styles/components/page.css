@@ -56,7 +56,7 @@
 	.device-desktop &,
 	.device-tablet & {
 		/* Move header to same level as card header if a card is following this */
-		&:has(~ .card) {
+		&.page-header-card-aligned:has(~ .card) {
 			padding-left: calc(var(--page-content__padding-left) + var(--card__padding-left));
 			padding-right: calc(var(--page-content__padding-right) + var(--card__padding-right));
 		}
@@ -80,7 +80,7 @@
 
 	.device-desktop &,
 	.device-tablet & {
-		&:has(~ .card) {
+		&.page-header-card-aligned:has(~ .card) {
 			padding-left: var(--card__padding-left);
 			padding-right: var(--card__padding-right);
 		}

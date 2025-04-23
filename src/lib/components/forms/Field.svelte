@@ -56,7 +56,7 @@
 >
 	{#if label}
 		<div class="field-label">
-			<span>{label}</span>
+			<label for={content_id}>{label}</label>
 		
 			{#if !required}
 				<span class="field-label-optional">(optional)</span>
