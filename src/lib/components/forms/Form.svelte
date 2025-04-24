@@ -90,8 +90,8 @@
 		children?: Snippet;
 		content?: Snippet<[FormContext]>;
 
-		on_failure?: (failure: FormFailure) => void;
-		on_success?: (result?: Model) => void;
+		on_failure?: (failure: FormFailure) => Promise<void> | void;
+		on_success?: (result?: Model) => Promise<void> | void;
 	}
 
 	export function reset() {
@@ -225,9 +225,9 @@
 
 					if (result.type === 'success')
 						// handle_success('data' in result ? result.data : undefined);
-						handle_success(undefined);
+						await handle_success(undefined);
 					else
-						handle_failure(result);
+						await handle_failure(result);
 				}
 				finally {
 					submitting = false;
@@ -240,7 +240,7 @@
 			submitting = true;
 			timer.start();
 
-			return function handle_submit_response({ result }) {
+			return async function handle_submit_response({ result }) {
 				timer.reset()
 
 				// Act as if we're still submitting while redirecting
@@ -254,25 +254,25 @@
 
 				if (result.type === 'success') {
 					const updated_model = result.data as Model | undefined;
-					handle_success(updated_model);
+					await handle_success(updated_model);
 				}
 
 				applyAction(result);
 			}
 
-			function handle_failure(result?: FormFailure) {
+			async function handle_failure(result?: FormFailure) {
 				error_message = result?.error_message ?? '';
 				field_errors = result?.field_errors ?? {};
 
-				on_failure?.({ error_message, field_errors });
+				await on_failure?.({ error_message, field_errors });
 			}
 
-			function handle_success(updated_model: Model | undefined) {
+			async function handle_success(updated_model: Model | undefined) {
 				if (model && updated_model)
 					model = updated_model;
 
 				reset_tainted();
-				on_success?.(updated_model);
+				await on_success?.(updated_model);
 			}
 		}
 	}
