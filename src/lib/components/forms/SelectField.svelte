@@ -238,13 +238,10 @@
 				break;
 
 			case 'Enter':
-				if (list.visible) {
+				if (list.active_item) {
 					event.preventDefault();
-
-					if (list.active_item) {
-						select(list.active_item);
-						list.close();
-					}
+					select(list.active_item);
+					list.close();
 				}
 				break;
 
