@@ -70,7 +70,7 @@
 	}
 
 	/* Focused */
-	.supports-hover &:focus-visible {
+	.supports-hover &:focus {
 		background-color: var(--list-item__background-color--active);
 	}
 }

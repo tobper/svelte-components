@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.2.9",
+	"version": "0.2.10",
 	"description": "Svelte components",
 	"license": "MIT",
 	"author": "Tobias Persson",
