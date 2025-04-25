@@ -299,7 +299,7 @@
 		on_select?.(selected_date);
 	}
 </script>
- 
+
 <div
 	{id}
 	class={['calendar variant-primary', props.class]}

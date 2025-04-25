@@ -113,7 +113,7 @@
 				break;
 
 			case 'Enter':
-				if (calendar?.select_active_date())
+				if (visible && calendar?.select_active_date())
 					event.preventDefault();
 				break;
 
