@@ -1,5 +1,6 @@
 <script lang="ts" generics="Option">
 	import { scroll_into_view } from '$lib/html.js';
+	import type { Source } from '$lib/reactivity.svelte.js';
 	import { type ComponentProps } from 'svelte';
 	import { device } from '../../device.js';
 	import { unique_id } from '../../unique_id.js';
@@ -8,7 +9,7 @@
 	import SelectList from '../SelectList.svelte';
 	import TextField from './TextField.svelte';
 
-	type OptionsSource = Option[] | ((query: string) => Option[] | Promise<Option[]>);
+	type OptionsSource = Source<Option[], [query: string]>;
 	type SelectListProps = ComponentProps<typeof SelectList<Option>>;
 	type TextFieldProps = ComponentProps<typeof TextField>;
 

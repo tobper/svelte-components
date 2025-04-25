@@ -1,6 +1,10 @@
 import { untrack } from 'svelte';
 import { seconds } from './time.js';
 
+export type Awaitable<T> = T | PromiseLike<T>;
+export type Loader<T, A extends Array<unknown> = []> = (...args: A) => Awaitable<T>;
+export type Source<T, A extends Array<unknown> = []> = T | Loader<T, A>;
+
 export const durations = {
 	short: seconds(0.75),
 	long: seconds(5),

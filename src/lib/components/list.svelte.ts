@@ -1,10 +1,6 @@
 import { create_normalized_lookup } from '$lib/normalization';
-import { async_value } from '$lib/reactivity.svelte';
+import { async_value, type Source } from '$lib/reactivity.svelte';
 import { tick } from 'svelte';
-
-export type Awaitable<T> = T | PromiseLike<T>;
-export type Loader<T> = (query: string) => Awaitable<T>;
-export type Source<T> = Array<T> | Loader<Array<T>>;
 
 export type ListItem<T> =
 	| ListItemHeading
@@ -32,7 +28,7 @@ export interface ListItemOption<T> {
 export function create_list<T>(
 	list_id: string,
 	type: 'select' | 'autocomplete',
-	source: Source<T>,
+	source: Source<Array<T>, [query: string]>,
 	empty_text?: string,
 	map_heading?: (option: T) => string,
 	map_label?: (option: T) => string,

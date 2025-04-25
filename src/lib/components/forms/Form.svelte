@@ -57,13 +57,13 @@
 	import { getContext, onMount, setContext, untrack, type ComponentProps, type Snippet } from 'svelte';
 	import type { HTMLFormAttributes } from 'svelte/elements';
 	import { classes } from '../../classes.js';
-	import { delayed_timer } from '../../reactivity.svelte.js';
+	import { delayed_timer, type Awaitable } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
 	import Field from './Field.svelte';
 
 	type SubmitAction = () => Promise<SubmitResult> | void;
 	type SubmitResult =
-		| { type: 'success'; }
+		| { type: 'success'; data?: Model; }
 		| { type: 'failure'; error_message: string | null; field_errors: FieldErrors; }
 		| undefined;
 
@@ -90,8 +90,8 @@
 		children?: Snippet;
 		content?: Snippet<[FormContext]>;
 
-		on_failure?: (failure: FormFailure) => Promise<void> | void;
-		on_success?: (result?: Model) => Promise<void> | void;
+		on_failure?: (failure: FormFailure) => Awaitable<void>;
+		on_success?: (result?: Model) => Awaitable<void>;
 	}
 
 	export function reset() {
@@ -224,8 +224,8 @@
 					const result = await promise ?? { type: 'success' };
 
 					if (result.type === 'success')
-						// handle_success('data' in result ? result.data : undefined);
-						await handle_success(undefined);
+						await handle_success(result.data);
+						// await handle_success(undefined);
 					else
 						await handle_failure(result);
 				}
