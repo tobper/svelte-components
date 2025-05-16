@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type { HTMLInputAttributes } from 'svelte/elements';
+    import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
     import { unique_id } from '../../unique_id.js';
     import Stack from '../Stack.svelte';
 
 	interface ToggleSwitch {
 		id?: string;
-		class?: string;
+		class?: ClassValue;
 		label?: string;
 		description?: string;
 		name?: string;

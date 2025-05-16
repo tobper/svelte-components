@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { classes } from '../classes';
+	import type { ClassValue } from 'svelte/elements';
 	import CardContent from './CardContent.svelte';
 	import CardFooter from './CardFooter.svelte';
 	import CardHeader from './CardHeader.svelte';
 
 	interface Card {
-		class?: string;
+		class?: ClassValue;
 		header?: string;
 		children?: Snippet;
 		content?: Snippet;
@@ -22,7 +22,7 @@
 	}: Card = $props();
 </script>
 
-<div class={classes('card', card_class)}>
+<div class={['card', card_class]}>
 	{#if header}
 		<CardHeader text={header} />
 	{/if}

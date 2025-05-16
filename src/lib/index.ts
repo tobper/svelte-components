@@ -59,7 +59,6 @@ export { default as ToggleSwitch } from './components/forms/ToggleSwitch.svelte'
 export * from './components/forms/Form.svelte';
 
 /* Utilities */
-export * from './classes.js';
 export * from './css.js';
 export * from './device.js';
 export * from './html.js';

@@ -18,8 +18,7 @@
 
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { HTMLOlAttributes } from 'svelte/elements';
-	import { classes } from '../classes.js';
+	import type { ClassValue, HTMLOlAttributes } from 'svelte/elements';
 	import { get_optional_button_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
 
@@ -28,7 +27,7 @@
 		active_item_id?: string | null;
 		aria_label?: HTMLOlAttributes['aria-label'];
 		children: Snippet;
-		class?: string;
+		class?: ClassValue;
 		element?: HTMLElement;
 		focusable?: boolean;
 		id?: string;
@@ -82,7 +81,7 @@
 	{id}
 	aria-activedescendant={active_item_id}
 	aria-label={aria_label}
-	class={classes('select-list variant-primary', list_class)}
+	class={['select-list variant-primary', list_class]}
 	role="listbox"
 	tabindex={focusable && active_item_id ? 0 : -1}
 >

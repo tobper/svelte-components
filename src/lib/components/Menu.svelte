@@ -19,6 +19,7 @@
 <script lang="ts">
 	import type { ElementReference } from '$lib/html.js';
 	import { type Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
 	import { anchor } from './anchor.js';
 	import { menu_handlers } from './menu.js';
@@ -32,7 +33,7 @@
 		/**
 		 * Class to apply to the menu element.
 		 */
-		class?: string;
+		class?: ClassValue;
 		element?: HTMLElement;
 		modal?: boolean;
 		visible?: boolean;

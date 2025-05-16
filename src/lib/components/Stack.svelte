@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { reactive_value, type ReactiveBoolean } from '$lib/reactivity.svelte';
-    import type { Snippet } from 'svelte';
+	import { reactive_value, type ReactiveBoolean } from '$lib/reactivity.svelte';
+	import type { Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 
 	interface Stack {
 		children: Snippet;
-		class?: string;
+		class?: ClassValue;
 		justify?: 'start' | 'end' | 'center' | 'spread' | 'stretch';
 		gap?: boolean | 'none' |  'tiny' | 'small' | 'medium' | 'default' | 'large'
 		horizontal?: ReactiveBoolean;

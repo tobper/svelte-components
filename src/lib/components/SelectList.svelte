@@ -1,5 +1,5 @@
 <script lang="ts" generics="Option">
-	import type { HTMLColAttributes } from 'svelte/elements';
+	import type { ClassValue, HTMLColAttributes } from 'svelte/elements';
 	import { scroll_into_view } from '../html.js';
 	import { create_normalized_lookup } from '../normalization.js';
 	import { unique_id } from '../unique_id.js';
@@ -30,7 +30,7 @@
 		/**
 		 * Class to apply to the list element.
 		 */
-		class?: string;
+		class?: ClassValue;
 		/**
 		 * Determines if it should be possible to tab to the list.  
 		 * Set this to false when displayed in combobox menus.

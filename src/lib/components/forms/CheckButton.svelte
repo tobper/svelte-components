@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import ButtonBorder from '../ButtonBorder.svelte';
 	
 	interface CheckButton {
 		animation?: 'fade' | 'flip' | 'rotate';
-		class?: string;
+		class?: ClassValue;
 		checked?: boolean;
 		content?: Snippet<[boolean]>;
 		disabled?: boolean;

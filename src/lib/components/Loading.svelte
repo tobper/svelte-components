@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { ClassValue } from 'svelte/elements';
+
 	interface Loading {
-		class?: string | undefined | null;
+		class?: ClassValue;
 		small?: boolean;
 		large?: boolean;
 		visible?: boolean;

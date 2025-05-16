@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { classes } from '../../classes.js';
+	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../../unique_id.js';
 
 	interface Checkbox {
 		checked?: boolean;
-		class?: string;
+		class?: ClassValue;
 		disabled?: boolean;
 		id?: string;
 		indeterminate?: boolean;
@@ -43,7 +43,7 @@
 		bind:checked
 		bind:indeterminate
 		aria-invalid={invalid ? true : undefined}
-		class={classes('checkbox', !label && class_name)}
+		class={['checkbox', !label && class_name]}
 		type="checkbox"
 	>
 {/snippet}
