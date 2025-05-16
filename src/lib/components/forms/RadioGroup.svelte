@@ -25,7 +25,7 @@
  </script>
  
  <script lang="ts" generics="Value">
-	import { classes } from '../../classes.js';
+	import type { ClassValue } from 'svelte/elements';
 	import { match } from '../../match.js';
 	import { scale_fast, slide_fast } from '../../transitions/index.js';
 	import { unique_id } from '../../unique_id.js';
@@ -34,7 +34,7 @@
 	interface RadioGroup {
 		animation?: 'slide' | 'scale' | 'none';
 		buttons?: Array<{ text: string; value: Value }>;
-		class?: string;
+		class?: ClassValue;
 		disabled?: boolean;
 		name?: string;
 		required?: boolean;
@@ -94,7 +94,7 @@
 </script>
 
 <div
-	class={classes('button-group', group_class)}
+	class={['button-group', group_class]}
 	role="radiogroup"
 	transition:transition
 >

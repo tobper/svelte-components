@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { untrack, type ComponentProps } from 'svelte';
-	import { classes } from '../../classes.js';
 	import TextField from './TextField.svelte';
 
 	type TextFieldProps = ComponentProps<typeof TextField>;
@@ -97,10 +96,10 @@
 <TextField
 	bind:focused
 	{...text_field_props}
-	input_class={classes({
+	input_class={{
 		'text-negative': field_value !== null && field_value < 0,
 		'text-positive': field_value !== null && field_value > 0,
-	})}
+	}}
 	value={input_value}
 	oninput={event => {
 		const { currentTarget: input } = event;

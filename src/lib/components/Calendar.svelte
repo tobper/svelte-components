@@ -19,6 +19,7 @@
 	    type Period
 	} from '@tobper/eon';
 	import { tick, untrack } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
 	import EventHandler from './EventHandler.svelte';
 	import ChevronLeftIcon from './icons/ChevronLeftIcon.svelte';
@@ -37,7 +38,7 @@
 		/**
 		 * Class to apply to the calendar element.
 		 */
-		class?: string;
+		class?: ClassValue;
 		/**
 		 * A calendar controller by another element cannot receive focus and
 		 * keyboard handlers for navigation are attached to the controlling element.

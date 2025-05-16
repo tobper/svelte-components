@@ -2,13 +2,13 @@
 	import { get_root_style } from '$lib/css';
 	import { try_parse_milliseconds } from '$lib/time';
 	import { type Snippet } from 'svelte';
-	import { classes } from '../classes';
+	import type { ClassValue } from 'svelte/elements';
 	import DialogContent from './DialogContent.svelte';
 	import DialogFooter from './DialogFooter.svelte';
 	import DialogHeader from './DialogHeader.svelte';
 
 	interface Dialog {
-		class?: string;
+		class?: ClassValue;
 		header?: string;
 		visible?: boolean;
 		width?: string;
@@ -51,7 +51,7 @@
 
 <dialog
 	bind:this={dialog}
-	class={classes('dialog', dialog_class)}
+	class={['dialog', dialog_class]}
 	style:width
 	onclose={() => {
 		on_close?.();

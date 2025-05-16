@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import { slide } from 'svelte/transition';
-	import { classes } from '../../classes.js';
 	import { unique_id } from "../../unique_id.js";
 	import { get_form_context } from './Form.svelte';
 
@@ -15,7 +15,7 @@
 			submitting: boolean;
 		}]>;
 		id?: string;
-		class?: string;
+		class?: ClassValue;
 		error_hint?: boolean | 'auto' | 'always' | 'never';
 		errors?: string[];
 		element?: HTMLElement;
@@ -52,7 +52,7 @@
 <div
 	bind:this={element}
 	{id}
-	class={classes('field', field_class)}
+	class={['field', field_class]}
 >
 	{#if label}
 		<div class="field-label">

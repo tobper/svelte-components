@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 
 	interface CardFooter {
-		class?: string;
+		class?: ClassValue;
 		justify?: 'start' | 'end' | 'center' | 'spread' | 'stretch';
 		children: Snippet;
 	}

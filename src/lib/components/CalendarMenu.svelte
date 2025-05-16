@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ElementReference } from '$lib/html.js';
 	import type { DateOnly, Period } from '@tobper/eon';
+	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
 	import { anchor } from './anchor.js';
 	import Calendar from './Calendar.svelte';
@@ -21,7 +22,7 @@
 		/**
 		 * Class to apply to the menu element.
 		 */
-		class?: string;
+		class?: ClassValue;
 		/**
 		 * The reference to the element that is controlling the calendar.
 		 */

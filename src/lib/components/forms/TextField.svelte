@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { type ComponentProps, type Snippet } from 'svelte';
-	import type { HTMLInputAttributes } from 'svelte/elements';
-	import { classes } from '../../classes.js';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 	import { unique_id } from '../../unique_id.js';
 	import Button from '../Button.svelte';
 	import ClearIcon from '../icons/ClearIcon.svelte';
@@ -17,11 +16,11 @@
 		aria_expanded?: HTMLInputAttributes['aria-expanded'];
 		aria_haspopup?: HTMLInputAttributes['aria-haspopup'];
 		autocomplete?: HTMLInputAttributes['autocomplete'];
-		class?: string;
+		class?: ClassValue;
 		field_element?: HTMLElement | undefined;
 		disabled?: boolean;
 		focused?: boolean;
-		input_class?: string;
+		input_class?: ClassValue;
 		input_element?: HTMLInputElement;
 		inputmode?: HTMLInputAttributes['inputmode'];
 		list?: HTMLInputAttributes['list'];
@@ -175,7 +174,7 @@
 		aria-haspopup={aria_haspopup ? true : undefined}
 		aria-invalid={error_text ? true : undefined}
 		aria-labelledby={label_id}
-		class={classes('field-value', input_class)}
+		class={['field-value', input_class]}
 		id={content_id}
 		readonly={in_progress || readonly}
 		{onclick}

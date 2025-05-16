@@ -1,9 +1,10 @@
 <script lang="ts" generics="Option">
 	import type { Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	
 	interface ToggleButton {
 		animation?: 'fade' | 'flip' | 'rotate';
-		class?: string;
+		class?: ClassValue;
 		content: Snippet<[Option]>;
 		disabled?: boolean;
 		name?: string;

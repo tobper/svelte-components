@@ -55,8 +55,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { beforeNavigate } from '$app/navigation';
 	import { getContext, onMount, setContext, untrack, type ComponentProps, type Snippet } from 'svelte';
-	import type { HTMLFormAttributes } from 'svelte/elements';
-	import { classes } from '../../classes.js';
+	import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';
 	import { delayed_timer } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
 	import Field from './Field.svelte';
@@ -69,7 +68,7 @@
 
 	interface Form {
 		id?: string;
-		class?: string;
+		class?: ClassValue;
 
 		/**
 		 * This can either be a string, in which case the form will be posted to the specified url,
@@ -199,7 +198,7 @@
 	{id}
 	{method}
 	action={typeof action === 'string' ? action : undefined}
-	class={classes('form', class_name)}
+	class={['form', class_name]}
 	class:form--delayed={timer.delayed}
 	class:form--in_progress={loading || submitting}
 	class:form--loading={loading}
