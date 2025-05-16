@@ -47,13 +47,13 @@
 							{#snippet suffix_icon()}kr{/snippet}
 						</CurrencyField>
 						<output>
-							Value: {currency_value === null ? 'null' : currency_value}
+							Value: {currency_value === null ? '-' : currency_value}
 						</output>
 					</div>
 					<div class="field-with-output">
 						<DateField bind:value={date_value} label="Date" required />
 						<output>
-							Value: {date_value === null ? 'null' : get_date_only_key(date_value)}
+							Value: {date_value === null ? '-' : get_date_only_key(date_value)}
 						</output>
 					</div>
 					<div class="field-with-output">
@@ -71,7 +71,7 @@
 							type="select"
 						/>
 						<output>
-							Value: {select_few_value ? select_few_value : '-'}
+							Value: {select_few_value ?? '-'}
 						</output>
 					</div>
 					<div class="field-with-output">

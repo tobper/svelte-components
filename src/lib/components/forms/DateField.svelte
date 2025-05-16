@@ -70,6 +70,17 @@
 			: (bound_value ? get_date_only_key(bound_value) : '')
 	});
 
+	function clear() {
+		if (is_single_select(bound_value)) {
+			bound_value = null;
+		}
+
+		if (input_text) {
+			input_text = '';
+			on_clear?.();
+		}
+	}
+
 	function select(new_date: DateOnly) {
 		if (is_multi_select(bound_value)) {
 			// Add date to array if it is not already selected
@@ -124,31 +135,21 @@
 	}}
 	on_clear={() => {
 		menu_visible = false;
-		input_text = '';
-
-		if (is_single_select(bound_value))
-			bound_value = null;
-
-		on_clear?.();
+		clear();
 	}}
 	on_focus_out={() => {
 		menu_visible = false;
 
 		const input_date = try_parse_date_only(input_text);
-		if (input_date)
+		if (input_date) {
 			select(input_date);
 
-		if (is_multi_select(bound_value)) {
-			// Always reset text for multi value
-			input_text = '';
+			// Reset text for multi value
+			if (is_multi_select(bound_value))
+				input_text = '';
 		}
 		else {
-			// Reset value and text if input is not a date
-			if (bound_value && !input_date) {
-				input_text = '';
-				bound_value = null;
-				on_clear?.();
-			}
+			clear();
 		}
 	}}
 >
@@ -180,16 +181,23 @@
 		<CalendarMenu
 			bind:active_item_id
 			bind:calendar
+			bind:date={
+				() => is_single_select(bound_value) ? bound_value : null,
+				new_date => {
+					if (new_date)
+						select(new_date);
+					else
+						clear();
+				}
+			}
 			bind:visible={menu_visible}
 			{calendar_id}
 			{period}
 			anchored_to={field_element}
 			controlled_by={input_element}
-			date={is_single_select(bound_value) ? bound_value : null}
 			id={menu_id}
-			on_select={new_date => {
+			on_select={() => {
 				menu_visible = false;
-				select(new_date);
 			}}
 		/>
 	{/if}
