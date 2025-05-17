@@ -68,27 +68,28 @@ export function scroll_into_view(
 /*
 	Register multiple event listeners on an element
 */
-export function on<Element extends HTMLElement>(
-	element: Element,
-	handler_map: {
-		[Type in keyof HTMLElementEventMap]?: (this: Element, event: HTMLElementEventMap[Type]) => void;
-	}
-) {
-	const handlers = Object.entries(handler_map) as [type: string, handler: EventListener][];
-	const listeners = handlers.map(([event_type, handler]) => {
-		element.addEventListener(event_type, handler);
 
-		return {
-			remove() {
-				element.removeEventListener(event_type, handler);
-			}
-		}
-	});
+type EventMap<T> =
+	T extends Document ? DocumentEventMap :
+	T extends Window ? WindowEventMap :
+	T extends HTMLElement ? HTMLElementEventMap :
+	never;
+
+export function on<T extends Document | Element | Window>(
+	target: T,
+	handler_map: {
+		[Type in keyof EventMap<T>]?: (this: T, event: EventMap<T>[Type]) => void
+	}
+): () => void {
+	const removal_controller = new AbortController();
+	const handlers = Object.entries(handler_map) as [type: string, handler: EventListener][];
+
+	for (const [event_type, handler] of handlers) {
+		target.addEventListener(event_type, handler, { signal: removal_controller.signal });
+	}
 
 	return function remove_event_listeners() {
-		listeners.forEach(listener =>
-			listener.remove()
-		);
+		removal_controller.abort();
 	};
 }
 
