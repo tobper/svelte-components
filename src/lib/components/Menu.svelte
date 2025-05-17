@@ -23,6 +23,7 @@
 	import { unique_id } from '../unique_id.js';
 	import { anchor } from './anchor.js';
 	import { menu_handlers } from './menu.js';
+	import { popover } from './popover.js';
 
 	interface Menu {
 		id?: string;
@@ -34,7 +35,6 @@
 		 * Class to apply to the menu element.
 		 */
 		class?: ClassValue;
-		element?: HTMLElement;
 		modal?: boolean;
 		visible?: boolean;
 		/**
@@ -62,7 +62,6 @@
 		id = $bindable(unique_id()),
 		animation = 'fade',
 		class: menu_class,
-		element = $bindable(),
 		modal = false,
 		visible = $bindable(false),
 		width,
@@ -78,14 +77,9 @@
 			visible = false;
 		}
 	})
-
-	$effect(() => {
-		element!.togglePopover(visible);
-	});
 </script>	
 
 <div
-	bind:this={element}
 	use:anchor={{
 		anchor: trigger,
 		match_width: width === 'anchor',
@@ -93,24 +87,27 @@
 	use:menu_handlers={{
 		trigger
 	}}
-	{...element_props}
-	{id}
-	class={['menu popover', menu_class, {
-		'popover--fade': animation === 'fade',
-		'popover--slide': animation === 'slide',
-		'popover--modal': modal,
-	}]}
-	role="menu"
-	popover="auto"
+	use:popover={{
+		animation,
+		modal,
+		visible
+	}}
 	ontoggle={event => {
 		visible = event.newState === 'open';
 
-		if (event.newState === 'closed')
+		if (!visible)
 			on_close?.();
 		else
 			on_open?.();
 	}}
-	tabindex="-1"
 >
-	{@render children()}
+	<div
+		{...element_props}
+		{id}
+		class={['menu', menu_class]}
+		role="menu"
+		tabindex="-1"
+	>
+		{@render children()}
+	</div>
 </div>

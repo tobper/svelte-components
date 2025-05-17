@@ -9,9 +9,9 @@
 	} */
 
 	/* Appearance */
-	&:not(:popover-open) {
-		display: none;
-	}
+	background: transparent;
+	border: none;
+	overscroll-behavior: contain;
 }
 
 @supports (anchor-name: --anchor) {
@@ -20,7 +20,6 @@
 		margin-top: .5rem;
 		position-area: bottom span-right;
 		position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-		overscroll-behavior: contain;
 
 		&.anchor--right {
 			position-area: bottom span-left;
@@ -34,11 +33,11 @@
 
 .popover--modal {
 	/* Disable events on everything but the modal popover */
-	&:popover-open {
+	&.popover--visible {
 		pointer-events: all;
 	}
 
-	body:has(&:popover-open) {
+	body:has(&.popover--visible) {
 		pointer-events: none;
 	}
 }
@@ -56,13 +55,13 @@
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.popover--modal:popover-open::backdrop {
+.popover--modal.popover--visible::backdrop {
 	--menu-backdrop__blur: .5px;
 	--menu-backdrop__opacity: 25%;
 }
 
 @starting-style {
-	.popover--modal:popover-open::backdrop {
+	.popover--modal.popover--visible::backdrop {
 		--menu-backdrop__blur: 0;
 		--menu-backdrop__opacity: 0;
 	}

@@ -5,6 +5,7 @@
 	import { unique_id } from '../../unique_id.js';
 	import { anchor } from '../anchor.js';
 	import { create_list, type ListItemOption } from '../list.svelte.js';
+	import { popover } from '../popover.js';
 	import SelectList from '../SelectList.svelte';
 	import TextField from './TextField.svelte';
 
@@ -113,16 +114,11 @@
 	);
 	let input_text = $state('');
 	let input_element = $state<HTMLInputElement>();
-	let list_element = $state<HTMLElement>();
 	let text_field = $state<ReturnType<typeof TextField>>();
 
 	// Scroll to active item
 	$effect(() => {
 		scroll_into_view(list?.active_item?.id);
-	});
-
-	$effect(() => {
-		list_element?.togglePopover(list?.visible);
 	});
 
 	// Always update input value when bound value changes
@@ -285,55 +281,60 @@
 >
 	{#if input_element && list && list.items.length > 0}
 		<div
-			bind:this={list_element}
 			use:anchor={{
 				anchor: input_element,
-				match_width: true,
+				match_width: true
 			}}
-			class={['menu popover popover--fade', class_menu, {
-				'popover--modal': modal,
-			}]}
-			id={list.id}
-			popover="manual"
-			role="listbox"
-			tabindex="-1"
+			use:popover={{
+				animation: 'fade',
+				mode: 'manual',
+				modal,
+				visible: list?.visible
+			}}
 		>
-			{#each list.items as item, i}
-				{#if item.type === 'heading'}
-					{#if i > 0}
-						<div role="separator">
-							<hr />
+			<div
+				class={['menu', class_menu]}
+				id={list.id}
+				role="listbox"
+				tabindex="-1"
+			>
+				{#each list.items as item, i}
+					{#if item.type === 'heading'}
+						{#if i > 0}
+							<div role="separator">
+								<hr />
+							</div>
+						{/if}
+
+						<div role="heading" aria-level="4">
+							{item.label}
+						</div>
+					{:else if item.type === 'presentation'}
+						<div role="presentation">
+							{item.label}
+						</div>
+					{:else if item.type === 'option'}
+						<!-- svelte-ignore a11y_interactive_supports_focus -->
+						<!-- svelte-ignore a11y_click_events_have_key_events -->
+						<!-- svelte-ignore a11y_mouse_events_have_key_events -->
+						<div
+							aria-current={item === list.active_item ? true : undefined}
+							aria-selected={type === 'select' && item.value === bound_value ? true : undefined}
+							id={item.id}
+							onclick={() => {
+								select(item);
+								list.close();
+							}}
+							onmouseover={() => {
+								list.activate(item);
+							}}
+							role="option"
+						>
+							{item.label}
 						</div>
 					{/if}
-
-					<div role="heading" aria-level="4">
-						{item.label}
-					</div>
-				{:else if item.type === 'presentation'}
-					<div role="presentation">
-						{item.label}
-					</div>
-				{:else if item.type === 'option'}
-					<!-- svelte-ignore a11y_interactive_supports_focus -->
-					<!-- svelte-ignore a11y_click_events_have_key_events -->
-					<!-- svelte-ignore a11y_mouse_events_have_key_events -->
-					<div
-						aria-current={item === list.active_item ? true : undefined}
-						aria-selected={type === 'select' && item.value === bound_value ? true : undefined}
-						id={item.id}
-						onclick={() => {
-							select(item);
-							list.close();
-						}}
-						onmouseover={() => {
-							list.activate(item);
-						}}
-						role="option"
-					>
-						{item.label}
-					</div>
-				{/if}
-			{/each}
+				{/each}
+			</div>
 		</div>
 	{/if}
 </TextField>

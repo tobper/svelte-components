@@ -6,6 +6,7 @@
 	import { anchor } from './anchor.js';
 	import Calendar from './Calendar.svelte';
 	import EventHandler from './EventHandler.svelte';
+	import { popover } from './popover.js';
 
 	interface CalendarMenu {
 		/**
@@ -32,10 +33,6 @@
 		 */
 		date?: DateOnly | null;
 		/**
-		 * The menu element.
-		 */
-		element?: HTMLElement;
-		/**
 		 * The element id of the menu.
 		 */
 		id?: string;
@@ -58,7 +55,6 @@
 		calendar_id = $bindable(unique_id()),
 		class: class_menu,
 		controlled_by,
-		element = $bindable(),
 		id = $bindable(unique_id()),
 		modal,
 		period,
@@ -67,38 +63,39 @@
 
 		on_select,
 	}: CalendarMenu = $props();
-
-	$effect(() => {
-		element?.togglePopover(visible);
-	});
 </script>
 
 <div
-	bind:this={element}
 	use:anchor={{
 		anchor: anchored_to ?? controlled_by,
 		match_width: true,
 	}}
-	class={['menu popover popover--fade', class_menu, {
-		'popover--modal': modal,
-	}]}
-	{id}
-	popover="manual"
-	role="menu"
-	tabindex="-1"
+	use:popover={{
+		animation: 'fade',
+		mode: 'manual',
+		modal,
+		visible,
+	}}
 >
-	<Calendar
-		bind:this={calendar}
-		bind:active_item_id
-		bind:date
-		bind:id={calendar_id}
-		{period}
-		controlled_by={visible ? controlled_by : undefined}
-		on_select={new_date => {
-			visible = false;
-			on_select?.(new_date);
-		}}
-	/>
+	<div
+		{id}
+		class={['menu', class_menu]}
+		role="menu"
+		tabindex="-1"
+	>
+		<Calendar
+			bind:this={calendar}
+			bind:active_item_id
+			bind:date
+			bind:id={calendar_id}
+			{period}
+			controlled_by={visible ? controlled_by : undefined}
+			on_select={new_date => {
+				visible = false;
+				on_select?.(new_date);
+			}}
+		/>
+	</div>
 </div>
 
 <EventHandler

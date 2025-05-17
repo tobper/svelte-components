@@ -1,5 +1,5 @@
 /* Animation */
-.popover:where(.popover--fade) {
+.popover.popover--fade {
 	opacity: 0;
 	transform: translateY(1rem) scaleX(98%);
 
@@ -8,7 +8,7 @@
 	transition-property: opacity, transform, display, overlay;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-	&:popover-open {
+	&.popover--visible {
 		opacity: 1;
 		transform: translateY(0) scaleX(1);
 
@@ -19,7 +19,7 @@
 	}
 }
 
-.popover:where(.popover--slide) {
+.popover.popover--slide {
 	clip-path: inset(0 0 100% 0);
 	opacity: 0;
 
@@ -28,7 +28,7 @@
 	transition-property: clip-path, opacity, transform, display, overlay;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-	&:popover-open {
+	&.popover--visible {
 		clip-path: inset(0 0 0 0);
 		opacity: 1;
 

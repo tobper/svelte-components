@@ -7,12 +7,12 @@
 	transition-property: opacity, display, overlay;
 }
 
-.popover:popover-open {
+.popover.popover--visible {
 	opacity: 1;
 }
 
 @starting-style {
-	.popover:popover-open {
+	.popover.popover--visible {
 		opacity: 0;
 	}
 }

@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { get_style, set_style, toggle_class } from '$lib/css';
+import { get_style } from '$lib/css';
 import { get_element, type ElementReference } from '$lib/html';
 import { unique_id } from '$lib/unique_id';
 import { autoPlacement, autoUpdate, computePosition, offset, size } from '@floating-ui/dom';
@@ -34,11 +34,11 @@ export function anchor(
 
 			if (anchor_name === 'none') {
 				anchor_name = `--${unique_id()}`;
-				set_style(anchor_element, 'anchor-name', anchor_name);
+				anchor_element.style.setProperty('anchor-name', anchor_name);
 			}
-	
-			set_style(element, 'position-anchor', anchor_name);
-			toggle_class(element, 'anchor--match-width', options.match_width);
+
+			element.style.setProperty('position-anchor', anchor_name);
+			element.classList.toggle('anchor--match-width', options.match_width);
 		}
 		else {
 			const strategy = 'absolute'
