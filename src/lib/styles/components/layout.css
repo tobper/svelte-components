@@ -125,6 +125,7 @@
 
 	.list-item-link {
 		padding-block: var(--space__medium);
+		/* padding-block: var(--space); */
 		padding-inline: 0;
 
 		header {
