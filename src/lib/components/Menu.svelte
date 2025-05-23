@@ -100,6 +100,7 @@
 		else
 			on_open?.();
 	}}
+	popover="auto"
 >
 	<div
 		{...element_props}

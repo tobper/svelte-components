@@ -1,40 +1,34 @@
 /* Animation */
 .popover.popover--fade {
-	opacity: 0;
-	transform: translateY(1rem) scaleX(98%);
-
 	transition-behavior: allow-discrete;
 	transition-duration: var(--popover__transition-duration);
 	transition-property: opacity, transform, display, overlay;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-	&.popover--visible {
-		opacity: 1;
-		transform: translateY(0) scaleX(1);
+	@starting-style {
+		opacity: 0;
+		transform: translateY(1rem) scaleX(98%);
+	}
 
-		@starting-style {
-			opacity: 0;
-			transform: translateY(1rem) scaleX(98%);
-		}
+	&:not(.popover--visible) {
+		opacity: 0;
+		transform: translateY(1rem) scaleX(98%);
 	}
 }
 
 .popover.popover--slide {
-	clip-path: inset(0 0 100% 0);
-	opacity: 0;
-
 	transition-behavior: allow-discrete;
 	transition-duration: var(--popover__transition-duration);
 	transition-property: clip-path, opacity, transform, display, overlay;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-	&.popover--visible {
-		clip-path: inset(0 0 0 0);
-		opacity: 1;
+	@starting-style {
+		clip-path: inset(0 0 100% 0);
+		opacity: 0;
+	}
 
-		@starting-style {
-			clip-path: inset(0 0 100% 0);
-			opacity: 0;
-		}
+	&:not(.popover--visible) {
+		clip-path: inset(0 0 100% 0);
+		opacity: 0;
 	}
 }

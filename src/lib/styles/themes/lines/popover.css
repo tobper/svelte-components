@@ -1,18 +1,14 @@
 /* Animation */
 .popover {
-	opacity: 0;
-
 	transition-behavior: allow-discrete;
-	transition-duration: var(--menu__transition-duration);
+	transition-duration: var(--popover__transition-duration);
 	transition-property: opacity, display, overlay;
-}
 
-.popover.popover--visible {
-	opacity: 1;
-}
+	@starting-style {
+		opacity: 0;
+	}
 
-@starting-style {
-	.popover.popover--visible {
+	&:not(.popover--visible) {
 		opacity: 0;
 	}
 }

@@ -72,10 +72,10 @@
 	}}
 	use:popover={{
 		animation: 'fade',
-		mode: 'manual',
 		modal,
 		visible,
 	}}
+	popover="auto"
 >
 	<div
 		{id}

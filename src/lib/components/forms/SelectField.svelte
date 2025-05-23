@@ -287,10 +287,10 @@
 			}}
 			use:popover={{
 				animation: 'fade',
-				mode: 'manual',
 				modal,
 				visible: list?.visible
 			}}
+			popover="auto"
 		>
 			<div
 				class={['menu', class_menu]}

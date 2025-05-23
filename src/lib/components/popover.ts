@@ -2,7 +2,6 @@ import type { ActionReturn } from 'svelte/action';
 
 export interface PopoverParameters {
 	animation?: 'fade' | 'slide' | 'none';
-	mode?: 'auto' | 'hint' | 'manual';
 	modal?: boolean;
 	visible?: boolean;
 }
@@ -17,16 +16,13 @@ export function popover(
 
 	function destroy() {
 		element.hidePopover();
-		element.classList.remove('popover')
 		element.classList.remove('popover--modal');
 		element.classList.remove('popover--fade');
 		element.classList.remove('popover--slide');
 		element.classList.remove('popover--visible');
-		element.popover = null;
 	}
 
 	function update({
-		mode = 'auto',
 		modal = false,
 		animation = 'none',
 		visible = false
@@ -35,7 +31,6 @@ export function popover(
 		// because for some reason the pseudo-class doesn't work on iOS. Popovers gets hidden
 		// but selectors checking if there is an open popover are still triggered.
 
-		element.popover = mode;
 		element.classList.add('popover');
 		element.classList.toggle('popover--modal', modal);
 		element.classList.toggle('popover--fade', animation === 'fade');
