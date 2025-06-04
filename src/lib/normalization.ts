@@ -51,7 +51,7 @@ export function create_normalized_lookup<T>(
 	function find_all(query: unknown) {
 		const matcher = get_matcher(query);
 		if (!matcher)
-			return values;
+			return [];
 
 		const matched_values: { value: T; normalized_value: string; rank: number; }[] = [];
 
