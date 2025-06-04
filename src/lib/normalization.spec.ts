@@ -2,6 +2,18 @@ import { describe, expect, it } from 'vitest';
 import { create_normalized_lookup } from './normalization.js';
 
 describe('create_normalized_lookup', () => {
+	it('supports iterables as input', () => {
+		function* source() {
+			yield 'Bob';
+			yield 'Jane';
+			yield 'John';
+		}
+
+		const { find_all } = create_normalized_lookup(source());
+
+		expect(find_all('n')).toEqual(['Jane', 'John']);
+	});
+
 	describe('find', () => {
 		it('returns undefined when query is empty', () => {
 			const source = ['Bob', 'Jane', 'John'];

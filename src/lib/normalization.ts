@@ -18,13 +18,12 @@
  * const bobs = find_person('ecl'); // returns ['Bob à la Éclair']
  */
 export function create_normalized_lookup<T>(
-	values: T[],
+	values: Iterable<T>,
 	comparison_projection: (value: T) => unknown = value => value
 ) {
-	const normalized_values =
-		values.map<[string, T]>(value =>
-			[normalize(comparison_projection(value)), value]
-		);
+	const normalized_values = Array.from(values, value =>
+		[normalize(comparison_projection(value)), value] as [string, T]
+	);
 
 	return { find, find_all };
 
