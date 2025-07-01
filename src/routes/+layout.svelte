@@ -82,7 +82,7 @@
 	{#snippet sidebar()}
 		<nav>
 			<ul>
-				{#each nav_items as [Icon, text]}
+				{#each nav_items as [Icon, text] (text)}
 					<ListItemLink href={`#${text}`} {text}>
 						{#snippet icon()}
 							<Icon />
@@ -94,9 +94,8 @@
 				<Device mobile>
 					<hr />
 				</Device>
-				{#each available_themes as available_theme}
-					{@const href = `?theme=${available_theme.name}`}
-					{@const text = available_theme.text}
+				{#each available_themes as { name, text } (name)}
+					{@const href = `?theme=${name}`}
 
 					<ListItemLink {href} {text} />
 				{/each}

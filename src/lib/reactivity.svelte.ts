@@ -4,7 +4,7 @@ import { seconds } from './time.js';
 export const durations = {
 	short: seconds(0.75),
 	long: seconds(5),
-} as const;
+};
 
 export type Duration = keyof typeof durations;
 

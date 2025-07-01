@@ -14,7 +14,7 @@
 			</header>
 
 			<div class="table-body">
-				{#each random(food, 6) as { name, type }}
+				{#each random(food, 6) as { name, type } (name)}
 					<div class="table-row">
 						<div>{name}</div>
 						<div>{type}</div>
@@ -43,7 +43,7 @@
 			</header>
 
 			<ul class="table-body">
-				{#each random(food, 4) as { name, type }}
+				{#each random(food, 4) as { name, type } (name)}
 					<li class="table-row">
 						<div>{name}</div>
 						<div>{type}</div>
@@ -100,7 +100,7 @@
 		</header>
 
 		<ul class="table-body">
-			{#each random(food, 4) as { name, type }}
+			{#each random(food, 4) as { name, type } (name)}
 				<li class="table-row">
 					<div>{name}</div>
 					<div>{type}</div>

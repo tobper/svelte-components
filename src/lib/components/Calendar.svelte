@@ -82,8 +82,17 @@
 
 	const active_period_contains_today = $derived(period_contains_date(active_period, today));
 	const can_focus = $derived(!controlled_by);
-	const visible_dates = $derived(get_calendar_dates(active_period));
 	const header_text = $derived(get_calendar_month_text(active_period));
+	const visible_dates = $derived(
+		get_calendar_dates(active_period)
+			.map(date => ({
+				...date,
+				element_id: get_item_id(date),
+				is_active: !!active_date && is_same_date(date, active_date),
+				is_selected: !!selected_date && is_same_date(date, selected_date),
+				is_today: date.same_month && is_same_date(date, today),
+			}))
+	);
 
 	// Update active date and period when selected date is updated
 	$effect.pre(() => {
@@ -351,7 +360,6 @@
 	<div
 		bind:this={listbox_element}
 		aria-label="Dates"
-		class={''}
 		role="listbox"
 		tabindex={can_focus ? (active_item_id ? -1 : 0) : undefined}
 		onkeydown={
@@ -361,31 +369,26 @@
 			activate_selected_date();
 		}}
 	>
-		{#each week_days_short as week_day}
+		{#each week_days_short as week_day (week_day)}
 			<div role="heading" aria-level="4">
 				{week_day}
 			</div>
 		{/each}
 
-		{#each visible_dates as { same_month, weekend, ...date }}
-			{@const date_is_active = !!active_date && is_same_date(date, active_date)}
-			{@const date_is_selected = !!selected_date && is_same_date(date, selected_date)}
-			{@const date_is_today = same_month && is_same_date(date, today)}
-			{@const item_id = get_item_id(date)}
-
+		{#each visible_dates as date (date.element_id) }
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<div
-				aria-current={date_is_active ? true : undefined}
-				aria-selected={date_is_selected ? true : undefined}
+				aria-current={date.is_active ? true : undefined}
+				aria-selected={date.is_selected ? true : undefined}
 				aria-label={to_date(date).toLocaleDateString('en', aria_label_format)}
 				class={[{
-					'background-contrast': weekend,
-					'text-weak': !same_month,
-					'today': date_is_today,
+					'background-contrast': date.weekend,
+					'text-weak': !date.same_month,
+					'today': date.is_today,
 				}]}
-				id={item_id}
+				id={date.element_id}
 				role="option"
-				tabindex={can_focus ? (date_is_active ? 0 : -1) : undefined}
+				tabindex={can_focus ? (date.is_active ? 0 : -1) : undefined}
 				onclick={() => {
 					select_date(date)
 				}}

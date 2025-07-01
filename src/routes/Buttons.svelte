@@ -14,10 +14,10 @@
 
 <PageContent id="Button" header="Button">
 	<Card>
-		{#each button_types as [heading, type]}
+		{#each button_types as [heading, type] (heading)}
 			<CardHeader text={heading} />
 
-			{#each button_variants as variant}
+			{#each button_variants as variant (variant)}
 				<CardContent horizontal>
 					<Button {variant} {type} text="Default" />
 					<Button {variant} {type} text="Hover" class="button--hover" />

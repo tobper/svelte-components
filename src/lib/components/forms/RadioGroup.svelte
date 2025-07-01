@@ -99,7 +99,7 @@
 	transition:transition
 >
 	{#if buttons}
-		{#each buttons as { text, value }}
+		{#each buttons as { text, value } (value)}
 			<RadioButton {text} {value} />
 		{/each}
 	{/if}
