@@ -70,7 +70,7 @@ describe('create_normalized_lookup', () => {
 			const source = ['Bob', 'Jane', 'John'];
 			const { find_all } = create_normalized_lookup(source);
 
-			expect(find_all('')).toEqual(source);
+			expect(find_all('')).toEqual([]);
 		});
 
 		it('returns empty array when no match is found', () => {
