@@ -56,7 +56,7 @@
 <div class={['odometer', class_name ]}>
 	{#if transitions_running > 0}
 		{#key characters}
-			{#each characters as digits}
+			{#each characters as digits, index (index)}
 				{@const up = direction === 'up'}
 				{@const down = direction === 'down'}
 
@@ -64,7 +64,7 @@
 					class={['digit', { up, down }]}
 					ontransitionend={() => transitions_running--}
 				>
-					{#each digits as digit}
+					{#each digits as digit, index (index)}
 						<span>{digit}</span>
 					{/each}
 				</div>

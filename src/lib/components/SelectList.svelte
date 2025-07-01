@@ -282,8 +282,8 @@
 	{id}
 	onkeydown={handle_key_down}
 >
-	{#each grouped_items as { heading, items }, i}
-		{#if i > 0}
+	{#each grouped_items as { heading, items }, index (heading)}
+		{#if index > 0}
 			<ListItemSeparator />
 		{/if}
 
@@ -293,7 +293,7 @@
 			</ListItemHeading>
 		{/if}
 
-		{#each items as item}
+		{#each items as item (item.value)}
 			<ListItemOption
 				id={item.id}
 				current={item.id === active_item_id}

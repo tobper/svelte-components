@@ -68,7 +68,7 @@
 			type="hidden"
 		/>
 
-		{#each options as option}
+		{#each options as option, index (index)}
 			<span class="swap--option" aria-selected={value === option} role="option">
 				{@render content(option)}
 			</span>

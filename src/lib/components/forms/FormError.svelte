@@ -17,7 +17,7 @@
 </script>
 
 {#if fields.length}
-	{#each field_errors as field_error}
+	{#each field_errors as field_error (field_error)}
 		<p class="form-error">
 			{field_error}
 		</p>

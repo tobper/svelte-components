@@ -1,19 +1,21 @@
 <script lang="ts">
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
+	import type { ClassValue } from 'svelte/elements';
 	import { menu_item_handlers } from './menu';
 	import { get_menu_context } from './Menu.svelte';
 	import type { MenuItemContentProps } from './MenuItemContent.svelte';
 	import MenuItemContent from './MenuItemContent.svelte';
 
-	type ContentProps = Omit<MenuItemContentProps, 'icon'>;
-	type InputProps = Pick<HTMLInputAttributes, 'disabled'>;
-
-	interface MenuItemOption extends ContentProps, InputProps {
+	interface MenuItemOption {
 		checked?: boolean | null;
 		class?: ClassValue | null;
 		disabled?: boolean | null;
 		on_check?: (activated: boolean) => void;
 		type?: 'single' | 'radio' | null;
+
+		// MenuItemContent
+		description?: MenuItemContentProps['description'];
+		meta?: MenuItemContentProps['meta'];
+		text: MenuItemContentProps['text'];
 	}
 
 	let {

@@ -155,11 +155,12 @@
 >
 	{#snippet prefix()}
 		{#if is_multi_select(bound_value)}
-			{#each bound_value as date, index}
+			{@const values = bound_value.map(date => ({ date, text: get_date_only_key(date)}))}
+			{#each values as { date, text }, index (text)}
 				<Button
 					disabled={readonly}
 					icon={clear_icon}
-					text={get_date_only_key(date)}
+					text={text}
 					type="plain"
 					variant="delete"
 					onclick={() => {

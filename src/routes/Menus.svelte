@@ -56,7 +56,7 @@
 						text="Check 3, disabled"
 					/>
 					<MenuItemSeparator />
-					<MenuItemHeading text={`Radio options`} />
+					<MenuItemHeading text="Radio options" />
 					<MenuItemOption
 						checked={toggle_radio === 'radio 1'}
 						text="Radio 1"
