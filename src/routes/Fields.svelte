@@ -51,13 +51,13 @@
 						</output>
 					</div>
 					<div class="field-with-output">
-						<DateField bind:value={date_value} label="Date" required />
+						<DateField bind:value={date_value} label="Date" name="date_single" required />
 						<output>
 							Value: {date_value === null ? '-' : get_date_only_key(date_value)}
 						</output>
 					</div>
 					<div class="field-with-output">
-						<DateField bind:value={dates_value} label="Date list" required />
+						<DateField bind:value={dates_value} label="Date list" name="date_many" required />
 						<output>
 							Value: {dates_value.map(get_date_only_key).join(', ')}
 						</output>

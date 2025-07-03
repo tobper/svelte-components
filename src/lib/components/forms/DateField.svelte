@@ -40,6 +40,7 @@
 
 	let {
 		id = $bindable(unique_id()),
+		name,
 		period,
 		readonly = false,
 		value: bound_value = $bindable(null),
@@ -117,6 +118,7 @@
 	aria_controls={calendar && calendar_id}
 	aria_expanded={calendar && menu_visible}
 	aria_haspopup={calendar && 'menu'}
+	name={is_single_select(bound_value) ? name : undefined}
 	readonly={readonly || modal}
 	role="combobox"
 	type="text"
@@ -198,6 +200,13 @@
 				menu_visible = false;
 			}}
 		/>
+	{/if}
+
+	{#if name && is_multi_select(bound_value)}
+		{@const values = bound_value.map(get_date_only_key)}
+		{#each values as value (value)}
+			<input type="hidden" {name} {value} />
+		{/each}
 	{/if}
 </TextField>
 
