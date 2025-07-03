@@ -55,20 +55,17 @@
 	const menu_id = $derived(`${id}_menu`);
 	const modal = device.mobile || device.tablet;
 
-	let input_text = $state('');
 	let active_item_id = $state<string | null>(null);
 	let calendar = $state<ReturnType<typeof Calendar>>()
 	let focused = $state(false);
 	let field_element = $state<HTMLElement>();
 	let input_element = $state<HTMLInputElement>();
 	let menu_visible = $state(false);
-
-	// Always update input value when bound value changes
-	$effect.pre(() => {
-		input_text = is_multi_select(bound_value)
+	let input_text = $derived(
+		is_multi_select(bound_value)
 			? ''
 			: (bound_value ? get_date_only_key(bound_value) : '')
-	});
+	);
 
 	function clear() {
 		if (is_single_select(bound_value)) {
