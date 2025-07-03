@@ -112,18 +112,13 @@
 		Array.isArray(options_source) &&
 		options_source.length <= modal_options_limit
 	);
-	let input_text = $state('');
+	let input_text = $derived(bound_value ?? '');
 	let input_element = $state<HTMLInputElement>();
 	let text_field = $state<ReturnType<typeof TextField>>();
 
 	// Scroll to active item
 	$effect(() => {
 		scroll_into_view(list?.active_item?.id);
-	});
-
-	// Always update input value when bound value changes
-	$effect.pre(() => {
-		input_text = bound_value ?? '';
 	});
 
 	// Always expose input value as bound for auto complete fields	
