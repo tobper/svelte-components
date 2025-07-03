@@ -43,6 +43,7 @@
 		name,
 		period,
 		readonly = false,
+		required = false,
 		value: bound_value = $bindable(null),
 
 		on_clear,
@@ -120,6 +121,9 @@
 	aria_haspopup={calendar && 'menu'}
 	name={is_single_select(bound_value) ? name : undefined}
 	readonly={readonly || modal}
+	required={
+		required && (is_single_select(bound_value) || bound_value.length === 0)
+	}
 	role="combobox"
 	type="text"
 	onclick={() => {
