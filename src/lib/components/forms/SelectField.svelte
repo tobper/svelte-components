@@ -122,10 +122,10 @@
 	});
 
 	// Always expose input value as bound for auto complete fields	
-	$effect.pre(() => {
-		if (type === 'autocomplete')
-			bound_value = input_text || null;
-	});
+	// $effect.pre(() => {
+	// 	if (type === 'autocomplete')
+	// 		bound_value = input_text || null;
+	// });
 
 	function clear() {
 		if (!input_text)
@@ -143,18 +143,6 @@
 			bound_value = item.value;
 			on_select?.(item.option);
 		}
-	}
-
-	function ensure_valid_input() {
-		if (!list)
-			return;
-
-		const item = list?.get_item_with_label(input_text);
-
-		if (item)
-			select(item);
-		else
-			clear();
 	}
 </script>
 
@@ -186,8 +174,10 @@
 						? list.activate_last_item()
 						: list.activate_next_item();
 
-					if (type === 'select' && active_item)
-						select(active_item);
+					if (active_item)
+						input_text = active_item.label;
+					// if (type === 'select' && active_item)
+					// 	select(active_item);
 				}
 				else {
 					list.open();
@@ -197,8 +187,10 @@
 							list.activate_item_starting_with(input_text) ??
 							list.activate_first_item();
 
-						if (type === 'select' && active_item)
-							select(active_item);
+						if (active_item)
+							input_text = active_item.label;
+						// if (type === 'select' && active_item)
+						// 	select(active_item);
 					}
 				}
 				break;
@@ -211,8 +203,10 @@
 						? list.activate_first_item()
 						: list.activate_previous_item();
 
-					if (type === 'select' && active_item)
-						select(active_item);
+					if (active_item)
+						input_text = active_item.label;
+					// if (type === 'select' && active_item)
+					// 	select(active_item);
 				}
 				else {
 					list.open();
@@ -222,8 +216,10 @@
 							list.activate_item_starting_with(input_text) ??
 							list.activate_last_item();
 
-						if (type === 'select' && active_item)
-							select(active_item);
+						if (active_item)
+							input_text = active_item.label;
+					// 	if (type === 'select' && active_item)
+					// 		select(active_item);
 					}
 				}
 				break;
@@ -268,10 +264,47 @@
 		list?.close();
 	}}
 	on_focus_out={() => {
-		if (type === 'select')
-			ensure_valid_input();
+		if (!list)
+			return;
 
-		list?.close();
+		switch (type) {
+			case 'select':
+				const item = list.get_item_with_label(input_text);
+
+				if (item)
+					select(item);
+				else
+					clear();
+				break;
+
+			case 'autocomplete':
+				if (list.active_item) {
+					select(list.active_item);
+				}
+				else {
+					bound_value = input_text || null;
+				}
+				break;
+		}
+
+		// if (type === 'select') {
+		// 	const item = list.get_item_with_label(input_text);
+
+		// 	if (item)
+		// 		select(item);
+		// 	else
+		// 		clear();
+		// }
+		// else {
+		// 	if (list.active_item) {
+		// 		select(list.active_item);
+		// 	}
+		// 	else {
+		// 		bound_value = input_text || null;
+		// 	}
+		// }
+
+		list.close();
 	}}
 >
 	{#if input_element && list && list.items.length > 0}
