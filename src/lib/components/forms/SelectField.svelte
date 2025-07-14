@@ -229,16 +229,21 @@
 				break;
 
 			case 'Enter':
-				if (list.active_item) {
-					event.preventDefault();
-					select(list.active_item);
+				if (list.visible) {
+					if (list.active_item) {
+						event.preventDefault();
+						select(list.active_item);
+					}
+
 					list.close();
 				}
 				break;
 
 			case 'Escape':
-				event.preventDefault();
-				list.close();
+				if (list.visible) {
+					event.preventDefault();
+					list.close();
+				}
 				break;
 
 			case 'Tab': {
