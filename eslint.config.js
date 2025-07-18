@@ -12,6 +12,14 @@ export default [
 	...ts.configs.recommended,
 	...svelte.configs.recommended,
 	{
+		rules: {
+			'comma-dangle': 'off',
+			'quotes': ['error', 'single', {
+				allowTemplateLiterals: true
+			}]
+		}
+	},
+	{
 		languageOptions: {
 			globals: {
 				...globals.browser,
@@ -20,7 +28,10 @@ export default [
 		}
 	},
 	{
-		files: ['**/*.svelte', '**/*.svelte.ts'],
+		files: [
+			'**/*.svelte',
+			'**/*.svelte.ts'
+		],
 		languageOptions: {
 			parserOptions: {
 				extraFileExtensions: ['.svelte'],
@@ -31,6 +42,10 @@ export default [
 		}
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'dist/']
+		ignores: [
+			'.svelte-kit/',
+			'build/',
+			'dist/'
+		]
 	}
 ];

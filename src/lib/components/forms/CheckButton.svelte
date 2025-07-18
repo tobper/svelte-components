@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 	import ButtonBorder from '../ButtonBorder.svelte';
-	
+
 	interface CheckButton {
 		animation?: 'fade' | 'flip' | 'rotate';
 		class?: ClassValue;
@@ -76,7 +76,7 @@
 			</span>
 		</div>
 	{/if}
- 
+
 	{#if text}
 	  	<span>{text}</span>
 	{/if}

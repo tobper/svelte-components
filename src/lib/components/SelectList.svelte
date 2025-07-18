@@ -19,7 +19,7 @@
 
 	interface SelectList {
 		/**
-		 * Id of the currently activated list item.  
+		 * Id of the currently activated list item.
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
@@ -32,7 +32,7 @@
 		 */
 		class?: ClassValue;
 		/**
-		 * Determines if it should be possible to tab to the list.  
+		 * Determines if it should be possible to tab to the list.
 		 * Set this to false when displayed in combobox menus.
 		 */
 		focusable?: boolean;
@@ -52,7 +52,7 @@
 		 * Options to display in the list.
 		 */
 		options: Option[];
-		/** 
+		/**
 		 * Callback that is called for each option to determine the label of the option.
 		 * @default No header is displayed.
 		 */
@@ -270,7 +270,7 @@
 		h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
 		h2  = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
 		h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-	
+
 		return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 	};
 </script>

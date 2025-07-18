@@ -117,14 +117,14 @@
 			cursor: pointer;
 		}
 	}
- 
+
 	input:checked {
 		--toggle__background: var(--palette__accent-color--bright);
 		--toggle__offset: var(--toggle__height);
 
 		background-color: var(--palette__accent-color);
 	}
- 
+
 	input:focus-visible {
 		--toggle__focus-shadow: var(--shadow__focus);
 	}

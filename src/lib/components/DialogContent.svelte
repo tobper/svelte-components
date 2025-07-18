@@ -22,7 +22,7 @@
 {/if}
 
 <div
-	class="dialog-content" 
+	class="dialog-content"
 	class:dialog-content--horizontal={horizontal}
 	class:dialog-content--fill={fill}
 >

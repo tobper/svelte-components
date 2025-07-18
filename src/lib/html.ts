@@ -159,7 +159,7 @@ function ensure_type<T>(
 		throw new Error(`Element with selector '${selector}' was not found`);
 
 	if (is_of_type(element, type))
-	  return element;
+		return element;
 
 	throw new Error(`Element with selector '${selector}' is not of type ${type.name}`);
 }

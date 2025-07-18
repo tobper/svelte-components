@@ -1,7 +1,7 @@
 <script lang="ts" generics="Option">
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
-	
+
 	interface ToggleButton {
 		animation?: 'fade' | 'flip' | 'rotate';
 		class?: ClassValue;
@@ -74,7 +74,7 @@
 			</span>
 		{/each}
 	</div>
- 
+
 	{#if text}
 	  	<span>{text}</span>
 	{/if}

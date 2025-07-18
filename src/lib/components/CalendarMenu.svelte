@@ -10,7 +10,7 @@
 
 	interface CalendarMenu {
 		/**
-		 * Id of the currently activated date.  
+		 * Id of the currently activated date.
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
@@ -123,4 +123,3 @@
 		}
 	}}
 />
-

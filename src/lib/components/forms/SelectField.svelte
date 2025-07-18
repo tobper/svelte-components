@@ -23,7 +23,7 @@
 		 * Options to display in the popup menu.
 		 */
 		options: OptionsSource;
-		/** 
+		/**
 		 * Callback that is called for each option to determine the label of the option.
 		 * @default No header is displayed.
 		 */
@@ -42,7 +42,7 @@
 		 * Type of field
 		 * - autocomplete: Any text can be entered
 		 * - select: Only available options may be selected
-		 * 
+		 *
 		 * @default select
 		 */
 		type?: 'autocomplete' | 'select';
@@ -85,7 +85,7 @@
 
 		...text_field_props
 	}: SelectField = $props();
-	
+
 	export function focus() {
 		text_field?.focus()
 	}
@@ -121,7 +121,7 @@
 		scroll_into_view(list?.active_item?.id);
 	});
 
-	// Always expose input value as bound for auto complete fields	
+	// Always expose input value as bound for auto complete fields
 	$effect.pre(() => {
 		if (type === 'autocomplete')
 			bound_value = input_text || null;

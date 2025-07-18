@@ -15,7 +15,7 @@ export function media_queries<
 	if (BROWSER) {
 		for (const key in queries) {
 			const query_list = window.matchMedia(queries[key]);
-			
+
 			values[key] = query_list.matches;
 
 			query_list.addEventListener('change', on_change);

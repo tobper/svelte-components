@@ -37,7 +37,7 @@
 		class?: HTMLButtonAttributes['class'];
 		formaction?: HTMLButtonAttributes['formaction']
 	}
-	
+
 	let {
 		current,
 		disabled = false,

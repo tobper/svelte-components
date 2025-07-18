@@ -73,7 +73,7 @@ export function timer(
 		stop() {
 			if (!timeout)
 				return;
-	
+
 			clearTimeout(timeout);
 			timeout = undefined;
 		},
@@ -243,9 +243,9 @@ type AsyncDerivedSource =
 	| Array<AsyncReadonlyValue<unknown>>;
 
 type AsyncDerivedSourceValues<T> =
-  T extends AsyncReadonlyValue<infer U>
-  ? U
-  : { [K in keyof T]: T[K] extends AsyncReadonlyValue<infer U> ? U : never }
+	T extends AsyncReadonlyValue<infer U>
+	? U
+	: { [K in keyof T]: T[K] extends AsyncReadonlyValue<infer U> ? U : never }
 
 export function async_value<T>(
 	initial_value: T,
@@ -300,7 +300,7 @@ export function async_value<T>(
 				active_promise = new_value;
 				loading = true;
 				loading_error = null;
-	
+
 				active_promise
 					.then(resolved_value => {
 						// Ignore result if another promise has been set after this one
@@ -387,7 +387,7 @@ export type ReactiveNumber = ReactiveValue<number>;
 export type ReactiveString = ReactiveValue<string>;
 export type ReactiveValue<T> = T | { current: T };
 
-export function reactive_value<T>(value: ReactiveValue<T>): T {	
+export function reactive_value<T>(value: ReactiveValue<T>): T {
 	const is_reactive =
 		value &&
 		typeof value === 'object' &&

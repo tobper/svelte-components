@@ -37,7 +37,7 @@
 		opacity: 50%;
 		position: relative;
 		overflow: clip;
-	
+
 		&::before {
 			position: absolute;
 			inset: 0;

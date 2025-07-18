@@ -123,7 +123,7 @@
 	{label}
 	{name}
 	{required}
-	class={field_class}	
+	class={field_class}
 >
 	{#snippet content({ content_id, error_text, loading, in_progress })}
 		<div class="field-content" class:skeleton={loading}>

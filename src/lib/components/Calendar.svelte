@@ -31,7 +31,7 @@
 		 */
 		id?: string;
 		/**
-		 * Id of the currently activated date.  
+		 * Id of the currently activated date.
 		 * Used to set active descendant in parent controls.
 		 */
 		active_item_id?: string | null;
@@ -110,7 +110,7 @@
 		return `${id}_${key}`;
 	}
 
-	function handle_key_down(event: KeyboardEvent) { 
+	function handle_key_down(event: KeyboardEvent) {
 		const { key, ctrlKey } = event;
 
 		switch (key) {
@@ -293,7 +293,7 @@
 
 	/**
 	 * Selects active date.
-	 * 
+	 *
 	 * @returns true if a date was active; otherwise false.
 	 */
 	export function select_active_date() {
@@ -303,7 +303,7 @@
 		select_date(active_date);
 		return true;
 	}
-	
+
 	function select_date(date_to_select: DateOnly) {
 		selected_date = date_to_select;
 		on_select?.(selected_date);

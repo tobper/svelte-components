@@ -51,7 +51,7 @@
 		 */
 		on_open?: () => void;
 		/**
-		 * Element to attach the the menu to.  
+		 * Element to attach the the menu to.
 		 * The menu will be anchored to the trigger and sized to at the least the same width as the trigger.
 		 * Click and key handlers will be attached to the trigger.
 		 */
@@ -77,7 +77,7 @@
 			visible = false;
 		}
 	})
-</script>	
+</script>
 
 <div
 	use:anchor={{

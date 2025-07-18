@@ -70,7 +70,7 @@
 
 	.list-item__text {
 		grid-area: text;
-		
+
 	}
 
 	.list-item__kbd {

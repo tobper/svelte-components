@@ -60,7 +60,7 @@
 			import('../styles/themes/lines.css');
 		else if (style === 'neomorphism')
 			import('../styles/themes/neomorphism.css');
-		
+
 		context.scheme = scheme;
 		context.style = style;
 	});

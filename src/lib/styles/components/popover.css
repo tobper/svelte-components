@@ -24,7 +24,7 @@
 		&.anchor--right {
 			position-area: bottom span-left;
 		}
-	
+
 		&.anchor--match-width {
 			min-width: max(anchor-size(width), var(--menu__min-width));
 		}

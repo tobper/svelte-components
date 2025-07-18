@@ -54,5 +54,5 @@
 	role="option"
 	tabindex={list.focusable ? (current ? 0 : -1) : undefined}
 >
-	<ListItemContent {children} {icon} {kbd} {text} /> 
+	<ListItemContent {children} {icon} {kbd} {text} />
 </li>

@@ -8,7 +8,7 @@
 	const format_currency = (value: number) =>
 		value.toLocaleString('sv', { currency: 'SEK', style: 'currency', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-	const format_time = (value: Date) => 
+	const format_time = (value: Date) =>
 		value.toLocaleTimeString('sv', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
 	let number = $state(get_number());

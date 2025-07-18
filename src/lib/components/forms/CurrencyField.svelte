@@ -68,7 +68,7 @@
 	function format_as_number(value: number | null) {
 		if (value === null)
 			return '';
-	
+
 		return value.toString();
 	}
 

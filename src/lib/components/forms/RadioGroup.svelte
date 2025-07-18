@@ -18,12 +18,12 @@
 	function set_context<Value>(state: RadioGroupContext<Value>) {
 		return setContext(context_key, state);
 	}
- 
+
 	export function get_radio_group_context<Value>() {
 		return getContext<RadioGroupContext<Value>>(context_key);
 	}
  </script>
- 
+
  <script lang="ts" generics="Value">
 	import type { ClassValue } from 'svelte/elements';
 	import { match } from '../../match.js';

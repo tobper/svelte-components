@@ -48,7 +48,7 @@ export function createLog(source: string): Log {
 			enabled = true;
 			storage.toggle(enabled);
 		},
-	
+
 		disable() {
 			enabled = false;
 			storage.toggle(enabled);
@@ -57,15 +57,15 @@ export function createLog(source: string): Log {
 		debug(message, ...params) {
 			write('debug', message, params);
 		},
-	
+
 		error(message, ...params) {
 			write('error', message, params);
 		},
-	
+
 		info(message, ...params) {
 			write('info', message, params);
 		},
-	
+
 		warning(message, ...params) {
 			write('warning', message, params);
 		},

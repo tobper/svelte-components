@@ -21,8 +21,9 @@
 	box-shadow: var(--card__shadow);
 
 	/* Content */
-	h3, h4 {
-		padding-top: .75rem;
+	h3,
+	h4 {
+		padding-top: 0.75rem;
 	}
 
 	> .table-container,
@@ -47,7 +48,7 @@
 }
 
 .card-header {
-	padding-top: .75rem;
+	padding-top: 0.75rem;
 	padding-left: var(--card__padding-left);
 	padding-right: var(--card__padding-right);
 

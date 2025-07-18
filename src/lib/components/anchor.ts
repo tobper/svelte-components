@@ -45,7 +45,7 @@ export function anchor(
 			const middleware = [
 				autoPlacement({
 					allowedPlacements: ['top-start', 'bottom-start', 'top-end', 'bottom-end']
-			}),
+				}),
 				offset(6),
 				options.match_width && size({
 					apply({ rects, elements }) {
@@ -55,11 +55,11 @@ export function anchor(
 					}
 				})
 			];
-	
+
 			updatePosition();
-	
+
 			return autoUpdate(anchor_element, element, updatePosition)
-	
+
 			async function updatePosition() {
 				const result = await computePosition(
 					anchor_element,
@@ -69,7 +69,7 @@ export function anchor(
 						strategy
 					}
 				);
-	
+
 				element.style.position = strategy;
 				element.style.left = `${result.x}px`;
 				element.style.top = `${result.y}px`;

@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 	import { slide } from 'svelte/transition';
-	import { unique_id } from "../../unique_id.js";
+	import { unique_id } from '../../unique_id.js';
 	import { get_form_context } from './Form.svelte';
 
 	interface Field {
@@ -57,7 +57,7 @@
 	{#if label}
 		<div class="field-label">
 			<label for={content_id}>{label}</label>
-		
+
 			{#if !required}
 				<span class="field-label-optional">(optional)</span>
 			{/if}

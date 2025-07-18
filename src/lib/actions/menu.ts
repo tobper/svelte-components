@@ -49,7 +49,7 @@ export function menu(
 		// otherwise the target would be a child element.
 		const clicked_backdrop = target === dialog;
 		if (clicked_backdrop)
-		  dialog.close();
+			dialog.close();
 	}
 
 	function on_dialog_close() {

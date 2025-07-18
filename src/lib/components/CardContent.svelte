@@ -22,7 +22,7 @@
 {/if}
 
 <div
-	class="card-content" 
+	class="card-content"
 	class:card-content--horizontal={horizontal}
 	class:card-content--fill={fill}
 >

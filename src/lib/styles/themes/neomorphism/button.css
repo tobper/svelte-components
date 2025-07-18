@@ -65,7 +65,7 @@
 		box-shadow:
 			var(--button__shadow),
 			var(--button__shadow--focus, 0 0 #0000);
-		
+
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
 		&:active:not([aria-disabled], :has(:disabled)) {

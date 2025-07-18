@@ -25,14 +25,14 @@
 		justify-content: space-between;
 	}
 
-	[role=listbox] {
+	[role="listbox"] {
 		/* Content */
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		gap: 0px;
 	}
 
-	[role=heading] {
+	[role="heading"] {
 		/* Layout */
 		letter-spacing: var(--list-item-heading__letter-spacing);
 		line-height: var(--space__large);
@@ -45,11 +45,11 @@
 		text-align: center;
 	}
 
-	[role=option] {
+	[role="option"] {
 		/* Layout */
 		min-width: var(--calendar-option__size);
 		min-height: var(--calendar-option__size);
-		border-radius: .15rem;
+		border-radius: 0.15rem;
 
 		/* Content */
 		align-content: center;
@@ -59,7 +59,7 @@
 		cursor: pointer;
 	}
 
-	[role=presentation] {
+	[role="presentation"] {
 		color: var(--palette__text--weak);
 	}
 

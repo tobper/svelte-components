@@ -17,7 +17,7 @@
 
 	let {
 		disabled = false,
-		text = "Cancel",
+		text = 'Cancel',
 		...button_props
 	}: FormCancelButton = $props();
 </script>

@@ -24,6 +24,6 @@
 		class="link list-item-link"
 		{href}
 	>
-		<ListItemContent {children} {icon} {kbd} {text} /> 
+		<ListItemContent {children} {icon} {kbd} {text} />
 	</a>
 </li>

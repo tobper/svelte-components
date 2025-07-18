@@ -241,7 +241,7 @@
 		padding-bottom: var(--space);
 		padding-left: var(--space__large);
 		padding-right: var(--layout__padding-right);
-	
+
 		&:not(.layout-sidebar--visible) {
 			clip-path: inset(100% -10rem 0 -10rem);
 		}
