@@ -128,12 +128,12 @@
 	});
 
 	function clear() {
-		if (!input_text)
-			return;
-
 		input_text = '';
-		bound_value = null;
-		on_clear?.();
+
+		if (bound_value) {
+			bound_value = null;
+			on_clear?.();
+		}
 	}
 
 	function select(item: ListItemOption<Option>) {
