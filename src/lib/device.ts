@@ -2,8 +2,9 @@ import { UAParser } from 'ua-parser-js';
 import { media_queries } from './media.svelte.js';
 
 const ua_parser = new UAParser();
-const ua_device = ua_parser.getDevice()
-const ua_engine = ua_parser.getEngine()
+const ua_browser = ua_parser.getBrowser();
+const ua_device = ua_parser.getDevice();
+const ua_engine = ua_parser.getEngine();
 
 const media = media_queries({
 	landscape: '(orientation: landscape)',
@@ -17,6 +18,9 @@ const tablet = ua_device.type === 'tablet';
 const desktop = !mobile && !tablet;
 
 export const device = {
+	get browser_name() { return ua_browser.name },
+	get browser_version() { return ua_browser.version },
+
 	get mobile() { return mobile },
 	get tablet() { return tablet },
 	get desktop() { return desktop },

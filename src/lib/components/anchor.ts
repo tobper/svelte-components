@@ -1,13 +1,18 @@
 import { browser } from '$app/environment';
-import { get_style } from '$lib/css';
+import { get_style, toggle_root_class } from '$lib/css';
+import { device } from '$lib/device';
 import { get_element, type ElementReference } from '$lib/html';
 import { unique_id } from '$lib/unique_id';
 import { autoPlacement, autoUpdate, computePosition, offset, size } from '@floating-ui/dom';
 import type { ActionReturn } from 'svelte/action';
 
-export const anchoring_supported = browser
-	? ('anchorName' in document.documentElement.style)
-	: false;
+export const anchoring_supported =
+	browser &&
+	!device.browser_name?.includes('Safari') &&
+	('anchorName' in document.documentElement.style);
+
+if (anchoring_supported)
+	toggle_root_class('supports-anchoring');
 
 export interface AnchorParameters {
 	anchor: ElementReference;
@@ -20,8 +25,6 @@ export function anchor(
 ): ActionReturn<AnchorParameters> {
 	// Remove plugin when anchoring is fully supported
 	// https://caniuse.com/?search=anchor
-	const anchoring_supported = 'anchorName' in document.documentElement.style;
-
 	update(options);
 
 	return { update };

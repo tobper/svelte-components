@@ -14,7 +14,7 @@
 	overscroll-behavior: contain;
 }
 
-@supports (anchor-name: --anchor) {
+.supports-anchoring {
 	.popover {
 		inset: auto;
 		margin-top: .5rem;
