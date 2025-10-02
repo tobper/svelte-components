@@ -14,15 +14,51 @@ describe('create_normalized_lookup', () => {
 		expect(find_all('n')).toEqual(['Jane', 'John']);
 	});
 
+	describe('clear', () => {
+		it('returns null after lookup is cleared', () => {
+			const { clear, find } = create_normalized_lookup<string>(['Bob', 'John']);
+
+			clear();
+
+			expect(find('o')).toEqual(null);
+		});
+	});
+
+	describe('add', () => {
+		it('returns null before a matching value has been added', () => {
+			const { add, find } = create_normalized_lookup<string>([]);
+
+			const before = find('o');
+			add('Bob');
+			const after = find('o');
+
+			expect(before).toEqual(null);
+			expect(after).toEqual('Bob');
+		});
+	});
+
+	describe('remove', () => {
+		it('returns null after a value has been removed', () => {
+			const { remove, find } = create_normalized_lookup<string>(['Bob']);
+
+			const before = find('o');
+			remove('Bob');
+			const after = find('o');
+
+			expect(before).toEqual('Bob');
+			expect(after).toEqual(null);
+		});
+	});
+
 	describe('find', () => {
-		it('returns undefined when query is empty', () => {
+		it('returns null when query is empty', () => {
 			const source = ['Bob', 'Jane', 'John'];
 			const { find } = create_normalized_lookup(source);
 
 			expect(find('')).toEqual(null);
 		});
 
-		it('returns undefined when no match is found', () => {
+		it('returns null when no match is found', () => {
 			const source = ['Bob', 'Jane', 'John'];
 			const { find } = create_normalized_lookup(source);
 
@@ -81,7 +117,7 @@ describe('create_normalized_lookup', () => {
 		});
 
 		it('returns all values containing query', () => {
-			const source = ['Bob', 'Jane', 'John'];
+			const source = ['Bob', 'Bob', 'Jane', 'John'];
 			const { find_all } = create_normalized_lookup(source);
 
 			expect(find_all('o')).toEqual(['Bob', 'John']);

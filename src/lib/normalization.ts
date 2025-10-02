@@ -1,3 +1,11 @@
+export interface Lookup<T> {
+	clear(): void;
+	add(...values: T[]): void;
+	remove(value: T): void;
+	find(query: unknown): T | null
+	find_all(query: unknown): T[]
+}
+
 /**
  * Creates predicate functions accepting a string argument that will be compared against predefined values.
  *
@@ -20,12 +28,26 @@
 export function create_normalized_lookup<T>(
 	values: Iterable<T>,
 	comparison_projection: (value: T) => unknown = value => value
-) {
-	const normalized_values = Array.from(values, value =>
-		[normalize(comparison_projection(value)), value] as [string, T]
-	);
+): Lookup<T> {
+	const normalized_values = new Map<T, string>();
 
-	return { find, find_all };
+	for (const value of values)
+		add(value);
+
+	return { clear, add, remove, find, find_all };
+
+	function clear() {
+		normalized_values.clear();
+	}
+
+	function add(...values: T[]) {
+		for (const value of values)
+			normalized_values.set(value, normalize(comparison_projection(value)));
+	}
+
+	function remove(value: T) {
+		normalized_values.delete(value);
+	}
 
 	function find(query: unknown) {
 		const matcher = get_matcher(query);
@@ -34,7 +56,7 @@ export function create_normalized_lookup<T>(
 
 		let match: ({ value: T; normalized_value: string; rank: number; }) | undefined = undefined;
 
-		for (const [normalized_value, value] of normalized_values) {
+		for (const [value, normalized_value] of normalized_values.entries()) {
 			const { matches, rank } = matcher(normalized_value);
 			if (!matches)
 				continue;
@@ -45,7 +67,9 @@ export function create_normalized_lookup<T>(
 			match = { value, normalized_value, rank };
 		}
 
-		return match ? match.value : null;
+		return match
+			? match.value
+			: null;
 	}
 
 	function find_all(query: unknown) {
@@ -55,7 +79,7 @@ export function create_normalized_lookup<T>(
 
 		const matched_values: { value: T; normalized_value: string; rank: number; }[] = [];
 
-		for (const [normalized_value, value] of normalized_values) {
+		for (const [value, normalized_value] of normalized_values.entries()) {
 			const { matches, rank } = matcher(normalized_value);
 			if (!matches)
 				continue;
