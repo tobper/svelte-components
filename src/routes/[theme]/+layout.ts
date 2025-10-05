@@ -1,24 +1,19 @@
 import type { Style } from '$lib/index.js';
+import { redirect } from '@sveltejs/kit';
 
 export const ssr = false;
+const available_themes: Array<Style> = ['lines', 'neomorphism'];
 
-export function load({ url }) {
-	let theme = (url.searchParams.get('theme') ?? default_theme) as Style;
+export function load({ params }) {
+	const theme = params.theme as Style
 
-	if (!valid_theme(theme)) {
+	if (!available_themes.includes(theme)) {
 		console.warn(`"${theme}" is not a valid theme. Valid themes are ${humanize_list(themes)}.`);
-		theme = default_theme;
+		redirect(307, '/');
 	}
 
 	return { theme };
 }
-
-function valid_theme(theme: string): theme is Style {
-	return themes.includes(theme as Style);
-}
-
-const themes: Array<Style> = ['neomorphism', 'lines'];
-const default_theme = themes[0];
 
 function humanize_list(values: Array<unknown>) {
 	const quoted = values.map(x => `"${x}"`);
