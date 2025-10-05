@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, Card, CardContent, Dialog, DialogContent, PageContent } from '$lib/index.js';
-	import { lorem } from './data.js';
+	import { lorem } from '../data.js';
 
 	let visible = $state(false);
 </script>

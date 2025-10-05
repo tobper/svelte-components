@@ -12,7 +12,7 @@
 	const button_variants: ButtonVariant[] = ['primary', 'secondary', 'tertiary', 'add', 'delete'];
 </script>
 
-<PageContent id="Button" header="Button">
+<PageContent id="Button" header="Buttons">
 	<Card>
 		{#each button_types as [heading, type] (heading)}
 			<CardHeader text={heading} />
