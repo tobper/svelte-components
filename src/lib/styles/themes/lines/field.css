@@ -1,4 +1,8 @@
-:where(.theme-lines) {
+:root:where(.theme-lines) {
+	.checkbox {
+		border-bottom: 1px solid var(--border__color);
+	}
+
 	.field-label {
 		color: var(--field-label__color);
 		font-size: small;
@@ -11,7 +15,7 @@
 
 		&::before {
 			/* Appearance */
-			background: var(--field-input-line__color);
+			background: var(--border__color);
 
 			/* Layout */
 			position: absolute;

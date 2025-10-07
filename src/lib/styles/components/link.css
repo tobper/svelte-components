@@ -5,9 +5,5 @@
 	}
 
 	/* Interaction */
-	cursor: default;
-
-	&:not([aria-current]) {
-		cursor: pointer;
-	}
+	cursor: pointer;
 }

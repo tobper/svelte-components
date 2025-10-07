@@ -1,8 +1,10 @@
 :root {
+	--dialog__background: var(--palette__background_medium);
 	--dialog__backdrop-blur: 1px;
+	--dialog__border-radius: var(--border-radius__medium);
 	--dialog__margin: 1rem;
 	--dialog__padding-inline: var(--space);
-	--dialog__shadow: 0 1.5rem 3rem rgb(0 0 0 / .25);
+	--dialog__shadow: var(--shadow__large);
 }
 
 .dialog {
@@ -21,9 +23,7 @@
 	);
 
 	/* Appearance */
-	background: var(--panel__background-color);
-	background: var(--panel__background);
-	border: 1px solid var(--panel__border-color);
+	background: var(--dialog__background);
 	border-radius: var(--dialog__border-radius);
 	box-shadow: var(--dialog__shadow);
 
@@ -130,7 +130,7 @@
 }
 
 .dialog[open]::backdrop {
-	background-color: rgb(0 0 0 / 65%);
+	background-color: rgb(0 0 0 / 35%);
 	backdrop-filter: blur(var(--dialog__backdrop-blur)) opacity(1);
 	transition-delay: var(--layout__zoom-delay);
 }

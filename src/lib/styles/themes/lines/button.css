@@ -1,6 +1,7 @@
-:where(.theme-lines) {
+:root:where(.theme-lines) {
 	--button__color: var(--palette__text);
 	--button__border-radius: 5px;
+	--button__border-color: var(--border__color);
 
 	/* .button-group {
 		> .button--round:not(:last-child) {
@@ -72,7 +73,7 @@
 			color: color-mix(in lab, var(--button__color), var(--palette__accent-color) 25%);
 
 			.button-border > * {
-				stroke: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 40%);
+				stroke: var(--button__border-color);
 			}
 		}
 	}
@@ -110,7 +111,7 @@
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected]),
 		&:active:not([aria-disabled], :has(:disabled)) {
-			background-color: var(--palette__accent-color--bright);
+			background-color: var(--palette__accent-background--inset);
 			color: var(--button__color);
 		}
 	}
@@ -148,7 +149,7 @@
 
 		> * {
 			fill: transparent;
-			stroke: color-mix(in lab, var(--palette__accent-color), var(--panel__background-color) 30%);
+			stroke: var(--button__border-color);
 			stroke-dasharray: 100 0;
 			stroke-width: 3px;
 			transition: stroke-dasharray ease-out var(--transition__duration--fast);

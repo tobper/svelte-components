@@ -1,11 +1,9 @@
-:where(.theme-neomorphism) {
+:root:where(.theme-neomorphism) {
+	--panel__background-color: var(--palette__background_medium);
 	--panel__border-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 15%);
 	--panel__border: 1px solid var(--panel__border-color);
-	--panel__shadow: 0 .75px 2px #0003;
 
 	&.scheme-light {
-		--panel__background-color: color-mix(in lab, var(--palette__background), var(--palette__scheme) 60%);
-		--panel__background-color--contrast: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
 		--panel__background: linear-gradient(
 			178deg,
 			color-mix(in lab, var(--panel__background-color), white 30%),
@@ -14,23 +12,10 @@
 	}
 
 	&.scheme-dark {
-		--panel__background-color: color-mix(in lab, var(--palette__background), var(--palette__contrast) 10%);
-		--panel__background-color--contrast: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
 		--panel__background: linear-gradient(
 			178deg,
-			color-mix(in lab, var(--panel__background-color), white 6%),
+			color-mix(in lab, var(--panel__background-color), white 0%),
 			var(--panel__background-color) 100%
 		);
-	}
-
-	.dialog, .menu {
-		background-color: var(--panel__background-color);
-		background: var(--panel__background);
-		color: var(--palette__text);
-		box-shadow: var(--panel__shadow);
-
-		:where(&) .contrast {
-			background-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) var(--palette__contrast-opacity));
-		}
 	}
 }

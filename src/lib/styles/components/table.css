@@ -49,7 +49,7 @@
 
 	/* Colors */
 	tr, th, .table-body > * {
-		background-color: color-mix(in lab, var(--table-row__background-color), var(--palette__contrast) var(--table-row__opacity--zebra));
+		background-color: color-mix(in lab, var(--table-row__background-color), var(--palette__contrast)  var(--table-row__opacity--zebra));
 		transition-property: background-color, color;
 		transition-duration: 250ms;
 	}

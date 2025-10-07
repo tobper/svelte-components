@@ -1,4 +1,4 @@
-:where(.theme-neomorphism) {
+:root:where(.theme-neomorphism) {
 	.page-header {
 		/* Glass effect */
 		background-color: var(--glass__background-color);

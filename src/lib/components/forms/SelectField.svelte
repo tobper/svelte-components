@@ -354,7 +354,9 @@
 	[role=heading],
 	[role=option],
 	[role=presentation] {
-		padding-inline: var(--space);
+		padding-block: var(--menu-item__padding-block);
+		padding-inline: var(--menu-item__padding-inline);
+		border-radius: var(--menu-item__border-radius);
 
 		align-content: center;
 		overflow: hidden;
@@ -384,6 +386,6 @@
 	}
 
 	[aria-current] {
-		background-color: var(--list-item__background-color--active);
+		background: var(--menu-item__background--active);
 	}
 </style>

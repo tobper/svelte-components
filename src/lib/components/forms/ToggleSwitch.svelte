@@ -86,11 +86,18 @@
 		cursor: pointer;
 	}
 
+	label:has(:disabled) {
+		opacity: var(--palette__opacity--disabled);
+	}
+
 	input {
 		--toggle__height: 1.25rem;
-		--toggle__background: var(--field__background, var(--palette__background));
+		--toggle__background: var(--field__background, var(--palette__background_medium));
+		--toggle__background--checked: var(--palette__accent-background--inset);
 		--toggle__offset: calc(var(--toggle__height) * -1);
 		--toggle__shadow: var(--toggle__offset) 0 0 2px var(--toggle__background) inset;
+		--toggle-marker-color: var(--palette__text--disabled);
+		--toggle-marker-color--checked: var(--palette__accent-color);
 
 		/* Layout */
 		height: var(--toggle__height);
@@ -98,7 +105,7 @@
 
 		/* Appearance */
 		appearance: none;
-		background-color: var(--palette__neutral);
+		background-color: var(--toggle-marker-color);
 		border-radius: 9999px;
 		box-shadow:
 			var(--field__shadow, 0 0 #0000),
@@ -116,13 +123,17 @@
 		&:enabled {
 			cursor: pointer;
 		}
+
+		:global(.theme-lines) & {
+			border: 1px solid var(--border__color);
+		}
 	}
 
 	input:checked {
-		--toggle__background: var(--palette__accent-color--bright);
+		--toggle__background: var(--toggle__background--checked);
 		--toggle__offset: var(--toggle__height);
 
-		background-color: var(--palette__accent-color);
+		background-color: var(--toggle-marker-color--checked);
 	}
 
 	input:focus-visible {

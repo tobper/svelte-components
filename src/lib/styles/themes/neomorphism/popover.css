@@ -1,34 +1,36 @@
-/* Animation */
-.popover.popover--fade {
-	transition-behavior: allow-discrete;
-	transition-duration: var(--popover__transition-duration);
-	transition-property: opacity, transform, display, overlay;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+:root:where(.theme-neomorphism) {
+	/* Animation */
+	.popover.popover--fade {
+		transition-behavior: allow-discrete;
+		transition-duration: var(--popover__transition-duration);
+		transition-property: opacity, transform, display, overlay;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-	@starting-style {
-		opacity: 0;
-		transform: translateY(1rem) scaleX(98%);
+		@starting-style {
+			opacity: 0;
+			transform: translateY(1rem) scaleX(98%);
+		}
+
+		&:not(.popover--visible) {
+			opacity: 0;
+			transform: translateY(1rem) scaleX(98%);
+		}
 	}
 
-	&:not(.popover--visible) {
-		opacity: 0;
-		transform: translateY(1rem) scaleX(98%);
-	}
-}
+	.popover.popover--slide {
+		transition-behavior: allow-discrete;
+		transition-duration: var(--popover__transition-duration);
+		transition-property: clip-path, opacity, transform, display, overlay;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-.popover.popover--slide {
-	transition-behavior: allow-discrete;
-	transition-duration: var(--popover__transition-duration);
-	transition-property: clip-path, opacity, transform, display, overlay;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		@starting-style {
+			clip-path: inset(0 0 100% 0);
+			opacity: 0;
+		}
 
-	@starting-style {
-		clip-path: inset(0 0 100% 0);
-		opacity: 0;
-	}
-
-	&:not(.popover--visible) {
-		clip-path: inset(0 0 100% 0);
-		opacity: 0;
+		&:not(.popover--visible) {
+			clip-path: inset(0 0 100% 0);
+			opacity: 0;
+		}
 	}
 }

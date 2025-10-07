@@ -1,4 +1,3 @@
-:where(.theme-neomorphism) {
-	--dialog__border-radius: .5rem;
-	--dialog__border-color: color-mix(in lab, var(--palette__primary-color), var(--palette__background) 50%);
+:root:where(.theme-neomorphism) {
+	--dialog__shadow: var(--shadow__highlight), var(--shadow__large);
 }

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { ClassValue } from 'svelte/elements';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 	import { unique_id } from '../../unique_id.js';
+	import { get_form_context } from './Form.svelte';
 
 	interface Checkbox {
 		checked?: boolean;
@@ -12,9 +13,11 @@
 		label?: string;
 		name?: string;
 		readonly?: boolean;
-		onchange?: HTMLInputElement['onchange'];
-		onclick?: HTMLInputElement['onclick'];
+		onchange?: HTMLInputAttributes['onchange'];
+		onclick?: HTMLInputAttributes['onclick'];
 	}
+
+	const form = get_form_context();
 
 	let {
 		checked = $bindable(false),
@@ -43,7 +46,8 @@
 		bind:checked
 		bind:indeterminate
 		aria-invalid={invalid ? true : undefined}
-		class={['checkbox', !label && class_name]}
+		class={['checkbox', !label && class_name, { skeleton: form.loading }]}
+		readonly={form.in_progress}
 		type="checkbox"
 	>
 {/snippet}

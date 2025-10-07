@@ -1,12 +1,8 @@
-:where(.theme-neomorphism) {
-	--card__border-radius: .5rem;
-	--card__shadow: var(--panel__shadow);
-
-	.card {
-		background: var(--panel__background);
-
-		.scheme-dark & {
-			border: var(--panel__border);
-		}
-	}
+:root:where(.theme-neomorphism) {
+	--card__background-color: var(--panel__background-color);
+	--card__background: var(--panel__background);
+	--card__border-radius: var(--border-radius__medium);;
+	--card__shadow:
+		var(--shadow__highlight),
+		var(--shadow__small);
 }
