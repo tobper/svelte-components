@@ -14,7 +14,7 @@
 		padding-top: var(--page-header__height);
 
 		&.layout-sidebar--folding {
-			box-shadow: var(--shadow__x-large);
+			box-shadow: var(--shadow__large);
 
 			.device-mobile & {
 				border-top-left-radius: .5rem;

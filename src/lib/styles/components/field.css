@@ -53,12 +53,12 @@ input[type=search]::-webkit-search-cancel-button {
 
 .checkbox {
 	--checkbox__background--checked: var(--palette__background);
-	--checkbox__color--checked: var(--palette__accent-color);
+	--checkbox__color--checked: var(--palette__accent-contrast);
 
 	appearance: none;
 	background-origin: border-box;
 	background-repeat: no-repeat;
-	border-radius: .25rem;
+	border-radius: var(--border-radius__small);
 	width: var(--checkbox__size);
 	height: var(--checkbox__size);
 	transition: background calc(var(--field__transition-duration) / 1) ease-out;
@@ -132,7 +132,7 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .field-content {
-	--skeleton__border-radius: .25rem;
+	--skeleton__border-radius: var(--border-radius__small);
 
 	/* Horizontal Content */
 	display: flex;

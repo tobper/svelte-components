@@ -4,7 +4,7 @@
 	--link__color--hover: var(--palette__primary-color);
 
 	--link-header__color: var(--palette__primary-color);
-	--link-header__color--hover: var(--palette__primary--contrast);
+	--link-header__color--hover: color-mix(in lab, var(--palette__primary-color), var(--palette__contrast) 40%);
 
 	.link {
 		/*  Appearance */

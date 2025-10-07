@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ClassValue } from 'svelte/elements';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 	import { unique_id } from '../../unique_id.js';
 
 	interface Checkbox {
@@ -12,8 +12,8 @@
 		label?: string;
 		name?: string;
 		readonly?: boolean;
-		onchange?: HTMLInputElement['onchange'];
-		onclick?: HTMLInputElement['onclick'];
+		onchange?: HTMLInputAttributes['onchange'];
+		onclick?: HTMLInputAttributes['onclick'];
 	}
 
 	let {

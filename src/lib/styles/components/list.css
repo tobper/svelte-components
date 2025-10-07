@@ -1,13 +1,13 @@
 :root {
-	--list__border-radius: .25rem;
+	--list__border-radius: var(--border-radius__small);
 	--list__max-items: 10;
 
 	--list-item__min-height: calc(1.5rem + 2 * .75rem);
 	--list-item__padding-block: .75rem;
 	--list-item__padding-inline: 1rem;
 	--list-item__padding: var(--list-item__padding-block) var(--list-item__padding-inline);
-	--list-item__background-color--active: var(--palette__neutral-background);
-	--list-item__background-color--selected: var(--palette__primary-background);
+	--list-item__background--active: var(--palette__neutral-background);
+	--list-item__background--selected: var(--palette__primary-background);
 	--list-item__text-color: var(--palette__text);
 	--list-item__text-color--selected: var(--palette__text--inverted);
 
@@ -72,18 +72,18 @@
 
 .list-item-option {
 	padding: var(--list-item__padding);
-	border-radius: .15rem;
+	border-radius: var(--border-radius__tiny);
 
 	/* Interaction */
 	cursor: pointer;
 	user-select: none;
 
 	&[aria-current=true] {
-		background-color: var(--list-item__background-color--active);
+		background: var(--list-item__background--active);
 	}
 
 	&[aria-selected=true] {
-		background-color: var(--list-item__background-color--selected);
+		background: var(--list-item__background--selected);
 		color: var(--list-item__text-color--selected);
 	}
 }

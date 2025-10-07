@@ -110,7 +110,7 @@
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected]),
 		&:active:not([aria-disabled], :has(:disabled)) {
-			background-color: var(--palette__accent-color--bright);
+			background-color: var(--palette__accent-background--inset);
 			color: var(--button__color);
 		}
 	}

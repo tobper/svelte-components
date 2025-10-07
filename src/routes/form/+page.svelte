@@ -147,7 +147,7 @@
 	<Card>
 		<CardContent header="Toggle switch">
 			<ToggleSwitch />
-			<ToggleSwitch label="Label" />
+			<ToggleSwitch label="Label" checked />
 			<ToggleSwitch label="Label" description="Extra long description for switch" />
 			<ToggleSwitch disabled label="Disabled" />
 			<ToggleSwitch disabled checked label="Disabled checked" />

@@ -1,8 +1,10 @@
 :root {
+	--menu__background: var(--palette__background_light);
 	--menu__min-width: 16rem;
 	--menu__min-width--meta: 20rem;
 	--menu__border-width: 1px;
 	--menu__padding: var(--space__tiny);
+	--menu-item__background--active: var(--palette__neutral-background);
 	--menu-item__padding-block: var(--space__medium);
 	--menu-item__padding-inline: var(--space);
 	--menu-item-meta__gap: var(--space);
@@ -17,12 +19,15 @@
 	min-width: var(--menu__min-width);
 
 	/* Appearance */
-	background: var(--panel__background-color);
-	background: var(--panel__background);
+	background: var(--menu__background);
 	border: var(--menu__border-width) solid var(--panel__border-color);
 	border-radius: var(--menu__border-radius);
-	padding: var(--menu__padding);
 	box-shadow: var(--menu__shadow);
+	padding: var(--menu__padding);
+
+	.popover:has(> &) {
+		overflow: visible; /* Ensure shadow is visible */
+	}
 
 	/* Content */
 	display: flex;
@@ -54,6 +59,7 @@
 .menu-item {
 	display: flex;
 	align-items: start;
+	border-radius: var(--border-radius__tiny);
 	min-height: 3rem;
 
 	/* Prevent text selection */
@@ -71,7 +77,7 @@
 
 	/* Focused */
 	.supports-hover &:focus {
-		background-color: var(--list-item__background-color--active);
+		background: var(--menu-item__background--active);
 	}
 }
 
@@ -149,7 +155,7 @@
 		/* padding-block: calc(.125 * var(--space)); */
 		padding-inline: var(--space__small);
 		border: 1px solid var(--palette__neutral);
-		border-radius: .25rem;
+		border-radius: var(--border-radius__small);
 	}
 }
 

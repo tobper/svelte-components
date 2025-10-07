@@ -1,24 +1,33 @@
 :root {
 	/* https://oklch.com */
-	--palette__primary-base: #ea861a;
-	--palette__secondary-base: #06b6d4;
-	--palette__tertiary-base: #97cea5;
-	--palette__variant-add-base: oklch(77% 0.125 140);
-	--palette__variant-delete-base: oklch(77% 0.15 20);
+	--palette__primary: #ea861a;
+	--palette__secondary: #06b6d4;
+	--palette__tertiary: #97cea5;
+	--palette__variant-add: oklch(77% 0.125 140);
+	--palette__variant-delete: oklch(77% 0.15 20);
 
 	/* Green */
-	--palette__primary-base: oklch(75% 0.05 150);
-	--palette__secondary-base: oklch(83% 0.125 84);
-	--palette__tertiary-base: oklch(83% 0.1 220);
+	--palette__primary: oklch(75% 0.05 150);
+	--palette__secondary: oklch(83% 0.125 84);
+	--palette__tertiary: oklch(83% 0.1 220);
 	--palette__background-dark: #272625;
 	--palette__background-light: #e5e4e4;
 
 	/* Blue */
-	--palette__primary-base: #a8bef1;
-	--palette__secondary-base: #d9ba86;
-	--palette__tertiary-base: #83cfc8;
+	--palette__primary: #a8bef1;
+	--palette__secondary: #d9ba86;
+	--palette__tertiary: #83cfc8;
 	--palette__background-dark: hsl(220 13% 18%);
 	--palette__background-light: hsl(220 13% 90%);
+
+	--palette__opacity--strong:   95%;
+	--palette__opacity--weak:     60%;
+	--palette__opacity--disabled: 38%;
+
+	--palette__text: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--strong));
+	--palette__text--weak: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--weak));
+	--palette__text--disabled: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--disabled));
+	--palette__text--inverted: rgb(255 255 255 / var(--palette__opacity--strong));
 }
 
 .scheme-light {
@@ -31,32 +40,39 @@
 	--palette__neutral-background: oklch(90% 0 0);
 	--palette__neutral-background: var(--palette__background);
 
-	--palette__background: var(--palette__background-light);
 	--palette__text--inactive: #666;
-	--palette__text--negative: rgb(185 28 28);
-	--palette__text--positive: rgb(21 128 61);
+	--palette__text--negative: oklch(0.5 0.19 27);
+	--palette__text--positive: oklch(0.5 0.13 150);
 
-	--palette__primary-background: oklch(from var(--palette__primary-base) calc(l - .15) c h);
-	--palette__primary-color: oklch(from var(--palette__primary-base) calc(l - .15) c h);
-	--palette__primary-color--bright: oklch(from var(--palette__primary-color) calc(l + (1 - l) * .8) calc(c * 0.15) h);
+	--palette__background:        var(--palette__background-light);
+	--palette__background_medium: oklch(from var(--palette__background) .95 calc(c * .9) h);
+	--palette__background_light:  oklch(from var(--palette__background) .99 calc(c * .9) h);
 
-	--palette__secondary-background: oklch(from var(--palette__secondary-base) calc(l - .15) c h);
-	--palette__secondary-color: oklch(from var(--palette__secondary-base) calc(l - .15) c h);
-	--palette__secondary-color--bright: oklch(from var(--palette__secondary-color) calc(l + (1 - l) * .8) calc(c * 0.15) h);
+	--palette__primary-background:        oklch(from var(--palette__primary)        calc(l * .85) c h);
+	--palette__secondary-background:      oklch(from var(--palette__secondary)      calc(l * .85) c h);
+	--palette__tertiary-background:       oklch(from var(--palette__tertiary)       calc(l * .85) c h);
+	--palette__variant-add-background:    oklch(from var(--palette__variant-add)    calc(l * .85) c h);
+	--palette__variant-delete-background: oklch(from var(--palette__variant-delete) calc(l * .85) c h);
 
-	--palette__tertiary-background: oklch(from var(--palette__tertiary-base) calc(l - .15) c h);
-	--palette__tertiary-color: oklch(from var(--palette__tertiary-base) calc(l - .15) c h);
-	--palette__tertiary-color--bright: oklch(from var(--palette__tertiary-color) calc(l + (1 - l) * .8) calc(c * 0.15) h);
+	--palette__primary-background--inset:        oklch(from var(--palette__primary-background)        calc(l + (1 - l) * .7) calc(c * .35) h);
+	--palette__secondary-background--inset:      oklch(from var(--palette__secondary-background)      calc(l + (1 - l) * .7) calc(c * .35) h);
+	--palette__tertiary-background--inset:       oklch(from var(--palette__tertiary-background)       calc(l + (1 - l) * .7) calc(c * .35) h);
+	--palette__variant-add-background--inset:    oklch(from var(--palette__variant-add-background)    calc(l + (1 - l) * .7) calc(c * .35) h);
+	--palette__variant-delete-background--inset: oklch(from var(--palette__variant-delete-background) calc(l + (1 - l) * .7) calc(c * .35) h);
 
-	--palette__variant-add-background: oklch(from var(--palette__variant-add-base) calc(l - .15) c h);
-	--palette__variant-add-color: oklch(from var(--palette__variant-add-base) calc(l - .15) c h);
-	--palette__variant-add-color--bright: oklch(from var(--palette__variant-add-color) calc(l + (1 - l) * .8) calc(c * 0.15) h);
+	--palette__primary-background--hover:        oklch(from var(--palette__primary)        calc(l * .9) calc(c * .9) h);
+	--palette__secondary-background--hover:      oklch(from var(--palette__secondary)      calc(l * .9) calc(c * .9) h);
+	--palette__tertiary-background--hover:       oklch(from var(--palette__tertiary)       calc(l * .9) calc(c * .9) h);
+	--palette__variant-add-background--hover:    oklch(from var(--palette__variant-add)    calc(l * .9) calc(c * .9) h);
+	--palette__variant-delete-background--hover: oklch(from var(--palette__variant-delete) calc(l * .9) calc(c * .9) h);
 
-	--palette__variant-delete-background: oklch(from var(--palette__variant-delete-base) calc(l - .15) c h);
-	--palette__variant-delete-color: oklch(from var(--palette__variant-delete-base) calc(l - .15) c h);
-	--palette__variant-delete-color--bright: oklch(from var(--palette__variant-delete-color) calc(l + (1 - l) * .8) calc(c * 0.15) h);
+	--palette__primary-color:        oklch(from var(--palette__primary)        calc(l - .15) c h);
+	--palette__secondary-color:      oklch(from var(--palette__secondary)      calc(l - .15) c h);
+	--palette__tertiary-color:       oklch(from var(--palette__tertiary)       calc(l - .15) c h);
+	--palette__variant-add-color:    oklch(from var(--palette__variant-add)    calc(l - .15) c h);
+	--palette__variant-delete-color: oklch(from var(--palette__variant-delete) calc(l - .15) c h);
 
-	--palette__error: oklch(60% 0.1 22);
+	--palette__error:        oklch(.6 0.1 22);
 	--palette__error-contrast: color-mix(in lab, var(--palette__error), var(--palette__contrast) 40%);
 }
 
@@ -69,57 +85,40 @@
 	--palette__neutral: oklch(57% 0 0);
 	--palette__neutral-background: color-mix(in lab, var(--palette__background), var(--palette__contrast) 25%);
 
-	--palette__background: var(--palette__background-dark);
 	--palette__text--inactive: #888;
-	--palette__text--negative: rgb(254 202 202);
-	--palette__text--positive: rgb(187 247 208);
+	--palette__text--negative: oklch(0.88 0.06 18);
+	--palette__text--positive: oklch(0.9 0.08 155);
 
-	--palette__primary-background: oklch(from var(--palette__primary-base) calc(l - .23) calc(c *.6) h);
-	--palette__primary-color: oklch(from var(--palette__primary-base) l calc(c * .7) h);
-	--palette__primary-color--bright: oklch(from var(--palette__primary-base) calc(l * .7) calc(c * .4) h);
+	--palette__background:        var(--palette__background-dark);
+	--palette__background_medium: oklch(from var(--palette__background) calc(l * 1.25) calc(c * .9) h);
+	--palette__background_light:  oklch(from var(--palette__background) calc(l * 1.35) calc(c * .9) h);
 
-	--palette__secondary-background: oklch(from var(--palette__secondary-base) calc(l - .23) calc(c * .6) h);
-	--palette__secondary-color: oklch(from var(--palette__secondary-base) l calc(c * .7) h);
-	--palette__secondary-color--bright: oklch(from var(--palette__secondary-base) calc(l * .7) calc(c * .4) h);
+	--palette__primary-background:        oklch(from var(--palette__primary)        calc(l * .7) calc(c * .6) h);
+	--palette__secondary-background:      oklch(from var(--palette__secondary)      calc(l * .7) calc(c * .6) h);
+	--palette__tertiary-background:       oklch(from var(--palette__tertiary)       calc(l * .7) calc(c * .6) h);
+	--palette__variant-add-background:    oklch(from var(--palette__variant-add)    calc(l * .7) calc(c * .6) h);
+	--palette__variant-delete-background: oklch(from var(--palette__variant-delete) calc(l * .7) calc(c * .6) h);
 
-	--palette__tertiary-background: oklch(from var(--palette__tertiary-base) calc(l - .22) calc(c * .6) h);
-	--palette__tertiary-color: oklch(from var(--palette__tertiary-base) l calc(c * .7) h);
-	--palette__tertiary-color--bright: oklch(from var(--palette__tertiary-base) calc(l * .7) calc(c * .4) h);
+	--palette__primary-background--inset:        oklch(from var(--palette__primary)        calc(l * .7) calc(c * .5) h);
+	--palette__secondary-background--inset:      oklch(from var(--palette__secondary)      calc(l * .7) calc(c * .5) h);
+	--palette__tertiary-background--inset:       oklch(from var(--palette__tertiary)       calc(l * .7) calc(c * .5) h);
+	--palette__variant-add-background--inset:    oklch(from var(--palette__variant-add)    calc(l * .7) calc(c * .5) h);
+	--palette__variant-delete-background--inset: oklch(from var(--palette__variant-delete) calc(l * .7) calc(c * .5) h);
 
-	--palette__variant-add-background: oklch(from var(--palette__variant-add-base) calc(l - .22) calc(c * .6) h);
-	--palette__variant-add-color: oklch(from var(--palette__variant-add-base) l calc(c * .7) h);
-	--palette__variant-add-color--bright: oklch(from var(--palette__variant-add-base) calc(l * .7) calc(c * .4) h);
+	--palette__primary-background--hover:        oklch(from var(--palette__primary)        calc(l * .8) calc(c * .6) h);
+	--palette__secondary-background--hover:      oklch(from var(--palette__secondary)      calc(l * .8) calc(c * .6) h);
+	--palette__tertiary-background--hover:       oklch(from var(--palette__tertiary)       calc(l * .8) calc(c * .6) h);
+	--palette__variant-add-background--hover:    oklch(from var(--palette__variant-add)    calc(l * .8) calc(c * .6) h);
+	--palette__variant-delete-background--hover: oklch(from var(--palette__variant-delete) calc(l * .8) calc(c * .6) h);
 
-	--palette__variant-delete-background: oklch(from var(--palette__variant-delete-base) calc(l - .22) calc(c * .6) h);
-	--palette__variant-delete-color: oklch(from var(--palette__variant-delete-base) l calc(c * .7) h);
-	--palette__variant-delete-color--bright: oklch(from var(--palette__variant-delete-base) calc(l * .7) calc(c * .4) h);
+	--palette__primary-color:        oklch(from var(--palette__primary)        l calc(c * .7) h);
+	--palette__secondary-color:      oklch(from var(--palette__secondary)      l calc(c * .7) h);
+	--palette__tertiary-color:       oklch(from var(--palette__tertiary)       l calc(c * .7) h);
+	--palette__variant-add-color:    oklch(from var(--palette__variant-add)    l calc(c * .7) h);
+	--palette__variant-delete-color: oklch(from var(--palette__variant-delete) l calc(c * .7) h);
 
-	--palette__error: oklch(80% 0.08 22);
+	--palette__error:        oklch(80% 0.08 22);
 	--palette__error-contrast: color-mix(in lab, var(--palette__error), var(--palette__contrast) 40%);
-}
-
-.scheme-light {
-	--palette__opacity--strong: 87%;
-	--palette__opacity--weak: 60%;
-	--palette__opacity--disabled: 38%;
-}
-
-.scheme-dark {
-	--palette__opacity--strong: 95%;
-	--palette__opacity--weak: 50%;
-	--palette__opacity--disabled: 38%;
-}
-
-.scheme-light,
-.scheme-dark {
-	--palette__text: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--strong));
-	--palette__text--weak: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--weak));
-	--palette__text--disabled: oklch(from var(--palette__contrast) l c h / var(--palette__opacity--disabled));
-	--palette__text--inverted: rgb(255 255 255 / var(--palette__opacity--strong));
-
-	--palette__primary--contrast: color-mix(in lab, var(--palette__primary-color), var(--palette__contrast) 40%);
-	--palette__secondary--contrast: color-mix(in lab, var(--palette__secondary-color), var(--palette__contrast) 40%);
-	--palette__tertiary--contrast: color-mix(in lab, var(--palette__tertiary-color), var(--palette__contrast) 40%);
 }
 
 /*
@@ -127,41 +126,63 @@
 */
 :root,
 .variant-primary {
-	--palette__accent-color: var(--palette__primary-color);
-	--palette__accent-color--bright: var(--palette__primary-color--bright);
-	--palette__accent-background: var(--palette__primary-background);
+	--palette__accent:                   var(--palette__primary);
+	--palette__accent-color:             var(--palette__primary-color);
+	--palette__accent-background:        var(--palette__primary-background);
+	--palette__accent-background--inset: var(--palette__primary-background--inset);
+	--palette__accent-background--hover: var(--palette__primary-background--hover);
 }
 
 .variant-secondary {
-	--palette__accent-color: var(--palette__secondary-color);
-	--palette__accent-color--bright: var(--palette__secondary-color--bright);
-	--palette__accent-background: var(--palette__secondary-background);
+	--palette__accent:                   var(--palette__secondary);
+	--palette__accent-color:             var(--palette__secondary-color);
+	--palette__accent-background:        var(--palette__secondary-background);
+	--palette__accent-background--inset: var(--palette__secondary-background--inset);
+	--palette__accent-background--hover: var(--palette__secondary-background--hover);
 }
 
 .variant-tertiary {
-	--palette__accent-color: var(--palette__tertiary-color);
-	--palette__accent-color--bright: var(--palette__tertiary-color--bright);
-	--palette__accent-background: var(--palette__tertiary-background);
+	--palette__accent:                   var(--palette__tertiary);
+	--palette__accent-color:             var(--palette__tertiary-color);
+	--palette__accent-background:        var(--palette__tertiary-background);
+	--palette__accent-background--inset: var(--palette__tertiary-background--inset);
+	--palette__accent-background--hover: var(--palette__tertiary-background--hover);
 }
 
 .variant-add {
-	--palette__accent-color: var(--palette__variant-add-color);
-	--palette__accent-color--bright: var(--palette__variant-add-color--bright);
-	--palette__accent-background: var(--palette__variant-add-background);
+	--palette__accent:                   var(--palette__variant-add);
+	--palette__accent-color:             var(--palette__variant-add-color);
+	--palette__accent-background:        var(--palette__variant-add-background);
+	--palette__accent-background--inset: var(--palette__variant-add-background--inset);
+	--palette__accent-background--hover: var(--palette__variant-add-background--hover);
 }
 
 .variant-delete {
-	--palette__accent-color: var(--palette__variant-delete-color);
-	--palette__accent-color--bright: var(--palette__variant-delete-color--bright);
-	--palette__accent-background: var(--palette__variant-delete-background);
+	--palette__accent:                   var(--palette__variant-delete);
+	--palette__accent-color:             var(--palette__variant-delete-color);
+	--palette__accent-background:        var(--palette__variant-delete-background);
+	--palette__accent-background--inset: var(--palette__variant-delete-background--inset);
+	--palette__accent-background--hover: var(--palette__variant-delete-background--hover);
 }
 
-:root,
-.variant-primary,
-.variant-secondary,
-.variant-tertiary,
-.variant-add,
-.variant-delete {
-	--palette__accent-contrast: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 40%);
-	--palette__accent-scheme: color-mix(in lab, var(--palette__accent-color), var(--palette__scheme) 70%);
+.scheme-light {
+	&:root,
+	.variant-primary,
+	.variant-secondary,
+	.variant-tertiary,
+	.variant-add,
+	.variant-delete {
+		--palette__accent-contrast: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 40%);
+	}
+}
+
+.scheme-dark {
+	&:root,
+	.variant-primary,
+	.variant-secondary,
+	.variant-tertiary,
+	.variant-add,
+	.variant-delete {
+		--palette__accent-contrast: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 50%);
+	}
 }

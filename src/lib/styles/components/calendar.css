@@ -49,7 +49,7 @@
 		/* Layout */
 		min-width: var(--calendar-option__size);
 		min-height: var(--calendar-option__size);
-		border-radius: 0.15rem;
+		border-radius: var(--border-radius__tiny);
 
 		/* Content */
 		align-content: center;
@@ -64,10 +64,11 @@
 	}
 
 	[aria-current] {
-		background-color: var(--list-item__background-color--active);
+		background: var(--list-item__background--active);
 	}
 
 	[aria-selected] {
-		background-color: var(--list-item__background-color--selected);
+		background: var(--list-item__background--selected);
+		color: var(--list-item__text-color--selected);
 	}
 }

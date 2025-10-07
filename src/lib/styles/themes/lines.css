@@ -15,6 +15,6 @@
 	--field-input__padding-block: .125rem;
 	--field-input-line__color: color-mix(in lab, var(--palette__accent-color), var(--palette__background) 30%);
 
-	--menu__border-radius: .5rem;
+	--menu__border-radius: var(--border-radius__medium);
 	--menu__shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }

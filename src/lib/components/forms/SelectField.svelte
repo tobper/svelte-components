@@ -384,6 +384,6 @@
 	}
 
 	[aria-current] {
-		background-color: var(--list-item__background-color--active);
+		background: var(--menu-item__background--active);
 	}
 </style>

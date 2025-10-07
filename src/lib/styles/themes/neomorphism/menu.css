@@ -1,4 +1,7 @@
 :where(.theme-neomorphism) {
-	--menu__border-radius: .25rem;
-	--menu__shadow: var(--shadow__medium);
+	--menu__border-radius: var(--border-radius__small);
+	--menu__border-width: 0px;
+	--menu__shadow:
+		var(--shadow__highlight),
+		var(--shadow__medium);
 }
