@@ -1,19 +1,25 @@
 .theme-neomorphism {
 	--field-input__padding-left: .75rem;
 	--field-input__padding-right: .75rem;
-}
-
-:where(.theme-neomorphism) {
-	.checkbox {
-		--checkbox__background--checked: var(--palette__accent-background--inset);
-	}
 
 	.field-label {
 		margin-bottom: .25rem;
 	}
 
 	.field-content {
-		/* Layout */
+		--field__gradient-opacity: 0%;
+
+		:where(.scheme-dark) & {
+			--field__gradient-opacity: 2%;
+		}
+
+		/* Appearance */
+		background-color: var(--field__background);
+		background-image: linear-gradient(
+			to bottom,
+			rgb(0 0 0 / 0%),
+			rgb(255 255 255 / var(--field__gradient-opacity))
+		);
 		border-radius: var(--border-radius__small);
 
 		button {
@@ -38,23 +44,10 @@
 	/* Background */
 	.checkbox,
 	.field-content {
-		background-color: var(--field__background);
-		background-image: linear-gradient(
-			to bottom,
-			rgb(0 0 0 / 0%),
-			rgb(255 255 255 / var(--field__gradient-opacity))
-		);
-
 		&:not(.skeleton) {
 			box-shadow:
 				var(--field__shadow),
 				var(--field__shadow--focus, 0 0 #0000);
-		}
-
-		--field__gradient-opacity: 0%;
-
-		:where(.scheme-dark) & {
-			--field__gradient-opacity: 2%;
 		}
 	}
 

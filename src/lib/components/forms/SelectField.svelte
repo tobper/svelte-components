@@ -354,7 +354,9 @@
 	[role=heading],
 	[role=option],
 	[role=presentation] {
-		padding-inline: var(--space);
+		padding-block: var(--menu-item__padding-block);
+		padding-inline: var(--menu-item__padding-inline);
+		border-radius: var(--menu-item__border-radius);
 
 		align-content: center;
 		overflow: hidden;

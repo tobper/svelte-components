@@ -123,6 +123,10 @@
 		&:enabled {
 			cursor: pointer;
 		}
+
+		:global(.theme-lines) & {
+			border: 1px solid var(--border__color);
+		}
 	}
 
 	input:checked {

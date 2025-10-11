@@ -1,8 +1,3 @@
-:where(.theme-neomorphism) {
-	--dialog__background: var(--palette__background_medium);
-	--dialog__border-radius: var(--border-radius__medium);
-	--dialog__border-width: 0pxm;
-	--dialog__shadow:
-		var(--shadow__highlight),
-		var(--shadow__large);
+.theme-neomorphism {
+	--dialog__shadow: var(--shadow__highlight), var(--shadow__large);
 }

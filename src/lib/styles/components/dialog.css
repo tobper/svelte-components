@@ -1,9 +1,10 @@
 :root {
+	--dialog__background: var(--palette__background_medium);
 	--dialog__backdrop-blur: 1px;
-	--dialog__border-width: 1px;
+	--dialog__border-radius: var(--border-radius__medium);
 	--dialog__margin: 1rem;
 	--dialog__padding-inline: var(--space);
-	--dialog__shadow: 0 1.5rem 3rem rgb(0 0 0 / .25);
+	--dialog__shadow: var(--shadow__large);
 }
 
 .dialog {
@@ -23,7 +24,6 @@
 
 	/* Appearance */
 	background: var(--dialog__background);
-	border: var(--dialog__border-width) solid var(--panel__border-color);
 	border-radius: var(--dialog__border-radius);
 	box-shadow: var(--dialog__shadow);
 
