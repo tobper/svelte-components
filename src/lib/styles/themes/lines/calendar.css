@@ -1,6 +1,6 @@
-:where(.theme-lines) {
+:root:where(.theme-lines) {
 	.calendar {
-		.today {
+		.today:not([aria-selected]) {
 			color: var(--palette__secondary-color);
 			font-size: var(--h3__font-size);
 			font-weight: bold;

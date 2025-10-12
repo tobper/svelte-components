@@ -1,0 +1,7 @@
+:root:where(.theme-lines) {
+	--menu__shadow: var(--shadow__medium);
+
+	.menu {
+		border: var(--menu__border-width) solid var(--border__color);
+	}
+}

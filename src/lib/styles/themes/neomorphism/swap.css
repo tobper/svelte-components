@@ -1,4 +1,4 @@
-:where(.theme-neomorphism) {
+:root:where(.theme-neomorphism) {
 	.swap {
 		/* Theme */
 		&.action:focus {

@@ -1,4 +1,6 @@
-:where(.theme-lines) {
-	--card__border-radius: 1rem;
-	--card__shadow: 0 .25rem .5rem rgb(0 0 0 / .15);
+:root:where(.theme-lines) {
+	--card__background-color: var(--palette__background_medium);
+	--card__background: var(--palette__background_medium);
+	--card__border-radius: var(--border-radius__small);
+	--card__shadow: var(--shadow__small);
 }

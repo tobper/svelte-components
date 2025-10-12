@@ -1,9 +1,5 @@
-:where(.theme-neomorphism) {
+:root:where(.theme-neomorphism) {
 	h1, h2, h3, h4 {
 		font-weight: 500;
-
-		a & {
-			color: inherit;
-		}
 	}
 }

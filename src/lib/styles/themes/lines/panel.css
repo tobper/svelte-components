@@ -1,4 +1,4 @@
-:where(.theme-lines) {
+:root:where(.theme-lines) {
 	--panel__background-color: var(--palette__background);
 	--panel__border-color: color-mix(in lab, var(--palette__primary-color), var(--palette__background) 50%);
 	--panel__border: 1px solid var(--panel__border-color);

@@ -1,4 +1,8 @@
-:where(.theme-lines) {
-	--dialog__border-color: color-mix(in lab, var(--palette__primary-color), var(--palette__background) 50%);
-	--dialog__border-radius: .5rem;
+:root:where(.theme-lines) {
+	--dialog__border-color: var(--border__color);
+	--dialog__border-width: 1px;
+
+	.dialog {
+		border: var(--dialog__border-width) solid var(--dialog__border-color);
+	}
 }

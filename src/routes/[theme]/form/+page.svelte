@@ -2,7 +2,7 @@
 	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
-	import { find_fruit, food, get_food_heading } from './data.js';
+	import { find_fruit, food, get_food_heading } from '../data.js';
 
 	let form_loading = $state(false);
 	let field_loading = $state(false);
@@ -147,7 +147,7 @@
 	<Card>
 		<CardContent header="Toggle switch">
 			<ToggleSwitch />
-			<ToggleSwitch label="Label" />
+			<ToggleSwitch label="Label" checked />
 			<ToggleSwitch label="Label" description="Extra long description for switch" />
 			<ToggleSwitch disabled label="Disabled" />
 			<ToggleSwitch disabled checked label="Disabled checked" />

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Card, CardContent, PageContent, SelectList } from '$lib/index.js';
-	import { food, get_food_heading, random } from './data.js';
+	import { food, get_food_heading, random } from '../data.js';
 
 	let value = $state<string | null>(null);
 </script>

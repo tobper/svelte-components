@@ -1,5 +1,5 @@
-:where(.theme-neomorphism) {
-	--button__border-radius: .25rem;
+:root:where(.theme-neomorphism) {
+	--button__border-radius: var(--border-radius__small);
 	--button__height: 3rem;
 	--button__height--small: 2.5rem;
 
@@ -57,28 +57,32 @@
 	}
 
 	.button-cta {
-		--button__shadow: 0 1px 2px rgb(0 0 0 / 20%);
+		--button-cta__shadow: 0 1px 2px rgb(0 0 0 / 20%);
+		--button-cta__background: var(--palette__accent-background);
+		--button-cta__background--active: oklch(from var(--palette__accent) calc(l * .7) calc(c * .8) h);
+		--button-cta__background--hover: oklch(from var(--palette__accent) calc(l * .9) calc(c * .9) h);
 
 		color: var(--palette__text--inverted);
-		background-color: var(--palette__accent-background);
+		background: var(--button-cta__background);
 		background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 10%));
 		box-shadow:
-			var(--button__shadow),
+			var(--button-cta__shadow),
 			var(--button__shadow--focus, 0 0 #0000);
 
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
 		&:active:not([aria-disabled], :has(:disabled)) {
+			--button-cta__background: var(--button-cta__background--active);
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 4%), rgb(0 0 0 / 4%));
 			box-shadow:
-				var(--field__shadow),
+				var(--shadow__inset),
 				var(--button__shadow--focus, 0 0 #0000);
 		}
 
 		/* Hover */
 		&.button--hover,
 		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			background-color: hsl(from var(--palette__accent-background) h s calc(l * .8));
+			--button-cta__background: var(--button-cta__background--hover);
 		}
 	}
 
@@ -86,48 +90,37 @@
 		Outlined
 	*/
 	.button-outlined {
-		--button__shadow:
-			0 1px 1px 0px rgb(0 0 0 / 15%),
-			1px 0 1px 0px rgb(0 0 0 / 3%),
-			-1px 0 1px 0px rgb(0 0 0 / 3%);
+		--button-outlined__background: var(--palette__background_light);
+		--button-outlined__background--active: var(--palette__accent-background--inset);
+		--button-outlined__background--hover: oklch(from var(--palette__background_light) calc(l * 1.2) c h);
+		--button-outlined__color: var(--palette__accent-color);
+		--button-outlined__color--active: var(--palette__accent-contrast);
+		--button-outlined__color--hover: oklch(from var(--palette__accent-color) calc(l * 1.1) c h);
+		--button-outlined__shadow: var(--shadow__highlight), var(--shadow__distinct);
 
-		.scheme-dark & {
-			--button__background-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 8%);
-			--button__background-color--hover: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 2%);
-		}
-
-		.scheme-light & {
-			--button__background-color: #f8f8f8;
-			--button__background-color--hover: #f2f2f2;
-		}
-
-		color: var(--palette__accent-color);
-		background-color: var(--button__background-color);
+		color: var(--button-outlined__color);
+		background-color: var(--button-outlined__background);
 		background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 4%));
 		box-shadow:
-			var(--button__shadow),
+			var(--button-outlined__shadow),
 			var(--button__shadow--focus, 0 0 #0000);
 
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
 		&:active:not([aria-disabled], :has(:disabled)) {
-			color: var(--palette__accent-contrast);
+			--button-outlined__background: var(--button-outlined__background--active);
+			color: var(--button-outlined__color--active);
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
 			box-shadow:
 				var(--field__shadow),
 				var(--button__shadow--focus, 0 0 #0000);
 		}
 
-		/* Selected */
-		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]) {
-			background-color: var(--palette__accent-color--bright);
-		}
-
 		/* Hover */
 		&.button--hover,
 		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			--button__background-color:  var(--button__background-color--hover);
-			color: var(--palette__accent-contrast);
+			--button-outlined__background: var(--button-outlined__background--hover);
+			color: var(--button-outlined__color--hover);
 		}
 	}
 

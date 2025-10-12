@@ -1,10 +1,46 @@
 :root {
 	/*
-		Box shadows
+		Radius
 	*/
-	--shadow__medium: 0 .25rem .5rem #0003;
-	--shadow__large: 0 .5rem 1rem #0003;
-	--shadow__x-large: 0 .75rem 1.5rem #0003;
+	--border-radius: 1.5rem;
+	--border-radius__tiny: calc(.15 * var(--border-radius));
+	--border-radius__small: calc(.25 * var(--border-radius));
+	--border-radius__medium: calc(.5 * var(--border-radius));
+	--border-radius__large: calc(1 * var(--border-radius));
+	--border-radius__x-large: calc(1.5 * var(--border-radius));
+
+	/*
+		Shadows
+	*/
+	--shadow__highlight:
+		inset 0 .5px 1px var(--shadow__highlight-color);
+	--shadow__distinct:
+		0 1px 1px #00000030,
+		1px 0 1px #00000008,
+		-1px 0 1px #00000008;
+	--shadow__small:
+		0 1.5px 3px #00000030,
+		0 3px 6px #00000015;
+	--shadow__medium:
+		0 3px 6px #00000030,
+		0 5px 10px #00000015;
+	--shadow__large:
+		0 5px 10px #00000030,
+		0 9px 18px #00000015;
+
+	&.scheme-light {
+		--shadow__highlight-color: #ffffff;
+		--shadow__inset:
+			inset 0 .5px 2px -.5px #00000080,
+			inset 0 -1px 0 var(--shadow__highlight-color);
+	}
+
+	&.scheme-dark {
+		--shadow__highlight-color: #ffffff30;
+		--shadow__inset:
+			inset 0 0.5px 2.5px -1px #000,
+			inset 0 -2px 2px -2px #fff8;
+	}
 
 	/*
 		Spacing
@@ -123,6 +159,10 @@
 
 .background-contrast {
 	background-color: hsl(from var(--palette__contrast) h s l / var(--palette__contrast-opacity));
+}
+
+.raised-distinct {
+	box-shadow: var(--shadow__highlight), var(--shadow__distinct);
 }
 
 .text-truncate {

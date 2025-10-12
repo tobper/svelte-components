@@ -1,4 +1,4 @@
-:where(.theme-lines) {
+:root:where(.theme-lines) {
 	.page-header {
 		/* Layout */
 		padding-bottom: 1rem;

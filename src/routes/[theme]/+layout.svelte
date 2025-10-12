@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { resolveRoute } from '$app/paths';
+	import { page } from '$app/state';
 	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
 	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSortAscendingNumbers, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
-	let { theme: current_theme } = data;
+	let { theme: current_theme } = $derived(data);
 	let current_scheme = $state<Scheme>('system');
 
 	const available_themes = [
@@ -12,17 +14,17 @@
 	];
 
 	const nav_items = [
-		[IconTypography, 'Typography'],
-		[IconPalette, 'Palette'],
-		[IconRectangle, 'Button'],
-		[IconMessage, 'Dialog'],
-		[IconList, 'List'],
-		[IconMenu, 'Menu'],
-		[IconCalendar, 'Calendar'],
-		[IconSortAscendingNumbers, 'Odometer'],
-		[IconForms, 'Form'],
-		[IconTable, 'Table'],
-		[IconAlignJustified, 'Page content'],
+		[IconTypography, 'Typography', ''],
+		[IconPalette, 'Palette', '/palette'],
+		[IconRectangle, 'Button', '/button'],
+		[IconMessage, 'Dialog', '/dialog'],
+		[IconList, 'List', '/list'],
+		[IconMenu, 'Menu', '/menu'],
+		[IconCalendar, 'Calendar', '/calendar'],
+		[IconSortAscendingNumbers, 'Odometer', '/odometer'],
+		[IconForms, 'Form', '/form'],
+		[IconTable, 'Table', '/table'],
+		[IconAlignJustified, 'Page content', '/page-content'],
 	] as const;
 
 	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
@@ -82,8 +84,13 @@
 	{#snippet sidebar()}
 		<nav>
 			<ul>
-				{#each nav_items as [Icon, text] (text)}
-					<ListItemLink href={`#${text}`} {text}>
+				{#each nav_items as [Icon, text, relative_url] (text)}
+					{@const route = `/[theme]${relative_url}`}
+					<ListItemLink
+						current={page.route.id === route}
+						href={resolveRoute(route, { theme: current_theme })}
+						{text}
+					>
 						{#snippet icon()}
 							<Icon />
 						{/snippet}
@@ -95,9 +102,11 @@
 					<hr />
 				</Device>
 				{#each available_themes as { name, text } (name)}
-					{@const href = `?theme=${name}`}
-
-					<ListItemLink {href} {text} />
+					<ListItemLink
+						current={current_theme === name}
+						href={resolveRoute(page.route.id!, { theme: name })}
+						{text}
+					/>
 				{/each}
 			</ul>
 		</nav>

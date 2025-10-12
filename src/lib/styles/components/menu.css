@@ -1,8 +1,12 @@
 :root {
+	--menu__background: var(--palette__background_light);
+	--menu__border-radius: var(--border-radius__small);
 	--menu__min-width: 16rem;
 	--menu__min-width--meta: 20rem;
 	--menu__border-width: 1px;
 	--menu__padding: var(--space__tiny);
+	--menu-item__background--active: var(--palette__neutral-background);
+	--menu-item__border-radius: var(--border-radius__tiny);
 	--menu-item__padding-block: var(--space__medium);
 	--menu-item__padding-inline: var(--space);
 	--menu-item-meta__gap: var(--space);
@@ -17,12 +21,14 @@
 	min-width: var(--menu__min-width);
 
 	/* Appearance */
-	background: var(--panel__background-color);
-	background: var(--panel__background);
-	border: var(--menu__border-width) solid var(--panel__border-color);
+	background: var(--menu__background);
 	border-radius: var(--menu__border-radius);
-	padding: var(--menu__padding);
 	box-shadow: var(--menu__shadow);
+	padding: var(--menu__padding);
+
+	.popover:has(> &) {
+		overflow: visible; /* Ensure shadow is visible */
+	}
 
 	/* Content */
 	display: flex;
@@ -36,10 +42,10 @@
 
 	/* Appearance */
 	cursor: default;
-	color: var(--table-header__color);
-	letter-spacing: var(--table-header__letter-spacing);
+	color: var(--list-item-heading__color);
+	font-size: var(--list-item-heading__font-size);
+	letter-spacing: var(--list-item-heading__letter-spacing);
 	line-height: 1.5rem;
-	font-size: .8rem;
 
 	/* Indent if next menu item has icon */
 	&:has(~ :where(.menu-item .menu-item-icon, .menu-item-option)) {
@@ -54,6 +60,7 @@
 .menu-item {
 	display: flex;
 	align-items: start;
+	border-radius: var(--menu-item__border-radius);
 	min-height: 3rem;
 
 	/* Prevent text selection */
@@ -71,7 +78,7 @@
 
 	/* Focused */
 	.supports-hover &:focus {
-		background-color: var(--list-item__background-color--active);
+		background: var(--menu-item__background--active);
 	}
 }
 
@@ -149,7 +156,7 @@
 		/* padding-block: calc(.125 * var(--space)); */
 		padding-inline: var(--space__small);
 		border: 1px solid var(--palette__neutral);
-		border-radius: .25rem;
+		border-radius: var(--border-radius__small);
 	}
 }
 

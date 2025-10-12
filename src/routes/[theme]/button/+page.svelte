@@ -2,7 +2,7 @@
 	import ChevronLeftIcon from '$lib/components/icons/ChevronLeftIcon.svelte';
 	import ChevronRightIcon from '$lib/components/icons/ChevronRightIcon.svelte';
 	import ClearIcon from '$lib/components/icons/ClearIcon.svelte';
-	import { Button, Card, CardContent, CardHeader, PageContent, type ButtonType, type ButtonVariant } from '$lib/index.js';
+	import { Button, Card, CardContent, PageContent, type ButtonType, type ButtonVariant } from '$lib/index.js';
 
 	const button_types: [string, ButtonType][] = [
 		['Outlined', 'outlined'],
@@ -12,11 +12,9 @@
 	const button_variants: ButtonVariant[] = ['primary', 'secondary', 'tertiary', 'add', 'delete'];
 </script>
 
-<PageContent id="Button" header="Button">
-	<Card>
-		{#each button_types as [heading, type] (heading)}
-			<CardHeader text={heading} />
-
+{#each button_types as [header, type] (header)}
+	<PageContent {header}>
+		<Card>
 			{#each button_variants as variant (variant)}
 				<CardContent horizontal>
 					<Button {variant} {type} text="Default" />
@@ -26,7 +24,11 @@
 					<Button {variant} {type} text="Icon" icon={ButtonIcon} />
 					<Button {variant} {type} text="Disabled" disabled />
 					<Button {variant} {type} text="Small" small />
+				</CardContent>
+			{/each}
 
+			{#each button_variants as variant (variant)}
+				<CardContent horizontal>
 					<div class="flow-items">
 						<Button {variant} {type} icon={ButtonIcon} />
 						<Button {variant} {type} icon={ButtonIcon} disabled />
@@ -38,9 +40,13 @@
 					</div>
 				</CardContent>
 			{/each}
-		{/each}
+		</Card>
+	</PageContent>
+{/each}
 
-		<CardContent header="Variants" horizontal>
+<PageContent header="Variants">
+	<Card>
+		<CardContent horizontal>
 			<Button type="cta" text="Loading" loading />
 		</CardContent>
 
