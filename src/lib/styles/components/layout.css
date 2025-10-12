@@ -214,7 +214,6 @@
 }
 
 .device-mobile {
-	--card__border-radius: 0;
 	--card__padding-left: var(--page-content__padding-left);
 	--card__padding-right: var(--page-content__padding-right);
 

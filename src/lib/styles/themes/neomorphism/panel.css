@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	--panel__background-color: var(--palette__background_medium);
 	--panel__border-color: color-mix(in lab, var(--panel__background-color), var(--palette__contrast) 15%);
 	--panel__border: 1px solid var(--panel__border-color);

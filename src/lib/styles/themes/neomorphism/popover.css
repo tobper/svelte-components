@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	/* Animation */
 	.popover.popover--fade {
 		transition-behavior: allow-discrete;

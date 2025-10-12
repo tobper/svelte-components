@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	.layout > header,
 	.layout > footer {
 		background: var(--panel__background-color);

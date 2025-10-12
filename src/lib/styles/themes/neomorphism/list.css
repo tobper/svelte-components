@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	.select-list {
 		/* Focus */
 		&:focus-visible,

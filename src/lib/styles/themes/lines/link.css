@@ -1,4 +1,4 @@
-:root:where(.theme-lines) {
+.theme-lines {
 	--link__color: var(--palette__text);
 	--link__column-gap: 0.25rem;
 	--link__outline-radius--focus: .5rem;

@@ -1,4 +1,4 @@
-:root:where(.theme-lines) {
+.theme-lines {
 	--dialog__border-color: var(--border__color);
 	--dialog__border-width: 1px;
 

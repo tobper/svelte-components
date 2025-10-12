@@ -1,34 +1,6 @@
-@import './reset.css';
-@import './components.css';
-@import './palette.css';
-@import './utilities.css';
+@layer reset, components, theme, utilities;
 
-html {
-	/* Ensure controls adjust to dark/light theme */
-	color-scheme: dark light;
-
-	/* Prevent font scaling in landscape while allowing user zoom */
-	-webkit-text-size-adjust: 100%;
-
-	/* Firefox */
-	/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
-	scrollbar-color: rgba(0, 0, 0, 0.2) rgba(255, 255, 255, 0.05);
-
-	&.dark {
-		scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.05);
-	}
-}
-
-body {
-	background: var(--palette__background);
-	color: var(--palette__text);
-	margin: 0;
-}
-
-p {
-	color: var(--palette__text--weak);
-
-	/* Text should not be too wide from a typography viewpoint */
-	max-width: 65ch;
-	text-wrap: pretty;
-}
+@import './reset.css' layer(reset);
+@import './variables.css' layer(reset);
+@import './components.css' layer(components);
+@import './utilities.css' layer(utilities);

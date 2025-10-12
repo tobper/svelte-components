@@ -29,3 +29,22 @@
 .device-touch {
 	--field-input__height: 2.25rem;
 }
+
+body {
+	background: var(--palette__background);
+	color: var(--palette__text);
+	margin: 0;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+dialog {
+	border: none;
+}
+
+p {
+	color: var(--palette__text--weak);
+}

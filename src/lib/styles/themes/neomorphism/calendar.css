@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	.calendar {
 		.today:not([aria-selected]) {
 			background-color: var(--palette__secondary-background);

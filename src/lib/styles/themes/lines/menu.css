@@ -1,4 +1,4 @@
-:root:where(.theme-lines) {
+.theme-lines {
 	--menu__shadow: var(--shadow__medium);
 
 	.menu {

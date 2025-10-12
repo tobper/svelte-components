@@ -26,10 +26,31 @@
 	outline: 0;
 }
 
-/* Default link styling */
-a {
-	color: inherit;
-	text-decoration: none;
+/* Default element styling */
+html {
+	/* Ensure controls adjust to dark/light theme */
+	color-scheme: dark light;
+
+	/* Prevent font scaling in landscape while allowing user zoom */
+	-webkit-text-size-adjust: 100%;
+
+	/* Firefox */
+	/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
+	scrollbar-color: rgba(0, 0, 0, 0.2) rgba(255, 255, 255, 0.05);
+
+	&.dark {
+		scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.05);
+	}
+}
+
+body {
+	margin: 0;
+}
+
+p {
+	/* Text should not be too wide from a typography viewpoint */
+	max-width: 65ch;
+	text-wrap: pretty;
 }
 
 button {
@@ -37,10 +58,6 @@ button {
 	background: none;
 	border: none;
 	color: inherit;
-}
-
-dialog {
-	border: none;
 }
 
 ol, ul {

@@ -17,8 +17,11 @@
 	/* Appearance */
 	background-color: var(--card__background-color);
 	background: var(--card__background);
-	border-radius: var(--card__border-radius);
 	box-shadow: var(--card__shadow);
+
+	:where(.device-tablet, .device-desktop) & {
+		border-radius: var(--card__border-radius);
+	}
 
 	/* Content */
 	h3,

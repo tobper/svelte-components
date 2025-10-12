@@ -1,4 +1,4 @@
-:root:where(.theme-lines) {
+.theme-lines {
 	.layout-sidebar.layout-sidebar--folding {
 		/* Appearance */
 		box-shadow: var(--dialog__shadow);

@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	--link__color: var(--palette__text);
 	--link__color--current: var(--palette__secondary-color);
 	--link__color--hover: var(--palette__primary-color);

@@ -1,4 +1,4 @@
-:root:where(.theme-lines) {
+.theme-lines {
 	--button__color: var(--palette__text);
 	--button__border-radius: 5px;
 	--button__border-color: var(--border__color);

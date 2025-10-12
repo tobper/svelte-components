@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	--card__background-color: var(--panel__background-color);
 	--card__background: var(--panel__background);
 	--card__border-radius: var(--border-radius__medium);;

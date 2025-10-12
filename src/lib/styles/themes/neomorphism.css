@@ -1,27 +1,29 @@
-@import './neomorphism/button.css';
-@import './neomorphism/calendar.css';
-@import './neomorphism/card.css';
-@import './neomorphism/dialog.css';
-@import './neomorphism/field.css';
-@import './neomorphism/heading.css';
-@import './neomorphism/layout.css';
-@import './neomorphism/link.css';
-@import './neomorphism/list.css';
-@import './neomorphism/menu.css';
-@import './neomorphism/page.css';
-@import './neomorphism/panel.css';
-@import './neomorphism/popover.css';
-@import './neomorphism/swap.css';
+@import './neomorphism/button.css' layer(theme);
+@import './neomorphism/calendar.css' layer(theme);
+@import './neomorphism/card.css' layer(theme);
+@import './neomorphism/dialog.css' layer(theme);
+@import './neomorphism/field.css' layer(theme);
+@import './neomorphism/heading.css' layer(theme);
+@import './neomorphism/layout.css' layer(theme);
+@import './neomorphism/link.css' layer(theme);
+@import './neomorphism/list.css' layer(theme);
+@import './neomorphism/menu.css' layer(theme);
+@import './neomorphism/page.css' layer(theme);
+@import './neomorphism/panel.css' layer(theme);
+@import './neomorphism/popover.css' layer(theme);
+@import './neomorphism/swap.css' layer(theme);
 
-:root:where(.theme-neomorphism) {
-	--field-input__padding-block: .5rem;
-	--field__shadow: var(--shadow__inset);
+@layer theme {
+	.theme-neomorphism {
+		--field-input__padding-block: .5rem;
+		--field__shadow: var(--shadow__inset);
 
-	&.scheme-light {
-		--field__background: var(--palette__background_light);
-	}
+		&.scheme-light {
+			--field__background: var(--palette__background_light);
+		}
 
-	&.scheme-dark {
-		--field__background: var(--palette__background);
+		&.scheme-dark {
+			--field__background: var(--palette__background);
+		}
 	}
 }

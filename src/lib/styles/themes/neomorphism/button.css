@@ -1,4 +1,4 @@
-:root:where(.theme-neomorphism) {
+.theme-neomorphism {
 	--button__border-radius: var(--border-radius__small);
 	--button__height: 3rem;
 	--button__height--small: 2.5rem;

@@ -1,4 +1,4 @@
-:root:where(.theme-lines) {
+.theme-lines {
 	.select-list {
 		/* Focus */
 		&:focus-visible {
