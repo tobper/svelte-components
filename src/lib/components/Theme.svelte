@@ -78,9 +78,9 @@
 		toggle_root_class('theme-lines', style === 'lines');
 		toggle_root_class('theme-neomorphism', style === 'neomorphism');
 
-		set_root_style('--palette__primary-base', palette.primary);
-		set_root_style('--palette__secondary-base', palette.secondary);
-		set_root_style('--palette__tertiary-base', palette.tertiary);
+		set_root_style('--palette__primary', palette.primary);
+		set_root_style('--palette__secondary', palette.secondary);
+		set_root_style('--palette__tertiary', palette.tertiary);
 	});
 
 	$effect.pre(() => {
