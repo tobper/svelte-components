@@ -78,6 +78,30 @@
 	box-shadow: var(--shadow__highlight), var(--shadow__distinct);
 }
 
+.status-error {
+	background-color: var(--status__error-background);
+	border-color: var(--status__error-border);
+	color: var(--status__error-color);
+}
+
+.status-info {
+	background-color: var(--status__info-background);
+	border-color: var(--status__info-border);
+	color: var(--status__info-color);
+}
+
+.status-success {
+	background-color: var(--status__success-background);
+	border-color: var(--status__success-border);
+	color: var(--status__success-color);
+}
+
+.status-warning {
+	background-color: var(--status__warning-background);
+	border-color: var(--status__warning-border);
+	color: var(--status__warning-color);
+}
+
 .text-truncate {
 	overflow: hidden;
 	text-overflow: ellipsis;
