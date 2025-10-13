@@ -382,7 +382,7 @@
 				aria-selected={date.is_selected ? true : undefined}
 				aria-label={to_date(date).toLocaleDateString('en', aria_label_format)}
 				class={[{
-					'background-contrast': date.weekend,
+					'weekend': date.weekend,
 					'text-weak': !date.same_month,
 					'today': date.is_today,
 				}]}

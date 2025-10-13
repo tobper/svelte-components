@@ -63,6 +63,10 @@
 		color: var(--palette__text--weak);
 	}
 
+	.weekend {
+		background: hsl(from var(--palette__contrast) h s l / var(--palette__contrast-opacity));
+	}
+
 	[aria-current] {
 		background: var(--list-item__background--active);
 	}

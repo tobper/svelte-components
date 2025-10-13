@@ -70,10 +70,6 @@
 	&:nth-child(9) { --transition-delay: calc(8 * var(--staggered-transition-delay)); }
 }
 
-.background-contrast {
-	background-color: hsl(from var(--palette__contrast) h s l / var(--palette__contrast-opacity));
-}
-
 .raised-distinct {
 	box-shadow: var(--shadow__highlight), var(--shadow__distinct);
 }
