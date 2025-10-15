@@ -83,7 +83,11 @@
 							options_value={option => option.name}
 							required
 							type="select"
-						/>
+						>
+							{#snippet suffix()}
+								<Button icon={search_icon} submit />
+							{/snippet}
+						</SelectField>
 						<output>
 							Value: {select_many_value ?? '-'}
 						</output>

@@ -17,6 +17,7 @@
 		aria_haspopup?: HTMLInputAttributes['aria-haspopup'];
 		autocomplete?: HTMLInputAttributes['autocomplete'];
 		class?: ClassValue;
+		content_element?: HTMLElement | undefined;
 		field_element?: HTMLElement | undefined;
 		disabled?: boolean;
 		focused?: boolean;
@@ -64,6 +65,7 @@
 		aria_haspopup,
 		autocomplete = 'off',
 		class: field_class,
+		content_element = $bindable(),
 		field_element = $bindable(),
 		disabled = false,
 		error_hint,
@@ -126,7 +128,11 @@
 	class={field_class}
 >
 	{#snippet content({ content_id, error_text, loading, in_progress })}
-		<div class="field-content" class:skeleton={loading}>
+		<div
+			bind:this={content_element}
+			class="field-content"
+			class:skeleton={loading}
+		>
 			{#if prefix}
 				{@render prefix()}
 			{/if}

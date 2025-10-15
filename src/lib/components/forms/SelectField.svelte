@@ -112,8 +112,8 @@
 		Array.isArray(options_source) &&
 		options_source.length <= modal_options_limit
 	);
+	let content_element = $state<HTMLElement>();
 	let input_text = $derived(bound_value ?? '');
-	let input_element = $state<HTMLInputElement>();
 	let text_field = $state<ReturnType<typeof TextField>>();
 
 	// Scroll to active item
@@ -160,7 +160,7 @@
 
 <TextField
 	bind:this={text_field}
-	bind:input_element
+	bind:content_element
 	bind:value={input_text}
 	{...text_field_props}
 	{id}
@@ -279,10 +279,10 @@
 		list?.close();
 	}}
 >
-	{#if input_element && list && list.items.length > 0}
+	{#if content_element && list && list.items.length > 0}
 		<div
 			use:anchor={{
-				anchor: input_element,
+				anchor: content_element,
 				match_width: true
 			}}
 			use:popover={{
