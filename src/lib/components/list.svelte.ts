@@ -13,11 +13,13 @@ export type ListItem<T> =
 
 export interface ListItemHeading {
 	type: 'heading';
+	id: string;
 	label: string;
 }
 
 export interface ListItemPresentation {
 	type: 'presentation';
+	id: string;
 	label: string;
 }
 
@@ -125,28 +127,35 @@ export function create_list<T>(
 						const heading = map_heading?.(option);
 						const value = map_value?.(option) ?? `${option}`;
 						const label = map_label?.(option) ?? value;
-						const id = [list_id, hash(heading), hash(value)].filter(x => x).join('_');
 
-						return { option, id, heading, label, value };
+						return { option, heading, label, value };
 					}),
 					item => item.heading ?? ''
 				)
 			)
 			.flatMap(([heading, group_items = []]) => {
-				const items = group_items.map<ListItem<T>>(({ id, label, value, option }) =>
-					({ type: 'option', id, label, value, option, })
-				);
+				const items = group_items.map<ListItem<T>>(({ label, value, option }) => {
+					const id = [list_id, hash(heading), hash(value)].filter(x => x).join('_');
+					return { type: 'option', id, label, value, option, }
+				});
 
-				if (heading)
-					items.unshift({ type: 'heading', label: heading });
+				if (heading) {
+					const id = [list_id, hash(heading)].join('_');
+					items.unshift({ type: 'heading', id, label: heading });
+				}
 
 				return items;
 			});
 
-		if (empty_text)
-			mapped_options.unshift({ type: 'presentation', label: empty_text });
+		if (mapped_options.length)
+			return mapped_options
 
-		return mapped_options;
+		if (empty_text) {
+			const id = [list_id, hash('empty')].join('_');
+			return [{ type: 'presentation', id, label: empty_text }];
+		}
+
+		return [];
 	}
 
 	function get_next_item() {

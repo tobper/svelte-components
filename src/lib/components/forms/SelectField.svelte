@@ -298,7 +298,7 @@
 				role="listbox"
 				tabindex="-1"
 			>
-				{#each list.items as item, i (`${item.type}-${item.label}`)}
+				{#each list.items as item, i (item.id)}
 					{#if item.type === 'heading'}
 						{#if i > 0}
 							<div role="separator">
