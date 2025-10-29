@@ -319,21 +319,18 @@ label:has(.checkbox:disabled) {
 }
 
 /* Hide suffix icon when clear button is visible */
-.field-input:has(.field-clear--enabled) {
-	&:focus-within,
-	.supports-hover &:hover {
-		--field-value__padding-right--offset: calc(var(--field-icon__size) + var(--space__small));
+.field-input:has(.field-clear--enabled):focus-within {
+	--field-value__padding-right--offset: calc(var(--field-icon__size) + var(--space__small));
 
-		.field-clear {
-			--field-clear-icon__rotation: 0deg;
-			opacity: 1;
-			pointer-events: auto;
-		}
+	.field-clear {
+		--field-clear-icon__rotation: 0deg;
+		opacity: 1;
+		pointer-events: auto;
+	}
 
-		.field-suffix-icon {
-			opacity: 0;
-			rotate: -90deg;
-		}
+	.field-suffix-icon {
+		opacity: 0;
+		rotate: -90deg;
 	}
 }
 
