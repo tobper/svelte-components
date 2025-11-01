@@ -2,7 +2,7 @@
 	import { Card, CardContent, PageContent } from '$lib/index.js';
 </script>
 
-<PageContent id="Typography" header="Typography">
+<PageContent header="Typography">
 	<Card>
 		<CardContent>
 			<h1>Header 1</h1>

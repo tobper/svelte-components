@@ -5,7 +5,7 @@
 	let value = $state<string | null>(null);
 </script>
 
-<PageContent id="List" header="List">
+<PageContent header="List">
 	<Card>
 		<CardContent>
 			<div class="list-container">

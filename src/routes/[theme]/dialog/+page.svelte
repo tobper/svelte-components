@@ -5,7 +5,7 @@
 	let visible = $state(false);
 </script>
 
-<PageContent id="Dialog" header="Dialog">
+<PageContent header="Dialog">
 	<Card>
 		<CardContent>
 			<Button type="outlined" text="Open" onclick={() => { visible = true; }} />

@@ -5,7 +5,7 @@
 	let date = $state(null);
 </script>
 
-<PageContent id="Calendar" header="Calendar">
+<PageContent header="Calendar">
 	<Card>
 		<CardContent>
 			<Calendar bind:date />

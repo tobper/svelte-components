@@ -3,7 +3,7 @@
 	import { food, random } from '../data.js';
 </script>
 
-<PageContent id="Table" header="Normal table">
+<PageContent header="Normal table">
 	<Card>
 		<div class="table">
 			<header>
