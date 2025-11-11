@@ -44,7 +44,7 @@ export function anchor(
 			element.classList.toggle('anchor--match-width', options.match_width);
 		}
 		else {
-			const strategy = 'absolute'
+			const strategy = 'fixed'
 			const middleware = [
 				autoPlacement({
 					allowedPlacements: ['top-start', 'bottom-start', 'top-end', 'bottom-end']
