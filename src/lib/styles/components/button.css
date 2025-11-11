@@ -22,6 +22,7 @@
 .button-plain {
 	/* Appearance */
 	border-radius: var(--button__border-radius);
+	transition: opacity var(--transition__duration--fast);
 
 	/* Content */
 	display: inline-flex;
