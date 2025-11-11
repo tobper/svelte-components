@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getTransition, type TransitionValue } from '$lib/animations.js';
 	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
 	import { get_list_context } from './List.svelte';
@@ -10,6 +11,7 @@
 		contrast?: boolean;
 		current?: boolean;
 		selected?: boolean;
+		transition?: TransitionValue;
 		on_activate?: () => void;
 		on_deactivate?: () => void;
 		on_select?: () => void;
@@ -20,6 +22,7 @@
 		contrast = false,
 		current = $bindable(false),
 		selected = false,
+		transition: transition_input,
 		on_activate,
 		on_deactivate,
 		on_select,
@@ -32,6 +35,7 @@
 		text,
 	}: ListItemOption = $props();
 	let list = get_list_context();
+	let transition = $derived(getTransition(transition_input));
 </script>
 
 <!-- svelte-ignore a11y_mouse_events_have_key_events -->
@@ -53,6 +57,7 @@
 	}}
 	role="option"
 	tabindex={list.focusable ? (current ? 0 : -1) : undefined}
+	transition:transition
 >
 	<ListItemContent {children} {icon} {kbd} {text} />
 </li>

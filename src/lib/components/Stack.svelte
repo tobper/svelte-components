@@ -6,6 +6,7 @@
 	interface Stack {
 		children: Snippet;
 		class?: ClassValue;
+		align?: 'start' | 'end' | 'center' | 'stretch';
 		justify?: 'start' | 'end' | 'center' | 'spread' | 'stretch';
 		gap?: boolean | 'none' |  'tiny' | 'small' | 'medium' | 'default' | 'large'
 		horizontal?: ReactiveBoolean;
@@ -16,6 +17,7 @@
 	let {
 		children,
 		class: element_class,
+		align = 'stretch',
 		justify = 'start',
 		gap = true,
 		horizontal = false,
@@ -30,6 +32,11 @@
 	'gap-small': gap === 'small',
 	'gap-medium': gap === 'medium',
 	'gap-large': gap === 'large',
+
+	'stack--align-start': align === 'start',
+	'stack--align-end': align === 'end',
+	'stack--align-center': align === 'center',
+	'stack--align-stretch': align === 'stretch',
 
 	'stack--justify-start': justify === 'start',
 	'stack--justify-end': justify === 'end',
@@ -49,6 +56,22 @@
 <style>
 	.stack {
 		display: flex;
+	}
+
+	.stack--align-start {
+		align-items: start;
+	}
+
+	.stack--align-end {
+		align-items: end;
+	}
+
+	.stack--align-center {
+		align-items: center;
+	}
+
+	.stack--align-stretch {
+		align-items: stretch;
 	}
 
 	.stack--justify-start {
@@ -72,8 +95,6 @@
 	}
 
 	.stack--horizontal {
-		align-items: center;
-
 		&.stack--reversed {
 			flex-direction: row-reverse;
 		}
