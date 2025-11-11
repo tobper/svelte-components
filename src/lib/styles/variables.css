@@ -258,13 +258,14 @@
 	--z__overlay: 10;
 	--z__page-header: 20;
 	--z__layout: 50;
-	--z__menu: 100;
+	--z__dialog: 60;
+	--z__menu: 70;
 
 	/*
 		Animation
 	*/
 	--transition__duration--medium: .5s;
-	--transition__duration--fast: .25s;
+	--transition__duration--fast: .2s;
 	--transition__duration--instant: .1s;
 
 	@media (prefers-reduced-motion) {

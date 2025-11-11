@@ -8,7 +8,7 @@
 
 	--layout-content__padding-bottom: 2rem;
 
-	--layout__zoom-delay: var(--transition__duration--instant);
+	--layout__zoom-delay: 0;
 	--layout__zoom-duration: var(--transition__duration--fast);
 
 	/* Layout component sets these variables */
@@ -163,8 +163,11 @@
 		This is not working as intended
 		Scaling everything causes fixed position elements (header, sidebar and footer) to be part of the flow
 		Scaling just layout-main causes stuck headers to move along with page
+		It also causes transitioning dialogs to move into layout-main
 	*/
 	/*
+	--layout__zoom-delay: var(--transition__duration--instant);
+
 	transition: scale ease-in;
 	transition-delay: var(--layout__zoom-delay);
 	transition-duration: var(--layout__zoom-duration);
