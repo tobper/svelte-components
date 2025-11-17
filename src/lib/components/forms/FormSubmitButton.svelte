@@ -6,6 +6,7 @@
 	type ButtonProps = ComponentProps<typeof Button>;
 
 	interface FormSubmitButton {
+		autofocus?: boolean;
 		class?: ButtonProps['class'];
 		disabled?: ButtonProps['disabled'];
 		variant?: ButtonProps['variant'];
@@ -16,6 +17,7 @@
 	const form = get_form_context();
 
 	let {
+		autofocus,
 		disabled = false,
 		...button_props
 	}: FormSubmitButton = $props();
@@ -23,6 +25,7 @@
 
 <Button
 	{...button_props}
+	{autofocus}
 	loading={form.delayed}
 	disabled={!form.can_submit || disabled}
 	submit
