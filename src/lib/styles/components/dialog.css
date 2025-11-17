@@ -14,14 +14,22 @@
 	margin: auto;
 
 	/* Position */
+	inset:
+		env(safe-area-inset-top)
+		env(safe-area-inset-right)
+		env(safe-area-inset-bottom)
+		env(safe-area-inset-left);
 	max-width: calc(
 		100%
+		- env(safe-area-inset-left)
+		- env(safe-area-inset-right)
 		- 2 * var(--dialog__margin)
 	);
 	max-height: calc(
 		100%
-		- 2 * max(var(--layout__padding-top), var(--layout__padding-bottom))
-		- 2rem
+		- env(safe-area-inset-top)
+		- env(safe-area-inset-bottom)
+		- 2 * var(--dialog__margin)
 	);
 
 	/* Appearance */
