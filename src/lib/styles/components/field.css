@@ -131,13 +131,14 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .field-content {
+	--button__height: auto;
+
 	/* Horizontal Content */
 	display: flex;
 
 	/* Adjust layout of buttons */
 	button {
 		font-weight: normal;
-		height: auto;
 		min-height: calc(
 			var(--field-input__height) +
 			var(--field-input__padding-block) * 2
