@@ -6,6 +6,7 @@
 	import DialogContent from './DialogContent.svelte';
 	import DialogFooter from './DialogFooter.svelte';
 	import DialogHeader from './DialogHeader.svelte';
+	import { unique_id } from '$lib/unique_id';
 
 	interface Dialog {
 		class?: ClassValue;
@@ -33,10 +34,16 @@
 		on_closed,
 	}: Dialog = $props();
 	let on_closed_timer: ReturnType<typeof setTimeout> | null = null;
-	let dialog = $state<HTMLDialogElement>();
+	let dialog = $state.raw<HTMLDialogElement>();
+	let key = $state.raw(unique_id());
 
 	$effect(() => {
 		if (visible) {
+			// Rerender content when dialog is opened
+			// Needed for instance by Carousel that needs to set scroll
+			// position which is not possible when content is hidden
+			key = unique_id();
+
 			if (on_closed_timer)
 				clearTimeout(on_closed_timer);
 
@@ -53,6 +60,10 @@
 	bind:this={dialog}
 	class={['dialog', dialog_class]}
 	style:width
+	onclick={e => {
+		if (e.target === e.currentTarget)
+		  visible = false;
+	}}
 	onclose={() => {
 		on_close?.();
 		visible = false;
@@ -70,17 +81,19 @@
 		<DialogHeader text={header} />
 	{/if}
 
-	{#if content}
-		<DialogContent>
-			{@render content()}
-		</DialogContent>
-	{:else if children}
-		{@render children()}
-	{/if}
+	{#key key}
+		{#if content}
+			<DialogContent>
+				{@render content()}
+			</DialogContent>
+		{:else if children}
+			{@render children()}
+		{/if}
 
-	{#if footer}
-		<DialogFooter>
-			{@render footer()}
-		</DialogFooter>
-	{/if}
+		{#if footer}
+			<DialogFooter>
+				{@render footer()}
+			</DialogFooter>
+		{/if}
+	{/key}
 </dialog>

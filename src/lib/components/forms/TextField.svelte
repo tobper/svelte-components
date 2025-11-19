@@ -17,6 +17,7 @@
 		aria_haspopup?: HTMLInputAttributes['aria-haspopup'];
 		autocomplete?: HTMLInputAttributes['autocomplete'];
 		class?: ClassValue;
+		can_clear?: boolean;
 		content_element?: HTMLElement | undefined;
 		field_element?: HTMLElement | undefined;
 		disabled?: boolean;
@@ -26,6 +27,8 @@
 		inputmode?: HTMLInputAttributes['inputmode'];
 		list?: HTMLInputAttributes['list'];
 		loading?: boolean;
+		min?: HTMLInputAttributes['min'];
+		max?: HTMLInputAttributes['max'];
 		name?: string;
 		pattern?: HTMLInputAttributes['pattern'];
 		placeholder?: HTMLInputAttributes['placeholder'];
@@ -64,6 +67,7 @@
 		aria_expanded,
 		aria_haspopup,
 		autocomplete = 'off',
+		can_clear = true,
 		class: field_class,
 		content_element = $bindable(),
 		field_element = $bindable(),
@@ -78,6 +82,8 @@
 		label,
 		list,
 		loading: input_loading = false,
+		min,
+		max,
 		name,
 		pattern,
 		placeholder,
@@ -164,6 +170,8 @@
 		{disabled}
 		{inputmode}
 		{list}
+		{min}
+		{max}
 		{name}
 		{pattern}
 		{placeholder}
@@ -217,26 +225,28 @@
 {/snippet}
 
 {#snippet field_clear(in_progress: boolean)}
-	<Button
-		bind:element={clear_element}
-		class={[
-			'field-clear',
-			{
-				'field-clear--enabled': !!value && !disabled && !input_loading && !readonly && !in_progress
-			}
-		]}
-		focusable={false}
-		rounded={false}
-		onclick={() => {
-			// Make sure both bound value and input value is updated before calling callback
-			value = input_element!.value = '';
-			on_clear?.();
-		}}
-	>
-		{#snippet icon()}
-			<ClearIcon />
-		{/snippet}
-	</Button>
+	{#if can_clear}
+		<Button
+			bind:element={clear_element}
+			class={[
+				'field-clear',
+				{
+					'field-clear--enabled': !!value && !disabled && !input_loading && !readonly && !in_progress
+				}
+			]}
+			focusable={false}
+			rounded={false}
+			onclick={() => {
+				// Make sure both bound value and input value is updated before calling callback
+				value = input_element!.value = '';
+				on_clear?.();
+			}}
+		>
+			{#snippet icon()}
+				<ClearIcon />
+			{/snippet}
+		</Button>
+	{/if}
 {/snippet}
 
 {#snippet field_prefix_icon()}

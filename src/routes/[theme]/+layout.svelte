@@ -2,7 +2,7 @@
 	import { resolveRoute } from '$app/paths';
 	import { page } from '$app/state';
 	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
-	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSortAscendingNumbers, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
+	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconCarouselHorizontal, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSortAscendingNumbers, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = $derived(data);
@@ -17,6 +17,7 @@
 		[IconTypography, 'Typography', ''],
 		[IconPalette, 'Palette', '/palette'],
 		[IconRectangle, 'Button', '/button'],
+		[IconCarouselHorizontal, 'Carousel', '/carousel'],
 		[IconMessage, 'Dialog', '/dialog'],
 		[IconList, 'List', '/list'],
 		[IconMenu, 'Menu', '/menu'],

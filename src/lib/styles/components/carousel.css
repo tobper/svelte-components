@@ -1,0 +1,103 @@
+.carousel-container {
+	max-width: 100%;
+
+	/* Add space for markers */
+	&:has(.carousel-markers) {
+		position: relative;
+
+		.carousel {
+			padding-bottom: 2rem;
+		}
+	}
+}
+
+.carousel {
+	display: flex;
+	overflow-x: scroll;
+	scroll-behavior: smooth;
+	scroll-snap-type: x mandatory;
+	scroll-timeline: --carousel-timeline x;
+
+	> * {
+		flex-shrink: 0;
+		scroll-snap-align: start;
+		width: 100%;
+
+		&:nth-child(1) { view-timeline: --carousel-page-1 x; }
+		&:nth-child(2) { view-timeline: --carousel-page-2 x; }
+		&:nth-child(3) { view-timeline: --carousel-page-3 x; }
+		&:nth-child(4) { view-timeline: --carousel-page-4 x; }
+		&:nth-child(5) { view-timeline: --carousel-page-5 x; }
+		&:nth-child(6) { view-timeline: --carousel-page-6 x; }
+		&:nth-child(7) { view-timeline: --carousel-page-7 x; }
+		&:nth-child(8) { view-timeline: --carousel-page-8 x; }
+		&:nth-child(9) { view-timeline: --carousel-page-9 x; }
+	}
+
+	/* Hide default scrollbar */
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.carousel-markers {
+	/* Layout */
+	position: absolute;
+	inset-inline: 0;
+	bottom: .5rem;
+	margin: auto;
+	padding: 0;
+	width: fit-content;
+
+	/* Appearance */
+	display: grid;
+	grid-template-areas: 'overlap';
+
+	> * {
+		grid-area: overlap;
+		width: .7rem;
+		height: .7rem;
+		border: 1px solid var(--palette__accent-color);
+		border-radius: .3rem;
+		opacity: 75%;
+	}
+
+	/* Animation */
+	animation: carousel-markers linear both;
+	animation-timeline: --carousel-timeline;
+
+	> * {
+		animation: carousel-marker linear both;
+	}
+}
+
+@keyframes carousel-markers {
+	100% {
+		translate: calc(-175% * (var(--marker-count) - 1));
+	}
+}
+
+@keyframes carousel-marker {
+	50% {
+		background-color: var(--palette__accent-background--inset);
+		transform: scale(1.25);
+		opacity: 1;
+	}
+}
+
+/* Adjust styling of carousels in cards */
+.card > .carousel-container {
+	.carousel > * {
+		padding-left: var(--card__padding-left);
+		padding-right: var(--card__padding-right);
+	}
+}
+
+/* Adjust styling of carousels in dialogs */
+.dialog-content > .carousel-container {
+	padding-inline: 0;
+
+	.carousel > * {
+		padding-inline: var(--dialog__padding-inline);
+	}
+}
