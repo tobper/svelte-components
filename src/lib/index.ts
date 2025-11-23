@@ -58,7 +58,14 @@ export { default as ToggleSwitch } from './components/forms/ToggleSwitch.svelte'
 
 export * from './components/forms/Form.svelte';
 
+/* Actions */
+export * from './actions/menu.js';
+
+/* Transitions */
+export * from './transitions/index.js';
+
 /* Utilities */
+export * from './animations.js';
 export * from './css.js';
 export * from './device.js';
 export * from './html.js';
@@ -70,5 +77,3 @@ export * from './reactivity.svelte';
 export * from './time.js';
 export * from './unique_id.js';
 
-/* Actions */
-export * from './actions/menu.js';

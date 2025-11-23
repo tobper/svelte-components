@@ -1,5 +1,8 @@
-import { fly } from 'svelte/transition'
+import { fly, type FlyParams } from 'svelte/transition';
 
-export const fly_fast =
-	(node: Element, { x, y }: { x?: number | string; y?: number | string }) =>
-		fly(node, { duration: 150, x, y })
+export function fly_fast(
+	node: Element,
+	params: Exclude<FlyParams, 'duration'> = {}
+) {
+	return fly(node, { ...params, duration: 150 });
+}

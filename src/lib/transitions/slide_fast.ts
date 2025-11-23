@@ -1,5 +1,8 @@
-import { slide } from 'svelte/transition'
+import { slide, type SlideParams } from 'svelte/transition';
 
-export const slide_fast =
-	(node: Element) =>
-		slide(node, { duration: 150 })
+export function slide_fast(
+	node: Element,
+	params: Exclude<SlideParams, 'duration'> = {}
+) {
+	return slide(node, { ...params, duration: 150 })
+}
