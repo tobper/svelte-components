@@ -1,10 +1,12 @@
 :root {
 	--dialog__background: var(--palette__background_medium);
-	--dialog__backdrop-blur: 1px;
 	--dialog__border-radius: var(--border-radius__medium);
 	--dialog__margin: 1rem;
 	--dialog__padding-inline: var(--space);
 	--dialog__shadow: var(--shadow__large);
+
+	--dialog-backdrop__background: hsl(0 0 0 / 35%);
+	--dialog-backdrop__blur: 1px;
 }
 
 .dialog {
@@ -12,14 +14,22 @@
 	margin: auto;
 
 	/* Position */
+	inset:
+		env(safe-area-inset-top)
+		env(safe-area-inset-right)
+		env(safe-area-inset-bottom)
+		env(safe-area-inset-left);
 	max-width: calc(
 		100%
+		- env(safe-area-inset-left)
+		- env(safe-area-inset-right)
 		- 2 * var(--dialog__margin)
 	);
 	max-height: calc(
 		100%
-		- 2 * max(var(--layout__padding-top), var(--layout__padding-bottom))
-		- 2rem
+		- env(safe-area-inset-top)
+		- env(safe-area-inset-bottom)
+		- 2 * var(--dialog__margin)
 	);
 
 	/* Appearance */
@@ -29,6 +39,10 @@
 
 	/* Content */
 	flex-direction: column;
+
+	body:has(&[open]) {
+    	overflow: hidden;
+  	}
 }
 
 .dialog-header {
@@ -111,16 +125,25 @@
 		@starting-style {
 			opacity: 0;
 			transform: scale(1.04);
+			transition-duration: 0s;
 		}
+	}
+
+	/* Needed during transition out */
+	&:not([open]) {
+		position: fixed;
+		z-index: var(--z__dialog);
 	}
 }
 
 /*
 	Backdrop
+	Transition out for backdrop does not work in Safari
+	https://caniuse.com/?search=overlay
 */
 .dialog::backdrop {
+	backdrop-filter: blur(0px);
 	background-color: transparent;
-	backdrop-filter: blur(0px) opacity(0);
 
 	transition-behavior: allow-discrete;
 	transition-delay: 0s;
@@ -130,15 +153,16 @@
 }
 
 .dialog[open]::backdrop {
-	background-color: rgb(0 0 0 / 35%);
-	backdrop-filter: blur(var(--dialog__backdrop-blur)) opacity(1);
+	backdrop-filter: blur(var(--dialog-backdrop__blur));
+	background-color: var(--dialog-backdrop__background);
 	transition-delay: var(--layout__zoom-delay);
+	transition-delay: 0s;
 }
 
 @starting-style {
 	.dialog[open]::backdrop {
+		backdrop-filter: blur(0px);
 		background-color: transparent;
-		backdrop-filter: blur(0px) opacity(0);
 		transition-delay: 0s;
 	}
 }

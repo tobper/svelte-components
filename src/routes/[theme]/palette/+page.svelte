@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { Card, CardContent, PageContent } from '$lib/index.js';
-
-	const variants = ['Primary', 'Secondary', 'Tertiary', 'Add', 'Delete'];
+	import { Card, CardContent, PageContent, variants } from '$lib/index.js';
 </script>
 
 <PageContent header="Palette">

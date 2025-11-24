@@ -6,6 +6,7 @@
 	type ButtonProps = ComponentProps<typeof Button>;
 
 	interface FormCancelButton {
+		autofocus?: boolean;
 		class?: ButtonProps['class'];
 		disabled?: ButtonProps['disabled'];
 		icon?: ButtonProps['icon'];
@@ -16,6 +17,7 @@
 	const form = get_form_context();
 
 	let {
+		autofocus,
 		disabled = false,
 		text = 'Cancel',
 		...button_props
@@ -24,6 +26,7 @@
 
 <Button
 	{...button_props}
+	{autofocus}
 	{text}
 	disabled={form.submitting || disabled}
 	type="outlined"

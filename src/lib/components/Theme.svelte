@@ -2,6 +2,9 @@
 	export type Scheme = 'dark' | 'light' | 'system';
 	export type Style = 'lines' | 'neomorphism';
 
+	export type Variant = 'Primary' | 'Secondary' | 'Tertiary' | 'Add' | 'Delete';
+	export const variants: Variant[] = ['Primary', 'Secondary', 'Tertiary', 'Add', 'Delete'];
+
 	export interface ThemeContext {
 		scheme: Scheme;
 		style: Style;

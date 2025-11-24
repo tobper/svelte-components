@@ -21,7 +21,7 @@
 	})
 </script>
 
-<PageContent id="Form" header="Text fields">
+<PageContent header="Text fields">
 	<Card>
 		<Form error_message="Form error" field_errors={{ date: ['Invalid date'] }} loading={form_loading}>
 			<CardContent fill>

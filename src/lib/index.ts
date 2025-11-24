@@ -4,6 +4,7 @@ export { default as Card } from './components/Card.svelte';
 export { default as CardContent } from './components/CardContent.svelte';
 export { default as CardFooter } from './components/CardFooter.svelte';
 export { default as CardHeader } from './components/CardHeader.svelte';
+export { default as Carousel } from './components/Carousel.svelte';
 export { default as Device } from './components/Device.svelte';
 export { default as Dialog } from './components/Dialog.svelte';
 export { default as DialogCloseButton } from './components/DialogCloseButton.svelte';
@@ -58,11 +59,19 @@ export { default as ToggleSwitch } from './components/forms/ToggleSwitch.svelte'
 
 export * from './components/forms/Form.svelte';
 
+/* Actions */
+export * from './actions/menu.js';
+
+/* Transitions */
+export * from './transitions/index.js';
+
 /* Utilities */
+export * from './animations.js';
 export * from './css.js';
 export * from './device.js';
 export * from './html.js';
 export * from './logging.js';
+export * from './mapping.svelte.js';
 export * from './match.js';
 export * from './media.svelte.js';
 export * from './normalization.js';
@@ -70,5 +79,3 @@ export * from './reactivity.svelte';
 export * from './time.js';
 export * from './unique_id.js';
 
-/* Actions */
-export * from './actions/menu.js';

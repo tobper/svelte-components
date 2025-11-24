@@ -1,4 +1,5 @@
 <script lang="ts" generics="Option">
+	import type { ComponentProps } from 'svelte';
 	import type { ClassValue, HTMLColAttributes } from 'svelte/elements';
 	import { scroll_into_view } from '../html.js';
 	import { create_normalized_lookup } from '../normalization.js';
@@ -9,6 +10,8 @@
 	import ListItemOption from './ListItemOption.svelte';
 	import ListItemSeparator from './ListItemSeparator.svelte';
 	import ListItemText from './ListItemText.svelte';
+
+	type ListItemOptionProps = ComponentProps<typeof ListItemOption>;
 
 	interface ListItem {
 		id: string;
@@ -72,6 +75,10 @@
 		 */
 		value?: string | null;
 		/**
+		 * The transition to apply to items.
+		 */
+		transition?: ListItemOptionProps['transition'];
+		/**
 		 * Callback is called when an option is selected.
 		 */
 		on_select?: (option: Option) => void;
@@ -100,6 +107,7 @@
 		options_label,
 		options_value = option => `${option}`,
 		value: selected_value = $bindable(null),
+		transition,
 
 		on_select,
 
@@ -299,6 +307,7 @@
 				current={item.id === active_item_id}
 				selected={item.value === selected_value}
 				text={item.label}
+				transition={transition}
 				on_activate={() => {
 					active_item_id = item.id;
 				}}

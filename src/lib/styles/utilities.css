@@ -42,19 +42,6 @@
 	box-shadow: 0 1rem .5rem -1rem rgb(0 0 0 / 20%);
 }
 
-.carousel {
-	display: flex;
-	overflow-x: scroll;
-	scroll-behavior: smooth;
-	scroll-snap-type: x mandatory;
-
-	> * {
-		flex-shrink: 0;
-		scroll-snap-align: start;
-		width: 100%;
-	}
-}
-
 .staggered-transition,
 .field {
 	--staggered-transition-delay: .05s;

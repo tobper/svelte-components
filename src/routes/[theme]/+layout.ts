@@ -8,7 +8,7 @@ export function load({ params }) {
 	const theme = params.theme as Style
 
 	if (!available_themes.includes(theme)) {
-		console.warn(`"${theme}" is not a valid theme. Valid themes are ${humanize_list(themes)}.`);
+		console.warn(`"${theme}" is not a valid theme. Valid themes are ${humanize_list(available_themes)}.`);
 		redirect(307, '/');
 	}
 

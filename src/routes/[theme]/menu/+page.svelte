@@ -10,7 +10,7 @@
 	let toggle_radio = $state('radio 1');
 </script>
 
-<PageContent id="Menu" header="Menu">
+<PageContent header="Menu">
 	<Card>
 		<CardContent>
 			<Stack horizontal>

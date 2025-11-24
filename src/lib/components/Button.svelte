@@ -11,6 +11,7 @@
 	import Loading from './Loading.svelte';
 
 	interface Button {
+		autofocus?: boolean;
 		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
 		disabled?: boolean;
 		element?: HTMLElement;
@@ -39,6 +40,7 @@
 	}
 
 	let {
+		autofocus,
 		current,
 		disabled = false,
 		element = $bindable(),
@@ -64,6 +66,7 @@
 <button
 	bind:this={element}
 	{id}
+	{autofocus}
 	aria-current={current === false ? undefined : current}
 	aria-disabled={disabled || loading ? true : undefined}
 	class:button-cta={type === 'cta'}

@@ -20,7 +20,7 @@
 	});
 </script>
 
-<PageContent id="Odometer" header="Odometer">
+<PageContent header="Odometer">
 	<Card>
 		<CardContent header="Currency">
 			<Stack horizontal>
