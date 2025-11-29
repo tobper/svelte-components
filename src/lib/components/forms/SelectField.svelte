@@ -52,6 +52,7 @@
 		on_select?: SelectListProps['on_select'];
 
 		id?: TextFieldProps['id'];
+		autofocus?: TextFieldProps['autofocus'];
 		class?: TextFieldProps['class'];
 		disabled?: TextFieldProps['disabled'];
 		error_hint?: TextFieldProps['error_hint'];

@@ -16,6 +16,7 @@
 		aria_expanded?: HTMLInputAttributes['aria-expanded'];
 		aria_haspopup?: HTMLInputAttributes['aria-haspopup'];
 		autocomplete?: HTMLInputAttributes['autocomplete'];
+		autofocus?: HTMLInputAttributes['autofocus'];
 		class?: ClassValue;
 		can_clear?: boolean;
 		content_element?: HTMLElement | undefined;
@@ -67,6 +68,7 @@
 		aria_expanded,
 		aria_haspopup,
 		autocomplete = 'off',
+		autofocus,
 		can_clear = true,
 		class: field_class,
 		content_element = $bindable(),
@@ -167,6 +169,7 @@
 {#snippet input(content_id: string, error_text: string | null, in_progress: boolean)}
 	<input
 		{autocomplete}
+		{autofocus}
 		{disabled}
 		{inputmode}
 		{list}

@@ -24,6 +24,7 @@
 		/**
 		 * Class to apply to the field element.
 		 */
+		autofocus?: TextFieldProps['autofocus'];
 		class?: TextFieldProps['class'];
 		disabled?: TextFieldProps['disabled'];
 		error_hint?: TextFieldProps['error_hint'];
