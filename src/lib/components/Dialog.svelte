@@ -16,6 +16,7 @@
 		children?: Snippet;
 		content?: Snippet;
 		footer?: Snippet;
+		propagate_key_events?: boolean;
 		on_open?: () => void;
 		on_close?: () => void;
 		on_closed?: () => void;
@@ -29,6 +30,7 @@
 		children,
 		content,
 		footer,
+		propagate_key_events = false,
 		on_open,
 		on_close,
 		on_closed,
@@ -54,6 +56,10 @@
 			dialog!.close();
 		}
 	});
+
+	function stop_propagation(event: Event) {
+		event.stopPropagation();
+	}
 </script>
 
 <dialog
@@ -76,6 +82,9 @@
 			on_closed_timer = setTimeout(on_closed, animation_duration);
 		}
 	}}
+	onkeydown={propagate_key_events ? undefined : stop_propagation}
+	onkeyup={propagate_key_events ? undefined : stop_propagation}
+	onkeypress={propagate_key_events ? undefined : stop_propagation}
 >
 	{#if header}
 		<DialogHeader text={header} />
