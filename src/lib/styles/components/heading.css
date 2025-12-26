@@ -1,4 +1,11 @@
 :root {
+	--h1__color: var(--palette__accent-color);
+	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 5%);
+	--h3__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 15%);
+	--h3__color--hover: color-mix(in lab, var(--h3__color), var(--palette__background) 25%);
+	--h4__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 25%);
+	--h4__color--hover: color-mix(in lab, var(--h4__color), var(--palette__background) 25%);
+
 	--h1__font-size: 1.875rem;
 	--h2__font-size: 1.5rem;
 	--h3__font-size: 1.25rem;
@@ -17,16 +24,12 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-	--h1__color: var(--palette__accent-color);
-
 	color: var(--h1__color);
 	font-size: var(--h1__font-size);
 	line-height: 2.25rem;
 }
 
 h2 {
-	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 5%);
-
 	color: var(--h2__color);
 	font-size: var(--h2__font-size);
 	line-height: 2rem;
@@ -34,9 +37,6 @@ h2 {
 }
 
 h3 {
-	--h3__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 15%);
-	--h3__color--hover: color-mix(in lab, var(--h3__color), var(--palette__background) 25%);
-
 	--link__color: var(--h3__color);
 	--link__color--hover: var(--h3__color--hover);
 
@@ -50,9 +50,6 @@ h3 {
 }
 
 h4 {
-	--h4__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 25%);
-	--h4__color--hover: color-mix(in lab, var(--h4__color), var(--palette__background) 25%);
-
 	color: var(--h4__color);
 	font-size: var(--h4__font-size);
 	line-height: 1.5rem;
