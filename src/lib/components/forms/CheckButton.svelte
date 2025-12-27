@@ -11,6 +11,7 @@
 		disabled?: boolean;
 		element?: HTMLElement;
 		name?: string;
+		rounded?: boolean;
 		text?: string;
 		type?: 'plain' | 'outlined';
 		value?: unknown;
@@ -26,6 +27,7 @@
 		disabled = false,
 		element = $bindable(),
 		name,
+		rounded,
 		onchange,
 		onclick,
 		text,
@@ -40,7 +42,7 @@
 	class={label_class}
 	class:button-outlined={type === 'outlined'}
 	class:button-plain={type === 'plain'}
-	class:button--round={!text}
+	class:button--round={rounded ?? !text}
 >
 	<div class="input-container">
 		<input

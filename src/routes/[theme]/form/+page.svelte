@@ -165,7 +165,8 @@
 			<Checkbox disabled label="Checked and disabled" checked />
 		</CardContent>
 
-		<CardContent header="Check button">
+		<CardContent>
+			<h4>Check button</h4>
 			<div class="flow-items">
 				<CheckButton text="Default" />
 				<CheckButton text="Checked" checked />
@@ -174,10 +175,20 @@
 			</div>
 
 			<h4>Group</h4>
-			<div class="button-group">
-				<CheckButton text="Yes" checked />
-				<CheckButton text="No" />
-				<CheckButton text="Maybe" />
+			<div class="flow-items">
+				<div class="button-group">
+					<CheckButton text="Yes" checked />
+					<CheckButton text="No" />
+					<CheckButton text="Maybe" />
+				</div>
+				<div class="button-group">
+					<CheckButton rounded={false} content={calendar_icon} checked />
+					<CheckButton rounded={false} content={search_icon} />
+				</div>
+				<div class="button-group">
+					<CheckButton content={calendar_icon} checked />
+					<CheckButton content={search_icon} />
+				</div>
 			</div>
 
 			<h4>Animated</h4>
