@@ -4,6 +4,7 @@
 	    add_days,
 	    add_months,
 	    add_weeks,
+	    eon,
 	    get_calendar_dates,
 	    get_calendar_month_text,
 	    get_date_only_key,
@@ -14,7 +15,6 @@
 	    is_same_date,
 	    period_contains_date,
 	    to_date,
-	    week_days_short,
 	    type DateOnly,
 	    type Period
 	} from '@tobper/eon';
@@ -369,7 +369,7 @@
 			activate_selected_date();
 		}}
 	>
-		{#each week_days_short as week_day (week_day)}
+		{#each eon.week_days_short as week_day (week_day)}
 			<div role="heading" aria-level="4">
 				{week_day}
 			</div>

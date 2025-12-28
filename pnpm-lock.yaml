@@ -15,8 +15,8 @@ importers:
         specifier: ^2.22.2
         version: 2.22.2(@sveltejs/vite-plugin-svelte@5.1.0(svelte@5.34.9)(vite@6.3.5(yaml@2.8.0)))(svelte@5.34.9)(vite@6.3.5(yaml@2.8.0))
       '@tobper/eon':
-        specifier: ^0.1.3
-        version: 0.1.3
+        specifier: ^0.1.6
+        version: 0.1.6
       esm-env:
         specifier: ^1.2.2
         version: 1.2.2
@@ -706,8 +706,8 @@ packages:
   '@tabler/icons@3.34.0':
     resolution: {integrity: sha512-jtVqv0JC1WU2TTEBN32D9+R6mc1iEBuPwLnBsWaR02SIEciu9aq5806AWkCHuObhQ4ERhhXErLEK7Fs+tEZxiA==}
 
-  '@tobper/eon@0.1.3':
-    resolution: {integrity: sha512-z6czU/v8/pvvlgXuTlKjY+6uwe9G5WrRX3daf5h1JYCCUjEaUVlCbqv2wtkmzu1sV5eSrk4g+fLlT1o7zYkHWg==, tarball: https://npm.pkg.github.com/download/@tobper/eon/0.1.3/716864c8aa92e76f63effbf82c8547d1fe9cfb80}
+  '@tobper/eon@0.1.6':
+    resolution: {integrity: sha512-gcf3lJQFHrwXl2jLYc2l7wsAWHAIbNTjqpcf0mDDNjP3RcZigy3cqwgRNx0Das9vlm+pq6emhcF4P3FYcGM/jA==, tarball: https://npm.pkg.github.com/download/@tobper/eon/0.1.6/b35c590875efd9350464d4b7056de31e985c8266}
 
   '@types/chai@5.2.2':
     resolution: {integrity: sha512-8kB30R7Hwqf40JPiKhVzodJs2Qc1ZJ5zuT3uzw5Hq/dhNCl3G3l83jfpdI1e20BP348+fV7VIL/+FxaXkqBmWg==}
@@ -2273,7 +2273,7 @@ snapshots:
 
   '@tabler/icons@3.34.0': {}
 
-  '@tobper/eon@0.1.3': {}
+  '@tobper/eon@0.1.6': {}
 
   '@types/chai@5.2.2':
     dependencies:
