@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { resolveRoute } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
 	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconCarouselHorizontal, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSortAscendingNumbers, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
+	import { type LayoutRouteId } from './$types.js';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = $derived(data);
@@ -86,10 +87,10 @@
 		<nav>
 			<ul>
 				{#each nav_items as [Icon, text, relative_url] (text)}
-					{@const route = `/[theme]${relative_url}`}
+					{@const route_id: LayoutRouteId = `/[theme]${relative_url}`}
 					<ListItemLink
-						current={page.route.id === route}
-						href={resolveRoute(route, { theme: current_theme })}
+						current={page.route.id === route_id}
+						href={resolve(route_id, { theme: current_theme })}
 						{text}
 					>
 						{#snippet icon()}
@@ -103,9 +104,10 @@
 					<hr />
 				</Device>
 				{#each available_themes as { name, text } (name)}
+					{@const route_id = page.route.id as LayoutRouteId}
 					<ListItemLink
 						current={current_theme === name}
-						href={resolveRoute(page.route.id!, { theme: name })}
+						href={resolve(route_id, { theme: name })}
 						{text}
 					/>
 				{/each}

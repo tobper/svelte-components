@@ -57,7 +57,12 @@ export { default as SelectField } from './components/forms/SelectField.svelte';
 export { default as TextField } from './components/forms/TextField.svelte';
 export { default as ToggleSwitch } from './components/forms/ToggleSwitch.svelte';
 
-export * from './components/forms/Form.svelte';
+export * from './components/forms/form_context.svelte';
+
+/* Remote forms */
+export { default as RemoteForm } from './components/forms.kit/RemoteForm.svelte';
+export { default as RemoteFormDebug } from './components/forms.kit/RemoteFormDebug.svelte';
+export { default as RemoteTextField } from './components/forms.kit/RemoteTextField.svelte';
 
 /* Actions */
 export * from './actions/menu.js';

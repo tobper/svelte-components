@@ -3,7 +3,7 @@
 	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 	import { slide } from 'svelte/transition';
 	import { unique_id } from '../../unique_id.js';
-	import { get_form_context } from './Form.svelte';
+	import { get_form_context } from './form_context.svelte.js';
 
 	interface Field {
 		content: Snippet<[{

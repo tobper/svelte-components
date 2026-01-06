@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { get_form_context } from './Form.svelte';
+	import { get_form_context } from './form_context.svelte';
 
 	interface FormError {
 		fields?: string[];

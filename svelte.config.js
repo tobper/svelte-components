@@ -19,6 +19,14 @@ const config = {
 		paths: {
 			// Set base to name of repository
 			base: process.env.CI ? `/${github_repository}` : ''
+		},
+		experimental: {
+			remoteFunctions: true
+		}
+	},
+	compilerOptions: {
+		experimental: {
+			async: true
 		}
 	}
 };

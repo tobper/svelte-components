@@ -1,64 +1,12 @@
-<script lang="ts" module>
-	type FieldProps = ComponentProps<typeof Field>;
-
-	const context_key = Symbol('Form');
-	const empty_context: FormContext = {
-		error_hints: 'auto',
-		error_message: null,
-		field_errors: {},
-		can_submit: true,
-		delayed: false,
-		in_progress: false,
-		loading: false,
-		submitting: false,
-		tainted: false,
-	};
-
-	export interface FormContext {
-		/** Default value for fields where it is not explicitly specified */
-		error_hints: NonNullable<FieldProps['error_hint']>;
-		error_message: FormFailure['error_message'];
-		field_errors: FormFailure['field_errors'];
-		/** Indicates that form is either loading, submitting or not tainted */
-		can_submit: boolean;
-		/** Indicates that the form is currently submitting and taking longer than expected */
-		delayed: boolean;
-		/** Indicates that the form is currently loading or submitting */
-		in_progress: boolean;
-		/** Indicates that the form is currently loading */
-		loading: boolean;
-		/** Indicates that the form is currently being submitted */
-		submitting: boolean;
-		/** Indicates that the form values are tainted */
-		tainted: boolean;
-	}
-
-	export interface FormFailure {
-		error_message: string | null;
-		field_errors: FieldErrors;
-	}
-
-	export type FieldErrors = {
-		[field: string]: Array<string>;
-	};
-
-	export function get_form_context(): FormContext {
-		return getContext(context_key) ?? empty_context;
-	}
-
-	function set_context(context: FormContext) {
-		setContext(context_key, context);
-	}
-</script>
-
 <script lang="ts" generics="Model">
 	import { applyAction, enhance } from '$app/forms';
 	import { beforeNavigate } from '$app/navigation';
-	import { getContext, onMount, setContext, untrack, type ComponentProps, type Snippet } from 'svelte';
+	import { onMount, untrack, type Snippet } from 'svelte';
 	import type { ClassValue, HTMLFormAttributes } from 'svelte/elements';
+	import { on } from '../../html.js';
 	import { delayed_timer } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
-	import Field from './Field.svelte';
+	import { set_form_context, type FieldErrors, type FieldProps, type FormContext, type FormFailure } from './form_context.svelte.js';
 
 	type SubmitAction = () => Promise<SubmitResult> | void;
 	type SubmitResult =
@@ -139,7 +87,7 @@
 		get tainted() { return tainted; },
 	};
 
-	set_context(context);
+	set_form_context(context);
 
 	$effect.pre(() => {
 		if (loading) {
@@ -159,15 +107,11 @@
 		if (!dialog)
 			return;
 
-		dialog.addEventListener('cancel', on_close);
-
-		return function cleanup() {
-			dialog.removeEventListener('cancel', on_close);
-		}
-
-		function on_close(event: Event) {
-			check_navigation(() => event.preventDefault());
-		}
+		return on(dialog, {
+			cancel(event) {
+				check_navigation(() => event.preventDefault());
+			}
+		})
 	});
 
 	beforeNavigate(navigation => {

@@ -16,7 +16,9 @@ export default [
 			'comma-dangle': 'off',
 			'quotes': ['error', 'single', {
 				allowTemplateLiterals: true
-			}]
+			}],
+			// This reports false positives which is hard to get rid of without turning off the rule
+			'svelte/no-navigation-without-resolve': 'off',
 		}
 	},
 	{

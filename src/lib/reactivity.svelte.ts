@@ -1,3 +1,4 @@
+/* eslint-disable svelte/prefer-svelte-reactivity */
 import { untrack } from 'svelte';
 import { seconds } from './time.js';
 

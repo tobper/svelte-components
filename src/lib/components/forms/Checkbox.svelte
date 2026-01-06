@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 	import { unique_id } from '../../unique_id.js';
-	import { get_form_context } from './Form.svelte';
+	import { get_form_context } from './form_context.svelte.js';
 
 	interface Checkbox {
 		checked?: boolean;

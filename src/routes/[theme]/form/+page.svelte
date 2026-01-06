@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, RadioButton, RadioGroup, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, RadioButton, RadioGroup, RemoteForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
 	import { find_fruit, food, get_food_heading } from '../data.js';
+	import { foo_form } from './form.remote.js';
 
 	let form_loading = $state(false);
 	let field_loading = $state(false);
@@ -13,12 +14,15 @@
 	let date_value = $state<DateOnly | null>(get_date_today());
 	let dates_value = $state<DateOnly[]>([get_date_today()]);
 
-	let form = $state({
+	let form_values = $state({
 		name: '',
 		category: '',
 		dates: [],
 		select: ''
 	})
+
+	let remote_form = foo_form.for('');
+	remote_form.fields.set(form_values);
 </script>
 
 <PageContent header="Text fields">
@@ -118,16 +122,30 @@
  	</Card>
 </PageContent>
 
+<PageContent header="Remote form">
+	<Card>
+		<RemoteForm form={remote_form} loading={form_loading}>
+			<CardContent fill>
+				<RemoteTextField label="Name" field={remote_form.fields.name} />
+				<FormError />
+			</CardContent>
+			<CardFooter>
+				<FormSubmitButton text="Save" />
+			</CardFooter>
+		</RemoteForm>
+ 	</Card>
+</PageContent>
+
 <PageContent header="Form transitions">
 	<Card>
-		<Form loading={form_loading} model={form}>
+		<Form loading={form_loading} model={form_values}>
 			<CardContent fill>
 				<div class="fields">
-					<TextField label="Name" loading placeholder="Placeholder" required bind:value={form.name} />
-					<TextField label="Category" bind:value={form.category} />
-					<DateField label="Date list" required bind:value={form.dates} />
+					<TextField label="Name" loading placeholder="Placeholder" required bind:value={form_values.name} />
+					<TextField label="Category" bind:value={form_values.category} />
+					<DateField label="Date list" required bind:value={form_values.dates} />
 					<SelectField
-						bind:value={form.select}
+						bind:value={form_values.select}
 						label="Select"
 						options={food}
 						options_heading={get_food_heading}

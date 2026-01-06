@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte';
 	import Button from './Button.svelte';
-	import { get_form_context } from './forms/Form.svelte';
+	import { get_form_context } from './forms/form_context.svelte';
 
 	type ButtonProps = ComponentProps<typeof Button>;
 
