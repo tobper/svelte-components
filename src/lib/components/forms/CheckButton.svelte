@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 	import ButtonBorder from '../ButtonBorder.svelte';
 
 	interface CheckButton {
@@ -16,7 +16,7 @@
 		type?: 'plain' | 'outlined';
 		value?: unknown;
 		onchange?: (checked: boolean) => void;
-		onclick?: HTMLInputElement['onclick'];
+		onclick?: HTMLInputAttributes['onclick'];
 	}
 
 	let {

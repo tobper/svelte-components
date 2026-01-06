@@ -11,7 +11,7 @@
 		indeterminate?: boolean;
 		invalid?: boolean;
 		label?: string;
-		name?: string;
+		name?: HTMLInputAttributes['name'];
 		readonly?: boolean;
 		onchange?: HTMLInputAttributes['onchange'];
 		onclick?: HTMLInputAttributes['onclick'];

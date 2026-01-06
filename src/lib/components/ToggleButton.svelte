@@ -1,6 +1,6 @@
 <script lang="ts" generics="Option">
 	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 
 	interface ToggleButton {
 		animation?: 'fade' | 'flip' | 'rotate';
@@ -14,7 +14,7 @@
 		type?: 'outlined' | 'plain';
 		value: Option;
 		onchange?: (value: Option) => void;
-		onclick?: HTMLInputElement['onclick'];
+		onclick?: HTMLInputAttributes['onclick'];
 	}
 
 	let {

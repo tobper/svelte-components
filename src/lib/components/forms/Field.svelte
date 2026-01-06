@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
 	import { slide } from 'svelte/transition';
 	import { unique_id } from '../../unique_id.js';
 	import { get_form_context } from './Form.svelte';
@@ -19,7 +19,7 @@
 		error_hint?: boolean | 'auto' | 'always' | 'never';
 		errors?: string[];
 		element?: HTMLElement;
-		name?: string;
+		name?: HTMLInputAttributes['name'];
 		label?: string;
 		required?: boolean;
 	}
