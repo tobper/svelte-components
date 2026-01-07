@@ -1,7 +1,7 @@
 <script lang="ts" generics="Model extends RemoteFormInput, Result">
 	import { beforeNavigate } from '$app/navigation';
 	import { on } from '$lib/html.js';
-	import { isHttpError, type RemoteForm, type RemoteFormFields, type RemoteFormInput, type RemoteFormIssue } from '@sveltejs/kit';
+	import { type RemoteForm, type RemoteFormFields, type RemoteFormInput, type RemoteFormIssue } from '@sveltejs/kit';
 	import { tick, untrack, type Snippet } from 'svelte';
 	import { delayed_timer } from '../../reactivity.svelte.js';
 	import { unique_id } from '../../unique_id.js';
@@ -161,8 +161,21 @@
 				}
 			}
 			catch (error) {
-				if (isHttpError(error) && error.status === 400)
-					error_message = error.body.message;
+				// For some reason isHttpError(error) is returning false when the error is of that type
+				// I think this package and the consumer uses different versions of Kit and that's why it fails
+				interface HttpError {
+					status?: unknown
+					body?: {
+						message?: unknown
+					}
+				}
+
+				const http_error = error as HttpError
+				if (http_error?.status == 400 && typeof http_error?.body?.message === 'string')
+					error_message = http_error.body.message
+
+				// if (isHttpError(error) && error.status === 400)
+				// 	error_message = error.body.message;
 
 				await on_error?.(error);
 			}
