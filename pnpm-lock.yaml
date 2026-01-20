@@ -12,8 +12,8 @@ importers:
         specifier: ^1.7.4
         version: 1.7.4
       '@tobper/eon':
-        specifier: ^0.1.8
-        version: 0.1.8
+        specifier: ^1.0.0
+        version: 1.0.0
       esm-env:
         specifier: ^1.2.2
         version: 1.2.2
@@ -732,8 +732,8 @@ packages:
   '@tabler/icons@3.36.1':
     resolution: {integrity: sha512-f4Jg3Fof/Vru5ioix/UO4GX+sdDsF9wQo47FbtvG+utIYYVQ/QVAC0QYgcBbAjQGfbdOh2CCf0BgiFOF9Ixtjw==}
 
-  '@tobper/eon@0.1.8':
-    resolution: {integrity: sha512-hm1TmnptZhtKfs7uliH2WvGbtd0GdQtMU0MihC3pVanOjasJDrk8SXWpePp8I6cLEIvugwoJhQZ2Ex6jIKjXcg==, tarball: https://npm.pkg.github.com/download/@tobper/eon/0.1.8/d2742651e1e65319ff8a4d04ae2389a23bb01f05}
+  '@tobper/eon@1.0.0':
+    resolution: {integrity: sha512-dKhecyl/0FMPAB9s78N3QWgIizDt8ivaTkl0ftJVGprlXUiXu70Sl5usvXZCiUB48end+FUWSmsYnuXuTX4cMw==, tarball: https://npm.pkg.github.com/download/@tobper/eon/1.0.0/f213cd5d47b5e31e738fb1c240f63677a4b5debc}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -2252,7 +2252,7 @@ snapshots:
 
   '@tabler/icons@3.36.1': {}
 
-  '@tobper/eon@0.1.8': {}
+  '@tobper/eon@1.0.0': {}
 
   '@types/chai@5.2.3':
     dependencies:
