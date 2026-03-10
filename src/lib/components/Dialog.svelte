@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { get_root_style } from '$lib/css';
 	import { try_parse_milliseconds } from '$lib/time';
-	import { type Snippet } from 'svelte';
+	import { untrack, type Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 	import DialogContent from './DialogContent.svelte';
 	import DialogFooter from './DialogFooter.svelte';
@@ -49,7 +49,9 @@
 			if (on_closed_timer)
 				clearTimeout(on_closed_timer);
 
-			on_open?.();
+			if (on_open)
+				untrack(on_open);
+
 			dialog!.showModal();
 		}
 		else {
