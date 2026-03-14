@@ -358,6 +358,7 @@
 		padding-block: var(--menu-item__padding-block);
 		padding-inline: var(--menu-item__padding-inline);
 		border-radius: var(--menu-item__border-radius);
+		box-sizing: content-box;
 
 		align-content: center;
 		overflow: hidden;
@@ -370,12 +371,14 @@
 		color: var(--list-item-heading__color);
 		font-size: var(--list-item-heading__font-size);
 		letter-spacing: var(--list-item-heading__letter-spacing);
-		min-height: var(--space__large);
+		line-height: 1;
+		min-height: 1rem;
 	}
 
 	[role=option],
 	[role=presentation] {
-		min-height: var(--space__x-large);
+		line-height: 2;
+		min-height: 2rem;
 	}
 
 	[role=option] {
