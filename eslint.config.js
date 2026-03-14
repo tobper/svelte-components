@@ -20,6 +20,9 @@ export default [
 			// This reports false positives which is hard to get rid of without turning off the rule
 			// https://github.com/sveltejs/eslint-plugin-svelte/issues/1353
 			'svelte/no-navigation-without-resolve': 'off',
+			// This just adds noise to code.
+			// https://sveltejs.github.io/eslint-plugin-svelte/rules/prefer-svelte-reactivity/
+			'svelte/prefer-svelte-reactivity': 'off',
 		}
 	},
 	{
