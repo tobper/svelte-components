@@ -4,7 +4,7 @@
 	import { device } from '../../device.js';
 	import { unique_id } from '../../unique_id.js';
 	import { anchor } from '../anchor.js';
-	import { create_list, type ListItemOption } from '../list.svelte.js';
+	import { create_list, type ListItem, type ListItemHeading, type ListItemOption } from '../list.svelte.js';
 	import { popover } from '../popover.js';
 	import SelectList from '../SelectList.svelte';
 	import TextField from './TextField.svelte';
@@ -24,10 +24,10 @@
 		 */
 		options: OptionsSource;
 		/**
-		 * Callback that is called for each option to determine the label of the option.
+		 * Callback that is called for each option to determine the heading of the option.
 		 * @default No header is displayed.
 		 */
-		options_heading?: (option: Option) => string;
+		options_heading?: (option: Option) => string | undefined;
 		/**
 		 * Callback that is called for each option to determine the label of the option.
 		 * @default Value is displayed as label.
@@ -38,6 +38,10 @@
 		 * @default Option is converted to a string.
 		 */
 		options_value?: (option: Option) => string;
+		/**
+		 * Callback that is called for each option to determine the children of the option.
+		 */
+		options_children?: (option: Option) => Option[] | undefined;
 		/**
 		 * Type of field
 		 * - autocomplete: Any text can be entered
@@ -77,6 +81,7 @@
 		options_heading,
 		options_label,
 		options_value = option => `${option}`,
+		options_children,
 		readonly,
 		type = 'select',
 		value: bound_value = $bindable(null),
@@ -103,6 +108,7 @@
 			options_heading,
 			options_label,
 			options_value,
+			options_children,
 		);
 	});
 
@@ -280,7 +286,7 @@
 		list?.close();
 	}}
 >
-	{#if content_element && list && list.items.length > 0}
+	{#if content_element && list && (list.items.length > 0 || empty_text)}
 		<div
 			use:anchor={{
 				anchor: content_element,
@@ -299,44 +305,71 @@
 				role="listbox"
 				tabindex="-1"
 			>
-				{#each list.items as item, i (item.id)}
-					{#if item.type === 'heading'}
-						{#if i > 0}
-							<div role="separator">
-								<hr />
-							</div>
-						{/if}
-
-						<div role="heading" aria-level="4">
-							{item.label}
-						</div>
-					{:else if item.type === 'presentation'}
-						<div role="presentation">
-							{item.label}
-						</div>
-					{:else if item.type === 'option'}
-						<!-- svelte-ignore a11y_interactive_supports_focus -->
-						<!-- svelte-ignore a11y_click_events_have_key_events -->
-						<!-- svelte-ignore a11y_mouse_events_have_key_events -->
-						<div
-							aria-current={item === list.active_item ? true : undefined}
-							aria-selected={type === 'select' && item.value === bound_value ? true : undefined}
-							id={item.id}
-							onclick={() => {
-								select(item);
-								list.close();
-							}}
-							onmouseover={() => {
-								list.activate(item);
-							}}
-							role="option"
-						>
-							{item.label}
-						</div>
-					{/if}
-				{/each}
+				{#if list.items.length}
+					{@render content(list.items)}
+				{:else if empty_text}
+					{@render presentation(empty_text)}
+				{/if}
 			</div>
 		</div>
+
+		{#snippet content(items: ListItem<Option>[], indent = 0)}
+			{#each items as item, i (item.id)}
+				{@const previous_item = i > 0 ? items[i - 1] : undefined}
+
+				{#if i > 0 && item.type === 'heading' || previous_item?.type === 'heading'}
+					{@render separator()}
+				{/if}
+
+				{#if item.type === 'heading'}
+					{@render heading(item, indent)}
+					{@render content(item.children, indent)}
+				{:else}
+					{@render option(item, indent)}
+					{@render content(item.children, indent + 1)}
+				{/if}
+			{/each}
+		{/snippet}
+
+		{#snippet separator()}
+			<div role="separator">
+				<hr />
+			</div>
+		{/snippet}
+
+		{#snippet heading(item: ListItemHeading<Option>, indent: number)}
+			<div role="heading" aria-level="4" style:--indent={indent}>
+				{item.label}
+			</div>
+		{/snippet}
+
+		{#snippet presentation(label: string, indent = 0)}
+			<div role="presentation" style:--indent={indent}>
+				{label}
+			</div>
+		{/snippet}
+
+		{#snippet option(item: ListItemOption<Option>, indent: number)}
+			<!-- svelte-ignore a11y_interactive_supports_focus -->
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_mouse_events_have_key_events -->
+			<div
+				aria-current={item === list.active_item ? true : undefined}
+				aria-selected={type === 'select' && item.value === bound_value ? true : undefined}
+				id={item.id}
+				onclick={() => {
+					select(item);
+					list.close();
+				}}
+				onmouseover={() => {
+					list.activate(item);
+				}}
+				role="option"
+				style:--indent={indent}
+			>
+				{item.label}
+			</div>
+		{/snippet}
 	{/if}
 </TextField>
 
@@ -355,9 +388,8 @@
 	[role=heading],
 	[role=option],
 	[role=presentation] {
-		padding-block: var(--menu-item__padding-block);
-		padding-inline: var(--menu-item__padding-inline);
-		border-radius: var(--menu-item__border-radius);
+		padding-left: calc(var(--menu-item__padding-inline) + var(--indent) * 1rem);
+		padding-right: var(--menu-item__padding-inline);
 
 		align-content: center;
 		overflow: hidden;
@@ -366,20 +398,22 @@
 	}
 
 	[role=heading] {
-		cursor: default;
 		color: var(--list-item-heading__color);
 		font-size: var(--list-item-heading__font-size);
 		letter-spacing: var(--list-item-heading__letter-spacing);
-		min-height: var(--space__large);
-	}
-
-	[role=option],
-	[role=presentation] {
-		min-height: var(--space__x-large);
+		min-height: calc(2 * var(--menu-item__padding-block) + 1rem);
 	}
 
 	[role=option] {
 		cursor: pointer;
+		border-radius: var(--menu-item__border-radius);
+		min-height: calc(2 * var(--menu-item__padding-block) + 2rem);
+	}
+
+	[role=presentation] {
+		color: var(--list-item-heading__color);
+		font-style: italic;
+		min-height: calc(2 * var(--menu-item__padding-block) + 2rem);
 	}
 
 	[role=separator] {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, PageContent, RadioButton, RadioGroup, RemoteForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, RemoteForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
 	import { find_fruit, food, get_food_heading } from '../data.js';
@@ -9,6 +9,7 @@
 	let field_loading = $state(false);
 	let select_few_value = $state<string | null>(null);
 	let select_many_value = $state<string | null>(null);
+	let select_tree_value = $state<string | null>(null);
 	let auto_complete_value = $state<string | null>(null);
 	let currency_value = $state<number | null>(null);
 	let date_value = $state<DateOnly | null>(get_date_today());
@@ -94,6 +95,35 @@
 						</SelectField>
 						<output>
 							Value: {select_many_value ?? '-'}
+						</output>
+					</div>
+					<div class="field-with-output">
+						<SelectField
+							bind:value={select_tree_value}
+							label="Select (tree)"
+							options={['Sweden', 'France', 'Great Britain', 'Philippines']}
+							options_heading={x =>
+								['Sweden', 'France', 'Great Britain'].includes(x) ? 'Europe' :
+								['Philippines'].includes(x) ? 'Asia' :
+								undefined
+							}
+							options_children={x =>
+								match(x, {
+									'Sweden': ['Stockholm', 'Åre'],
+									'France': ['Cannes', 'Nice'],
+									'Great Britain': ['London', 'Newcastle'],
+									'London': ['Hammersmith', 'Chelsea'],
+								})
+							}
+							required
+							type="select"
+						>
+							{#snippet suffix()}
+								<Button icon={search_icon} submit />
+							{/snippet}
+						</SelectField>
+						<output>
+							Value: {select_tree_value ?? '-'}
 						</output>
 					</div>
 					<div class="field-with-output">

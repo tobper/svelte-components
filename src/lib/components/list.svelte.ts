@@ -1,4 +1,4 @@
-import { create_normalized_lookup } from '$lib/normalization';
+import { create_normalized_lookup, normalize } from '$lib/normalization';
 import { async_value } from '$lib/reactivity.svelte';
 import { tick } from 'svelte';
 
@@ -7,20 +7,14 @@ export type Loader<T> = (query: string) => Awaitable<T>;
 export type Source<T> = Array<T> | Loader<Array<T>>;
 
 export type ListItem<T> =
-	| ListItemHeading
-	| ListItemPresentation
+	| ListItemHeading<T>
 	| ListItemOption<T>;
 
-export interface ListItemHeading {
+export interface ListItemHeading<T> {
 	type: 'heading';
 	id: string;
 	label: string;
-}
-
-export interface ListItemPresentation {
-	type: 'presentation';
-	id: string;
-	label: string;
+	children: ListItem<T>[]
 }
 
 export interface ListItemOption<T> {
@@ -29,6 +23,7 @@ export interface ListItemOption<T> {
 	label: string;
 	value: string;
 	option: T;
+	children: ListItem<T>[]
 }
 
 export function create_list<T>(
@@ -36,9 +31,10 @@ export function create_list<T>(
 	type: 'select' | 'autocomplete',
 	source: Source<T>,
 	empty_text?: string,
-	map_heading?: (option: T) => string,
+	map_heading?: (option: T) => string | undefined,
 	map_label?: (option: T) => string,
 	map_value?: (option: T) => string,
+	map_children?: (option: T) => (T[] | undefined),
 ) {
 	let active_item = $state<ListItemOption<T> | null>(null);
 	let current_value = $state('');
@@ -49,7 +45,7 @@ export function create_list<T>(
 			if (!visible)
 				return;
 
-			if (items) {
+			if (items.length) {
 				if (type === 'select') {
 					// Wait for dom to update
 					await tick();
@@ -61,15 +57,42 @@ export function create_list<T>(
 			}
 		}
 	});
-	const option_items = $derived(
-		all_items.current.filter(item => item.type === 'option')
-	);
+	const option_items = $derived.by(() => {
+		return [...iterate(all_items.current)]
+
+		function* iterate(items: Iterable<ListItem<T>>): Iterable<ListItemOption<T>> {
+			for (const item of items) {
+				if (item.type === 'option')
+					yield item;
+
+				if ('children' in item) {
+					yield* iterate(item.children);
+				}
+			}
+		}
+	});
 	const option_items_lookup = $derived(
 		create_normalized_lookup(option_items, item => item.label)
 	);
+	const load = $derived.by(() => {
+		if (Array.isArray(source)) {
+			const items = map_list_items(source);
 
-	if (Array.isArray(source))
-		all_items.set(map_list_items(source));
+			// Always display entire list if it contains five items or less
+			if (countItems(items) <= 5)
+				return () => items;
+
+			return createItemLookup(items);
+		}
+
+		return (query: string) => Promise
+			.resolve(source(query))
+			.then(map_list_items);
+	})
+
+	if (Array.isArray(source)) {
+		all_items.set(load(''));
+	}
 
 	return {
 		get active_item() { return active_item; },
@@ -89,28 +112,16 @@ export function create_list<T>(
 			return option_items.find(item => item.label === text);
 		},
 		load_items(new_value: string) {
-			if (Array.isArray(source))
-				return;
-
 			active_item = null;
 			current_value = new_value;
 			visible = true;
-
-			if (new_value) {
-				const promise = Promise
-					.resolve(source(new_value))
-					.then(map_list_items);
-
-				all_items.set(promise);
-			}
-			else {
-				all_items.reset();
-			}
+			all_items.set(load(new_value))
 		},
 		open() {
 			visible =
 				all_items.loading ||
-				all_items.current.length > 0;
+				all_items.current.length > 0 ||
+				!!empty_text;
 		},
 		close() {
 			active_item = null;
@@ -119,44 +130,51 @@ export function create_list<T>(
 		}
 	};
 
-	function map_list_items(options: T[]): Array<ListItem<T>> {
-		const mapped_options = Object
-			.entries(
-				Object.groupBy(
-					options.map(option => {
-						const heading = map_heading?.(option);
-						const value = map_value?.(option) ?? `${option}`;
-						const label = map_label?.(option) ?? value;
+	function map_list_items(options: T[]): ListItem<T>[] {
+		const items: ListItem<T>[] = [];
+		const headings = new Map<string, ListItemHeading<T>>();
 
-						return { option, heading, label, value };
-					}),
-					item => item.heading ?? ''
-				)
-			)
-			.flatMap(([heading, group_items = []]) => {
-				const items = group_items.map<ListItem<T>>(({ label, value, option }) => {
-					const id = [list_id, hash(heading), hash(value)].filter(x => x).join('_');
-					return { type: 'option', id, label, value, option, }
-				});
+		for (const option of options) {
+			const heading = map_heading?.(option);
+			const value = map_value?.(option) ?? `${option}`;
+			const label = map_label?.(option) ?? value;
+			const children = createChildren(map_children?.(option));
+			const option_item = createOption(label, value, option, children);
 
-				if (heading) {
-					const id = [list_id, hash(heading)].join('_');
-					items.unshift({ type: 'heading', id, label: heading });
+			if (heading) {
+				let heading_item = headings.get(heading);
+				if (!heading_item) {
+					heading_item = createHeading(heading);
+					headings.set(heading, heading_item);
 				}
 
-				return items;
-			});
-
-		if (mapped_options.length)
-			return mapped_options
-
-		if (empty_text) {
-			const id = [list_id, hash('empty')].join('_');
-			return [{ type: 'presentation', id, label: empty_text }];
+				heading_item.children.push(option_item);
+			}
+			else {
+				items.push(option_item);
+			}
 		}
 
-		return [];
-	}
+		return items.concat(
+			...headings.values().toArray().sort((x, y) =>
+				x.label.localeCompare(y.label)
+			)
+		);
+
+		function createHeading(heading: string): ListItemHeading<T> {
+			const id = `${list_id}_${hash('heading', heading)}`;
+			return { type: 'heading', id, label: heading, children: [] };
+		}
+
+		function createOption(label: string, value: string, option: T, children: ListItem<T>[]): ListItemOption<T> {
+			const id = `${list_id}_${hash('option', value)}`;
+			return { type: 'option', id, label, value, option, children };
+		}
+
+		function createChildren(children?: T[]): ListItem<T>[] {
+			return children ? map_list_items(children) : [];
+		}
+	};
 
 	function get_next_item() {
 		return get_item(
@@ -228,10 +246,63 @@ export function create_list<T>(
 	}
 }
 
+function countItems<T>(items: ListItem<T>[]): number {
+	return items.reduce(
+		(sum, item) => sum + 1 + countItems(item.children),
+		0
+	)
+}
+
+function createItemLookup<T>(items: ListItem<T>[]) {
+	const filter_items = createFilterItems(items)
+
+	return (query: string) => {
+		const query_words = normalize(query).split(' ')
+		return find(filter_items, query_words)
+	}
+
+	interface FilterItem<T> {
+		words: string[]
+		item: ListItem<T>
+		children: FilterItem<T>[]
+	}
+
+	function createFilterItems<T>(items: ListItem<T>[]): FilterItem<T>[] {
+		return items.map(item => ({
+			words: normalize(item.label).split(' '),
+			item,
+			children: createFilterItems(item.children)
+		}))
+	}
+
+	function find(items: FilterItem<T>[], query_words: string[]): ListItem<T>[] {
+		return items.flatMap(item => {
+			// Remove query words matching current item
+			const rest_words = query_words.filter(
+				query_word => !item.words.some(
+					item_word => item_word.startsWith(query_word)
+				)
+			)
+
+			// Items matches all remaining query words, return as is
+			if (rest_words.length === 0)
+				return [item.item]
+
+			// At least one child matches remaining query words, return item with matching children
+			const children = find(item.children, rest_words)
+			if (children.length > 0)
+				return [{ ...item.item, children }]
+
+			// Item or children does not match remaining query words
+			return []
+		})
+	}
+}
+
 // https://stackoverflow.com/a/52171480
-function hash(source: string | undefined, seed = 0) {
-	if (source === undefined)
-		return seed;
+function hash(...sources: (string | null | undefined)[]) {
+	const seed = 0;
+	const source = sources.filter(x => x).join(':')
 
 	let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
 	for (let i = 0, ch; i < source.length; i++) {
