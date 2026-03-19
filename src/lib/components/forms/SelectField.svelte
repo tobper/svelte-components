@@ -128,12 +128,6 @@
 		scroll_into_view(list?.active_item?.id);
 	});
 
-	// Always expose input value as bound for auto complete fields
-	$effect.pre(() => {
-		if (type === 'autocomplete')
-			bound_value = input_text || null;
-	});
-
 	function clear() {
 		input_text = '';
 
@@ -168,7 +162,15 @@
 <TextField
 	bind:this={text_field}
 	bind:content_element
-	bind:value={input_text}
+	bind:value={
+		() => input_text,
+		value => {
+			input_text = value
+
+			if (type === 'autocomplete')
+				bound_value = value
+		}
+	}
 	{...text_field_props}
 	{id}
 	aria_activedescendant={list?.active_item?.id}
