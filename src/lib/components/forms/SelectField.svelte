@@ -135,6 +135,8 @@
 			bound_value = null;
 			on_clear?.();
 		}
+
+		list?.load_items(input_text);
 	}
 
 	function select(item: ListItemOption<Option>) {
@@ -277,8 +279,7 @@
 			list.activate_item_starting_with(input_text);
 	}}
 	on_clear={() => {
-		bound_value = null;
-		on_clear?.();
+		clear();
 		list?.close();
 	}}
 	on_focus_out={() => {
