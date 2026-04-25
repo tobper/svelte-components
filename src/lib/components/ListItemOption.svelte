@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getTransition, type TransitionValue } from '$lib/animations.js';
+	import { on } from '$lib/html.js';
 	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
 	import { get_list_context } from './List.svelte';
@@ -10,6 +11,7 @@
 		class?: ClassValue;
 		contrast?: boolean;
 		current?: boolean;
+		disabled?: boolean;
 		selected?: boolean;
 		transition?: TransitionValue;
 		on_activate?: () => void;
@@ -21,6 +23,7 @@
 		id = $bindable(unique_id()),
 		contrast = false,
 		current = $bindable(false),
+		disabled,
 		selected = false,
 		transition: transition_input,
 		on_activate,
@@ -36,28 +39,38 @@
 	}: ListItemOption = $props();
 	let list = get_list_context();
 	let transition = $derived(getTransition(transition_input));
+
+	function handlers(element: HTMLElement) {
+		if (disabled)
+			return;
+
+		return on(element, {
+			click() {
+				on_select?.();
+			},
+			mouseover() {
+				current = true;
+				on_activate?.();
+			},
+			mouseout() {
+				current = false;
+				on_deactivate?.();
+			}
+		});
+	}
 </script>
 
-<!-- svelte-ignore a11y_mouse_events_have_key_events -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
 <li
 	{id}
 	aria-current={current ? true : undefined}
+	aria-disabled={disabled ? true : undefined}
 	aria-selected={selected ? true : undefined}
 	class={['list-item-option', li_class]}
 	class:contrast
-	onclick={() => on_select?.()}
-	onmouseover={() => {
-		current = true;
-		on_activate?.()
-	}}
-	onmouseout={() => {
-		current = false;
-		on_deactivate?.()
-	}}
 	role="option"
 	tabindex={list.focusable ? (current ? 0 : -1) : undefined}
 	transition:transition
+	{@attach handlers}
 >
 	<ListItemContent {children} {icon} {kbd} {text} />
 </li>

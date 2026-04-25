@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Button, Card, CardContent, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js';
+	import { Button, Card, CardContent, List, ListItemOption, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js';
+	import { IconCancel, IconInfoCircle } from '@tabler/icons-svelte';
 	import { food, fruits, get_food_heading, random } from '../data.js';
 
 	let selected_value = $state<string | null>(null);
@@ -8,6 +9,38 @@
 </script>
 
 <PageContent header="List">
+	<Card>
+		<CardContent>
+			<div class="list-container">
+				<List>
+					<ListItemOption text="Text only" kbd="space" />
+					<ListItemOption text="With content">
+						Content
+					</ListItemOption>
+					<ListItemOption text="With icon" kbd="esc">
+						{#snippet icon()}
+							<IconInfoCircle />
+						{/snippet}
+					</ListItemOption>
+					<ListItemOption text="With icon and content" kbd="ctrl + r">
+						{#snippet icon()}
+							<IconInfoCircle />
+						{/snippet}
+						Lorem ipsum
+					</ListItemOption>
+					<ListItemOption text="Disabled" disabled kbd="tab">
+						{#snippet icon()}
+							<IconCancel />
+						{/snippet}
+						Not available
+					</ListItemOption>
+				</List>
+			</div>
+		</CardContent>
+	</Card>
+</PageContent>
+
+<PageContent header="SelectList">
 	<Card>
 		<CardContent>
 			<div class="list-container">

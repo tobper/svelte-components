@@ -49,10 +49,14 @@
 <style>
 	.list-item__content {
 		display: grid;
-		grid-template-areas:
-			"icon text     kbd"
-			"x    children y";
+		grid-template-areas: "icon text kbd";
 		grid-template-columns: auto 1fr auto;
+
+		&:has(.list-item__children) {
+			grid-template-areas:
+				"icon text     kbd"
+				"icon children _";
+		}
 	}
 
 	header {
@@ -61,6 +65,7 @@
 
 	.list-item__icon {
 		grid-area: icon;
+		place-self: start;
 		margin-right: var(--space__medium);
 
 		/* Remove white space around icon */
@@ -70,11 +75,12 @@
 
 	.list-item__text {
 		grid-area: text;
-
+		align-self: center;
 	}
 
 	.list-item__kbd {
 		grid-area: kbd;
+		align-self: center;
 		margin-left: var(--space);
 	}
 
