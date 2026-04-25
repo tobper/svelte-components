@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.2.48",
+	"version": "0.2.49",
 	"description": "Svelte components",
 	"license": "MIT",
 	"author": "Tobias Persson",
@@ -18,7 +18,7 @@
 		"lint": "eslint .",
 		"preinstall": "npx only-allow pnpm"
 	},
-	"packageManager": "pnpm@9.10.0",
+	"packageManager": "pnpm@10.33.2",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -37,6 +37,7 @@
 		"svelte": "^5.46.1"
 	},
 	"devDependencies": {
+		"@eslint/js": "^10.0.1",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.55.0",
 		"@sveltejs/package": "^2.5.7",

@@ -1,0 +1,3 @@
+allowBuilds:
+  '@tobper/eon': false
+  esbuild: false
