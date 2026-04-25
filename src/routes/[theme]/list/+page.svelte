@@ -13,7 +13,9 @@
 		<CardContent>
 			<div class="list-container">
 				<List>
-					<ListItemOption text="Text only" kbd="space" />
+					<ListItemOption text="Text only" kbd="space">
+						{undefined}
+					</ListItemOption>
 					<ListItemOption text="With content">
 						Content
 					</ListItemOption>

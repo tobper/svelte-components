@@ -52,10 +52,19 @@
 		grid-template-areas: "icon text kbd";
 		grid-template-columns: auto 1fr auto;
 
-		&:has(.list-item__children) {
+		&:has(.list-item__children:not(:empty)) {
 			grid-template-areas:
 				"icon text     kbd"
 				"icon children _";
+
+			.list-item__icon {
+				place-self: start;
+				margin-top: var(--space__tiny);
+			}
+
+			.list-item__children {
+				grid-area: children;
+			}
 		}
 	}
 
@@ -65,7 +74,6 @@
 
 	.list-item__icon {
 		grid-area: icon;
-		place-self: start;
 		margin-right: var(--space__medium);
 
 		/* Remove white space around icon */
@@ -84,7 +92,7 @@
 		margin-left: var(--space);
 	}
 
-	.list-item__children {
-		grid-area: children;
+	.list-item__children:empty {
+		display: none;
 	}
 </style>
