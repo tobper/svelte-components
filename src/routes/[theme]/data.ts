@@ -1,4 +1,22 @@
 import { create_normalized_lookup, seconds } from '$lib';
+import { IconAlignJustified, IconAppWindow, IconCalendar, IconCarouselHorizontal, IconForms, IconKeyboard, IconList, IconMenu, IconMessage, IconPalette, IconRectangle, IconSortAscendingNumbers, IconTable, IconTypography } from '@tabler/icons-svelte';
+
+export const nav_items = [
+	[IconTypography, 'Typography', ''],
+	[IconPalette, 'Palette', '/palette'],
+	[IconRectangle, 'Button', '/button'],
+	[IconCalendar, 'Calendar', '/calendar'],
+	[IconCarouselHorizontal, 'Carousel', '/carousel'],
+	[IconAppWindow, 'Command palette', '/commands'],
+	[IconMessage, 'Dialog', '/dialog'],
+	[IconForms, 'Form', '/form'],
+	[IconList, 'List', '/list'],
+	[IconKeyboard, 'Kbd', '/kbd'],
+	[IconMenu, 'Menu', '/menu'],
+	[IconSortAscendingNumbers, 'Odometer', '/odometer'],
+	[IconAlignJustified, 'Page content', '/page-content'],
+	[IconTable, 'Table', '/table'],
+] as const;
 
 export const fruits = [
 	'Apple',

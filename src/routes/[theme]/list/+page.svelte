@@ -24,7 +24,7 @@
 							<IconInfoCircle />
 						{/snippet}
 					</ListItemOption>
-					<ListItemOption text="With icon and content" kbd="ctrl + r">
+					<ListItemOption text="With icon and content" kbd={['ctrl', 'r']}>
 						{#snippet icon()}
 							<IconInfoCircle />
 						{/snippet}

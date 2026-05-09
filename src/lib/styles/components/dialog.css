@@ -1,7 +1,8 @@
 :root {
 	--dialog__background: var(--palette__background_medium);
 	--dialog__border-radius: var(--border-radius__medium);
-	--dialog__margin: 1rem;
+	--dialog__max-height--min: 10rem;
+	--dialog__max-height--max: 100%;
 	--dialog__padding-inline: var(--space);
 	--dialog__shadow: var(--shadow__large);
 
@@ -11,7 +12,9 @@
 
 .dialog {
 	/* Undo default reset */
-	margin: auto;
+	margin-inline: auto;
+	margin-top: var(--dialog__margin-top, auto);
+	margin-bottom: var(--dialog__margin-bottom, auto);
 
 	/* Position */
 	inset:
@@ -20,16 +23,21 @@
 		env(safe-area-inset-bottom)
 		env(safe-area-inset-left);
 	max-width: calc(
-		100%
+		100vw
 		- env(safe-area-inset-left)
 		- env(safe-area-inset-right)
-		- 2 * var(--dialog__margin)
+		- 2 * 1rem
 	);
-	max-height: calc(
-		100%
-		- env(safe-area-inset-top)
-		- env(safe-area-inset-bottom)
-		- 2 * var(--dialog__margin)
+	max-height: clamp(
+		var(--dialog__max-height--min),
+		var(--dialog__max-height--max),
+		calc(
+			100vh
+			- env(safe-area-inset-top)
+			- env(safe-area-inset-bottom)
+			- var(--dialog__margin-top, 1rem)
+			- var(--dialog__margin-bottom, 1rem)
+		)
 	);
 
 	/* Appearance */
@@ -96,6 +104,7 @@
 	padding-inline: var(--dialog__padding-inline);
 
 	/* Content */
+	background-color:  light-dark(#00000010, #00000020);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-end;

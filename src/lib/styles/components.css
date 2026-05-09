@@ -2,10 +2,12 @@
 @import './components/calendar.css';
 @import './components/card.css';
 @import './components/carousel.css';
+@import './components/command_palette.css';
 @import './components/dialog.css';
 @import './components/field.css';
 @import './components/form.css';
 @import './components/heading.css';
+@import './components/kbd.css';
 @import './components/layout.css';
 @import './components/link.css';
 @import './components/list.css';

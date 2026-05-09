@@ -1,6 +1,8 @@
 import { untrack } from 'svelte';
 import { seconds } from './time.js';
 
+export type Deferred<T> = T | (() => T);
+
 export const durations = {
 	short: seconds(0.75),
 	long: seconds(5),

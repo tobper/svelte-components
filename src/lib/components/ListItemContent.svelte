@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import Kbd from './Kbd.svelte';
 
 	export interface ListItemContentProps {
 		/** Content displayed under the text */
 		children?: Snippet;
 		/** Keyboard shortcut for action */
-		kbd?: string;
+		kbd?: string | string[];
 		/** Text for list item */
 		text: string;
 		/** Icon displayed left of the content */
@@ -35,7 +36,7 @@
 
 	{#if kbd}
 		<div class="list-item__kbd">
-			{kbd}
+			<Kbd key={kbd} />
 		</div>
 	{/if}
 
@@ -79,6 +80,7 @@
 		/* Remove white space around icon */
 		display: flex;
 		align-items: center;
+		opacity: var(--palette__opacity--weak);
 	}
 
 	.list-item__text {

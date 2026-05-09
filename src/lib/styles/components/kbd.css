@@ -1,0 +1,31 @@
+:root {
+	--kbd__icon-size: 1.1rem;
+}
+
+.kbd {
+	display: inline flex;
+	gap: .25rem;
+	padding-inline: .3rem;
+	min-height: 1.5rem;
+	align-items: center;
+
+	background-color: light-dark(#fffa, #fff2);
+	color: var(--palette__text);
+	border-radius: .5rem;
+	box-shadow: var(--shadow__distinct);
+
+	@supports (corner-shape: squircle) {
+		corner-shape: squircle;
+		border-radius: 1rem;
+	}
+
+	span {
+		padding-inline: .1rem;
+		font-weight: lighter;
+	}
+
+	svg {
+		height: var(--kbd__icon-size);
+		width: auto;
+	}
+}

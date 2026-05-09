@@ -2,8 +2,9 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
-	import { IconAlignJustified, IconAppWindow, IconBrandGithub, IconCalendar, IconCarouselHorizontal, IconForms, IconList, IconMenu, IconMenu2, IconMessage, IconMoon, IconPalette, IconRectangle, IconSortAscendingNumbers, IconSun, IconTable, IconTypography, IconX } from '@tabler/icons-svelte';
+	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
 	import { type LayoutRouteId } from './$types.js';
+	import { nav_items } from './data.js';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = $derived(data);
@@ -13,21 +14,6 @@
 		{ name: 'lines', text: 'Lines' },
 		{ name: 'neomorphism', text: 'Neomorphism' },
 	];
-
-	const nav_items = [
-		[IconTypography, 'Typography', ''],
-		[IconPalette, 'Palette', '/palette'],
-		[IconRectangle, 'Button', '/button'],
-		[IconCarouselHorizontal, 'Carousel', '/carousel'],
-		[IconMessage, 'Dialog', '/dialog'],
-		[IconList, 'List', '/list'],
-		[IconMenu, 'Menu', '/menu'],
-		[IconCalendar, 'Calendar', '/calendar'],
-		[IconSortAscendingNumbers, 'Odometer', '/odometer'],
-		[IconForms, 'Form', '/form'],
-		[IconTable, 'Table', '/table'],
-		[IconAlignJustified, 'Page content', '/page-content'],
-	] as const;
 
 	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
 </script>

@@ -45,7 +45,7 @@
 	--palette__text--positive: oklch(0.5 0.13 150);
 
 	--palette__background:        var(--palette__background-light);
-	--palette__background_medium: oklch(from var(--palette__background) .98 calc(c * .9) h);
+	--palette__background_medium: oklch(from var(--palette__background) .97 calc(c * .9) h);
 	--palette__background_light:  oklch(from var(--palette__background) .99 calc(c * .9) h);
 
 	--palette__primary-background:        oklch(from var(--palette__primary)        calc(l * .85) c h);
