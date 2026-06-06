@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.2.50",
+	"version": "0.2.51",
 	"description": "Svelte components",
 	"license": "MIT",
 	"author": "Tobias Persson",
@@ -15,8 +15,7 @@
 		"check:spelling": "cspell -c .vscode/cspell.json --no-progress **",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
-		"lint": "eslint .",
-		"preinstall": "npx only-allow pnpm"
+		"lint": "eslint ."
 	},
 	"packageManager": "pnpm@10.33.2",
 	"exports": {
@@ -32,8 +31,8 @@
 	],
 	"peerDependencies": {
 		"@floating-ui/dom": "^1.7.4",
-		"@sveltejs/kit": "^2.49.3",
-		"@tobper/eon": "^1.0.2",
+		"@sveltejs/kit": "^2.61.1",
+		"@tobper/eon": "^1.0.3",
 		"svelte": "^5.55.10"
 	},
 	"devDependencies": {
