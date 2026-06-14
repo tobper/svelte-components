@@ -9,6 +9,7 @@
 		type: Deferred<Type>;
 		label: string;
 		action: Deferred< CommandPaletteAction | CommandPaletteActionGroup>;
+		state?: Deferred<string>;
 	}
 
 	export interface CommandPaletteGroupOption<Type> {
@@ -23,7 +24,6 @@
 		run(): void;
 		name?: string;
 		caption?: Deferred<string>;
-		state?: Deferred<string>;
 		valid?: Deferred<boolean>;
 	}
 
@@ -253,13 +253,7 @@
 	}
 
 	function getState(option: Option) {
-		if (isGroupOption(option))
-			return getValue(option.state);
-
-		const [action] = getModifiedAction(option);
-		const state = getValue(action.state);
-
-		return state;
+		return getValue(option.state);
 	}
 
 	function getModifiedAction(option: ActionOption): [Action, string[]] {
