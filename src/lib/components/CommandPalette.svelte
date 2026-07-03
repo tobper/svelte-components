@@ -216,6 +216,10 @@
 			popGroup();
 	}
 
+	function closeDialog() {
+		visible = false
+	}
+
 	function popGroup() {
 		if (!selected_group)
 			return;
@@ -358,7 +362,9 @@
 						ArrowUp: () => next('up'),
 						Enter: current_item ? selectCurrentOption : undefined,
 						Backspace: selected_group && query.length === 0 ? clear : undefined,
-						Escape: selected_group || query.length ? clear : undefined,
+						Escape: event.shiftKey
+				 			? closeDialog
+							: selected_group || query.length ? clear : undefined,
 						Tab: current_item ? showAllActions : undefined,
 					});
 
