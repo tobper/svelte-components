@@ -231,15 +231,6 @@
 			inset 0 -2px 2px -2px #fff8;
 	}
 
-	.device-desktop *,
-	.device-tablet * {
-		--shadow__focus: 0 0 1px 1px var(--palette__accent-color);
-	}
-
-	.device-mobile * {
-		--shadow__focus: 0 0 #0000;
-	}
-
 	/*
 		Spacing
 	*/
@@ -273,4 +264,13 @@
 		--transition__duration--fast: 0s;
 		--transition__duration--instant: 0s;
 	}
+}
+
+.device-desktop *,
+.device-tablet * {
+	--shadow__focus: 0 0 1px 1px var(--palette__accent-color);
+}
+
+.device-mobile * {
+	--shadow__focus: 0 0 #0000;
 }
