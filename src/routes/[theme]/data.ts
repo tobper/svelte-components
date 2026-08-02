@@ -1,5 +1,5 @@
 import { create_normalized_lookup, seconds } from '$lib';
-import { IconAlignJustified, IconAppWindow, IconCalendar, IconCarouselHorizontal, IconForms, IconKeyboard, IconList, IconMenu, IconMessage, IconPalette, IconRectangle, IconSortAscendingNumbers, IconTable, IconTypography } from '@tabler/icons-svelte';
+import { IconAlignJustified, IconAppWindow, IconCalendar, IconCarouselHorizontal, IconForms, IconKeyboard, IconList, IconMenu, IconMessage, IconPalette, IconRectangle, IconSortAscendingNumbers, IconTable, IconTypography } from '@tabler/icons-svelte-runes';
 
 export const nav_items = [
 	[IconTypography, 'Typography', ''],

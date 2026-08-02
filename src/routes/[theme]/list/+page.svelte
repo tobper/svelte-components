@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, Card, CardContent, List, ListItemOption, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js';
-	import { IconCancel, IconInfoCircle } from '@tabler/icons-svelte';
+	import { IconCancel, IconInfoCircle } from '@tabler/icons-svelte-runes';
 	import { food, fruits, get_food_heading, random } from '../data.js';
 
 	let selected_value = $state<string | null>(null);

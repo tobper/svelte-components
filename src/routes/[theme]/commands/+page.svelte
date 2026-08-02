@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { Button, Card, CardContent, CommandPalette, Kbd, PageContent } from '$lib/index.js';
-	import { IconAppWindow, IconLink } from '@tabler/icons-svelte';
+	import { IconAppWindow, IconLink } from '@tabler/icons-svelte-runes';
 	import { nav_items } from '../data';
 
 	let visible = $state(false)

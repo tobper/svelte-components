@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, AsyncForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
-	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
+	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte-runes';
 	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
 	import { find_fruit, food, get_food_heading } from '../data.js';
 	import { foo_form } from './form.remote.js';
