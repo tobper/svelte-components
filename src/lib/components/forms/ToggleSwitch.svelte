@@ -1,7 +1,8 @@
 <script lang="ts">
-    import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
-    import { unique_id } from '../../unique_id.js';
-    import Stack from '../Stack.svelte';
+	import { handle_keyboard_event } from '$lib/html.js';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
+	import { unique_id } from '../../unique_id.js';
+	import Stack from '../Stack.svelte';
 
 	interface ToggleSwitch {
 		id?: string;
@@ -56,6 +57,10 @@
 			on_checked?.(checked);
 			input_props.onchange?.(event);
 		}}
+		onkeydown={handle_keyboard_event({
+			'ArrowLeft': checked && (() => checked = false),
+			'ArrowRight': !checked && (() => checked = true),
+		})}
 	>
 {/snippet}
 
