@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build
+    name: Build and publish package
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -61,10 +61,10 @@ jobs:
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: 'build/'
+          path: "build/"
 
   deploy:
-    name: Deploy
+    name: Deploy demo site
     needs: build
     runs-on: ubuntu-latest
 
