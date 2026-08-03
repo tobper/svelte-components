@@ -73,6 +73,6 @@
 
 	[aria-selected] {
 		background: var(--palette__accent-background);
-		color: var(--list-item__text-color--selected);
+		color: var(--list-item__label-color--selected);
 	}
 }

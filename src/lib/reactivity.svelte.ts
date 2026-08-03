@@ -1,7 +1,8 @@
 import { untrack } from 'svelte';
 import { seconds } from './time.js';
 
-export type Deferred<T> = T | (() => T);
+export type Awaitable<T> = T | Promise<T>;
+export type Deferred<T, A extends unknown[] = []> = T | ((...args: A) => Awaitable<T>);
 
 export const durations = {
 	short: seconds(0.75),
@@ -175,7 +176,7 @@ export function async_value_map<K, T>(
 		get(key);
 	}
 
-	function set(key: K, new_value: T | Promise<T>): AsyncReadonlyValue<T> {
+	function set(key: K, new_value: Awaitable<T>): AsyncReadonlyValue<T> {
 		let value = values_map.get(key);
 
 		if (!value) {
@@ -221,7 +222,7 @@ export interface AsyncValue<T> {
 	readonly current: T;
 	as_readonly(): AsyncReadonlyValue<T>,
 	reset(): void,
-	set(new_value: T | Promise<T>): void,
+	set(new_value: Awaitable<T>): void,
 	update(updater: (current_value: T) => T | Promise<T>): void
 }
 
@@ -294,7 +295,7 @@ export function async_value<T>(
 		});
 	}
 
-	function set(new_value: T | Promise<T>) {
+	function set(new_value: Awaitable<T>) {
 		// Ensure we don't end up in infinite loop when running in effects
 		untrack(() => {
 			if (is_promise(new_value)) {
@@ -319,17 +320,20 @@ export function async_value<T>(
 					});
 			}
 			else {
-				loading_timer.reset();
-				active_promise = null;
-				loaded = true;
-				loading = false;
-				loading_error = null;
-				current = on_update
-					? on_update(new_value)
-					: new_value;
+				if (on_update)
+					new_value = on_update(new_value);
 
-				if (on_updated)
-					on_updated(new_value);
+				if (new_value !== current) {
+					loading_timer.reset();
+					active_promise = null;
+					loaded = true;
+					loading = false;
+					loading_error = null;
+					current = new_value;
+
+					if (on_updated)
+						on_updated(new_value);
+				}
 			}
 		});
 	}
@@ -375,7 +379,7 @@ export function async_derived<S extends AsyncDerivedSource, T>(
 	}
 }
 
-export function is_promise(value: unknown): value is Promise<unknown> {
+export function is_promise(value: unknown): value is PromiseLike<unknown> {
 	return (
 		!!value &&
 		(typeof value === 'object' || typeof value === 'function') &&

@@ -30,6 +30,10 @@
 		}
 	}
 
+	.list-item__icon {
+		opacity: var(--palette__opacity--weak);
+	}
+
 	.dialog-footer {
 		box-sizing: content-box;
 		min-height: 1.5rem;

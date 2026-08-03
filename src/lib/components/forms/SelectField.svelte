@@ -1,47 +1,49 @@
-<script lang="ts" generics="Option">
+<script lang="ts" generics="T">
 	import { scroll_into_view } from '$lib/html.js';
-	import { type ComponentProps } from 'svelte';
+	import { async_value, type Deferred } from '$lib/reactivity.svelte.js';
+	import { tick, type ComponentProps } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import { device } from '../../device.js';
 	import { unique_id } from '../../unique_id.js';
 	import { anchor } from '../anchor.js';
-	import { create_list, type ListItem, type ListItemHeading, type ListItemOption } from '../list.svelte.js';
 	import { popover } from '../popover.js';
 	import SelectList from '../SelectList.svelte';
 	import TextField from './TextField.svelte';
 
-	type OptionsSource = Option[] | ((query: string) => Option[] | Promise<Option[]>);
-	type SelectListProps = ComponentProps<typeof SelectList<Option>>;
+	type SelectListProps = ComponentProps<typeof SelectList<T>>;
 	type TextFieldProps = ComponentProps<typeof TextField>;
 
 	interface SelectField {
 		/**
 		 * Class to apply to the menu element.
 		 */
-		class_menu?: string;
-		empty_text?: string;
+		class_menu?: ClassValue;
 		/**
 		 * Options to display in the popup menu.
 		 */
-		options: OptionsSource;
-		/**
-		 * Callback that is called for each option to determine the heading of the option.
-		 * @default No header is displayed.
-		 */
-		options_heading?: (option: Option) => string | undefined;
-		/**
-		 * Callback that is called for each option to determine the label of the option.
-		 * @default Value is displayed as label.
-		 */
-		options_label?: (option: Option) => string;
+		options: Deferred<T[], [query: string]>;
 		/**
 		 * Callback that is called for each option to determine the value of the option.
 		 * @default Option is converted to a string.
 		 */
-		options_value?: (option: Option) => string;
+		option_value?: SelectListProps['option_value'];
 		/**
-		 * Callback that is called for each option to determine the children of the option.
+		 * Callback that is called for each option to determine the heading of the option.
+		 * @default No header is displayed.
 		 */
-		options_children?: (option: Option) => Option[] | undefined;
+		option_heading?: SelectListProps['option_heading'];
+		/**
+		 * ...
+		 */
+		option_icon?: SelectListProps['option_icon'];
+		/**
+	 	 * Callback that is called for each option to determine the children of the option.
+		 */
+		option_children?: SelectListProps['option_children'];
+		/**
+		 *
+		 */
+		empty_text?: SelectListProps['empty_text'];
 		/**
 		 * Type of field
 		 * - autocomplete: Any text can be entered
@@ -51,9 +53,13 @@
 		 */
 		type?: 'autocomplete' | 'select';
 		value?: string | null;
+		/**
+		 *
+		 */
+		virtualized?: SelectListProps['virtualized'];
 
 		on_clear?: () => void;
-		on_select?: SelectListProps['on_select'];
+		on_select?: (option: T) => void;
 
 		id?: TextFieldProps['id'];
 		autofocus?: TextFieldProps['autofocus'];
@@ -73,18 +79,20 @@
 	}
 
 	let {
+		class: class_text,
 		class_menu,
 		empty_text,
 		id = $bindable(unique_id()),
 		name,
 		options: options_source,
-		options_heading,
-		options_label,
-		options_value = option => `${option}`,
-		options_children,
+		option_heading,
+		option_icon,
+		option_value,
+		option_children,
 		readonly,
 		type = 'select',
 		value: bound_value = $bindable(null),
+		virtualized,
 
 		on_clear,
 		on_select,
@@ -96,21 +104,45 @@
 		text_field?.focus()
 	}
 
-	const list = $derived.by(() => {
-		if (readonly)
-			return undefined;
+	const options = async_value<T[]>([], {
+		on_updated(options) {
+			if (menu_visible && (options.length === 0))
+				menu_visible = false;
 
-		return create_list(
-			`${id}_list`,
-			type,
-			options_source,
-			empty_text,
-			options_heading,
-			options_label,
-			options_value,
-			options_children,
-		);
-	});
+			if (type === 'select')
+				activate_current_value()
+		}
+ 	});
+	let list = $state<SelectList<T>>();
+	let content_element = $state<HTMLElement>();
+	let input_element = $state<HTMLInputElement>();
+	let active_item_id = $state<string | null>(null);
+	let menu_visible = $state(false);
+	let text_field = $state<ReturnType<typeof TextField>>();
+	let input_text = $derived(bound_value ?? '');
+
+	function activate_current_value() {
+		if (!list)
+			return;
+
+		const activated_item = list?.activate_item_starting_with(input_text);
+		if (activated_item?.value === input_text) {
+			bound_value = activated_item.value;
+		}
+		else if (bound_value) {
+			const value = input_text;
+			bound_value = null;
+			tick().then(() => {
+				input_text = value;
+			});
+		}
+
+		if (activated_item) {
+			tick().then(() => {
+				scroll_into_view(activated_item.id);
+			});
+		}
+	}
 
 	const modal_options_limit = 6
 	const modal = $derived(
@@ -119,32 +151,35 @@
 		Array.isArray(options_source) &&
 		options_source.length <= modal_options_limit
 	);
-	let content_element = $state<HTMLElement>();
-	let input_text = $derived(bound_value ?? '');
-	let text_field = $state<ReturnType<typeof TextField>>();
 
-	// Scroll to active item
 	$effect(() => {
-		scroll_into_view(list?.active_item?.id);
+		if (readonly)
+			return;
+
+		options.set(
+			Array.isArray(options_source)
+				? options_source
+				: options_source(input_text)
+		);
 	});
 
 	function clear() {
-		input_text = '';
-
-		if (bound_value) {
+		if (bound_value !== null) {
 			bound_value = null;
 			on_clear?.();
 		}
-
-		list?.load_items(input_text);
+		else if (input_text) {
+			input_text = '';
+		}
 	}
 
-	function select(item: ListItemOption<Option>) {
-		input_text = item.label;
-
-		if (bound_value !== item.value) {
-			bound_value = item.value;
-			on_select?.(item.option);
+	function select(option: T, value: string) {
+		if (bound_value !== value) {
+			bound_value = value;
+			on_select?.(option);
+		}
+		else if (input_text !== value) {
+			input_text = value;
 		}
 	}
 
@@ -152,34 +187,51 @@
 		if (!list)
 			return;
 
-		const item = list?.get_item_with_label(input_text);
-
+		const item = list.find_item(input_text);
 		if (item)
-			select(item);
+			select(item.option, item.value);
 		else
 			clear();
+	}
+
+	function open() {
+		menu_visible = !readonly && (options.loading || options.current.length > 0);
+	}
+
+	function close() {
+		active_item_id = null;
+		menu_visible = false;
 	}
 </script>
 
 <TextField
 	bind:this={text_field}
 	bind:content_element
+	bind:input_element
 	bind:value={
 		() => input_text,
 		value => {
-			input_text = value
+			if (type === 'autocomplete') {
+				bound_value = value;
+			}
+			else {
+				input_text = value;
 
-			if (type === 'autocomplete')
-				bound_value = value
+				if (Array.isArray(options_source))
+					activate_current_value();
+			}
+
+			tick().then(open);
 		}
 	}
 	{...text_field_props}
 	{id}
-	aria_activedescendant={list?.active_item?.id}
+	aria_activedescendant={active_item_id}
 	aria_autocomplete={list ? 'list' : undefined}
 	aria_controls={list?.id}
-	aria_expanded={list?.visible}
+	aria_expanded={menu_visible}
 	aria_haspopup={list ? 'listbox' : undefined}
+	class={['select-field', class_text]}
 	name={name}
 	loading={list?.loading_delayed}
 	readonly={readonly || modal}
@@ -190,106 +242,65 @@
 
 		switch (event.key) {
 			case 'ArrowDown':
-				event.preventDefault();
-
-				if (list.visible) {
-					const active_item = event.ctrlKey
-						? list.activate_last_item()
-						: list.activate_next_item();
-
-					if (type === 'select' && active_item)
-						select(active_item);
-				}
-				else {
-					list.open();
+				if (!menu_visible) {
+					event.preventDefault();
+					open();
 
 					if (!event.altKey) {
-						const active_item =
-							list.activate_item_starting_with(input_text) ??
+						if (!list.activate_item_starting_with(input_text))
 							list.activate_first_item();
-
-						if (type === 'select' && active_item)
-							select(active_item);
 					}
 				}
 				break;
 
 			case 'ArrowUp':
-				event.preventDefault();
-
-				if (list.visible) {
-					const active_item = event.ctrlKey
-						? list.activate_first_item()
-						: list.activate_previous_item();
-
-					if (type === 'select' && active_item)
-						select(active_item);
-				}
-				else {
-					list.open();
+				if (!menu_visible) {
+					event.preventDefault();
+					open();
 
 					if (!event.altKey) {
-						const active_item =
-							list.activate_item_starting_with(input_text) ??
+						if (!list.activate_item_starting_with(input_text))
 							list.activate_last_item();
-
-						if (type === 'select' && active_item)
-							select(active_item);
 					}
 				}
 				break;
 
 			case 'Enter':
-				if (list.visible) {
-					if (list.active_item) {
-						event.preventDefault();
-						select(list.active_item);
-					}
-
-					list.close();
+				if (menu_visible) {
+					event.preventDefault();
+					list.select_active_item();
+					close();
 				}
 				break;
 
 			case 'Escape':
-				if (list.visible) {
+				if (menu_visible) {
 					event.preventDefault();
-					list.close();
+					close();
 				}
 				break;
 
 			case 'Tab': {
-				if (list.active_item)
-					select(list.active_item);
+				list.select_active_item();
 				break;
 			}
 		}
 	}}
 	onclick={() => {
-		list?.open();
-		list?.activate_item_starting_with(input_text);
-	}}
-	oninput={() => {
-		if (!list)
-			return;
-
-		list.load_items(input_text);
-		list.open();
-
-		if (type === 'select')
-			list.activate_item_starting_with(input_text);
+		open();
 	}}
 	on_clear={() => {
+		close();
 		clear();
-		list?.close();
 	}}
 	on_focus_out={() => {
 		if (type === 'select')
 			ensure_valid_input();
 
-		list?.close();
+		close();
 	}}
 >
-	{#if content_element && list && (list.items.length > 0 || empty_text)}
+	{#if content_element && options.current.length}
 		<div
 			use:anchor={{
 				anchor: content_element,
@@ -298,89 +309,39 @@
 			use:popover={{
 				animation: 'fade',
 				modal,
-				visible: list?.visible
+				visible: menu_visible
 			}}
 			popover="auto"
 			ontoggle={e => {
 				menu_visible = e.newState === 'open';
 			}}
 		>
-			<div
+			<SelectList
+				bind:this={list}
+				bind:active_item_id
 				class={['menu', class_menu]}
-				id={list.id}
-				role="listbox"
-				tabindex="-1"
-			>
-				{#if list.items.length}
-					{@render content(list.items)}
-				{:else if empty_text}
-					{@render presentation(empty_text)}
-				{/if}
-			</div>
+				controlled_by={input_element}
+				empty_text={empty_text}
+				filter={Array.isArray(options_source) ? input_text : undefined}
+				id={`${id}_list`}
+				options={options.current}
+				option_heading={option_heading}
+				option_icon={option_icon}
+				option_value={option_value}
+				option_children={option_children}
+				value={bound_value}
+				virtualized={virtualized}
+				on_select={(option, value) => {
+					select(option, value);
+					close();
+				}}
+			/>
 		</div>
-
-		{#snippet content(items: ListItem<Option>[], indent = 0)}
-			{#each items as item, i (item.id)}
-				{@const previous_item = i > 0 ? items[i - 1] : undefined}
-
-				{#if i > 0 && item.type === 'heading' || previous_item?.type === 'heading'}
-					{@render separator()}
-				{/if}
-
-				{#if item.type === 'heading'}
-					{@render heading(item, indent)}
-					{@render content(item.children, indent)}
-				{:else}
-					{@render option(item, indent)}
-					{@render content(item.children, indent + 1)}
-				{/if}
-			{/each}
-		{/snippet}
-
-		{#snippet separator()}
-			<div role="separator">
-				<hr />
-			</div>
-		{/snippet}
-
-		{#snippet heading(item: ListItemHeading<Option>, indent: number)}
-			<div role="heading" aria-level="4" style:--indent={indent}>
-				{item.label}
-			</div>
-		{/snippet}
-
-		{#snippet presentation(label: string, indent = 0)}
-			<div role="presentation" style:--indent={indent}>
-				{label}
-			</div>
-		{/snippet}
-
-		{#snippet option(item: ListItemOption<Option>, indent: number)}
-			<!-- svelte-ignore a11y_interactive_supports_focus -->
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<!-- svelte-ignore a11y_mouse_events_have_key_events -->
-			<div
-				aria-current={item === list.active_item ? true : undefined}
-				aria-selected={type === 'select' && item.value === bound_value ? true : undefined}
-				id={item.id}
-				onclick={() => {
-					select(item);
-					list.close();
-				}}
-				onmouseover={() => {
-					list.activate(item);
-				}}
-				role="option"
-				style:--indent={indent}
-			>
-				{item.label}
-			</div>
-		{/snippet}
 	{/if}
 </TextField>
 
 <style>
-	.menu {
+	:global(.select-field .menu) {
 		overflow-y: auto;
 		max-height: calc(
 			2 * var(--menu__border-width) +
@@ -389,44 +350,5 @@
 		);
 		scroll-padding-top: var(--menu__padding);
 		scroll-padding-bottom: var(--menu__padding);
-	}
-
-	[role=heading],
-	[role=option],
-	[role=presentation] {
-		padding-left: calc(var(--menu-item__padding-inline) + var(--indent) * 1rem);
-		padding-right: var(--menu-item__padding-inline);
-
-		align-content: center;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	[role=heading] {
-		color: var(--list-item-heading__color);
-		font-size: var(--list-item-heading__font-size);
-		letter-spacing: var(--list-item-heading__letter-spacing);
-		min-height: calc(2 * var(--menu-item__padding-block) + 1rem);
-	}
-
-	[role=option] {
-		cursor: pointer;
-		border-radius: var(--menu-item__border-radius);
-		min-height: calc(2 * var(--menu-item__padding-block) + 2rem);
-	}
-
-	[role=presentation] {
-		color: var(--list-item-heading__color);
-		font-style: italic;
-		min-height: calc(2 * var(--menu-item__padding-block) + 2rem);
-	}
-
-	[role=separator] {
-		padding: var(--space__tiny) 0;
-	}
-
-	[aria-current] {
-		background: var(--menu-item__background--active);
 	}
 </style>

@@ -1,4 +1,6 @@
-// TODO: This is not triggered if the page height is less than 100%
+import { tick } from 'svelte';
+import { match } from './match';
+
 // TODO: Test implementation using scroll-top and top instead
 export interface InteractionObserverOptions {
 	top?: number;
@@ -38,18 +40,67 @@ export function interaction_observer(
 /*
 
 */
-export function scroll_into_view(
+export async function scroll_into_view(
 	element_id: string | undefined,
-	position: ScrollLogicalPosition = 'nearest'
+	position: ScrollLogicalPosition = 'nearest',
+	behavior?: ScrollBehavior
 ) {
 	const element = element_id && document.querySelector(`#${element_id}`);
-	if (element)
-		element.scrollIntoView({ block: position });
+	if (element) {
+		if (behavior === 'smooth')
+			// Not sure why this is needed, but a list will not scroll to
+			// selected item without this when deactivating an item.
+			await tick();
+
+		element.scrollIntoView({ block: position, behavior });
+	}
 }
 
-/*
-	Register multiple event listeners on an element
-*/
+/**
+ * Register multiple event listeners on an element.
+ * @param handlers
+ * @returns A callback accepting the element to attach the handlers to.
+ */
+export function on(
+	handlers: EventHandlers<HTMLElement>
+): (target: HTMLElement) => () => void;
+
+/**
+ * Register multiple event listeners on an element.
+ * @param target The element to attach the handlers to.
+ * @param handlers
+ */
+export function on<T extends Document | Element | Window>(
+	target: T,
+	handlers: EventHandlers<T>
+): () => void;
+
+export function on<T extends Document | Element | Window>(
+	...args:
+		| [handlers: EventHandlers<T>]
+		| [target: T, handlers: EventHandlers<T>]
+) {
+	return args.length === 1
+		? (target: T) => attach(target, ...args)
+		: attach(...args)
+
+	function attach(target: T, handlers: EventHandlers<T>) {
+	 	const removal_controller = new AbortController();
+		const handler_entries = Object.entries(handlers) as [type: string, handler: EventListener][];
+
+		for (const [event_type, handler] of handler_entries) {
+			target.addEventListener(event_type, handler, { signal: removal_controller.signal });
+		}
+
+		return function remove_event_listeners() {
+			removal_controller.abort();
+		};
+	}
+}
+
+type EventHandlers<T> = {
+	[Type in keyof EventMap<T>]?: (this: T, event: EventMap<T>[Type]) => void
+}
 
 type EventMap<T> =
 	T extends Document ? DocumentEventMap :
@@ -57,23 +108,80 @@ type EventMap<T> =
 	T extends HTMLElement ? HTMLElementEventMap :
 	never;
 
-export function on<T extends Document | Element | Window>(
-	target: T,
-	handler_map: {
-		[Type in keyof EventMap<T>]?: (this: T, event: EventMap<T>[Type]) => void
-	}
-): () => void {
-	const removal_controller = new AbortController();
-	const handlers = Object.entries(handler_map) as [type: string, handler: EventListener][];
+/**
+ *
+ * @param actions
+ */
+export function handle_keyboard_event(
+	actions: KeyboardEventActions
+): (event: KeyboardEvent) => boolean;
 
-	for (const [event_type, handler] of handlers) {
-		target.addEventListener(event_type, handler, { signal: removal_controller.signal });
-	}
+/**
+ *
+ * @param event
+ * @param actions
+ */
+export function handle_keyboard_event(
+	event: KeyboardEvent,
+	actions: KeyboardEventActions
+): boolean;
 
-	return function remove_event_listeners() {
-		removal_controller.abort();
-	};
+/**
+ *
+ * @param actions
+ */
+export function handle_keyboard_event(
+	defaults: 'allow_default' | 'prevent_default',
+	actions: KeyboardEventActions
+): (event: KeyboardEvent) => boolean;
+
+/**
+ *
+ * @param event
+ * @param actions
+ */
+export function handle_keyboard_event(
+	event: KeyboardEvent,
+	defaults: 'allow_default' | 'prevent_default',
+	actions: KeyboardEventActions
+): boolean;
+
+export function handle_keyboard_event(
+	...args:
+		| [actions: KeyboardEventActions]
+		| [defaults: 'allow_default' | 'prevent_default', actions: KeyboardEventActions]
+		| [event: KeyboardEvent, actions: KeyboardEventActions]
+		| [event: KeyboardEvent, defaults: 'allow_default' | 'prevent_default', actions: KeyboardEventActions]
+) {
+	if (typeof args[0] === 'string')
+		return (event: KeyboardEvent) => handle(event, ...args);
+
+	if (args.length === 1)
+		return (event: KeyboardEvent) => handle(event, 'prevent_default', ...args);
+
+	return args.length === 2
+		? handle(args[0], 'prevent_default', args[1])
+		: handle(...args)
+
+	function handle(
+		event: KeyboardEvent,
+		defaults: 'allow_default' | 'prevent_default',
+		actions: KeyboardEventActions
+	) {
+		const action = match(event.key, actions);
+		if (!action)
+			return false;
+
+		if (defaults === 'prevent_default')
+			event.preventDefault();
+
+		action(event);
+		return true;
+	}
 }
+
+type KeyboardEventActions = Record<string, ((event: KeyboardEvent) => void) | false | null | undefined>
+
 
 export type ElementReference<T extends HTMLElement = HTMLElement> =
 	| string
@@ -95,7 +203,7 @@ export function assert_element<T>(element: unknown, type?: ({ new(...args: []): 
 }
 
 export function focus_element(element_or_id: string | HTMLElement) {
-	get_element(element_or_id).focus();
+	get_element(element_or_id)?.focus({ preventScroll: true });
 }
 
 export function get_optional_button_element(selector: string) {
@@ -129,7 +237,6 @@ export function get_element(
 	}
 
 	return element_or_id;
-
 }
 
 function ensure_type<T>(

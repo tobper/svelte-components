@@ -1,5 +1,5 @@
 .theme-neomorphism {
-	.select-list {
+	.list {
 		/* Focus */
 		&:focus-visible,
 		&:has(:focus-visible) {

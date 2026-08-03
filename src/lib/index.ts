@@ -15,7 +15,7 @@ export { default as DialogHeader } from './components/DialogHeader.svelte';
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte';
 export { default as EventHandler } from './components/EventHandler.svelte';
 export { default as Kbd } from './components/Kbd.svelte';
-export { default as KeyBindings } from './components/KeyBindings.svelte';
+export { default as KeyBindings, type KeyMap, type KeyBinding } from './components/KeyBindings.svelte';
 export { default as Layout } from './components/Layout.svelte';
 export { default as List } from './components/List.svelte';
 export { default as ListItemHeading } from './components/ListItemHeading.svelte';
@@ -72,9 +72,11 @@ export { default as RemoteTextField } from './components/forms.kit/RemoteTextFie
 export * from './actions/menu.js';
 
 /* Attachments */
+export * from './attachments/list_navigation.js';
 export * from './attachments/on_focus.js';
 export * from './attachments/on_hover.js';
 export * from './attachments/on_resize.js';
+export * from './attachments/virtualized_list.svelte.js';
 
 /* Transitions */
 export * from './transitions/index.js';
@@ -92,5 +94,6 @@ export * from './match.js';
 export * from './media.svelte.js';
 export * from './normalization.js';
 export * from './reactivity.svelte';
+export * from './snippets';
 export * from './time.js';
 export * from './unique_id.js';

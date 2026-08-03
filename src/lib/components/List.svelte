@@ -1,28 +1,10 @@
-<script lang="ts" module>
-	import { getContext, setContext } from 'svelte';
-
-	const context_key = Symbol('List');
-
-	export interface ListContext {
-		readonly focusable: boolean;
-	}
-
-	export function get_list_context() {
-		return getContext<ListContext>(context_key);
-	}
-
-	function set_context(state: ListContext) {
-		return setContext(context_key, state);
-	}
-</script>
-
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { ClassValue, HTMLOlAttributes } from 'svelte/elements';
-	import { get_optional_button_element } from '../html.js';
 	import { unique_id } from '../unique_id.js';
+	import { set_list_context } from './list_context.js';
 
-	interface List {
+	export interface ListProps {
 		/** Id of active list item */
 		active_item_id?: string | null;
 		aria_label?: HTMLOlAttributes['aria-label'];
@@ -40,18 +22,15 @@
 	}
 
 	export function focus() {
-		const active_button =
-			active_item_id &&
-			get_optional_button_element(`#${active_item_id} > button`);
+		const focus_element = active_item_id
+			? document.getElementById(active_item_id)
+			: element;
 
-		if (active_button)
-			active_button.focus();
-		else
-			element?.focus();
+		focus_element?.focus({ preventScroll: true });
 	}
 
 	let {
-		active_item_id = $bindable(null),
+		active_item_id = null,
 		aria_label,
 		children,
 		class: list_class,
@@ -59,9 +38,9 @@
 		focusable = true,
 		id = $bindable(unique_id()),
 		...list_props
-	}: List = $props();
+	}: ListProps = $props();
 
-	set_context({
+	set_list_context({
 		get focusable() { return focusable; },
 	});
 
@@ -81,9 +60,9 @@
 	{id}
 	aria-activedescendant={active_item_id}
 	aria-label={aria_label}
-	class={['select-list variant-primary', list_class]}
+	class={['list', list_class]}
 	role="listbox"
-	tabindex={focusable && active_item_id ? 0 : -1}
+	tabindex={focusable && !active_item_id ? 0 : -1}
 >
 	{@render children()}
 </ol>
