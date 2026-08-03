@@ -70,6 +70,11 @@ export { default as RemoteTextField } from './components/forms.kit/RemoteTextFie
 /* Actions */
 export * from './actions/menu.js';
 
+/* Attachments */
+export * from './attachments/on_focus.js';
+export * from './attachments/on_hover.js';
+export * from './attachments/on_resize.js';
+
 /* Transitions */
 export * from './transitions/index.js';
 

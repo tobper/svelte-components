@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getTransition, type TransitionValue } from '$lib/animations.js';
+	import { on_hover } from '$lib/attachments/on_hover.js';
 	import { on } from '$lib/html.js';
 	import type { ClassValue } from 'svelte/elements';
 	import { unique_id } from '../unique_id.js';
@@ -48,14 +49,6 @@
 			click() {
 				on_select?.();
 			},
-			mouseover() {
-				current = true;
-				on_activate?.();
-			},
-			mouseout() {
-				current = false;
-				on_deactivate?.();
-			}
 		});
 	}
 </script>
@@ -71,6 +64,16 @@
 	tabindex={list.focusable ? (current ? 0 : -1) : undefined}
 	transition:transition
 	{@attach handlers}
+	{@attach !disabled && on_hover(
+		() => {
+			current = true
+			on_activate?.();
+		},
+		() => {
+			current = false;
+			on_deactivate?.();
+		},
+	)}
 >
 	<ListItemContent {children} {icon} {kbd} {text} />
 </li>

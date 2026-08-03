@@ -35,24 +35,6 @@ export function interaction_observer(
 	}
 }
 
-export function resize_observer(
-	element: Element,
-	callback: (rectangle: DOMRectReadOnly) => void
-) {
-	const observer = create();
-	observer.observe(element);
-
-	return { disconnect };
-
-	function create() {
-		return new ResizeObserver(([{ contentRect }]) => callback(contentRect));
-	}
-
-	function disconnect() {
-		observer.disconnect();
-	}
-}
-
 /*
 
 */
