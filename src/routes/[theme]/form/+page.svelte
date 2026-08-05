@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, RemoteForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, AsyncForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
 	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
 	import { find_fruit, food, get_food_heading } from '../data.js';
@@ -154,7 +154,7 @@
 
 <PageContent header="Remote form">
 	<Card>
-		<RemoteForm form={remote_form} loading={form_loading}>
+		<AsyncForm form={remote_form} loading={form_loading}>
 			<CardContent fill>
 				<RemoteTextField label="Name" field={remote_form.fields.name} />
 				<FormError />
@@ -162,7 +162,7 @@
 			<CardFooter>
 				<FormSubmitButton text="Save" />
 			</CardFooter>
-		</RemoteForm>
+		</AsyncForm>
  	</Card>
 </PageContent>
 

@@ -63,8 +63,8 @@ export { default as ToggleSwitch } from './components/forms/ToggleSwitch.svelte'
 export * from './components/forms/form_context.svelte';
 
 /* Remote forms */
-export { default as RemoteForm } from './components/forms.kit/RemoteForm.svelte';
-export { default as RemoteFormDebug } from './components/forms.kit/RemoteFormDebug.svelte';
+export { default as AsyncForm } from './components/forms.kit/AsyncForm.svelte';
+export { default as AsyncFormDebug } from './components/forms.kit/AsyncFormDebug.svelte';
 export { default as RemoteTextField } from './components/forms.kit/RemoteTextField.svelte';
 
 /* Actions */

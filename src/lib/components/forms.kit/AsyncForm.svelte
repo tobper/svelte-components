@@ -7,7 +7,7 @@
 	import { unique_id } from '../../unique_id.js';
 	import { set_form_context, type FieldErrors, type FieldProps, type FormContext } from '../forms/form_context.svelte.js';
 
-	interface RemoteFormProps {
+	interface AsyncFormProps {
 		id?: string;
 		error_hints?: FieldProps['error_hint'];
 		error_message?: string | null;
@@ -43,7 +43,7 @@
 		on_error,
 		on_failure,
 		on_success,
-	}: RemoteFormProps = $props();
+	}: AsyncFormProps = $props();
 
 	const form_fields = $derived(form.fields as RemoteFormFields<RemoteFormInput>);
 	const form_value = $derived(form_fields.value());
