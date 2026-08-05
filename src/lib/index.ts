@@ -80,6 +80,7 @@ export * from './transitions/index.js';
 
 /* Utilities */
 export * from './animations.js';
+export * from './ContextValue.svelte';
 export * from './css.js';
 export * from './device.js';
 export * from './html.js';
@@ -92,4 +93,3 @@ export * from './normalization.js';
 export * from './reactivity.svelte';
 export * from './time.js';
 export * from './unique_id.js';
-
