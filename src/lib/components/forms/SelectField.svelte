@@ -301,6 +301,9 @@
 				visible: list?.visible
 			}}
 			popover="auto"
+			ontoggle={e => {
+				menu_visible = e.newState === 'open';
+			}}
 		>
 			<div
 				class={['menu', class_menu]}
