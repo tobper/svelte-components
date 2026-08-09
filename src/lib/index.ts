@@ -15,6 +15,7 @@ export { default as DialogHeader } from './components/DialogHeader.svelte';
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte';
 export { default as EventHandler } from './components/EventHandler.svelte';
 export { default as Kbd } from './components/Kbd.svelte';
+export { default as KeyBindings } from './components/KeyBindings.svelte';
 export { default as Layout } from './components/Layout.svelte';
 export { default as List } from './components/List.svelte';
 export { default as ListItemHeading } from './components/ListItemHeading.svelte';
