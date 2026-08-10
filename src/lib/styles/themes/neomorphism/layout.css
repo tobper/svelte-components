@@ -11,7 +11,9 @@
 	}
 
 	.layout-sidebar {
-		padding-top: var(--page-header__height);
+		:where(.device-desktop, .device-tablet) & {
+			padding-top: var(--page-header__height);
+		}
 
 		&.layout-sidebar--folding {
 			box-shadow: var(--shadow__large);
