@@ -100,7 +100,7 @@
 	/* Position */
 	position: fixed;
 	top: calc(var(--layout-header__height) + var(--layout__padding-top));
-	bottom: calc(var(--layout-footer__height) + var(--layout__padding-bottom));
+	bottom: var(--layout-footer__height);
 	padding-left: var(--layout__padding-left);
 	padding-bottom: var(--layout-content__padding-bottom);
 	z-index: var(--z__layout);
