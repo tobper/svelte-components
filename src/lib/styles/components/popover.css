@@ -12,22 +12,19 @@
 	background: transparent;
 	border: none;
 	overscroll-behavior: contain;
-}
 
-.supports-anchoring {
-	.popover {
-		inset: auto;
-		margin-top: .5rem;
-		position-area: bottom span-right;
-		position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+	/* Positioning */
+	inset: auto;
+	margin-top: .5rem;
+	position-area: bottom span-right;
+	position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
 
-		&.anchor--right {
-			position-area: bottom span-left;
-		}
+	&.anchor--right {
+		position-area: bottom span-left;
+	}
 
-		&.anchor--match-width {
-			min-width: max(anchor-size(width), var(--menu__min-width));
-		}
+	&.anchor--match-width {
+		min-width: max(anchor-size(width), var(--menu__min-width));
 	}
 }
 

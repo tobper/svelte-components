@@ -1,6 +1,6 @@
 {
 	"name": "@tobper/svelte-components",
-	"version": "0.2.54",
+	"version": "0.2.55",
 	"description": "Svelte components",
 	"license": "MIT",
 	"author": "Tobias Persson",
@@ -30,7 +30,6 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"@floating-ui/dom": "^1.7.4",
 		"@sveltejs/kit": "^2.70.1",
 		"@tobper/eon": "^1.0.3",
 		"svelte": "^5.56.8"
