@@ -4,7 +4,7 @@
 	--layout__padding-left: max(2rem, env(safe-area-inset-left));
 	--layout__padding-right: max(2rem, env(safe-area-inset-right));
 
-	--layout-sidebar__gutter: var(--space__xx-large);
+	--layout-sidebar__gutter: var(--space__large);
 
 	--layout-content__padding-bottom: 2rem;
 
@@ -155,7 +155,7 @@
 
 	/* Padding when fixed sidebar */
 	.layout-sidebar--fixed + & {
-		margin-left: calc(var(--layout__padding-left) + var(--layout-sidebar__width));
+		margin-left: calc(var(--layout-sidebar__width) + var(--layout-sidebar__gutter));
 	}
 
 	/* Scale when dialog is open */
