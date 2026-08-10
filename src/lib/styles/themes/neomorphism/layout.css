@@ -26,6 +26,7 @@
 				.scheme-dark & {
 					border: var(--panel__border);
 					border-right-width: 0;
+					border-bottom-width: 0;
 				}
 			}
 		}
