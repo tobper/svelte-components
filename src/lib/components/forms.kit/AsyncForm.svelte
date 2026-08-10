@@ -7,7 +7,7 @@
 	import { unique_id } from '../../unique_id.js';
 	import { set_form_context, type FieldErrors, type FieldProps, type FormContext } from '../forms/form_context.svelte.js';
 
-	interface RemoteFormProps {
+	interface AsyncFormProps {
 		id?: string;
 		error_hints?: FieldProps['error_hint'];
 		error_message?: string | null;
@@ -20,7 +20,7 @@
 
 		on_error?: (error: unknown) => Promise<void> | void;
 		on_failure?: (issues: RemoteFormIssue[]) => Promise<void> | void;
-		on_success?: (form: { result: Result | undefined, data: Model }) => Promise<void> | void;
+		on_success?: (result: Result | undefined) => Promise<void> | void;
 	}
 
 	export function reset() {
@@ -43,7 +43,7 @@
 		on_error,
 		on_failure,
 		on_success,
-	}: RemoteFormProps = $props();
+	}: AsyncFormProps = $props();
 
 	const form_fields = $derived(form.fields as RemoteFormFields<RemoteFormInput>);
 	const form_value = $derived(form_fields.value());
@@ -72,6 +72,7 @@
 	let submit_timer = delayed_timer();
 	let submitting = $derived(form.pending > 0);
 	let current_hash = $derived(hash($state.snapshot(form_value)));
+	// svelte-ignore state_referenced_locally
 	let untainted_hash = $state.raw($state.snapshot(current_hash));
 	let in_progress = $derived(loading || submitting);
 	let tainted = $derived(current_hash !== untainted_hash);
@@ -141,7 +142,7 @@
 <form
 	{@attach dialog_handler}
 	{...form.enhance(
-		async ({ form: form_element, data, submit }) => {
+		async form => {
 			if (submitting)
 				return;
 
@@ -150,14 +151,14 @@
 			submit_timer.start();
 
 			try {
-				await submit();
+				await form.submit();
 
 				if (form_issues) {
 					await on_failure?.(form_issues);
-					await focusInvalid(form_element);
+					await focusInvalid(form.element);
 				}
 				else {
-					await on_success?.({ data, result: form.result });
+					await on_success?.(form.result);
 				}
 			}
 			catch (error) {

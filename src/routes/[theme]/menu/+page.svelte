@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MenuItemHeading from '$lib/components/MenuItemHeading.svelte';
 	import { Button, Card, CardContent, Menu, MenuItem, MenuItemOption, MenuItemSeparator, PageContent, Stack, unique_id } from '$lib/index.js';
-	import { IconCalendarEvent, IconMenu2, IconSearch } from '@tabler/icons-svelte';
+	import { IconCalendarEvent, IconMenu2, IconSearch } from '@tabler/icons-svelte-runes';
 
 	let menu_id = unique_id();
 	let menu_trigger_id = unique_id();

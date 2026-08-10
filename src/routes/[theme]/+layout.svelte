@@ -2,18 +2,19 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
-	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte';
+	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte-runes';
 	import { type LayoutRouteId } from './$types.js';
 	import { nav_items } from './data.js';
+	import { create_scheme_context } from './theme_context.svelte.js';
 
 	let { children, data } = $props();
 	let { theme: current_theme } = $derived(data);
-	let current_scheme = $state<Scheme>('system');
 
 	const available_themes = [
 		{ name: 'lines', text: 'Lines' },
 		{ name: 'neomorphism', text: 'Neomorphism' },
 	];
+	const scheme = create_scheme_context()
 
 	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
 </script>
@@ -32,7 +33,7 @@
 		// background_light: '#e5e4e4',
 		// background_dark: '#272625'
 	}}
-	scheme={current_scheme}
+	scheme={scheme.current}
 	style={current_theme}
 />
 
@@ -52,8 +53,8 @@
 				<ToggleButton
 					animation="rotate"
 					options={['light', 'dark', 'system'] as Array<Scheme>}
-					value={current_scheme}
-					onchange={new_scheme => current_scheme = new_scheme}
+					value={scheme.current}
+					onchange={new_scheme => scheme.current = new_scheme}
 				>
 					{#snippet content(scheme)}
 						{#if scheme === 'light'}
@@ -77,7 +78,7 @@
 					<ListItemLink
 						current={page.route.id === route_id}
 						href={resolve(route_id, { theme: current_theme })}
-						{text}
+						label={text}
 					>
 						{#snippet icon()}
 							<Icon />
@@ -94,7 +95,7 @@
 					<ListItemLink
 						current={current_theme === name}
 						href={resolve(route_id, { theme: name })}
-						{text}
+						label={text}
 					/>
 				{/each}
 			</ul>

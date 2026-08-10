@@ -1,5 +1,5 @@
 import { create_normalized_lookup, seconds } from '$lib';
-import { IconAlignJustified, IconAppWindow, IconCalendar, IconCarouselHorizontal, IconForms, IconKeyboard, IconList, IconMenu, IconMessage, IconPalette, IconRectangle, IconSortAscendingNumbers, IconTable, IconTypography } from '@tabler/icons-svelte';
+import { IconAlignJustified, IconAppWindow, IconCalendar, IconCarouselHorizontal, IconForms, IconKeyboard, IconList, IconMenu, IconMessage, IconPalette, IconRectangle, IconSortAscendingNumbers, IconTable, IconTypography } from '@tabler/icons-svelte-runes';
 
 export const nav_items = [
 	[IconTypography, 'Typography', ''],
@@ -76,8 +76,8 @@ export const vegetables = [
 ];
 
 export const food = [
-	...fruits.map(name => ({ type: 'Fruit', name })),
-	...vegetables.map(name => ({ type: 'Vegetable', name })),
+	...fruits.map(name => ({ type: 'Fruit' as const, name })),
+	...vegetables.map(name => ({ type: 'Vegetable' as const, name })),
 ];
 
 export type Food = typeof food[number];
@@ -90,11 +90,13 @@ export async function find_fruit(query: string) {
 	return fruit_lookup.find_all(query);
 }
 
-export function get_food_heading(food: Food) {
+export function get_food_heading(food: Pick<Food, 'type'>) {
 	return `${food.type}s`;
 }
 
-export function random<T>(items: T[], count: number) {
+export function random<T>(items: T[], count: number): T[]
+export function random<T, U>(items: T[], count: number, map: (value: T) => U): U[]
+export function random<T, U>(items: T[], count: number, map?: (value: T) => U) {
 	if (count > items.length)
 		count = items.length;
 
@@ -105,7 +107,11 @@ export function random<T>(items: T[], count: number) {
 		[result[i], result[j]] = [result[j], result[i]];
 	}
 
-	return result.slice(0, count);
+	const slice = result.slice(0, count);
+
+	return map
+		? slice.map(map)
+		: slice;
 }
 
 

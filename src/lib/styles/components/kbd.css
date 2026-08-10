@@ -1,31 +1,33 @@
 :root {
 	--kbd__icon-size: 1.1rem;
+	--kbd__size: 1.5rem
 }
 
 .kbd {
 	display: inline flex;
-	gap: .25rem;
-	padding-inline: .3rem;
-	min-height: 1.5rem;
 	align-items: center;
+	gap: .25rem;
 
-	background-color: light-dark(#fffa, #fff2);
-	color: var(--palette__text);
-	border-radius: .5rem;
-	box-shadow: var(--shadow__distinct);
+	span, svg {
+		background-color: light-dark(#fffa, #fff2);
+		color: var(--palette__text);
+		border-radius: .5rem;
+		box-shadow: var(--shadow__distinct);
+		height: var(--kbd__size);
 
-	@supports (corner-shape: squircle) {
-		corner-shape: squircle;
-		border-radius: 1rem;
+		@supports (corner-shape: squircle) {
+			corner-shape: squircle;
+			border-radius: 1rem;
+		}
 	}
 
 	span {
-		padding-inline: .1rem;
 		font-weight: lighter;
+		padding-inline: .4rem;
 	}
 
 	svg {
-		height: var(--kbd__icon-size);
-		width: auto;
+		padding-block: calc((var(--kbd__size) - var(--kbd__icon-size)) / 2);
+		padding-inline: .3rem;
 	}
 }

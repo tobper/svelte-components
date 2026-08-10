@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, RemoteForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
-	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte';
+	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, AsyncForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
+	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte-runes';
 	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
 	import { find_fruit, food, get_food_heading } from '../data.js';
 	import { foo_form } from './form.remote.js';
 
 	let form_loading = $state(false);
 	let field_loading = $state(false);
-	let select_few_value = $state<string | null>(null);
-	let select_many_value = $state<string | null>(null);
-	let select_tree_value = $state<string | null>(null);
-	let auto_complete_value = $state<string | null>(null);
+	let select_few_value = $state<string | null>('Red');
+	let select_many_value = $state<string | null>('Banana');
+	let select_tree_value = $state<string | null>('Stockholm');
+	let auto_complete_value = $state<string | null>('Mango');
 	let currency_value = $state<number | null>(null);
 	let date_value = $state<DateOnly | null>(get_date_today());
 	let dates_value = $state<DateOnly[]>([get_date_today()]);
@@ -19,7 +19,7 @@
 		name: '',
 		category: '',
 		dates: [],
-		select: ''
+		select: null
 	})
 
 	let remote_form = foo_form.for('');
@@ -84,10 +84,11 @@
 							bind:value={select_many_value}
 							label="Select (many items)"
 							options={food}
-							options_heading={get_food_heading}
-							options_value={option => option.name}
+							option_heading={get_food_heading}
+							option_value={({ name }) => name}
 							required
 							type="select"
+							virtualized
 						>
 							{#snippet suffix()}
 								<Button icon={search_icon} submit />
@@ -102,20 +103,21 @@
 							bind:value={select_tree_value}
 							label="Select (tree)"
 							options={['Sweden', 'France', 'Great Britain', 'Philippines']}
-							options_heading={x =>
+							option_heading={x =>
 								['Sweden', 'France', 'Great Britain'].includes(x) ? 'Europe' :
+								['Nissan', 'Lagan'].includes(x) ? 'Rivers' :
+								['Stockholm', 'Åre'].includes(x) ? 'Cities' :
 								['Philippines'].includes(x) ? 'Asia' :
 								undefined
 							}
-							options_children={x =>
+							option_children={x =>
 								match(x, {
-									'Sweden': ['Stockholm', 'Åre'],
+									'Sweden': ['Stockholm', 'Åre', 'Nissan', 'Lagan'],
 									'France': ['Cannes', 'Nice'],
 									'Great Britain': ['London', 'Newcastle'],
 									'London': ['Hammersmith', 'Chelsea'],
 								})
 							}
-							required
 							type="select"
 						>
 							{#snippet suffix()}
@@ -154,7 +156,7 @@
 
 <PageContent header="Remote form">
 	<Card>
-		<RemoteForm form={remote_form} loading={form_loading}>
+		<AsyncForm form={remote_form} loading={form_loading}>
 			<CardContent fill>
 				<RemoteTextField label="Name" field={remote_form.fields.name} />
 				<FormError />
@@ -162,7 +164,7 @@
 			<CardFooter>
 				<FormSubmitButton text="Save" />
 			</CardFooter>
-		</RemoteForm>
+		</AsyncForm>
  	</Card>
 </PageContent>
 
@@ -178,11 +180,14 @@
 						bind:value={form_values.select}
 						label="Select"
 						options={food}
-						options_heading={get_food_heading}
-						options_value={option => option.name}
+						option_heading={get_food_heading}
+						option_value={option => option.name}
 						type="select"
 					/>
 				</div>
+				<output>
+					<pre>{JSON.stringify(form_values, undefined, 4)}</pre>
+				</output>
 			</CardContent>
 			<CardContent>
 				<ToggleSwitch label="Loading" bind:checked={form_loading} />

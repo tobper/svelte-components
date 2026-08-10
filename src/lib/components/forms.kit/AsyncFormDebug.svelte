@@ -1,11 +1,11 @@
 <script lang="ts" generics="T extends RemoteFormInput">
     import type { RemoteForm, RemoteFormFields, RemoteFormInput } from '@sveltejs/kit';
 
-    interface FormDebugProps {
+    interface AsyncFormDebugProps {
     	form: RemoteForm<T, unknown>
     }
 
-    const { form }: FormDebugProps = $props();
+    const { form }: AsyncFormDebugProps = $props();
     const fields = $derived(form.fields as RemoteFormFields<RemoteFormInput>);
     const text = $derived(
     	JSON.stringify(

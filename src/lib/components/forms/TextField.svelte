@@ -110,6 +110,8 @@
 		prefix_icon,
 		suffix,
 		suffix_icon,
+
+		...attachments
 	}: TextField = $props();
 
 	export function blur() {
@@ -122,7 +124,6 @@
 
 	let children_element = $state<HTMLElement>();
 	let clear_element = $state<HTMLElement>();
-	let label_id = unique_id();
 </script>
 
 <Field
@@ -168,6 +169,7 @@
 
 {#snippet input(content_id: string, error_text: string | null, in_progress: boolean)}
 	<input
+		{...attachments}
 		{autocomplete}
 		{autofocus}
 		{disabled}
@@ -190,7 +192,6 @@
 		aria-expanded={aria_expanded}
 		aria-haspopup={aria_haspopup ? true : undefined}
 		aria-invalid={error_text ? true : undefined}
-		aria-labelledby={label_id}
 		class={['field-value', input_class]}
 		id={content_id}
 		readonly={in_progress || readonly}

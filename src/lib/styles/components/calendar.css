@@ -72,7 +72,7 @@
 	}
 
 	[aria-selected] {
-		background: var(--list-item__background--selected);
-		color: var(--list-item__text-color--selected);
+		background: var(--palette__accent-background);
+		color: var(--list-item__label-color--selected);
 	}
 }

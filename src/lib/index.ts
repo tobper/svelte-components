@@ -15,6 +15,7 @@ export { default as DialogHeader } from './components/DialogHeader.svelte';
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte';
 export { default as EventHandler } from './components/EventHandler.svelte';
 export { default as Kbd } from './components/Kbd.svelte';
+export { default as KeyBindings, type KeyMap, type KeyBinding } from './components/KeyBindings.svelte';
 export { default as Layout } from './components/Layout.svelte';
 export { default as List } from './components/List.svelte';
 export { default as ListItemHeading } from './components/ListItemHeading.svelte';
@@ -63,18 +64,26 @@ export { default as ToggleSwitch } from './components/forms/ToggleSwitch.svelte'
 export * from './components/forms/form_context.svelte';
 
 /* Remote forms */
-export { default as RemoteForm } from './components/forms.kit/RemoteForm.svelte';
-export { default as RemoteFormDebug } from './components/forms.kit/RemoteFormDebug.svelte';
+export { default as AsyncForm } from './components/forms.kit/AsyncForm.svelte';
+export { default as AsyncFormDebug } from './components/forms.kit/AsyncFormDebug.svelte';
 export { default as RemoteTextField } from './components/forms.kit/RemoteTextField.svelte';
 
 /* Actions */
 export * from './actions/menu.js';
+
+/* Attachments */
+export * from './attachments/list_navigation.js';
+export * from './attachments/on_focus.js';
+export * from './attachments/on_hover.js';
+export * from './attachments/on_resize.js';
+export * from './attachments/virtualized_list.svelte.js';
 
 /* Transitions */
 export * from './transitions/index.js';
 
 /* Utilities */
 export * from './animations.js';
+export * from './ContextValue.svelte';
 export * from './css.js';
 export * from './device.js';
 export * from './html.js';
@@ -85,6 +94,6 @@ export * from './match.js';
 export * from './media.svelte.js';
 export * from './normalization.js';
 export * from './reactivity.svelte';
+export * from './snippets';
 export * from './time.js';
 export * from './unique_id.js';
-

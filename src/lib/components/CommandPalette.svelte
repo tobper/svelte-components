@@ -1,30 +1,30 @@
 <script lang="ts" module>
-	import type { Deferred } from '$lib/reactivity.svelte';
+	export type Value<T> = T | (() => T);
 
-	export type CommandPaletteOption<Type> =
-		| CommandPaletteActionOption<Type>
-		| CommandPaletteGroupOption<Type>;
+	export type CommandPaletteOption =
+		| CommandPaletteActionOption
+		| CommandPaletteGroupOption;
 
-	export interface CommandPaletteActionOption<Type> {
-		type: Deferred<Type>;
+	export interface CommandPaletteActionOption {
+		icon: Snippet | Component;
 		label: string;
-		action: Deferred< CommandPaletteAction | CommandPaletteActionGroup>;
-		state?: Deferred<string>;
+		action: Value<CommandPaletteAction | CommandPaletteActionGroup>;
+		state?: Value<string | undefined>;
 	}
 
-	export interface CommandPaletteGroupOption<Type> {
-		type: Deferred<Type>;
+	export interface CommandPaletteGroupOption {
+		icon: Snippet | Component;
 		label: string;
-		children: Deferred<CommandPaletteActionOption<Type>[]>;
-		caption?: Deferred<string>;
-		state?: Deferred<string>;
+		children: Value<CommandPaletteActionOption[]>;
+		caption?: Value<string | undefined>;
+		state?: Value<string | undefined>;
 	}
 
-	export interface  CommandPaletteAction {
+	export interface CommandPaletteAction {
 		run(): void;
 		name?: string;
-		caption?: Deferred<string>;
-		valid?: Deferred<boolean>;
+		caption?: Value<string | undefined>;
+		valid?: Value<boolean | undefined>;
 	}
 
 	export interface CommandPaletteActionGroup {
@@ -36,26 +36,24 @@
 	}
 </script>
 
-<script lang="ts" generics="Type">
+<script lang="ts">
+	import { handle_keyboard_event } from '$lib/html';
 	import { getModifierKeys } from '$lib/key_bindings.svelte';
-	import { match } from '$lib/match';
 	import { create_normalized_lookup } from '$lib/normalization';
-	import { tick, untrack, type Snippet } from 'svelte';
+	import { tick, untrack, type Component, type Snippet } from 'svelte';
 	import Dialog from './Dialog.svelte';
 	import DialogContent from './DialogContent.svelte';
 	import DialogFooter from './DialogFooter.svelte';
 	import Kbd from './Kbd.svelte';
-	import List from './List.svelte';
-	import ListItemOption from './ListItemOption.svelte';
+	import SelectList from './SelectList.svelte';
 
-	type Option = CommandPaletteOption<Type>;
+	type Option = CommandPaletteOption;
 	type Action =  CommandPaletteAction;
 	type ActionModifier = keyof CommandPaletteActionGroup;
-	type ActionOption = CommandPaletteActionOption<Type>;
-	type GroupOption = CommandPaletteGroupOption<Type>;
+	type ActionOption = CommandPaletteActionOption;
+	type GroupOption = CommandPaletteGroupOption;
 
 	interface CommandPaletteProps {
-		icon: Snippet<[Type]>;
 		keys?: (command: string) => string | string[] | undefined;
 		options: Option[];
 		query?: string;
@@ -65,7 +63,6 @@
 	const modifier_keys = getModifierKeys();
 
 	let {
-		icon: list_item_icon,
 		keys,
 		options: root_options,
 		query = $bindable(''),
@@ -73,10 +70,9 @@
 	}: CommandPaletteProps = $props();
 
 	let input_element = $state<HTMLInputElement>();
-	let list_element = $state<HTMLElement>();
 	let all_actions_visible = $state(false);
 	let selected_group = $state<{ query: string; option: GroupOption }>();
-	let current_item = $state<{ index: number; option: Option }>();
+	let current_option = $state<Option>();
 
 	const current_lookup = $derived(
 		createLookup(
@@ -116,39 +112,24 @@
 		const updated_options = filtered_options;
 
 		untrack(() => {
-			if (!current_item) {
+			if (!current_option) {
 				if (updated_options.length)
-					current_item = { index: 0, option: updated_options[0] };
+					current_option = updated_options[0];
 
 				return;
 			}
 
-			const current_option_label = current_item.option.label;
-			let new_index = updated_options.findIndex(o => o.label === current_option_label);
+			const current_option_label = current_option.label;
 
-			if (new_index === -1 && updated_options.length)
-				new_index = 0
+			current_option = updated_options.find(o => o.label === current_option_label);
 
-			current_item = new_index >= 0
-				? { index: new_index, option: updated_options[new_index] }
-				: undefined;
+			if (!current_option && updated_options.length)
+				current_option = updated_options[0]
 		});
 	});
 
 	function createLookup(options: Option[]) {
 		return create_normalized_lookup(options, option => option.label);
-	}
-
-	function next(direction: 'up' | 'down') {
-		if (!current_item)
-			return;
-
-		const current_index = current_item.index;
-		const index = (current_index + (direction === 'up' ? -1 : 1) + filtered_options.length) % filtered_options.length;
-
-		all_actions_visible = false;
-		current_item = { index, option: filtered_options[index] };
-		list_element?.children[index].scrollIntoView({ block: 'nearest' });
 	}
 
 	function select(option: Option) {
@@ -166,8 +147,8 @@
 	}
 
 	function selectCurrentOption() {
-		if (current_item)
-			select(current_item.option);
+		if (current_option)
+			select(current_option);
 	}
 
 	function showChildren(option: GroupOption) {
@@ -190,23 +171,10 @@
 	}
 
 	function showAllActions() {
-		if (!current_item || !isActionOption(current_item.option))
+		if (!current_option || !isActionOption(current_option))
 	 		return;
 
-		if (all_actions_visible) {
-			all_actions_visible = false;
-		} else {
-			all_actions_visible = true;
-
-			const { index } = current_item;
-
-			tick().then(() => {
-				list_element?.children[index].scrollIntoView({
-					block: 'nearest',
-					behavior: 'smooth',
-				});
-			});
-		}
+		all_actions_visible = !all_actions_visible;
 	}
 
 	function clear() {
@@ -256,7 +224,7 @@
 		return kbd;
 	}
 
-	function getState(option: Option) {
+	function getState(option: Pick<Option, 'state'>) {
 		return getValue(option.state);
 	}
 
@@ -294,7 +262,7 @@
 			.map(([modifier, action]) => ({ modifier, action }));
 	}
 
-	function getValue<T>(arg: T | (() => T)) {
+	function getValue<T>(arg: Value<T>) {
 		return arg instanceof Function ? arg() : arg;
 	}
 
@@ -352,80 +320,45 @@
 			{/if}
 			<input
 				bind:this={input_element}
-				autofocus
 				placeholder={parent ? '' : 'Search'}
 				type="text"
 				bind:value={query}
-				onkeydown={(event) => {
-					const action = match(event.key, {
-						ArrowDown: () => next('down'),
-						ArrowUp: () => next('up'),
-						Enter: current_item ? selectCurrentOption : undefined,
-						Backspace: selected_group && query.length === 0 ? clear : undefined,
-						Escape: event.shiftKey
-				 			? closeDialog
-							: selected_group || query.length ? clear : undefined,
-						Tab: current_item ? showAllActions : undefined,
-					});
-
-					if (action) {
-						event.preventDefault();
-						action();
-					}
-				}}
+				onkeydown={event => handle_keyboard_event(event, {
+					'Enter': current_option ? selectCurrentOption : undefined,
+					'Backspace': selected_group && query.length === 0 ? clear : undefined,
+					'Escape': event.shiftKey
+						? closeDialog
+						: (selected_group || query.length) ? clear : closeDialog,
+					'Tab': current_option ? showAllActions : undefined,
+				})}
 			/>
 		</search>
 		<hr />
 	</header>
 	{#if filtered_options.length}
 		<DialogContent>
-			<List bind:element={list_element}>
-				{#each filtered_options as option, index (option)}
-					{@const disabled = isDisabled(option)}
-					<ListItemOption
-						{disabled}
-						class={{ disabled }}
-						current={index === current_item?.index}
-						text={option.label}
-						kbd={getKbd(option)}
-						on_activate={() => {
-							current_item = { index, option };
-						}}
-						on_select={() => {
-							select(option);
-						}}
-					>
-						{#snippet icon()}
-							{@render list_item_icon(getValue(option.type))}
-						{/snippet}
-
-						{getState(option)}
-
-						<!-- {#if all_actions_visible && isAction(option) && 'default' in option.action}
-		              <div class="all_actions">
-		                {#each getModifierActions(option) as { modifier, action } (modifier)}
-		                  <div>
-		                    {action.title}
-		                    <Kbd key={modifier !== 'default' ? [modifier, 'enter'] : 'enter'} />
-		                  </div>
-		                {/each}
-		              </div>
-		            {/if} -->
-					</ListItemOption>
-				{/each}
-			</List>
+			<SelectList
+				controlled_by={input_element}
+				options={filtered_options}
+				option_icon={option => option.icon}
+				option_value={option => option.label}
+				option_kbd={option => getKbd(option)}
+				option_details={option => getState(option)}
+				virtualized
+				on_activate={option => current_option = option}
+				on_select={option => select(option)}
+			/>
 		</DialogContent>
 	{/if}
 	<DialogFooter>
-		{#if current_item}
-			{@const option = current_item.option}
-			{#if isGroupOption(option)}
+		{#if current_option}
+			{#if isGroupOption(current_option)}
 				<button onclick={selectCurrentOption}>
-					{getCaption(option)}
+					{getCaption(current_option)}
 					<Kbd key="enter" />
 				</button>
 			{:else}
-				{#if hasMultipleActions(option) && !all_actions_visible}
+				{#if hasMultipleActions(current_option) && !all_actions_visible}
 					<button onclick={showAllActions} class="show-all-actions">
 						Show all actions
 						<Kbd key="tab" />
@@ -433,20 +366,20 @@
 				{/if}
 
 				{#if all_actions_visible}
-					{#each getModifierActions(option) as { modifier, action } (modifier)}
+					{#each getModifierActions(current_option) as { modifier, action } (modifier)}
 						<button disabled={isDisabled(action)} onclick={selectCurrentOption}>
 							{getCaption(action)}
 							<Kbd key={[modifier, 'enter']} />
 						</button>
 					{/each}
 
-					{@const default_action = getDefaultAction(option)}
+					{@const default_action = getDefaultAction(current_option)}
 					<button disabled={isDisabled(default_action)} onclick={selectCurrentOption}>
 						{getCaption(default_action)}
 						<Kbd key="enter" />
 					</button>
 				{:else}
-					{@const [modified_action, modifiers] = getModifiedAction(option)}
+					{@const [modified_action, modifiers] = getModifiedAction(current_option)}
 					<button disabled={isDisabled(modified_action)} onclick={selectCurrentOption}>
 						{getCaption(modified_action)}
 						<Kbd key={[...modifiers, 'enter']} />

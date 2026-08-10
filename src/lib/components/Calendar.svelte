@@ -312,7 +312,7 @@
 
 <div
 	{id}
-	class={['calendar variant-primary', props.class]}
+	class={['calendar', props.class]}
 	onfocusout={event => {
 		const focused_element = event.relatedTarget;
 		const option_focused =

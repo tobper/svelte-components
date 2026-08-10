@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { Button, Card, CardContent, List, ListItemOption, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js';
-	import { IconCancel, IconInfoCircle } from '@tabler/icons-svelte';
+	import { Button, Card, CardContent, List, ListItemHeading, ListItemOption, ListItemSeparator, ListItemText, on_resize, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js';
+	import { IconApple, IconCancel, IconCarrot, IconInfoCircle } from '@tabler/icons-svelte-runes';
 	import { food, fruits, get_food_heading, random } from '../data.js';
 
 	let selected_value = $state<string | null>(null);
 	let transition = $state(true)
 	let transition_values = $state.raw(random(fruits, 3).toSorted())
+	let item_height_one_line = $state(0)
+	let item_height_two_lines = $state(0)
 </script>
 
 <PageContent header="List">
@@ -13,29 +15,47 @@
 		<CardContent>
 			<div class="list-container">
 				<List>
-					<ListItemOption text="Text only" kbd="space">
-						{undefined}
-					</ListItemOption>
-					<ListItemOption text="With content">
-						Content
-					</ListItemOption>
-					<ListItemOption text="With icon" kbd="esc">
-						{#snippet icon()}
-							<IconInfoCircle />
+					<ListItemOption label="Basic option" kbd="space">
+						{#snippet details()}
+							<!--
+						 	Details should be hidden even when a snippet without content exists.
+							-->
+							{undefined}
 						{/snippet}
 					</ListItemOption>
-					<ListItemOption text="With icon and content" kbd={['ctrl', 'r']}>
-						{#snippet icon()}
-							<IconInfoCircle />
-						{/snippet}
-						Lorem ipsum
+					<ListItemOption label="With custom children">
+						<ol>
+							<li>1. Hello</li>
+							<li>2. World</li>
+						</ol>
 					</ListItemOption>
-					<ListItemOption text="Disabled" disabled kbd="tab">
-						{#snippet icon()}
-							<IconCancel />
-						{/snippet}
-						Not available
-					</ListItemOption>
+					<ListItemOption
+						label="With details"
+						details="Details"
+					/>
+					<ListItemOption
+						label="With icon"
+						kbd="esc"
+						icon={IconInfoCircle}
+					/>
+					<ListItemOption
+					 	label="With icon and details"
+						kbd={['ctrl', 'r']}
+						icon={IconInfoCircle}
+						details="Lorem ipsum"
+					/>
+					<ListItemOption
+						disabled
+						label="Disabled"
+						kbd="tab"
+						icon={IconCancel}
+						details="Not available"
+					/>
+					<ListItemText text="Text only" />
+					<ListItemSeparator />
+					<ListItemHeading label="Heading" />
+					<ListItemOption label="Parent" />
+					<ListItemOption label="Child" indent={1} />
 				</List>
 			</div>
 		</CardContent>
@@ -49,12 +69,65 @@
 				<SelectList
 					bind:value={selected_value}
 					options={random(food, 5)}
-					options_heading={get_food_heading}
-					options_value={food => food.name}
+					option_heading={get_food_heading}
+					option_icon={({ type }) => type === 'Fruit' ? IconApple : IconCarrot}
+					option_value={({ name }) => name}
 				/>
 				<output>
 					Selected: {selected_value ? selected_value : '-'}
 				</output>
+			</div>
+		</CardContent>
+
+		<CardContent header="Virtualized">
+			<div class="list-container virtualized">
+				<SelectList
+					id="virtualized"
+					options={Array.from({ length: 9 }, (_, i) => (i + 1))}
+					option_heading={value => value < 10 ? `${value * 10}-${(value + 1) * 10}` : undefined}
+					option_details={value => (value % 3 === 0) ? 'Details' : undefined}
+					option_children={value => (value < 10) ? Array.from({ length: 10 }, (_, i) => value * 10 + i) : []}
+					option_icon={value => (value % 2 === 0) ? IconApple : IconCarrot}
+					virtualized
+				/>
+			</div>
+		</CardContent>
+
+		<CardContent header="Custom details">
+			<div class="list-container virtualized">
+				<SelectList
+					id="virtualized-custom"
+					options={random(food, 10)}
+					option_value={({ name }) => name}
+					virtualized={{
+						item_height: ({ type }) => type === 'Fruit'
+							? item_height_one_line
+							: item_height_two_lines
+					}}
+				>
+					{#snippet details({ type })}
+						{#if type === 'Fruit'}
+							One line
+						{:else}
+							Two<br/>
+							Lines
+						{/if}
+					{/snippet}
+
+					{#snippet templates()}
+						<div {@attach on_resize(rect => item_height_one_line = rect.height)}>
+							<ListItemOption label="x">
+								One line
+							</ListItemOption>
+						</div>
+						<div {@attach on_resize(rect => item_height_two_lines = rect.height)}>
+							<ListItemOption label="x">
+								Two<br/>
+								Lines
+							</ListItemOption>
+						</div>
+					{/snippet}
+				</SelectList>
 			</div>
 		</CardContent>
 	</Card>
@@ -88,7 +161,7 @@
 				</Stack>
 				<div class="list-container">
 					<SelectList
-						options={[...transition_values.values()]}
+						options={transition_values}
 						transition={transition}
 						on_select={value =>
 							transition_values = transition_values.filter(v => v !== value)
@@ -107,5 +180,9 @@
 		:global(.device-mobile) & {
 			min-width: 100%;
 		}
+	}
+
+	.virtualized {
+		max-height: 200px;
 	}
 </style>

@@ -29,7 +29,7 @@
 				color: var(--link-header__color--hover);
 			}
 
-			.list-item__children {
+			.list-item__details {
 				color: var(--palette__text);
 			}
 		}

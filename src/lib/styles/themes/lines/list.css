@@ -1,5 +1,5 @@
 .theme-lines {
-	.select-list {
+	.list {
 		/* Focus */
 		&:focus-visible {
 			outline-color: var(--palette__accent-color);
