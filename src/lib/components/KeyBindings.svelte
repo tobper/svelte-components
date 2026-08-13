@@ -80,8 +80,8 @@
 			handle(event)
 	}}
 	onkeypress={event => {
-		// Commands are not triggered when no modifier is used and focus is in an input
-		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && document.querySelector('input:focus'))
+		// Commands are not triggered when no modifier is used and focus is in a text input
+		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && document.querySelector('input[type="text"]:focus'))
 			return
 
 		handle(event)
