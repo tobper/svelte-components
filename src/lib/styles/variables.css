@@ -1,22 +1,9 @@
 :root {
-	/* https://oklch.com */
-	--palette__primary: #ea861a;
-	--palette__secondary: #06b6d4;
-	--palette__tertiary: #97cea5;
-	--palette__variant-add: oklch(77% 0.125 140);
-	--palette__variant-delete: oklch(77% 0.15 20);
-
-	/* Green */
-	--palette__primary: oklch(75% 0.05 150);
-	--palette__secondary: oklch(83% 0.125 84);
-	--palette__tertiary: oklch(83% 0.1 220);
-	--palette__background-dark: #272625;
-	--palette__background-light: #e5e4e4;
-
-	/* Blue */
 	--palette__primary: #a8bef1;
 	--palette__secondary: #d9ba86;
 	--palette__tertiary: #83cfc8;
+	--palette__variant-add: oklch(77% 0.125 140);
+	--palette__variant-delete: oklch(77% 0.15 20);
 	--palette__background-dark: hsl(220 13% 18%);
 	--palette__background-light: hsl(220 13% 90%);
 
