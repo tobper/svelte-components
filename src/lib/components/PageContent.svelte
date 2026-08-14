@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte'
 	import PageHeader from './PageHeader.svelte'
+	import Render, { type Content } from './Render.svelte'
 
 	interface PageContent {
 		id?: string
 		header?: string
 		children: Snippet
-		footer?: Snippet
+		footer?: Content
 	}
 
 	let {
@@ -26,7 +27,7 @@
 
 	{#if footer}
 		<footer class="page-footer">
-			{@render footer()}
+			<Render content={footer} />
 		</footer>
 	{/if}
 </article>

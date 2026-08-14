@@ -2,17 +2,17 @@
 	import { getTransition, type TransitionValue } from '$lib/animations.js'
 	import { on_hover } from '$lib/attachments/on_hover.js'
 	import { on } from '$lib/html.js'
-	import type { Snippet } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
 	import { unique_id } from '../unique_id.js'
-	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte'
 	import { get_list_context } from './list_context.js'
+	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte'
+	import Render, { type Content } from './Render.svelte'
 
 	interface ListItemOption extends ListItemContentProps {
 		id?: string
 		class?: ClassValue
 		indent?: number
-		content?: Snippet
+		content?: Content
 		contrast?: boolean
 		current?: boolean
 		disabled?: boolean
@@ -71,7 +71,7 @@
 	{...attachments}
 >
 	{#if content}
-		{@render content()}
+		<Render {content} />
 	{:else}
 		<ListItemContent {icon} {label} {kbd} {details} {children} />
 	{/if}

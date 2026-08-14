@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte'
+	import Render, { type Content } from './Render.svelte'
 
 	export interface MenuItemContentProps {
 		/**  */
 		description?: string
 		/** Icon displayed left of the content */
-		icon?: Snippet
+		icon?: Content
 		/** Keyboard shortcut for action */
-		meta?: Snippet | string
+		meta?: Content | string
 		/** Text for menu item */
 		text: string
 	}
@@ -22,7 +22,7 @@
 
 {#if icon}
 	<div class="menu-item-icon">
-		{@render icon()}
+		<Render content={icon} />
 	</div>
 {/if}
 
@@ -38,10 +38,6 @@
 
 {#if meta}
 	<div class="menu-item-meta">
-		{#if typeof meta === 'string'}
-			{meta}
-		{:else}
-			{@render meta()}
-		{/if}
+		<Render content={meta} />
 	</div>
 {/if}

@@ -9,6 +9,7 @@
 	import { unique_id } from '../unique_id.js'
 	import ButtonBorder from './ButtonBorder.svelte'
 	import Loading from './Loading.svelte'
+	import Render, { type Content } from './Render.svelte'
 
 	interface Button {
 		autofocus?: boolean
@@ -27,7 +28,7 @@
 		variant?: ButtonVariant
 
 		children?: Snippet
-		icon?: Snippet
+		icon?: Content
 		text?: unknown
 
 		onclick?: HTMLButtonAttributes['onclick']
@@ -106,7 +107,7 @@
 		<Loading bars />
 	{:else if icon}
 		<span class="button-icon">
-			{@render icon()}
+			<Render content={icon} />
 		</span>
 	{/if}
 

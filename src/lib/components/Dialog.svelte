@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { get_root_style } from '$lib/css'
 	import { try_parse_milliseconds } from '$lib/time'
+	import { unique_id } from '$lib/unique_id'
 	import { untrack, type Snippet } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
 	import DialogContent from './DialogContent.svelte'
 	import DialogFooter from './DialogFooter.svelte'
 	import DialogHeader from './DialogHeader.svelte'
-	import { unique_id } from '$lib/unique_id'
+	import Render, { type Content } from './Render.svelte'
 
 	interface Dialog {
 		class?: ClassValue
@@ -14,8 +15,8 @@
 		visible?: boolean
 		width?: string
 		children?: Snippet
-		content?: Snippet
-		footer?: Snippet
+		content?: Content
+		footer?: Content
 		propagate_key_events?: boolean
 		on_open?: () => void
 		on_close?: () => void
@@ -95,7 +96,7 @@
 	{#key key}
 		{#if content}
 			<DialogContent>
-				{@render content()}
+				<Render {content} />
 			</DialogContent>
 		{:else if children}
 			{@render children()}
@@ -103,7 +104,7 @@
 
 		{#if footer}
 			<DialogFooter>
-				{@render footer()}
+				<Render content={footer} />
 			</DialogFooter>
 		{/if}
 	{/key}

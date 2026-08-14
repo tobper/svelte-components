@@ -4,13 +4,14 @@
 	import CardContent from './CardContent.svelte'
 	import CardFooter from './CardFooter.svelte'
 	import CardHeader from './CardHeader.svelte'
+	import Render, { type Content } from './Render.svelte'
 
 	interface Card {
 		class?: ClassValue
 		header?: string
 		children?: Snippet
-		content?: Snippet
-		footer?: Snippet
+		content?: Content
+		footer?: Content
 	}
 
 	let {
@@ -29,7 +30,7 @@
 
 	{#if content}
 		<CardContent>
-			{@render content()}
+			<Render {content} />
 		</CardContent>
 	{:else if children}
 		{@render children()}
@@ -37,7 +38,7 @@
 
 	{#if footer}
 		<CardFooter>
-			{@render footer()}
+			<Render content={footer} />
 		</CardFooter>
 	{/if}
 </div>

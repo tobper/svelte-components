@@ -2,13 +2,14 @@
 	import { handle_keyboard_event } from '$lib/html.js'
 	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
 	import { unique_id } from '../../unique_id.js'
+	import Render, { type Content } from '../Render.svelte'
 	import Stack from '../Stack.svelte'
 
 	interface ToggleSwitch {
 		id?: string
 		class?: ClassValue
 		label?: string
-		description?: string
+		description?: Content | string
 		name?: string
 		checked?: boolean
 		direction?: 'normal' | 'reversed'
@@ -36,7 +37,13 @@
 		{#if description}
 			<Stack gap="tiny" >
 				<span>{label}</span>
-				<p>{description}</p>
+				{#if typeof description === 'string'}
+					<p class="toggle-switch-description">
+						{description}
+					</p>
+				{:else if description}
+					<Render content={description} />
+				{/if}
 			</Stack>
 		{:else}
 			<span>{label}</span>

@@ -1,17 +1,18 @@
 <script lang="ts">
-	import type { Component, Snippet } from 'svelte'
+	import type { Snippet } from 'svelte'
 	import Kbd from './Kbd.svelte'
-	import { is_snippet } from '$lib/snippets'
+	import Render, { type Content } from './Render.svelte'
+
 
 	export interface ListItemContentProps {
 		/** Icon displayed left of the content */
-		icon?: Component | Snippet
+		icon?: Content
 		/** Text for list item */
 		label: string
 		/** Keyboard shortcut for action */
 		kbd?: string | string[]
 		/** Content displayed under the text */
-		details?: Component | Snippet | string
+		details?: Content | string
 		/** Content displayed under the text */
 		children?: Snippet
 	}
@@ -29,12 +30,7 @@
 	<header>
 		{#if icon}
 			<div class="list-item__icon">
-				{#if is_snippet(icon)}
-					{@render icon()}
-				{:else}
-					{@const Icon = icon}
-					<Icon />
-				{/if}
+				<Render content={icon} />
 			</div>
 		{/if}
 
@@ -51,14 +47,7 @@
 
 	{#if details}
 		<div class="list-item__details">
-			{#if typeof details === 'string'}
-				{details}
-			{:else if is_snippet(details)}
-				{@render details()}
-			{:else}
-				{@const Details = details}
-				<Details />
-			{/if}
+			<Render content={details} />
 		</div>
 	{:else if children}
 		<div class="list-item__details">

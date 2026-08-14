@@ -1,17 +1,18 @@
 <script lang="ts" generics="T">
 	import { create_list_items, find_options, map_list_options, type ListItem, type Option } from '$lib/internal'
 	import { create_normalized_lookup } from '$lib/normalization'
-	import { type Component, type ComponentProps, type Snippet } from 'svelte'
+	import { type ComponentProps, type Snippet } from 'svelte'
 	import type { ClassValue, HTMLColAttributes } from 'svelte/elements'
 	import { list_navigation, on_resize, virtualized_list } from '../attachments'
 	import { handle_keyboard_event, on, scroll_into_view, type ElementReference } from '../html.js'
 	import { unique_id } from '../unique_id.js'
 	import List from './List.svelte'
+	import { set_list_context } from './list_context'
 	import ListItemHeading from './ListItemHeading.svelte'
 	import ListItemOption from './ListItemOption.svelte'
 	import ListItemSeparator from './ListItemSeparator.svelte'
 	import ListItemText from './ListItemText.svelte'
-	import { set_list_context } from './list_context'
+	import type { Content } from './Render.svelte'
 
 	type ListItemOptionProps = ComponentProps<typeof ListItemOption>;
 
@@ -63,7 +64,7 @@
 		/**
 		 * ...
 		 */
-		option_icon?: (option: T) => Component | Snippet
+		option_icon?: (option: T) => Content
 		/**
 		 * Callback that is called for each option to determine the kbd of the option.
 		 * @default No kbd is displayed.

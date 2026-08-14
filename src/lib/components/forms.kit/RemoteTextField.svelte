@@ -1,13 +1,14 @@
 <script lang="ts">
+	import { on } from '$lib/html'
+	import { unique_id } from '$lib/unique_id'
+	import type { RemoteFormField } from '@sveltejs/kit'
 	import { type ComponentProps, type Snippet } from 'svelte'
 	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
-	import Field from '../forms/Field.svelte'
-	import { unique_id } from '$lib/unique_id'
-	import { on } from '$lib/html'
 	import Button from '../Button.svelte'
+	import Field from '../forms/Field.svelte'
 	import ClearIcon from '../icons/ClearIcon.svelte'
 	import Loading from '../Loading.svelte'
-	import type { RemoteFormField } from '@sveltejs/kit'
+	import Render, { type Content } from '../Render.svelte'
 
 	type FieldProps = ComponentProps<typeof Field>
 
@@ -35,10 +36,10 @@
 		on_focus_out?: () => void
 
 		children?: Snippet
-		prefix?: Snippet
-		prefix_icon?: Snippet
-		suffix?: Snippet
-		suffix_icon?: Snippet
+		prefix?: Content
+		prefix_icon?: Content
+		suffix?: Content
+		suffix_icon?: Content
 	}
 
 	let {
@@ -127,7 +128,7 @@
 			class:skeleton={loading}
 		>
 			{#if prefix}
-				{@render prefix()}
+				<Render content={prefix} />
 			{/if}
 
 			<div class="field-input">
@@ -139,7 +140,7 @@
 			</div>
 
 			{#if suffix}
-				{@render suffix()}
+				<Render content={suffix} />
 			{/if}
 		</div>
 
@@ -201,7 +202,7 @@
 {#snippet field_prefix_icon()}
 	{#if prefix_icon}
 		<div class="field-prefix-icon">
-			{@render prefix_icon()}
+			<Render content={prefix_icon} />
 		</div>
 	{/if}
 {/snippet}
@@ -209,7 +210,7 @@
 {#snippet field_suffix_icon()}
 	{#if suffix_icon}
 		<div class="field-suffix-icon" class:visible={!input_loading}>
-			{@render suffix_icon()}
+			<Render content={suffix_icon} />
 		</div>
 	{/if}
 {/snippet}
