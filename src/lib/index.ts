@@ -12,6 +12,7 @@ export { default as DialogCloseButton } from './components/DialogCloseButton.sve
 export { default as DialogContent } from './components/DialogContent.svelte'
 export { default as DialogFooter } from './components/DialogFooter.svelte'
 export { default as DialogHeader } from './components/DialogHeader.svelte'
+export { default as Drawer } from './components/Drawer.svelte'
 export { default as ElementClickOnMouseDown } from './components/ElementClickOnMouseDown.svelte'
 export { default as EventHandler } from './components/EventHandler.svelte'
 export { default as Kbd } from './components/Kbd.svelte'

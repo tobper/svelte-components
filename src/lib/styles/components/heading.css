@@ -53,4 +53,11 @@ h4 {
 	color: var(--h4__color);
 	font-size: var(--h4__font-size);
 	line-height: 1.5rem;
+
+	/* Content */
+	padding-bottom: var(--space__medium);
+
+	&:not(:first-child) {
+		padding-top: var(--space__large);
+	}
 }
