@@ -29,6 +29,7 @@ export function virtualized_list<T>(
 	list_item_height: ((item: ListItem<T>) => number)
 ) {
 	let list_element = $state<HTMLElement>()
+	let list_padding_top = $state(0)
 	let list_padding_left = $state('')
 	let list_padding_right = $state('')
 
@@ -67,7 +68,9 @@ export function virtualized_list<T>(
 	])
 
 	$effect(() => {
-		const height = virtual_items.at(-1)?.bottom ?? 0
+		const height = virtual_items.length
+			? virtual_items.at(-1)!.bottom - list_padding_top
+			: 0
 		list_element?.style.setProperty('--height', `${height}px`)
 	})
 
@@ -101,6 +104,7 @@ export function virtualized_list<T>(
 		function refresh() {
 			// Inline padding is applied to absolute positioned list items
 			const list_style = getComputedStyle(list)
+			list_padding_top = parseFloat(list_style.getPropertyValue('padding-top'))
 			list_padding_left = list_style.getPropertyValue('padding-left')
 			list_padding_right = list_style.getPropertyValue('padding-right')
 
@@ -148,7 +152,7 @@ export function virtualized_list<T>(
 		const virtual_items: VirtualListItem<T>[] = []
 		let first_index: number | undefined = undefined
 		let last_index: number | undefined = undefined
-		let top = 0
+		let top = list_padding_top
 
 		for (const list_item of list_items) {
 			const height = list_item_height(list_item)
