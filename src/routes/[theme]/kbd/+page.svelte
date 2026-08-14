@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, CardContent, Kbd, PageContent, Stack } from '$lib/index.js';
+	import { Card, CardContent, Kbd, PageContent, Stack } from '$lib/index.js'
 </script>
 
 <PageContent header="Kbd">

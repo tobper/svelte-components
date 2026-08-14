@@ -4,20 +4,20 @@
 </script>
 
 <script lang="ts" generics="Value">
-	import ButtonBorder from '../ButtonBorder.svelte';
-	import { get_radio_group_context } from './RadioGroup.svelte';
+	import ButtonBorder from '../ButtonBorder.svelte'
+	import { get_radio_group_context } from './RadioGroup.svelte'
 
 	interface RadioButton {
-		text: string;
-		value: Value;
-		small?: boolean;
+		text: string
+		value: Value
+		small?: boolean
 	}
 
 	const radio_group = get_radio_group_context<Value>()
 
-	let { text, value, small }: RadioButton = $props();
-	let { disabled, name, required, selected_value, deselect, select } = $derived(radio_group);
-	let checked = $derived(value === selected_value);
+	let { text, value, small }: RadioButton = $props()
+	let { disabled, name, required, selected_value, deselect, select } = $derived(radio_group)
+	let checked = $derived(value === selected_value)
 </script>
 
 <label
@@ -34,9 +34,9 @@
 			type="radio"
 			onclick={() => {
 				if (value !== selected_value)
-					select(value);
+					select(value)
 				else if (!required)
-					deselect();
+					deselect()
 			}}
 			onkeydown={event => event.stopPropagation()}
 			bind:group={radio_group.selected_value}

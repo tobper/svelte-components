@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Card, CardHeader, PageContent } from '$lib/index.js';
-	import { food, random } from '../data.js';
+	import { Card, CardHeader, PageContent } from '$lib/index.js'
+	import { food, random } from '../data.js'
 </script>
 
 <PageContent header="Normal table">

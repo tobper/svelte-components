@@ -1,22 +1,22 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
-	import ButtonBorder from '../ButtonBorder.svelte';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
+	import ButtonBorder from '../ButtonBorder.svelte'
 
 	interface CheckButton {
-		animation?: 'fade' | 'flip' | 'rotate';
-		class?: ClassValue;
-		checked?: boolean;
-		content?: Snippet<[boolean]>;
-		disabled?: boolean;
-		element?: HTMLElement;
-		name?: string;
-		rounded?: boolean;
-		text?: string;
-		type?: 'plain' | 'outlined';
-		value?: unknown;
-		onchange?: (checked: boolean) => void;
-		onclick?: HTMLInputAttributes['onclick'];
+		animation?: 'fade' | 'flip' | 'rotate'
+		class?: ClassValue
+		checked?: boolean
+		content?: Snippet<[boolean]>
+		disabled?: boolean
+		element?: HTMLElement
+		name?: string
+		rounded?: boolean
+		text?: string
+		type?: 'plain' | 'outlined'
+		value?: unknown
+		onchange?: (checked: boolean) => void
+		onclick?: HTMLInputAttributes['onclick']
 	}
 
 	let {
@@ -33,7 +33,7 @@
 		text,
 		type = 'outlined',
 		value,
-	}: CheckButton = $props();
+	}: CheckButton = $props()
 </script>
 
 <label
@@ -58,7 +58,7 @@
 					event.stopImmediatePropagation()
 				}
 				else
-					onchange?.(checked);
+					onchange?.(checked)
 			}}
 		/>
 	</div>

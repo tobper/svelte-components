@@ -1,30 +1,30 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
-	import { slide } from 'svelte/transition';
-	import { unique_id } from '../../unique_id.js';
-	import { get_form_context } from './form_context.svelte.js';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
+	import { slide } from 'svelte/transition'
+	import { unique_id } from '../../unique_id.js'
+	import { get_form_context } from './form_context.svelte.js'
 
 	interface Field {
 		content: Snippet<[{
-			content_id: string;
-			error_text: string | null;
-			errors: string[];
-			in_progress: boolean;
-			loading: boolean;
-			submitting: boolean;
-		}]>;
-		id?: string;
-		class?: ClassValue;
-		error_hint?: boolean | 'auto' | 'always' | 'never';
-		errors?: string[];
-		element?: HTMLElement;
-		name?: HTMLInputAttributes['name'];
-		label?: string;
-		required?: boolean;
+			content_id: string
+			error_text: string | null
+			errors: string[]
+			in_progress: boolean
+			loading: boolean
+			submitting: boolean
+		}]>
+		id?: string
+		class?: ClassValue
+		error_hint?: boolean | 'auto' | 'always' | 'never'
+		errors?: string[]
+		element?: HTMLElement
+		name?: HTMLInputAttributes['name']
+		label?: string
+		required?: boolean
 	}
 
-	const form = get_form_context();
+	const form = get_form_context()
 
 	let {
 		id = $bindable(unique_id()),
@@ -36,17 +36,17 @@
 		name,
 		required = false,
 		content,
-	}: Field = $props();
-	let { in_progress, loading, submitting } = $derived(form);
-	let content_id = $derived(`${id}_content`);
-	let form_errors = $derived((name && form.field_errors[name]) ?? []);
-	let errors = $derived([...input_errors, ...form_errors]);
-	let error_text = $derived(errors[0] ?? null);
+	}: Field = $props()
+	let { in_progress, loading, submitting } = $derived(form)
+	let content_id = $derived(`${id}_content`)
+	let form_errors = $derived((name && form.field_errors[name]) ?? [])
+	let errors = $derived([...input_errors, ...form_errors])
+	let error_text = $derived(errors[0] ?? null)
 	let error_visible = $derived(
 		error_hint === true ||
 		error_hint === 'always' ||
 		(error_hint === 'auto' && !!error_text)
-	);
+	)
 </script>
 
 <div

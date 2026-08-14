@@ -1,64 +1,64 @@
 <script lang="ts">
-	import { type ComponentProps, type Snippet } from 'svelte';
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
-	import { unique_id } from '../../unique_id.js';
-	import Button from '../Button.svelte';
-	import ClearIcon from '../icons/ClearIcon.svelte';
-	import Loading from '../Loading.svelte';
-	import Field from './Field.svelte';
+	import { type ComponentProps, type Snippet } from 'svelte'
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
+	import { unique_id } from '../../unique_id.js'
+	import Button from '../Button.svelte'
+	import ClearIcon from '../icons/ClearIcon.svelte'
+	import Loading from '../Loading.svelte'
+	import Field from './Field.svelte'
 
 	type FieldProps = ComponentProps<typeof Field>;
 
 	interface TextField {
-		aria_activedescendant?: HTMLInputAttributes['aria-activedescendant'];
-		aria_autocomplete?: HTMLInputAttributes['aria-autocomplete'];
-		aria_controls?: HTMLInputAttributes['aria-controls'];
-		aria_expanded?: HTMLInputAttributes['aria-expanded'];
-		aria_haspopup?: HTMLInputAttributes['aria-haspopup'];
-		autocomplete?: HTMLInputAttributes['autocomplete'];
-		autofocus?: HTMLInputAttributes['autofocus'];
-		class?: ClassValue;
-		can_clear?: boolean;
-		content_element?: HTMLElement | undefined;
-		field_element?: HTMLElement | undefined;
-		disabled?: boolean;
-		focused?: boolean;
-		input_class?: ClassValue;
-		input_element?: HTMLInputElement;
-		inputmode?: HTMLInputAttributes['inputmode'];
-		list?: HTMLInputAttributes['list'];
-		loading?: boolean;
-		min?: HTMLInputAttributes['min'];
-		max?: HTMLInputAttributes['max'];
-		name?: string;
-		pattern?: HTMLInputAttributes['pattern'];
-		placeholder?: HTMLInputAttributes['placeholder'];
-		role?: HTMLInputAttributes['role'];
-		readonly?: boolean;
-		required?: boolean;
-		title?: HTMLInputAttributes['title'];
-		type?: HTMLInputAttributes['type'];
-		value?: string | null;
+		aria_activedescendant?: HTMLInputAttributes['aria-activedescendant']
+		aria_autocomplete?: HTMLInputAttributes['aria-autocomplete']
+		aria_controls?: HTMLInputAttributes['aria-controls']
+		aria_expanded?: HTMLInputAttributes['aria-expanded']
+		aria_haspopup?: HTMLInputAttributes['aria-haspopup']
+		autocomplete?: HTMLInputAttributes['autocomplete']
+		autofocus?: HTMLInputAttributes['autofocus']
+		class?: ClassValue
+		can_clear?: boolean
+		content_element?: HTMLElement | undefined
+		field_element?: HTMLElement | undefined
+		disabled?: boolean
+		focused?: boolean
+		input_class?: ClassValue
+		input_element?: HTMLInputElement
+		inputmode?: HTMLInputAttributes['inputmode']
+		list?: HTMLInputAttributes['list']
+		loading?: boolean
+		min?: HTMLInputAttributes['min']
+		max?: HTMLInputAttributes['max']
+		name?: string
+		pattern?: HTMLInputAttributes['pattern']
+		placeholder?: HTMLInputAttributes['placeholder']
+		role?: HTMLInputAttributes['role']
+		readonly?: boolean
+		required?: boolean
+		title?: HTMLInputAttributes['title']
+		type?: HTMLInputAttributes['type']
+		value?: string | null
 
-		error_hint?: FieldProps['error_hint'];
-		errors?: FieldProps['errors'];
-		id?: FieldProps['id'];
-		label?: FieldProps['label'];
+		error_hint?: FieldProps['error_hint']
+		errors?: FieldProps['errors']
+		id?: FieldProps['id']
+		label?: FieldProps['label']
 
-		onclick?: HTMLInputAttributes['onclick'];
-		onkeydown?: HTMLInputAttributes['onkeydown'];
-		oninput?: HTMLInputAttributes['oninput'];
-		onpaste?: HTMLInputAttributes['onpaste'];
-		onselectionchange?: HTMLInputAttributes['onselectionchange'];
-		on_clear?: () => void;
-		on_focus_in?: () => void;
-		on_focus_out?: () => void;
+		onclick?: HTMLInputAttributes['onclick']
+		onkeydown?: HTMLInputAttributes['onkeydown']
+		oninput?: HTMLInputAttributes['oninput']
+		onpaste?: HTMLInputAttributes['onpaste']
+		onselectionchange?: HTMLInputAttributes['onselectionchange']
+		on_clear?: () => void
+		on_focus_in?: () => void
+		on_focus_out?: () => void
 
-		children?: Snippet;
-		prefix?: Snippet;
-		prefix_icon?: Snippet;
-		suffix?: Snippet;
-		suffix_icon?: Snippet;
+		children?: Snippet
+		prefix?: Snippet
+		prefix_icon?: Snippet
+		suffix?: Snippet
+		suffix_icon?: Snippet
 	}
 
 	let {
@@ -112,7 +112,7 @@
 		suffix_icon,
 
 		...attachments
-	}: TextField = $props();
+	}: TextField = $props()
 
 	export function blur() {
 		input_element?.blur()
@@ -122,8 +122,8 @@
 		input_element?.focus()
 	}
 
-	let children_element = $state<HTMLElement>();
-	let clear_element = $state<HTMLElement>();
+	let children_element = $state<HTMLElement>()
+	let clear_element = $state<HTMLElement>()
 </script>
 
 <Field
@@ -202,27 +202,27 @@
 		{onselectionchange}
 		onfocusin={() => {
 			if (focused)
-				return;
+				return
 
 			focused = true
-			on_focus_in?.();
+			on_focus_in?.()
 		}}
 		onfocusout={event => {
-			const { relatedTarget } = event;
+			const { relatedTarget } = event
 			const child_focused =
 				relatedTarget instanceof Element &&
 				(
 					relatedTarget === clear_element ||
 					children_element?.contains(relatedTarget)
-				);
+				)
 
 			if (child_focused) {
 				// Reset focus to input element
-				focus();
+				focus()
 			}
 			else if (focused) {
-				focused = false;
-				on_focus_out?.();
+				focused = false
+				on_focus_out?.()
 			}
 		}}
 	>
@@ -242,8 +242,8 @@
 			rounded={false}
 			onclick={() => {
 				// Make sure both bound value and input value is updated before calling callback
-				value = input_element!.value = '';
-				on_clear?.();
+				value = input_element!.value = ''
+				on_clear?.()
 			}}
 		>
 			{#snippet icon()}

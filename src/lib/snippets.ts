@@ -1,4 +1,4 @@
-import type { Component, Snippet } from 'svelte';
+import type { Component, Snippet } from 'svelte'
 
 export function is_component(
 	value: Snippet | Component
@@ -6,7 +6,7 @@ export function is_component(
 	return (
 		typeof value === 'function' &&
 		value.name !== 'snippet'
-	);
+	)
 }
 
 export function is_snippet<T extends unknown[]>(
@@ -15,5 +15,5 @@ export function is_snippet<T extends unknown[]>(
 	return (
 		typeof value === 'function' &&
 		value.name === 'snippet'
-	);
+	)
 }

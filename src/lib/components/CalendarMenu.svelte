@@ -1,51 +1,51 @@
 <script lang="ts">
-	import type { ElementReference } from '$lib/html.js';
-	import type { DateOnly, Period } from '@tobper/eon';
-	import type { ClassValue } from 'svelte/elements';
-	import { unique_id } from '../unique_id.js';
-	import { anchor } from './anchor.js';
-	import Calendar from './Calendar.svelte';
-	import EventHandler from './EventHandler.svelte';
-	import { popover } from './popover.js';
+	import type { ElementReference } from '$lib/html.js'
+	import type { DateOnly, Period } from '@tobper/eon'
+	import type { ClassValue } from 'svelte/elements'
+	import { unique_id } from '../unique_id.js'
+	import { anchor } from './anchor.js'
+	import Calendar from './Calendar.svelte'
+	import EventHandler from './EventHandler.svelte'
+	import { popover } from './popover.js'
 
 	interface CalendarMenu {
 		/**
 		 * Id of the currently activated date.
 		 * Used to set active descendant in parent controls.
 		 */
-		active_item_id?: string | null;
+		active_item_id?: string | null
 		/**
 		 * The reference to the element that is controlling the calendar.
 		 */
-		anchored_to?: ElementReference;
-		calendar?: ReturnType<typeof Calendar>,
-		calendar_id?: string;
+		anchored_to?: ElementReference
+		calendar?: ReturnType<typeof Calendar>
+		calendar_id?: string
 		/**
 		 * Class to apply to the menu element.
 		 */
-		class?: ClassValue;
+		class?: ClassValue
 		/**
 		 * The reference to the element that is controlling the calendar.
 		 */
-		controlled_by: ElementReference;
+		controlled_by: ElementReference
 		/**
 		 * The currently selected date.
 		 */
-		date?: DateOnly | null;
+		date?: DateOnly | null
 		/**
 		 * The element id of the menu.
 		 */
-		id?: string;
-		modal?: boolean;
+		id?: string
+		modal?: boolean
 		/**
 		 * The period currently being displayed.
 		 */
-		period?: Period | null;
-		visible?: boolean;
+		period?: Period | null
+		visible?: boolean
 		/**
 		 * Callback is called when a date is selected.
 		 */
-		 on_select?: (new_date: DateOnly) => void;
+		 on_select?: (new_date: DateOnly) => void
 	}
 
 	let {
@@ -62,7 +62,7 @@
 		visible = $bindable(false),
 
 		on_select,
-	}: CalendarMenu = $props();
+	}: CalendarMenu = $props()
 </script>
 
 <div
@@ -91,8 +91,8 @@
 			{period}
 			controlled_by={visible ? controlled_by : undefined}
 			on_select={new_date => {
-				visible = false;
-				on_select?.(new_date);
+				visible = false
+				on_select?.(new_date)
 			}}
 		/>
 	</div>
@@ -105,21 +105,21 @@
 			case 'ArrowDown':
 			case 'ArrowUp':
 				if (!visible) {
-					event.preventDefault();
-					visible = true;
+					event.preventDefault()
+					visible = true
 				}
-				break;
+				break
 
 			case 'Enter':
 				if (visible && calendar?.select_active_date())
-					event.preventDefault();
-				break;
+					event.preventDefault()
+				break
 
 
 			case 'Escape':
-				event.preventDefault();
-				visible = false;
-				break;
+				event.preventDefault()
+				visible = false
+				break
 		}
 	}}
 />

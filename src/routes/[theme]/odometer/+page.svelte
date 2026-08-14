@@ -1,23 +1,23 @@
 <script lang="ts">
-	import Stack from '$lib/components/Stack.svelte';
-	import { Button, Card, CardContent, Odometer, PageContent } from '$lib/index.js';
+	import Stack from '$lib/components/Stack.svelte'
+	import { Button, Card, CardContent, Odometer, PageContent } from '$lib/index.js'
 
-	const get_number = () => (Math.random() * 10000) - 5000;
-	const get_time = () => new Date();
+	const get_number = () => (Math.random() * 10000) - 5000
+	const get_time = () => new Date()
 
 	const format_currency = (value: number) =>
-		value.toLocaleString('sv', { currency: 'SEK', style: 'currency', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+		value.toLocaleString('sv', { currency: 'SEK', style: 'currency', minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 	const format_time = (value: Date) =>
-		value.toLocaleTimeString('sv', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+		value.toLocaleTimeString('sv', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
-	let number = $state(get_number());
-	let time = $state(get_time());
+	let number = $state(get_number())
+	let time = $state(get_time())
 
 	$effect(() => {
-		const interval = setInterval(() => time = get_time(), 1000);
-		return () => clearInterval(interval);
-	});
+		const interval = setInterval(() => time = get_time(), 1000)
+		return () => clearInterval(interval)
+	})
 </script>
 
 <PageContent header="Odometer">

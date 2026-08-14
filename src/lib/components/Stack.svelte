@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { reactive_value, type ReactiveBoolean } from '$lib/reactivity.svelte';
-	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
+	import { reactive_value, type ReactiveBoolean } from '$lib/reactivity.svelte'
+	import type { Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
 
 	interface Stack {
-		children: Snippet;
-		class?: ClassValue;
-		align?: 'start' | 'end' | 'center' | 'stretch';
-		justify?: 'start' | 'end' | 'center' | 'spread' | 'stretch';
+		children: Snippet
+		class?: ClassValue
+		align?: 'start' | 'end' | 'center' | 'stretch'
+		justify?: 'start' | 'end' | 'center' | 'spread' | 'stretch'
 		gap?: boolean | 'none' |  'tiny' | 'small' | 'medium' | 'default' | 'large'
-		horizontal?: ReactiveBoolean;
-		reversed?: ReactiveBoolean;
-		wrap?: ReactiveBoolean;
+		horizontal?: ReactiveBoolean
+		reversed?: ReactiveBoolean
+		wrap?: ReactiveBoolean
 	}
 
 	let {
@@ -23,7 +23,7 @@
 		horizontal = false,
 		reversed = false,
 		wrap = false,
-	}: Stack = $props();
+	}: Stack = $props()
 </script>
 
 <div class={['stack', element_class, {

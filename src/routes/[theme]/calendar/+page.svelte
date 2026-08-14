@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Calendar, Card, CardContent, PageContent } from '$lib/index.js';
-	import { get_date_only_text } from '@tobper/eon';
+	import { Calendar, Card, CardContent, PageContent } from '$lib/index.js'
+	import { get_date_only_text } from '@tobper/eon'
 
-	let date = $state(null);
+	let date = $state(null)
 </script>
 
 <PageContent header="Calendar">

@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { Component, Snippet } from 'svelte';
-	import Kbd from './Kbd.svelte';
-	import { is_snippet } from '$lib/snippets';
+	import type { Component, Snippet } from 'svelte'
+	import Kbd from './Kbd.svelte'
+	import { is_snippet } from '$lib/snippets'
 
 	export interface ListItemContentProps {
 		/** Icon displayed left of the content */
-		icon?: Component | Snippet;
+		icon?: Component | Snippet
 		/** Text for list item */
-		label: string;
+		label: string
 		/** Keyboard shortcut for action */
-		kbd?: string | string[];
+		kbd?: string | string[]
 		/** Content displayed under the text */
-		details?: Component | Snippet | string;
+		details?: Component | Snippet | string
 		/** Content displayed under the text */
-		children?: Snippet;
+		children?: Snippet
 	}
 
 	let {
@@ -22,7 +22,7 @@
 		kbd,
 		details,
 		children,
-	}: ListItemContentProps = $props();
+	}: ListItemContentProps = $props()
 </script>
 
 <div class="list-item__content">

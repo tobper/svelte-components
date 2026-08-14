@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { ClassValue } from 'svelte/elements';
+	import type { ClassValue } from 'svelte/elements'
 
 	interface ListItemSeparator {
-		class?: ClassValue;
-		indent?: number;
+		class?: ClassValue
+		indent?: number
 	}
 
 	let {
 		class: class_name,
 		indent,
 		...attachments
-	}: ListItemSeparator = $props();
+	}: ListItemSeparator = $props()
 </script>
 
 <li

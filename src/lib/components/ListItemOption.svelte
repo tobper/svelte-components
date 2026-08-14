@@ -1,27 +1,27 @@
 <script lang="ts">
-	import { getTransition, type TransitionValue } from '$lib/animations.js';
-	import { on_hover } from '$lib/attachments/on_hover.js';
-	import { on } from '$lib/html.js';
-	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-	import { unique_id } from '../unique_id.js';
-	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte';
-	import { get_list_context } from './list_context.js';
+	import { getTransition, type TransitionValue } from '$lib/animations.js'
+	import { on_hover } from '$lib/attachments/on_hover.js'
+	import { on } from '$lib/html.js'
+	import type { Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
+	import { unique_id } from '../unique_id.js'
+	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte'
+	import { get_list_context } from './list_context.js'
 
 	interface ListItemOption extends ListItemContentProps {
-		id?: string;
-		class?: ClassValue;
-		indent?: number;
-		content?: Snippet;
-		contrast?: boolean;
-		current?: boolean;
-		disabled?: boolean;
-		selected?: boolean;
-		transition?: TransitionValue;
+		id?: string
+		class?: ClassValue
+		indent?: number
+		content?: Snippet
+		contrast?: boolean
+		current?: boolean
+		disabled?: boolean
+		selected?: boolean
+		transition?: TransitionValue
 
-		on_activate?: () => void;
-		on_deactivate?: () => void;
-		on_select?: () => void;
+		on_activate?: () => void
+		on_deactivate?: () => void
+		on_select?: () => void
 	}
 
 	let {
@@ -46,9 +46,9 @@
 		children,
 
 		...attachments
-	}: ListItemOption = $props();
-	let list = get_list_context();
-	let transition = $derived(getTransition(transition_input));
+	}: ListItemOption = $props()
+	let list = get_list_context()
+	let transition = $derived(getTransition(transition_input))
 </script>
 
 <li

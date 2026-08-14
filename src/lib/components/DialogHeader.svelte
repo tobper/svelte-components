@@ -1,9 +1,9 @@
 <script lang="ts">
 	interface DialogHeader {
-		text: string;
+		text: string
 	}
 
-	let { text }: DialogHeader = $props();
+	let { text }: DialogHeader = $props()
 </script>
 
 <header class="dialog-header">

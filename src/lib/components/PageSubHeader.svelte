@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { type Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
+	import { type Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
 
 	interface PageHeader {
-		class?: ClassValue;
-		emphasis?: boolean;
-		text?: string;
-		sub_text?: string;
-		children?: Snippet;
+		class?: ClassValue
+		emphasis?: boolean
+		text?: string
+		sub_text?: string
+		children?: Snippet
 	}
 
 	let {
@@ -16,7 +16,7 @@
 		text,
 		sub_text,
 		children,
-	}: PageHeader = $props();
+	}: PageHeader = $props()
 </script>
 
 <header class={['page-sub-header', header_class, { 'variant-secondary': emphasis }]}>

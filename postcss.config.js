@@ -1,8 +1,8 @@
-import autoprefixer from 'autoprefixer';
+import autoprefixer from 'autoprefixer'
 
 /** @type {import('postcss-load-config').Config} */
 const config = {
 	plugins: [autoprefixer]
-};
+}
 
-export default config;
+export default config

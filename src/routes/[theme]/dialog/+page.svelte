@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { Button, Card, CardContent, device, Dialog, DialogContent, PageContent, TextField } from '$lib/index.js';
-	import { lorem } from '../data.js';
+	import { Button, Card, CardContent, device, Dialog, DialogContent, PageContent, TextField } from '$lib/index.js'
+	import { lorem } from '../data.js'
 
-	let visible = $state(false);
+	let visible = $state(false)
 	let key_pressed = $state<string>()
 </script>
 
 <svelte:window
 	onkeydown={e => {
-		key_pressed = e.key;
+		key_pressed = e.key
 	}}
 />
 
 <PageContent header="Dialog">
 	<Card>
 		<CardContent>
-			<Button type="outlined" text="Open" onclick={() => { visible = true; }} />
+			<Button type="outlined" text="Open" onclick={() => { visible = true }} />
 		</CardContent>
 		<CardContent>
 			<output>

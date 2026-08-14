@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-	import CardHeader from './CardHeader.svelte';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
+	import CardHeader from './CardHeader.svelte'
 
 	interface CardContent {
-		children: Snippet;
-		class?: ClassValue;
-		horizontal?: boolean;
-		header?: string;
-		fill?: boolean;
+		children: Snippet
+		class?: ClassValue
+		horizontal?: boolean
+		header?: string
+		fill?: boolean
 	}
 
 	let {
@@ -17,7 +17,7 @@
 		horizontal = false,
 		header,
 		fill = false,
-	}: CardContent = $props();
+	}: CardContent = $props()
 </script>
 
 {#if header}

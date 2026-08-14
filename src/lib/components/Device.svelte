@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import { device } from '../device.js';
+	import type { Snippet } from 'svelte'
+	import { device } from '../device.js'
 
 	interface Device {
-		children: Snippet;
-		mobile?: boolean;
-		tablet?: boolean;
-		desktop?: boolean;
-		landscape?: boolean;
-		portrait?: boolean;
-		mouse?: boolean;
-		touch?: boolean;
+		children: Snippet
+		mobile?: boolean
+		tablet?: boolean
+		desktop?: boolean
+		landscape?: boolean
+		portrait?: boolean
+		mouse?: boolean
+		touch?: boolean
 	}
 
 	let {
@@ -22,7 +22,7 @@
 		portrait,
 		mouse,
 		touch,
-	}: Device = $props();
+	}: Device = $props()
 
 	let visible = $derived(
 		(mobile === undefined || mobile === device.mobile) &&
@@ -32,7 +32,7 @@
 		(touch === undefined || touch === device.touch) &&
 		(landscape === undefined || landscape === device.landscape) &&
 		(portrait === undefined || portrait === device.portrait)
-	);
+	)
 </script>
 
 {#if visible}

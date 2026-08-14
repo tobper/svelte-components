@@ -1,4 +1,4 @@
-import { slide, type SlideParams } from 'svelte/transition';
+import { slide, type SlideParams } from 'svelte/transition'
 
 export function slide_fast(
 	node: Element,

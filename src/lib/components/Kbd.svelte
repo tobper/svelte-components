@@ -17,8 +17,8 @@
 		key: Key | Key[]
 	}
 
-	let { key: keys }: KbdProps = $props();
-	let mac = navigator.userAgent.includes('Mac OS');
+	let { key: keys }: KbdProps = $props()
+	let mac = navigator.userAgent.includes('Mac OS')
 </script>
 
 <kbd class="kbd">

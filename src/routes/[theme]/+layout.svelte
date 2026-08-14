@@ -1,22 +1,22 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-	import { page } from '$app/state';
-	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js';
-	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte-runes';
-	import { type LayoutRouteId } from './$types.js';
-	import { nav_items } from './data.js';
-	import { create_scheme_context } from './theme_context.svelte.js';
+	import { resolve } from '$app/paths'
+	import { page } from '$app/state'
+	import { Device, device, Layout, ListItemLink, SidebarToggleButton, Theme, ToggleButton, type Scheme } from '$lib/index.js'
+	import { IconAppWindow, IconBrandGithub, IconMenu2, IconMoon, IconSun, IconX } from '@tabler/icons-svelte-runes'
+	import { type LayoutRouteId } from './$types.js'
+	import { nav_items } from './data.js'
+	import { create_scheme_context } from './theme_context.svelte.js'
 
-	let { children, data } = $props();
-	let { theme: current_theme } = $derived(data);
+	let { children, data } = $props()
+	let { theme: current_theme } = $derived(data)
 
 	const available_themes = [
 		{ name: 'lines', text: 'Lines' },
 		{ name: 'neomorphism', text: 'Neomorphism' },
-	];
+	]
 	const scheme = create_scheme_context()
 
-	let header_and_footer_visible = $derived(!device.mobile || device.portrait);
+	let header_and_footer_visible = $derived(!device.mobile || device.portrait)
 </script>
 
 <!-- <ElementClickOnMouseDown /> -->

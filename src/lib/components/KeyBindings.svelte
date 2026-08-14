@@ -29,14 +29,14 @@
 				.entries<KeyBinding | undefined>(mapping)
 				.map(([command_name, binding]) => {
 					if (!binding)
-						return;
+						return
 
-					const command = commands[command_name as CommandName];
+					const command = commands[command_name as CommandName]
 					if (!command)
-						return;
+						return
 
-					const [key, ...modifiers] = Array.isArray(binding) ? binding : [binding];
-					const { run, valid = () => true } = command;
+					const [key, ...modifiers] = Array.isArray(binding) ? binding : [binding]
+					const { run, valid = () => true } = command
 
 					return {
 						key,
@@ -48,7 +48,7 @@
 						},
 						run,
 						valid,
-					};
+					}
 				})
 				.filter(binding => !!binding),
 			binding => binding.key
@@ -67,7 +67,7 @@
 			)
 
 		if (command) {
-			event.preventDefault();
+			event.preventDefault()
 			command.run(context)
 		}
 	}
@@ -77,13 +77,13 @@
 	onkeydown={event => {
 		// Keyboard events using meta key does not trigger keypress so catch them in 'down' instead
 		if (event.metaKey)
-			handle(event);
+			handle(event)
 	}}
 	onkeypress={event => {
 		// Commands are not triggered when no modifier is used and focus is in an input
 		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && document.querySelector('input:focus'))
-			return;
+			return
 
-		handle(event);
+		handle(event)
 	}}
 />

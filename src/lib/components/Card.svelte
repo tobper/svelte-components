@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-	import CardContent from './CardContent.svelte';
-	import CardFooter from './CardFooter.svelte';
-	import CardHeader from './CardHeader.svelte';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
+	import CardContent from './CardContent.svelte'
+	import CardFooter from './CardFooter.svelte'
+	import CardHeader from './CardHeader.svelte'
 
 	interface Card {
-		class?: ClassValue;
-		header?: string;
-		children?: Snippet;
-		content?: Snippet;
-		footer?: Snippet;
+		class?: ClassValue
+		header?: string
+		children?: Snippet
+		content?: Snippet
+		footer?: Snippet
 	}
 
 	let {
@@ -19,7 +19,7 @@
 		children,
 		content,
 		footer,
-	}: Card = $props();
+	}: Card = $props()
 </script>
 
 <div class={['card', card_class]}>

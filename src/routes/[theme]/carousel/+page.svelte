@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Button, Card, CardContent, Carousel, CheckboxField, device, Dialog, mappedTextNumber, PageContent, Stack, TextField, variants } from '$lib/index.js';
-	import { fruits } from '../data.js';
+	import { Button, Card, CardContent, Carousel, CheckboxField, device, Dialog, mappedTextNumber, PageContent, Stack, TextField, variants } from '$lib/index.js'
+	import { fruits } from '../data.js'
 
-	let dialog_visible = $state(false);
-	let markers = $state(true);
-	let page_count = mappedTextNumber(5);
-	let visible_page = mappedTextNumber(2);
+	let dialog_visible = $state(false)
+	let markers = $state(true)
+	let page_count = mappedTextNumber(5)
+	let visible_page = mappedTextNumber(2)
 
 	const pages = $derived(
 		fruits.slice(0, Math.min(9, page_count.current))
@@ -45,7 +45,7 @@
 		</CardContent>
 		{@render carousel()}
 		<CardContent>
-			<Button type="outlined" text="Open dialog" onclick={() => { dialog_visible = true; }} />
+			<Button type="outlined" text="Open dialog" onclick={() => { dialog_visible = true }} />
 		</CardContent>
 	</Card>
 </PageContent>

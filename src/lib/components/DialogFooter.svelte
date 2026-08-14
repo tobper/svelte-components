@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import type { Snippet } from 'svelte'
 
 	interface DialogFooter {
-		children: Snippet;
+		children: Snippet
 	}
 
-	let { children }: DialogFooter = $props();
+	let { children }: DialogFooter = $props()
 </script>
 
 <footer class="dialog-footer">

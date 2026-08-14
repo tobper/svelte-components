@@ -1,24 +1,24 @@
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import Checkbox from './Checkbox.svelte';
-	import Field from './Field.svelte';
+	import type { ComponentProps } from 'svelte'
+	import Checkbox from './Checkbox.svelte'
+	import Field from './Field.svelte'
 
-	type CheckboxProps = ComponentProps<typeof Checkbox>;
-	type FieldProps = ComponentProps<typeof Field>;
+	type CheckboxProps = ComponentProps<typeof Checkbox>
+	type FieldProps = ComponentProps<typeof Field>
 
 	interface CheckboxField {
-		field_element?: HTMLElement | undefined;
+		field_element?: HTMLElement | undefined
 
-		class?: FieldProps['class'];
-		error_hint?: FieldProps['error_hint'];
-		id?: FieldProps['id'];
-		label?: FieldProps['label'];
-		name?: FieldProps['name'];
+		class?: FieldProps['class']
+		error_hint?: FieldProps['error_hint']
+		id?: FieldProps['id']
+		label?: FieldProps['label']
+		name?: FieldProps['name']
 
-		checked?: CheckboxProps['checked'];
-		disabled?: CheckboxProps['disabled'];
-		indeterminate?: CheckboxProps['indeterminate'];
-		readonly?: CheckboxProps['readonly'];
+		checked?: CheckboxProps['checked']
+		disabled?: CheckboxProps['disabled']
+		indeterminate?: CheckboxProps['indeterminate']
+		readonly?: CheckboxProps['readonly']
 	}
 
 	let {
@@ -32,7 +32,7 @@
 		name,
 		readonly,
 		...checkbox_props
-	}: CheckboxField = $props();
+	}: CheckboxField = $props()
 </script>
 
 <Field

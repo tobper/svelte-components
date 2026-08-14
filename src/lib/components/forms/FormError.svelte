@@ -1,19 +1,19 @@
 <script lang="ts">
-	import { get_form_context } from './form_context.svelte';
+	import { get_form_context } from './form_context.svelte'
 
 	interface FormError {
-		fields?: string[];
+		fields?: string[]
 	}
 
 	let {
 		fields = []
-	}: FormError = $props();
+	}: FormError = $props()
 
-	const form = get_form_context();
-	let { error_message } = $derived(form);
+	const form = get_form_context()
+	let { error_message } = $derived(form)
 	let field_errors = $derived(
 		fields.flatMap(field => form.field_errors[field] ?? [])
-	);
+	)
 </script>
 
 {#if fields.length}

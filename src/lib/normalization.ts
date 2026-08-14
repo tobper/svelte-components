@@ -1,7 +1,7 @@
 export interface Lookup<T> {
-	clear(): void;
-	add(...values: T[]): void;
-	remove(value: T): void;
+	clear(): void
+	add(...values: T[]): void
+	remove(value: T): void
 	find(query: unknown): T | null
 	find_all(query: unknown): T[]
 }
@@ -29,117 +29,117 @@ export function create_normalized_lookup<T>(
 	values: Iterable<T>,
 	comparison_projection: (value: T) => unknown = value => value
 ): Lookup<T> {
-	const normalized_values = new Map<T, string>();
+	const normalized_values = new Map<T, string>()
 
 	for (const value of values)
-		add(value);
+		add(value)
 
-	return { clear, add, remove, find, find_all };
+	return { clear, add, remove, find, find_all }
 
 	function clear() {
-		normalized_values.clear();
+		normalized_values.clear()
 	}
 
 	function add(...values: T[]) {
 		for (const value of values)
-			normalized_values.set(value, normalize(comparison_projection(value)));
+			normalized_values.set(value, normalize(comparison_projection(value)))
 	}
 
 	function remove(value: T) {
-		normalized_values.delete(value);
+		normalized_values.delete(value)
 	}
 
 	function find(query: unknown) {
-		const matcher = get_matcher(query);
+		const matcher = get_matcher(query)
 		if (!matcher)
-			return null;
+			return null
 
-		let match: ({ value: T; normalized_value: string; rank: number; }) | undefined = undefined;
+		let match: ({ value: T; normalized_value: string; rank: number }) | undefined = undefined
 
 		for (const [value, normalized_value] of normalized_values.entries()) {
-			const { matches, rank } = matcher(normalized_value);
+			const { matches, rank } = matcher(normalized_value)
 			if (!matches)
-				continue;
+				continue
 
 			if (match && compare(match, { rank, normalized_value }) <= 0)
-				continue;
+				continue
 
-			match = { value, normalized_value, rank };
+			match = { value, normalized_value, rank }
 		}
 
 		return match
 			? match.value
-			: null;
+			: null
 	}
 
 	function find_all(query: unknown) {
-		const matcher = get_matcher(query);
+		const matcher = get_matcher(query)
 		if (!matcher)
-			return [];
+			return []
 
-		const matched_values: { value: T; normalized_value: string; rank: number; }[] = [];
+		const matched_values: { value: T; normalized_value: string; rank: number }[] = []
 
 		for (const [value, normalized_value] of normalized_values.entries()) {
-			const { matches, rank } = matcher(normalized_value);
+			const { matches, rank } = matcher(normalized_value)
 			if (!matches)
-				continue;
+				continue
 
-			matched_values.push({ value, normalized_value, rank });
+			matched_values.push({ value, normalized_value, rank })
 		}
 
 		return matched_values
 			.sort(compare)
-			.map(({ value }) => value);
+			.map(({ value }) => value)
 	}
 
 	function compare(
-		a: { rank: number; normalized_value: string; },
-		b: { rank: number; normalized_value: string; }
+		a: { rank: number; normalized_value: string },
+		b: { rank: number; normalized_value: string }
 	): number {
 		if (a.rank !== b.rank)
-			return a.rank - b.rank;
+			return a.rank - b.rank
 
 		if (a.normalized_value.length !== b.normalized_value.length)
-			return a.normalized_value.length - b.normalized_value.length;
+			return a.normalized_value.length - b.normalized_value.length
 
 		if (a.normalized_value < b.normalized_value)
-			return -1;
+			return -1
 
 		if (a.normalized_value > b.normalized_value)
-			return 1;
+			return 1
 
-		return 0;
+		return 0
 	}
 
 	function get_matcher(query: unknown): Matcher | null {
-		const normalized_query = normalize(query);
+		const normalized_query = normalize(query)
 		if (!normalized_query)
-			return null;
+			return null
 
-		const query_fragments = normalized_query.split(' ');
+		const query_fragments = normalized_query.split(' ')
 
 		const starts_with_query =
-			(item_value: string) => item_value.startsWith(normalized_query);
+			(item_value: string) => item_value.startsWith(normalized_query)
 
 		const contains_query =
-			(item_value: string) => query_fragments.every(query_fragment => item_value.indexOf(query_fragment) !== -1);
+			(item_value: string) => query_fragments.every(query_fragment => item_value.indexOf(query_fragment) !== -1)
 
 		return function matches(item_value: string) {
 			const rank =
 				starts_with_query(item_value) ? 1 :
 					contains_query(item_value) ? 2 :
-						undefined;
+						undefined
 
 			return rank
 				? { matches: true, rank }
-				: { matches: false, rank: undefined };
-		};
+				: { matches: false, rank: undefined }
+		}
 	}
 }
 
 type Matcher = (query: string) =>
-	| { matches: true; rank: number; }
-	| { matches: false; rank: undefined; };
+	| { matches: true; rank: number }
+	| { matches: false; rank: undefined };
 
 /**
  * Normalize a value by trimming and removing diacritics and unnecessary whitespace.
@@ -152,27 +152,27 @@ type Matcher = (query: string) =>
  */
 export function normalize(value: unknown): string {
 	if (value == null)
-		return '';
+		return ''
 
 	return flatten(value)
 		.toLowerCase()
 		.normalize('NFD')
 		.replace(/[\u0300-\u036f]/g, '') // Remove diacritics
 		.replace(/\W+/g, ' ') // Remove unnecessary whitespace
-		.trim();
+		.trim()
 
 	function flatten(value: unknown, visited = new Set()): string {
 		if (value == null || visited.has(value))
-			return '';
+			return ''
 
-		visited.add(value);
+		visited.add(value)
 
 		if (typeof value !== 'object')
-			return value.toString();
+			return value.toString()
 
 		return Object
 			.values(value)
 			.map(childValue => flatten(childValue, visited))
-			.join(' ');
+			.join(' ')
 	}
 }

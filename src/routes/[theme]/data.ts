@@ -1,5 +1,5 @@
-import { create_normalized_lookup, seconds } from '$lib';
-import { IconAlignJustified, IconAppWindow, IconCalendar, IconCarouselHorizontal, IconForms, IconKeyboard, IconList, IconMenu, IconMessage, IconPalette, IconRectangle, IconSortAscendingNumbers, IconTable, IconTypography } from '@tabler/icons-svelte-runes';
+import { create_normalized_lookup, seconds } from '$lib'
+import { IconAlignJustified, IconAppWindow, IconCalendar, IconCarouselHorizontal, IconForms, IconKeyboard, IconList, IconMenu, IconMessage, IconPalette, IconRectangle, IconSortAscendingNumbers, IconTable, IconTypography } from '@tabler/icons-svelte-runes'
 
 export const nav_items = [
 	[IconTypography, 'Typography', ''],
@@ -16,7 +16,7 @@ export const nav_items = [
 	[IconSortAscendingNumbers, 'Odometer', '/odometer'],
 	[IconAlignJustified, 'Page content', '/page-content'],
 	[IconTable, 'Table', '/table'],
-] as const;
+] as const
 
 export const fruits = [
 	'Apple',
@@ -43,7 +43,7 @@ export const fruits = [
 	'Pomegranate',
 	'Strawberry',
 	'Watermelon',
-];
+]
 
 export const vegetables = [
 	'Artichoke',
@@ -73,45 +73,45 @@ export const vegetables = [
 	'Green plantain',
 	'Horseradish',
 	'Kohlrabi',
-];
+]
 
 export const food = [
 	...fruits.map(name => ({ type: 'Fruit' as const, name })),
 	...vegetables.map(name => ({ type: 'Vegetable' as const, name })),
-];
+]
 
 export type Food = typeof food[number];
 
-const fruit_lookup = create_normalized_lookup(fruits);
+const fruit_lookup = create_normalized_lookup(fruits)
 
 export async function find_fruit(query: string) {
 	await new Promise(r => setTimeout(r, Math.random() * seconds(.25)))
 
-	return fruit_lookup.find_all(query);
+	return fruit_lookup.find_all(query)
 }
 
 export function get_food_heading(food: Pick<Food, 'type'>) {
-	return `${food.type}s`;
+	return `${food.type}s`
 }
 
 export function random<T>(items: T[], count: number): T[]
 export function random<T, U>(items: T[], count: number, map: (value: T) => U): U[]
 export function random<T, U>(items: T[], count: number, map?: (value: T) => U) {
 	if (count > items.length)
-		count = items.length;
+		count = items.length
 
-	const result = Array.from(items);
+	const result = Array.from(items)
 
 	for (let i = result.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
-		[result[i], result[j]] = [result[j], result[i]];
+		[result[i], result[j]] = [result[j], result[i]]
 	}
 
-	const slice = result.slice(0, count);
+	const slice = result.slice(0, count)
 
 	return map
 		? slice.map(map)
-		: slice;
+		: slice
 }
 
 

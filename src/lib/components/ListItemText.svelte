@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
 
 	interface ListItemText {
-		children?: Snippet;
-		class?: ClassValue;
-		indent?: number;
-		text?: string;
+		children?: Snippet
+		class?: ClassValue
+		indent?: number
+		text?: string
 	}
 
 	let {
@@ -15,7 +15,7 @@
 		indent,
 		text,
 		...attachments
-	}: ListItemText = $props();
+	}: ListItemText = $props()
 </script>
 
 <li

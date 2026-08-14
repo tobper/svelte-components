@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { ClassValue } from 'svelte/elements';
+	import type { ClassValue } from 'svelte/elements'
 
 	interface Loading {
-		class?: ClassValue;
-		small?: boolean;
-		large?: boolean;
-		visible?: boolean;
-		ball?: boolean;
-		bars?: boolean;
-		dots?: boolean;
-		ring?: boolean;
-		spinner?: boolean;
+		class?: ClassValue
+		small?: boolean
+		large?: boolean
+		visible?: boolean
+		ball?: boolean
+		bars?: boolean
+		dots?: boolean
+		ring?: boolean
+		spinner?: boolean
 	}
 
 	let {
@@ -23,7 +23,7 @@
 		ring = false,
 		spinner = false,
 		...props
-	}: Loading = $props();
+	}: Loading = $props()
 </script>
 
  <span

@@ -1,44 +1,44 @@
 <script lang="ts">
-	import { type ComponentProps, type Snippet } from 'svelte';
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
-	import Field from '../forms/Field.svelte';
-	import { unique_id } from '$lib/unique_id';
-	import { on } from '$lib/html';
-	import Button from '../Button.svelte';
-	import ClearIcon from '../icons/ClearIcon.svelte';
-	import Loading from '../Loading.svelte';
-	import type { RemoteFormField } from '@sveltejs/kit';
+	import { type ComponentProps, type Snippet } from 'svelte'
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
+	import Field from '../forms/Field.svelte'
+	import { unique_id } from '$lib/unique_id'
+	import { on } from '$lib/html'
+	import Button from '../Button.svelte'
+	import ClearIcon from '../icons/ClearIcon.svelte'
+	import Loading from '../Loading.svelte'
+	import type { RemoteFormField } from '@sveltejs/kit'
 
 	type FieldProps = ComponentProps<typeof Field>
 
 	interface TextFieldKit {
-		input?: HTMLInputAttributes;
-		class?: ClassValue;
-		can_clear?: boolean;
-		content_element?: HTMLElement | undefined;
-		field_element?: HTMLElement | undefined;
-		disabled?: boolean;
-		focused?: boolean;
-		input_element?: HTMLInputElement;
-		loading?: boolean;
-		readonly?: boolean;
-		required?: boolean;
+		input?: HTMLInputAttributes
+		class?: ClassValue
+		can_clear?: boolean
+		content_element?: HTMLElement | undefined
+		field_element?: HTMLElement | undefined
+		disabled?: boolean
+		focused?: boolean
+		input_element?: HTMLInputElement
+		loading?: boolean
+		readonly?: boolean
+		required?: boolean
 
 		field: RemoteFormField<string>
 
-		error_hint?: FieldProps['error_hint'];
-		id?: FieldProps['id'];
-		label?: FieldProps['label'];
+		error_hint?: FieldProps['error_hint']
+		id?: FieldProps['id']
+		label?: FieldProps['label']
 
-		on_clear?: () => void;
-		on_focus_in?: () => void;
-		on_focus_out?: () => void;
+		on_clear?: () => void
+		on_focus_in?: () => void
+		on_focus_out?: () => void
 
-		children?: Snippet;
-		prefix?: Snippet;
-		prefix_icon?: Snippet;
-		suffix?: Snippet;
-		suffix_icon?: Snippet;
+		children?: Snippet
+		prefix?: Snippet
+		prefix_icon?: Snippet
+		suffix?: Snippet
+		suffix_icon?: Snippet
 	}
 
 	let {
@@ -106,8 +106,8 @@
 		input_element?.focus()
 	}
 
-	let children_element = $state<HTMLElement>();
-	let clear_element = $state<HTMLElement>();
+	let children_element = $state<HTMLElement>()
+	let clear_element = $state<HTMLElement>()
 </script>
 
 <Field
@@ -188,7 +188,7 @@
 				// if (input_element)
 				// 	input_element.value = value;
 
-				on_clear?.();
+				on_clear?.()
 			}}
 		>
 			{#snippet icon()}

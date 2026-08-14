@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Button, Card, CardContent, List, ListItemHeading, ListItemOption, ListItemSeparator, ListItemText, on_resize, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js';
-	import { IconApple, IconCancel, IconCarrot, IconInfoCircle } from '@tabler/icons-svelte-runes';
-	import { food, fruits, get_food_heading, random } from '../data.js';
+	import { Button, Card, CardContent, List, ListItemHeading, ListItemOption, ListItemSeparator, ListItemText, on_resize, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js'
+	import { IconApple, IconCancel, IconCarrot, IconInfoCircle } from '@tabler/icons-svelte-runes'
+	import { food, fruits, get_food_heading, random } from '../data.js'
 
-	let selected_value = $state<string | null>(null);
+	let selected_value = $state<string | null>(null)
 	let transition = $state(true)
 	let transition_values = $state.raw(random(fruits, 3).toSorted())
 	let item_height_one_line = $state(0)
@@ -142,9 +142,9 @@
 						text="Add fruit"
 						type="outlined"
 					 	onclick={() => {
-							const available_fruits = fruits.filter(f => !transition_values.includes(f));
+							const available_fruits = fruits.filter(f => !transition_values.includes(f))
 							if (available_fruits.length === 0)
-								return;
+								return
 
 							const new_fruit = available_fruits[~~(available_fruits.length * Math.random())]
 							transition_values = transition_values.concat(new_fruit).toSorted()

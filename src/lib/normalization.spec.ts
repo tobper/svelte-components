@@ -1,147 +1,147 @@
-import { describe, expect, it } from 'vitest';
-import { create_normalized_lookup } from './normalization.js';
+import { describe, expect, it } from 'vitest'
+import { create_normalized_lookup } from './normalization.js'
 
 describe('create_normalized_lookup', () => {
 	it('supports iterables as input', () => {
 		function* source() {
-			yield 'Bob';
-			yield 'Jane';
-			yield 'John';
+			yield 'Bob'
+			yield 'Jane'
+			yield 'John'
 		}
 
-		const { find_all } = create_normalized_lookup(source());
+		const { find_all } = create_normalized_lookup(source())
 
-		expect(find_all('n')).toEqual(['Jane', 'John']);
-	});
+		expect(find_all('n')).toEqual(['Jane', 'John'])
+	})
 
 	describe('clear', () => {
 		it('returns null after lookup is cleared', () => {
-			const { clear, find } = create_normalized_lookup<string>(['Bob', 'John']);
+			const { clear, find } = create_normalized_lookup<string>(['Bob', 'John'])
 
-			clear();
+			clear()
 
-			expect(find('o')).toEqual(null);
-		});
-	});
+			expect(find('o')).toEqual(null)
+		})
+	})
 
 	describe('add', () => {
 		it('returns null before a matching value has been added', () => {
-			const { add, find } = create_normalized_lookup<string>([]);
+			const { add, find } = create_normalized_lookup<string>([])
 
-			const before = find('o');
-			add('Bob');
-			const after = find('o');
+			const before = find('o')
+			add('Bob')
+			const after = find('o')
 
-			expect(before).toEqual(null);
-			expect(after).toEqual('Bob');
-		});
-	});
+			expect(before).toEqual(null)
+			expect(after).toEqual('Bob')
+		})
+	})
 
 	describe('remove', () => {
 		it('returns null after a value has been removed', () => {
-			const { remove, find } = create_normalized_lookup<string>(['Bob']);
+			const { remove, find } = create_normalized_lookup<string>(['Bob'])
 
-			const before = find('o');
-			remove('Bob');
-			const after = find('o');
+			const before = find('o')
+			remove('Bob')
+			const after = find('o')
 
-			expect(before).toEqual('Bob');
-			expect(after).toEqual(null);
-		});
-	});
+			expect(before).toEqual('Bob')
+			expect(after).toEqual(null)
+		})
+	})
 
 	describe('find', () => {
 		it('returns null when query is empty', () => {
-			const source = ['Bob', 'Jane', 'John'];
-			const { find } = create_normalized_lookup(source);
+			const source = ['Bob', 'Jane', 'John']
+			const { find } = create_normalized_lookup(source)
 
-			expect(find('')).toEqual(null);
-		});
+			expect(find('')).toEqual(null)
+		})
 
 		it('returns null when no match is found', () => {
-			const source = ['Bob', 'Jane', 'John'];
-			const { find } = create_normalized_lookup(source);
+			const source = ['Bob', 'Jane', 'John']
+			const { find } = create_normalized_lookup(source)
 
-			expect(find('x')).toEqual(null);
-		});
+			expect(find('x')).toEqual(null)
+		})
 
 		it('returns first value containing query when multiple matches has the same length', () => {
-			const source = ['Bob', 'Jane', 'Job'];
-			const { find } = create_normalized_lookup(source);
+			const source = ['Bob', 'Jane', 'Job']
+			const { find } = create_normalized_lookup(source)
 
-			expect(find('o')).toEqual('Bob');
-		});
+			expect(find('o')).toEqual('Bob')
+		})
 
 		it('returns value starting with query when multiple values match', () => {
-			const source = ['Rob', 'Bobby', 'John'];
-			const { find } = create_normalized_lookup(source);
+			const source = ['Rob', 'Bobby', 'John']
+			const { find } = create_normalized_lookup(source)
 
-			expect(find('b')).toEqual('Bobby');
-		});
+			expect(find('b')).toEqual('Bobby')
+		})
 
 		it('returns value containing all query fragments', () => {
-			const source = ['John Smith', 'Jane Smith', 'Jane Doe', 'Robert Jane'];
-			const { find } = create_normalized_lookup(source);
+			const source = ['John Smith', 'Jane Smith', 'Jane Doe', 'Robert Jane']
+			const { find } = create_normalized_lookup(source)
 
-			expect(find('ja oe')).toEqual('Jane Doe');
-		});
+			expect(find('ja oe')).toEqual('Jane Doe')
+		})
 
 		it('returns shortest value when multiple values match', () => {
-			const source = ['Robert', 'Rob', 'John'];
-			const { find } = create_normalized_lookup(source);
+			const source = ['Robert', 'Rob', 'John']
+			const { find } = create_normalized_lookup(source)
 
-			expect(find('b')).toEqual('Rob');
-		});
+			expect(find('b')).toEqual('Rob')
+		})
 
 		it('returns values containing query regardless of diacritics', () => {
-			const source = ['John Smith', 'Bôb à la Éclair'];
-			const { find } = create_normalized_lookup(source);
+			const source = ['John Smith', 'Bôb à la Éclair']
+			const { find } = create_normalized_lookup(source)
 
-			expect(find('ecl')).toEqual('Bôb à la Éclair');
-		});
-	});
+			expect(find('ecl')).toEqual('Bôb à la Éclair')
+		})
+	})
 
 	describe('find_all', () => {
 		it('returns all values when query is empty', () => {
-			const source = ['Bob', 'Jane', 'John'];
-			const { find_all } = create_normalized_lookup(source);
+			const source = ['Bob', 'Jane', 'John']
+			const { find_all } = create_normalized_lookup(source)
 
-			expect(find_all('')).toEqual([]);
-		});
+			expect(find_all('')).toEqual([])
+		})
 
 		it('returns empty array when no match is found', () => {
-			const source = ['Bob', 'Jane', 'John'];
-			const { find_all } = create_normalized_lookup(source);
+			const source = ['Bob', 'Jane', 'John']
+			const { find_all } = create_normalized_lookup(source)
 
-			expect(find_all('x')).toEqual([]);
-		});
+			expect(find_all('x')).toEqual([])
+		})
 
 		it('returns all values containing query', () => {
-			const source = ['Bob', 'Bob', 'Jane', 'John'];
-			const { find_all } = create_normalized_lookup(source);
+			const source = ['Bob', 'Bob', 'Jane', 'John']
+			const { find_all } = create_normalized_lookup(source)
 
-			expect(find_all('o')).toEqual(['Bob', 'John']);
-		});
+			expect(find_all('o')).toEqual(['Bob', 'John'])
+		})
 
 		it('returns values containing all query fragments', () => {
-			const source = ['John Smith', 'Jane Smith', 'Jane Doe', 'Robert Jane'];
-			const { find_all } = create_normalized_lookup(source);
+			const source = ['John Smith', 'Jane Smith', 'Jane Doe', 'Robert Jane']
+			const { find_all } = create_normalized_lookup(source)
 
-			expect(find_all('ja oe')).toEqual(['Jane Doe']);
-		});
+			expect(find_all('ja oe')).toEqual(['Jane Doe'])
+		})
 
 		it('returns values containing query regardless of diacritics', () => {
-			const source = ['John Smith', 'Jane Smith', 'Jane Doe', 'Robert Jane', 'Bôb à la Éclair'];
-			const { find_all } = create_normalized_lookup(source);
+			const source = ['John Smith', 'Jane Smith', 'Jane Doe', 'Robert Jane', 'Bôb à la Éclair']
+			const { find_all } = create_normalized_lookup(source)
 
-			expect(find_all('bob')).toEqual(['Bôb à la Éclair']);
-		});
+			expect(find_all('bob')).toEqual(['Bôb à la Éclair'])
+		})
 
 		it('returns sorted result where matches starting with query is prioritized', () => {
-			const source = ['Apple', 'Apricot', 'Banana', 'Cherry', 'Grape', 'Grapefruit', 'Kiwi', 'Mango', 'Orange', 'Pineapple'];
-			const { find_all } = create_normalized_lookup(source);
+			const source = ['Apple', 'Apricot', 'Banana', 'Cherry', 'Grape', 'Grapefruit', 'Kiwi', 'Mango', 'Orange', 'Pineapple']
+			const { find_all } = create_normalized_lookup(source)
 
-			expect(find_all('o')).toEqual(['Orange', 'Mango', 'Apricot']);
-		});
-	});
-});
+			expect(find_all('o')).toEqual(['Orange', 'Mango', 'Apricot'])
+		})
+	})
+})

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, CardContent, PageContent, variants } from '$lib/index.js';
+	import { Card, CardContent, PageContent, variants } from '$lib/index.js'
 </script>
 
 <PageContent header="Palette">

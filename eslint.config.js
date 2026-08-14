@@ -1,8 +1,9 @@
-import js from '@eslint/js';
-import svelte from 'eslint-plugin-svelte';
-import globals from 'globals';
-import ts from 'typescript-eslint';
-import svelteConfig from './svelte.config.js';
+import js from '@eslint/js'
+import svelte from 'eslint-plugin-svelte'
+import globals from 'globals'
+import ts from 'typescript-eslint'
+import svelteConfig from './svelte.config.js'
+import stylistic from '@stylistic/eslint-plugin'
 
 // https://sveltejs.github.io/eslint-plugin-svelte/user-guide/#type-script-project
 
@@ -12,8 +13,14 @@ export default [
 	...ts.configs.recommended,
 	...svelte.configs.recommended,
 	{
+		plugins: {
+   		'@stylistic': stylistic
+		}
+	},
+	{
 		rules: {
 			'comma-dangle': 'off',
+			'semi': ['error', 'never'],
 			'quotes': ['error', 'single', {
 				allowTemplateLiterals: true
 			}],
@@ -23,6 +30,19 @@ export default [
 			// This just adds noise to code.
 			// https://sveltejs.github.io/eslint-plugin-svelte/rules/prefer-svelte-reactivity/
 			'svelte/prefer-svelte-reactivity': 'off',
+			'@stylistic/member-delimiter-style': [
+				'error',
+				{
+					'multiline': {
+						'delimiter': 'none', // No semicolon or comma
+						// 'requireLast': false // No delimiter at the end
+					},
+					'singleline': {
+						'delimiter': 'semi', // Use commas in single-line interfaces
+						// 'requireLast': false
+					}
+				}
+			],
 		}
 	},
 	{
@@ -54,4 +74,4 @@ export default [
 			'dist/'
 		]
 	}
-];
+]

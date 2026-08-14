@@ -1,20 +1,20 @@
 <script lang="ts" generics="Option">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
 
 	interface ToggleButton {
-		animation?: 'fade' | 'flip' | 'rotate';
-		class?: ClassValue;
-		content: Snippet<[Option]>;
-		disabled?: boolean;
-		name?: string;
-		options: Option[];
-		text?: string;
-		title?: string;
-		type?: 'outlined' | 'plain';
-		value: Option;
-		onchange?: (value: Option) => void;
-		onclick?: HTMLInputAttributes['onclick'];
+		animation?: 'fade' | 'flip' | 'rotate'
+		class?: ClassValue
+		content: Snippet<[Option]>
+		disabled?: boolean
+		name?: string
+		options: Option[]
+		text?: string
+		title?: string
+		type?: 'outlined' | 'plain'
+		value: Option
+		onchange?: (value: Option) => void
+		onclick?: HTMLInputAttributes['onclick']
 	}
 
 	let {
@@ -30,7 +30,7 @@
 		title,
 		type = 'plain',
 		value = $bindable(),
-	}: ToggleButton = $props();
+	}: ToggleButton = $props()
 </script>
 
 <button
@@ -46,11 +46,11 @@
 			event.stopImmediatePropagation()
 		}
 		else {
-			const current_index = options.indexOf(value);
-			const next_index = (current_index + 1) % options.length;
+			const current_index = options.indexOf(value)
+			const next_index = (current_index + 1) % options.length
 
-			value = options[next_index];
-			onchange?.(value);
+			value = options[next_index]
+			onchange?.(value)
 		}
 	}}
 >

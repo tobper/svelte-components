@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { getTransition, type TransitionValue } from '$lib/animations';
-	import type { ClassValue } from 'svelte/elements';
-	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte';
+	import { getTransition, type TransitionValue } from '$lib/animations'
+	import type { ClassValue } from 'svelte/elements'
+	import ListItemContent, { type ListItemContentProps } from './ListItemContent.svelte'
 
 	interface ListItemLinkProps extends ListItemContentProps {
-		class?: ClassValue;
-		current?: boolean;
-		indent?: number;
-		href: string;
-		transition?: TransitionValue;
+		class?: ClassValue
+		current?: boolean
+		indent?: number
+		href: string
+		transition?: TransitionValue
 	}
 
 	let {
@@ -23,8 +23,8 @@
 		label,
 		kbd,
 		details,
-	}: ListItemLinkProps = $props();
-	let transition = $derived(getTransition(transition_input));
+	}: ListItemLinkProps = $props()
+	let transition = $derived(getTransition(transition_input))
 </script>
 
 <li transition:transition>

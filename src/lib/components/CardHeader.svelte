@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type { Snippet } from 'svelte';
+    import type { Snippet } from 'svelte'
 
 	interface CardHeader {
-		text?: string;
-		children?: Snippet;
+		text?: string
+		children?: Snippet
 	}
 
 	let {
 		text,
 		children,
-	}: CardHeader = $props();
+	}: CardHeader = $props()
 </script>
 
 <header class="card-header">

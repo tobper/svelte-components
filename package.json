@@ -15,7 +15,8 @@
 		"check:spelling": "cspell -c .vscode/cspell.json --no-progress **",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
 	},
 	"packageManager": "pnpm@11.20.0",
 	"exports": {
@@ -36,6 +37,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
+		"@stylistic/eslint-plugin": "^5.10.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.70.3",
 		"@sveltejs/package": "^2.5.8",

@@ -1,7 +1,7 @@
-import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from '@sveltejs/adapter-static'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 
-const github_repository = 'svelte-components';
+const github_repository = 'svelte-components'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -29,6 +29,6 @@ const config = {
 			async: true
 		}
 	}
-};
+}
 
-export default config;
+export default config

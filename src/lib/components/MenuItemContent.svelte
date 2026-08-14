@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import type { Snippet } from 'svelte'
 
 	export interface MenuItemContentProps {
 		/**  */
-		description?: string;
+		description?: string
 		/** Icon displayed left of the content */
-		icon?: Snippet;
+		icon?: Snippet
 		/** Keyboard shortcut for action */
-		meta?: Snippet | string;
+		meta?: Snippet | string
 		/** Text for menu item */
-		text: string;
+		text: string
 	}
 
 	let {
@@ -17,7 +17,7 @@
 		icon,
 		meta,
 		text,
-	}: MenuItemContentProps = $props();
+	}: MenuItemContentProps = $props()
 </script>
 
 {#if icon}

@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import CheckButton from './forms/CheckButton.svelte';
-	import { get_layout_context } from './Layout.svelte';
+	import type { ComponentProps } from 'svelte'
+	import CheckButton from './forms/CheckButton.svelte'
+	import { get_layout_context } from './Layout.svelte'
 
 	interface SidebarToggleButton {
-		animation?: ComponentProps<typeof CheckButton>['animation'];
-		content: ComponentProps<typeof CheckButton>['content'];
-		text?: string;
-		type?: ComponentProps<typeof CheckButton>['type'];
+		animation?: ComponentProps<typeof CheckButton>['animation']
+		content: ComponentProps<typeof CheckButton>['content']
+		text?: string
+		type?: ComponentProps<typeof CheckButton>['type']
 	}
 
 	let {
@@ -15,9 +15,9 @@
 		content,
 		text,
 		type = 'plain',
-	}: SidebarToggleButton = $props();
+	}: SidebarToggleButton = $props()
 
-	let layout = get_layout_context();
+	let layout = get_layout_context()
 </script>
 
 <CheckButton

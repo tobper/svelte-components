@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import DialogHeader from './DialogHeader.svelte';
+	import type { Snippet } from 'svelte'
+	import DialogHeader from './DialogHeader.svelte'
 
 	interface DialogContent {
-		children: Snippet;
-		horizontal?: boolean;
-		header?: string;
-		fill?: boolean;
+		children: Snippet
+		horizontal?: boolean
+		header?: string
+		fill?: boolean
 	}
 
 	let {
@@ -14,7 +14,7 @@
 		horizontal = false,
 		header,
 		fill = false,
-	}: DialogContent = $props();
+	}: DialogContent = $props()
 </script>
 
 {#if header}

@@ -1,61 +1,61 @@
 <script lang="ts" module>
-	import { getContext, setContext } from 'svelte';
+	import { getContext, setContext } from 'svelte'
 
-	const context_key = Symbol('Menu');
+	const context_key = Symbol('Menu')
 
 	export interface MenuContext {
-		close(): void;
+		close(): void
 	}
 
 	export function get_menu_context() {
-		return getContext<MenuContext>(context_key);
+		return getContext<MenuContext>(context_key)
 	}
 
 	function set_menu_context(state: MenuContext) {
-		return setContext(context_key, state);
+		return setContext(context_key, state)
 	}
 </script>
 
 <script lang="ts">
-	import type { ElementReference } from '$lib/html.js';
-	import { type Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-	import { unique_id } from '../unique_id.js';
-	import { anchor } from './anchor.js';
-	import { menu_handlers } from './menu.js';
-	import { popover } from './popover.js';
+	import type { ElementReference } from '$lib/html.js'
+	import { type Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
+	import { unique_id } from '../unique_id.js'
+	import { anchor } from './anchor.js'
+	import { menu_handlers } from './menu.js'
+	import { popover } from './popover.js'
 
 	interface Menu {
-		id?: string;
+		id?: string
 		/**
 		 * Animation to trigger when opening and closing menu.
 		 */
-		animation?: 'fade' | 'slide';
+		animation?: 'fade' | 'slide'
 		/**
 		 * Class to apply to the menu element.
 		 */
-		class?: ClassValue;
-		modal?: boolean;
-		visible?: boolean;
+		class?: ClassValue
+		modal?: boolean
+		visible?: boolean
 		/**
 		 * width of the menu can be either the same as anchor or determined by its own content.
 		 */
-		width?: 'anchor' | 'content';
-		children: Snippet;
+		width?: 'anchor' | 'content'
+		children: Snippet
 		/**
 		 * Callback is called when menu is closed.
 		 */
-		on_close?: () => void;
+		on_close?: () => void
 		/**
 		 * Callback is called when menu is opened.
 		 */
-		on_open?: () => void;
+		on_open?: () => void
 		/**
 		 * Element to attach the the menu to.
 		 * The menu will be anchored to the trigger and sized to at the least the same width as the trigger.
 		 * Click and key handlers will be attached to the trigger.
 		 */
-		trigger: ElementReference;
+		trigger: ElementReference
 	}
 
 	let {
@@ -70,11 +70,11 @@
 		on_open,
 		trigger,
 		...element_props
-	}: Menu = $props();
+	}: Menu = $props()
 
 	set_menu_context({
 		close() {
-			visible = false;
+			visible = false
 		}
 	})
 </script>
@@ -93,12 +93,12 @@
 		visible
 	}}
 	ontoggle={event => {
-		visible = event.newState === 'open';
+		visible = event.newState === 'open'
 
 		if (!visible)
-			on_close?.();
+			on_close?.()
 		else
-			on_open?.();
+			on_open?.()
 	}}
 	popover="auto"
 >

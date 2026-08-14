@@ -6,16 +6,16 @@ export function create_digits(
 	current_char: string,
 ): string {
 	if (current_char === previous_char)
-		return current_char;
+		return current_char
 
-	const current_num = parseInt(current_char);
-	const previous_num = parseInt(previous_char);
+	const current_num = parseInt(current_char)
+	const previous_num = parseInt(previous_char)
 
 	if (isNaN(current_num) && isNaN(previous_num))
-		return previous_char + current_char;
+		return previous_char + current_char
 
-	const first_num = isNaN(previous_num) ? 0 : previous_num;
-	const last_num = isNaN(current_num) ? 0 : current_num;
+	const first_num = isNaN(previous_num) ? 0 : previous_num
+	const last_num = isNaN(current_num) ? 0 : current_num
 
 	// Calculate number of characters needed to transition
 	// from previous_num to current_num
@@ -34,10 +34,10 @@ export function create_digits(
 		)
 
 	if (isNaN(previous_num))
-		digits[0] = previous_char;
+		digits[0] = previous_char
 
 	if (isNaN(current_num))
-		digits[digits.length - 1] = current_char;
+		digits[digits.length - 1] = current_char
 
-	return digits.join('');
+	return digits.join('')
 }

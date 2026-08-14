@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import PageHeader from './PageHeader.svelte';
+	import type { Snippet } from 'svelte'
+	import PageHeader from './PageHeader.svelte'
 
 	interface PageContent {
-		id?: string;
-		header?: string;
-		children: Snippet;
-		footer?: Snippet;
+		id?: string
+		header?: string
+		children: Snippet
+		footer?: Snippet
 	}
 
 	let {
@@ -14,7 +14,7 @@
 		header,
 		children,
 		footer,
-	}: PageContent = $props();
+	}: PageContent = $props()
 </script>
 
 <article class="page-content" {id}>

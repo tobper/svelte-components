@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
 
 	interface ListItemHeading {
-		class?: ClassValue;
-		children?: Snippet;
-		indent?: number;
-		label?: string;
+		class?: ClassValue
+		children?: Snippet
+		indent?: number
+		label?: string
 	}
 
 	let {
@@ -15,7 +15,7 @@
 		indent,
 		label,
 		...attachments
-	}: ListItemHeading = $props();
+	}: ListItemHeading = $props()
 </script>
 
 <li

@@ -1,19 +1,19 @@
 <script lang="ts">
-	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, AsyncForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js';
-	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte-runes';
-	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon';
-	import { find_fruit, food, get_food_heading } from '../data.js';
-	import { foo_form } from './form.remote.js';
+	import { Button, Card, CardContent, CardFooter, Checkbox, CheckboxField, CheckButton, CurrencyField, DateField, Form, FormCancelButton, FormError, FormSubmitButton, match, PageContent, RadioButton, RadioGroup, AsyncForm, RemoteTextField, SelectField, TextField, ToggleSwitch } from '$lib/index.js'
+	import { IconCalendarMonth, IconCheck, IconSearch, IconX } from '@tabler/icons-svelte-runes'
+	import { get_date_only_key, get_date_today, type DateOnly } from '@tobper/eon'
+	import { find_fruit, food, get_food_heading } from '../data.js'
+	import { foo_form } from './form.remote.js'
 
-	let form_loading = $state(false);
-	let field_loading = $state(false);
-	let select_few_value = $state<string | null>('Red');
-	let select_many_value = $state<string | null>('Banana');
-	let select_tree_value = $state<string | null>('Stockholm');
-	let auto_complete_value = $state<string | null>('Mango');
-	let currency_value = $state<number | null>(null);
-	let date_value = $state<DateOnly | null>(get_date_today());
-	let dates_value = $state<DateOnly[]>([get_date_today()]);
+	let form_loading = $state(false)
+	let field_loading = $state(false)
+	let select_few_value = $state<string | null>('Red')
+	let select_many_value = $state<string | null>('Banana')
+	let select_tree_value = $state<string | null>('Stockholm')
+	let auto_complete_value = $state<string | null>('Mango')
+	let currency_value = $state<number | null>(null)
+	let date_value = $state<DateOnly | null>(get_date_today())
+	let dates_value = $state<DateOnly[]>([get_date_today()])
 
 	let form_values = $state({
 		name: '',
@@ -22,8 +22,8 @@
 		select: null
 	})
 
-	let remote_form = foo_form.for('');
-	remote_form.fields.set(form_values);
+	let remote_form = foo_form.for('')
+	remote_form.fields.set(form_values)
 </script>
 
 <PageContent header="Text fields">

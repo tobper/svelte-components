@@ -1,14 +1,14 @@
 <script lang="ts" generics="T">
-	import { scroll_into_view } from '$lib/html.js';
-	import { async_value, type Deferred } from '$lib/reactivity.svelte.js';
-	import { tick, type ComponentProps } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-	import { device } from '../../device.js';
-	import { unique_id } from '../../unique_id.js';
-	import { anchor } from '../anchor.js';
-	import { popover } from '../popover.js';
-	import SelectList from '../SelectList.svelte';
-	import TextField from './TextField.svelte';
+	import { scroll_into_view } from '$lib/html.js'
+	import { async_value, type Deferred } from '$lib/reactivity.svelte.js'
+	import { tick, type ComponentProps } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
+	import { device } from '../../device.js'
+	import { unique_id } from '../../unique_id.js'
+	import { anchor } from '../anchor.js'
+	import { popover } from '../popover.js'
+	import SelectList from '../SelectList.svelte'
+	import TextField from './TextField.svelte'
 
 	type SelectListProps = ComponentProps<typeof SelectList<T>>;
 	type TextFieldProps = ComponentProps<typeof TextField>;
@@ -17,33 +17,33 @@
 		/**
 		 * Class to apply to the menu element.
 		 */
-		class_menu?: ClassValue;
+		class_menu?: ClassValue
 		/**
 		 * Options to display in the popup menu.
 		 */
-		options: Deferred<T[], [query: string]>;
+		options: Deferred<T[], [query: string]>
 		/**
 		 * Callback that is called for each option to determine the value of the option.
 		 * @default Option is converted to a string.
 		 */
-		option_value?: SelectListProps['option_value'];
+		option_value?: SelectListProps['option_value']
 		/**
 		 * Callback that is called for each option to determine the heading of the option.
 		 * @default No header is displayed.
 		 */
-		option_heading?: SelectListProps['option_heading'];
+		option_heading?: SelectListProps['option_heading']
 		/**
 		 * ...
 		 */
-		option_icon?: SelectListProps['option_icon'];
+		option_icon?: SelectListProps['option_icon']
 		/**
 	 	 * Callback that is called for each option to determine the children of the option.
 		 */
-		option_children?: SelectListProps['option_children'];
+		option_children?: SelectListProps['option_children']
 		/**
 		 *
 		 */
-		empty_text?: SelectListProps['empty_text'];
+		empty_text?: SelectListProps['empty_text']
 		/**
 		 * Type of field
 		 * - autocomplete: Any text can be entered
@@ -51,31 +51,31 @@
 		 *
 		 * @default select
 		 */
-		type?: 'autocomplete' | 'select';
-		value?: string | null;
+		type?: 'autocomplete' | 'select'
+		value?: string | null
 		/**
 		 *
 		 */
-		virtualized?: SelectListProps['virtualized'];
+		virtualized?: SelectListProps['virtualized']
 
-		on_clear?: () => void;
-		on_select?: (option: T) => void;
+		on_clear?: () => void
+		on_select?: (option: T) => void
 
-		id?: TextFieldProps['id'];
-		autofocus?: TextFieldProps['autofocus'];
-		class?: TextFieldProps['class'];
-		disabled?: TextFieldProps['disabled'];
-		error_hint?: TextFieldProps['error_hint'];
-		errors?: TextFieldProps['errors'];
-		label?: TextFieldProps['label'];
-		name?: TextFieldProps['name'];
-		placeholder?: TextFieldProps['placeholder'];
-		readonly?: TextFieldProps['readonly'];
-		required?: TextFieldProps['required'];
-		prefix?: TextFieldProps['prefix'];
-		prefix_icon?: TextFieldProps['prefix_icon'];
-		suffix?: TextFieldProps['suffix'];
-		suffix_icon?: TextFieldProps['suffix_icon'];
+		id?: TextFieldProps['id']
+		autofocus?: TextFieldProps['autofocus']
+		class?: TextFieldProps['class']
+		disabled?: TextFieldProps['disabled']
+		error_hint?: TextFieldProps['error_hint']
+		errors?: TextFieldProps['errors']
+		label?: TextFieldProps['label']
+		name?: TextFieldProps['name']
+		placeholder?: TextFieldProps['placeholder']
+		readonly?: TextFieldProps['readonly']
+		required?: TextFieldProps['required']
+		prefix?: TextFieldProps['prefix']
+		prefix_icon?: TextFieldProps['prefix_icon']
+		suffix?: TextFieldProps['suffix']
+		suffix_icon?: TextFieldProps['suffix_icon']
 	}
 
 	let {
@@ -98,7 +98,7 @@
 		on_select,
 
 		...text_field_props
-	}: SelectField = $props();
+	}: SelectField = $props()
 
 	export function focus() {
 		text_field?.focus()
@@ -107,40 +107,40 @@
 	const options = async_value<T[]>([], {
 		on_updated(options) {
 			if (menu_visible && (options.length === 0))
-				menu_visible = false;
+				menu_visible = false
 
 			if (type === 'select')
 				activate_current_value()
 		}
- 	});
-	let list = $state<SelectList<T>>();
-	let content_element = $state<HTMLElement>();
-	let input_element = $state<HTMLInputElement>();
-	let active_item_id = $state<string | null>(null);
-	let menu_visible = $state(false);
-	let text_field = $state<ReturnType<typeof TextField>>();
-	let input_text = $derived(bound_value ?? '');
+ 	})
+	let list = $state<SelectList<T>>()
+	let content_element = $state<HTMLElement>()
+	let input_element = $state<HTMLInputElement>()
+	let active_item_id = $state<string | null>(null)
+	let menu_visible = $state(false)
+	let text_field = $state<ReturnType<typeof TextField>>()
+	let input_text = $derived(bound_value ?? '')
 
 	function activate_current_value() {
 		if (!list)
-			return;
+			return
 
-		const activated_item = list?.activate_item_starting_with(input_text);
+		const activated_item = list?.activate_item_starting_with(input_text)
 		if (activated_item?.value === input_text) {
-			bound_value = activated_item.value;
+			bound_value = activated_item.value
 		}
 		else if (bound_value) {
-			const value = input_text;
-			bound_value = null;
+			const value = input_text
+			bound_value = null
 			tick().then(() => {
-				input_text = value;
-			});
+				input_text = value
+			})
 		}
 
 		if (activated_item) {
 			tick().then(() => {
-				scroll_into_view(activated_item.id);
-			});
+				scroll_into_view(activated_item.id)
+			})
 		}
 	}
 
@@ -150,57 +150,57 @@
 		type === 'select' &&
 		Array.isArray(options_source) &&
 		options_source.length <= modal_options_limit
-	);
+	)
 
 	$effect(() => {
 		if (readonly)
-			return;
+			return
 
 		options.set(
 			Array.isArray(options_source)
 				? options_source
 				: options_source(input_text)
-		);
-	});
+		)
+	})
 
 	function clear() {
 		if (bound_value !== null) {
-			bound_value = null;
-			on_clear?.();
+			bound_value = null
+			on_clear?.()
 		}
 		else if (input_text) {
-			input_text = '';
+			input_text = ''
 		}
 	}
 
 	function select(option: T, value: string) {
 		if (bound_value !== value) {
-			bound_value = value;
-			on_select?.(option);
+			bound_value = value
+			on_select?.(option)
 		}
 		else if (input_text !== value) {
-			input_text = value;
+			input_text = value
 		}
 	}
 
 	function ensure_valid_input() {
 		if (!list)
-			return;
+			return
 
-		const item = list.find_item(input_text);
+		const item = list.find_item(input_text)
 		if (item)
-			select(item.option, item.value);
+			select(item.option, item.value)
 		else
-			clear();
+			clear()
 	}
 
 	function open() {
-		menu_visible = !readonly && (options.loading || options.current.length > 0);
+		menu_visible = !readonly && (options.loading || options.current.length > 0)
 	}
 
 	function close() {
-		active_item_id = null;
-		menu_visible = false;
+		active_item_id = null
+		menu_visible = false
 	}
 </script>
 
@@ -212,16 +212,16 @@
 		() => input_text,
 		value => {
 			if (type === 'autocomplete') {
-				bound_value = value;
+				bound_value = value
 			}
 			else {
-				input_text = value;
+				input_text = value
 
 				if (Array.isArray(options_source))
-					activate_current_value();
+					activate_current_value()
 			}
 
-			tick().then(open);
+			tick().then(open)
 		}
 	}
 	{...text_field_props}
@@ -238,66 +238,66 @@
 	role={list ? 'combobox' : undefined}
 	onkeydown={event => {
 		if (!list)
-			return;
+			return
 
 		switch (event.key) {
 			case 'ArrowDown':
 				if (!menu_visible) {
-					event.preventDefault();
-					open();
+					event.preventDefault()
+					open()
 
 					if (!event.altKey) {
 						if (!list.activate_item_starting_with(input_text))
-							list.activate_first_item();
+							list.activate_first_item()
 					}
 				}
-				break;
+				break
 
 			case 'ArrowUp':
 				if (!menu_visible) {
-					event.preventDefault();
-					open();
+					event.preventDefault()
+					open()
 
 					if (!event.altKey) {
 						if (!list.activate_item_starting_with(input_text))
-							list.activate_last_item();
+							list.activate_last_item()
 					}
 				}
-				break;
+				break
 
 			case 'Enter':
 				if (menu_visible) {
-					event.preventDefault();
-					list.select_active_item();
-					close();
+					event.preventDefault()
+					list.select_active_item()
+					close()
 				}
-				break;
+				break
 
 			case 'Escape':
 				if (menu_visible) {
-					event.preventDefault();
-					close();
+					event.preventDefault()
+					close()
 				}
-				break;
+				break
 
 			case 'Tab': {
-				list.select_active_item();
-				break;
+				list.select_active_item()
+				break
 			}
 		}
 	}}
 	onclick={() => {
-		open();
+		open()
 	}}
 	on_clear={() => {
-		close();
-		clear();
+		close()
+		clear()
 	}}
 	on_focus_out={() => {
 		if (type === 'select')
-			ensure_valid_input();
+			ensure_valid_input()
 
-		close();
+		close()
 	}}
 >
 	{#if content_element && options.current.length}
@@ -313,7 +313,7 @@
 			}}
 			popover="auto"
 			ontoggle={e => {
-				menu_visible = e.newState === 'open';
+				menu_visible = e.newState === 'open'
 			}}
 		>
 			<SelectList
@@ -332,8 +332,8 @@
 				value={bound_value}
 				virtualized={virtualized}
 				on_select={(option, value) => {
-					select(option, value);
-					close();
+					select(option, value)
+					close()
 				}}
 			/>
 		</div>

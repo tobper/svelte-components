@@ -4,38 +4,38 @@
 </script>
 
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { HTMLButtonAttributes } from 'svelte/elements';
-	import { unique_id } from '../unique_id.js';
-	import ButtonBorder from './ButtonBorder.svelte';
-	import Loading from './Loading.svelte';
+	import type { Snippet } from 'svelte'
+	import type { HTMLButtonAttributes } from 'svelte/elements'
+	import { unique_id } from '../unique_id.js'
+	import ButtonBorder from './ButtonBorder.svelte'
+	import Loading from './Loading.svelte'
 
 	interface Button {
-		autofocus?: boolean;
-		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
-		disabled?: boolean;
-		element?: HTMLElement;
-		focusable?: boolean;
-		id?: string;
-		loading?: boolean;
-		pseudo_focus?: boolean;
-		rounded?: boolean;
-		small?: boolean;
-		submit?: boolean;
-		title?: string;
-		type?: ButtonType;
-		variant?: ButtonVariant;
+		autofocus?: boolean
+		current?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean
+		disabled?: boolean
+		element?: HTMLElement
+		focusable?: boolean
+		id?: string
+		loading?: boolean
+		pseudo_focus?: boolean
+		rounded?: boolean
+		small?: boolean
+		submit?: boolean
+		title?: string
+		type?: ButtonType
+		variant?: ButtonVariant
 
-		children?: Snippet;
-		icon?: Snippet;
-		text?: unknown;
+		children?: Snippet
+		icon?: Snippet
+		text?: unknown
 
-		onclick?: HTMLButtonAttributes['onclick'];
-		onfocusout?: HTMLButtonAttributes['onfocusout'];
-		onfocusin?: HTMLButtonAttributes['onfocusin'];
+		onclick?: HTMLButtonAttributes['onclick']
+		onfocusout?: HTMLButtonAttributes['onfocusout']
+		onfocusin?: HTMLButtonAttributes['onfocusin']
 
 		// Rest
-		class?: HTMLButtonAttributes['class'];
+		class?: HTMLButtonAttributes['class']
 		formaction?: HTMLButtonAttributes['formaction']
 	}
 
@@ -60,7 +60,7 @@
 
 		onclick,
 		...button_props
-	}: Button = $props();
+	}: Button = $props()
 </script>
 
 <button
@@ -87,7 +87,7 @@
 			event.stopImmediatePropagation()
 		}
 		else {
-			onclick?.(event);
+			onclick?.(event)
 		}
 	}}
 	{...button_props}

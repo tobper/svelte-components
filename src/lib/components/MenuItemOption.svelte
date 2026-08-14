@@ -1,21 +1,21 @@
 <script lang="ts">
-	import type { ClassValue } from 'svelte/elements';
-	import { menu_item_handlers } from './menu';
-	import { get_menu_context } from './Menu.svelte';
-	import type { MenuItemContentProps } from './MenuItemContent.svelte';
-	import MenuItemContent from './MenuItemContent.svelte';
+	import type { ClassValue } from 'svelte/elements'
+	import { menu_item_handlers } from './menu'
+	import { get_menu_context } from './Menu.svelte'
+	import type { MenuItemContentProps } from './MenuItemContent.svelte'
+	import MenuItemContent from './MenuItemContent.svelte'
 
 	interface MenuItemOption {
-		checked?: boolean | null;
-		class?: ClassValue | null;
-		disabled?: boolean | null;
-		on_check?: (activated: boolean) => void;
-		type?: 'single' | 'radio' | null;
+		checked?: boolean | null
+		class?: ClassValue | null
+		disabled?: boolean | null
+		on_check?: (activated: boolean) => void
+		type?: 'single' | 'radio' | null
 
 		// MenuItemContent
-		description?: MenuItemContentProps['description'];
-		meta?: MenuItemContentProps['meta'];
-		text: MenuItemContentProps['text'];
+		description?: MenuItemContentProps['description']
+		meta?: MenuItemContentProps['meta']
+		text: MenuItemContentProps['text']
 	}
 
 	let {
@@ -29,8 +29,8 @@
 		description,
 		meta,
 		text
-	}: MenuItemOption = $props();
-	let menu = get_menu_context();
+	}: MenuItemOption = $props()
+	let menu = get_menu_context()
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -39,11 +39,11 @@
 		activate() {
 			// Do not toggle a radio that is already checked
 			if (type === 'single' || !checked) {
-				checked = !checked;
-				on_check?.(checked);
+				checked = !checked
+				on_check?.(checked)
 			}
 
-			menu.close();
+			menu.close()
 		}
 	}}
 	aria-disabled={disabled ? true : undefined}

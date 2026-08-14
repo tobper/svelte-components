@@ -1,4 +1,4 @@
-import type { Attachment } from 'svelte/attachments';
+import type { Attachment } from 'svelte/attachments'
 
 interface OnResizeCallback {
 	(size: { width: number; height: number }): void
@@ -20,20 +20,20 @@ export function on_resize(
 ) {
 	return args.length === 1
 		? (element: Element) => attach(element, ...args)
-		: attach(...args);
+		: attach(...args)
 
 	function attach(element: Element, callback: OnResizeCallback) {
 		const observer = new ResizeObserver(entries => {
 			const {
 				blockSize: height,
 				inlineSize: width
-			} = entries[0].borderBoxSize[0];
+			} = entries[0].borderBoxSize[0]
 
-			callback({ width, height });
-		});
+			callback({ width, height })
+		})
 
-		observer.observe(element);
+		observer.observe(element)
 
-		return () => observer.disconnect();
+		return () => observer.disconnect()
 	}
 }

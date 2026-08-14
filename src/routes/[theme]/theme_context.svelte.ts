@@ -1,5 +1,5 @@
-import type { Scheme } from '$lib';
-import { getContext, setContext } from 'svelte';
+import type { Scheme } from '$lib'
+import { getContext, setContext } from 'svelte'
 
 const context_key = Symbol('Scheme')
 

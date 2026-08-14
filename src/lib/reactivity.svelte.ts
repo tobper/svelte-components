@@ -1,5 +1,5 @@
-import { untrack } from 'svelte';
-import { seconds } from './time.js';
+import { untrack } from 'svelte'
+import { seconds } from './time.js'
 
 export type Awaitable<T> = T | Promise<T>;
 export type Deferred<T, A extends unknown[] = []> = T | ((...args: A) => Awaitable<T>);
@@ -7,17 +7,17 @@ export type Deferred<T, A extends unknown[] = []> = T | ((...args: A) => Awaitab
 export const durations = {
 	short: seconds(0.75),
 	long: seconds(5),
-};
+}
 
 export type Duration = keyof typeof durations;
 
 export interface DelayTimer {
 	/** Indicates whether the timer was started and has expired. */
-	readonly delayed: boolean;
+	readonly delayed: boolean
 	/** Stops the timer and sets delayed to false. */
-	reset(): void;
+	reset(): void
 	/** Starts the timer, but does not reset it to start if it is already running. */
-	start(): void;
+	start(): void
 }
 
 export function delayed_timer(
@@ -25,36 +25,36 @@ export function delayed_timer(
 	on_delayed?: () => void
 ): DelayTimer {
 	const timeout = timer(get_duration(duration), () => {
-		delayed = true;
-		on_delayed?.();
-	});
+		delayed = true
+		on_delayed?.()
+	})
 
-	let delayed = $state(false);
+	let delayed = $state(false)
 
 	return {
-		get delayed() { return delayed; },
+		get delayed() { return delayed },
 
 		reset() {
-			timeout.stop();
-			delayed = false;
+			timeout.stop()
+			delayed = false
 		},
 
 		start() {
 			if (!timeout.running)
-				timeout.start();
+				timeout.start()
 		}
-	};
+	}
 }
 
 export interface Timer {
 	/** Indicates whether a timer has expired. */
-	readonly expired: boolean;
+	readonly expired: boolean
 	/** Indicates whether a timer is currently running. */
-	readonly running: boolean;
+	readonly running: boolean
 	/** Starts the timer, resets it to start if it is already running. */
-	start(): void;
+	start(): void
 	/** Stops the timer, if it is running. */
-	stop(): void;
+	stop(): void
 }
 
 /**
@@ -67,75 +67,75 @@ export function timer(
 	duration: Duration | number,
 	on_expired: () => void
 ): Timer {
-	let timeout = $state<ReturnType<typeof setTimeout>>();
+	let timeout = $state<ReturnType<typeof setTimeout>>()
 
 	return {
-		get expired() { return !timeout; },
-		get running() { return !!timeout; },
+		get expired() { return !timeout },
+		get running() { return !!timeout },
 
 		stop() {
 			if (!timeout)
-				return;
+				return
 
-			clearTimeout(timeout);
-			timeout = undefined;
+			clearTimeout(timeout)
+			timeout = undefined
 		},
 
 		start() {
 			if (timeout)
-				clearTimeout(timeout);
+				clearTimeout(timeout)
 
-			timeout = setTimeout(timeout_handler, get_duration(duration));
+			timeout = setTimeout(timeout_handler, get_duration(duration))
 		},
-	};
+	}
 
 	function timeout_handler() {
-		timeout = undefined;
-		on_expired();
+		timeout = undefined
+		on_expired()
 	}
 }
 
 function get_duration(duration: Duration | number): number {
 	return typeof duration === 'number'
 		? duration
-		: durations[duration];
+		: durations[duration]
 }
 
 export interface AsyncValueMap<K, T> {
-	get(key: K): AsyncReadonlyValue<T>;
-	getOrAdd(key: K, load: (key: K) => Promise<T>): AsyncReadonlyValue<T>;
-	has(key: K): boolean;
-	preload(key: K): void;
-	set(key: K, new_value: T | Promise<T>): AsyncReadonlyValue<T>;
-	reset(): void;
-	update(updater: (key: K) => (current_value: T) => T): void;
+	get(key: K): AsyncReadonlyValue<T>
+	getOrAdd(key: K, load: (key: K) => Promise<T>): AsyncReadonlyValue<T>
+	has(key: K): boolean
+	preload(key: K): void
+	set(key: K, new_value: T | Promise<T>): AsyncReadonlyValue<T>
+	reset(): void
+	update(updater: (key: K) => (current_value: T) => T): void
 }
 
 export interface AsyncValueMapOptions<K, T> {
-	load?: (key: K) => Promise<T>,
-	on_error?: (error: Error, key: K) => void;
-	on_update?: (value: T, key: K) => T;
-	on_updated?: (value: T, key: K) => void,
+	load?: (key: K) => Promise<T>
+	on_error?: (error: Error, key: K) => void
+	on_update?: (value: T, key: K) => T
+	on_updated?: (value: T, key: K) => void
 }
 
 export function async_value_map<K, T>(
 	initial_value: T,
 	options?: AsyncValueMapOptions<K, T>
 ): AsyncValueMap<K, T> {
-	const values_map = new Map<K, ReturnType<typeof async_value<T>>>();
-	const { load, on_error, on_update, on_updated } = options ?? {};
+	const values_map = new Map<K, ReturnType<typeof async_value<T>>>()
+	const { load, on_error, on_update, on_updated } = options ?? {}
 
-	return { get, getOrAdd, has, preload, set, reset, update };
+	return { get, getOrAdd, has, preload, set, reset, update }
 
 	function get(key: K): AsyncReadonlyValue<T> {
-		const value = values_map.get(key);
+		const value = values_map.get(key)
 		if (value)
-			return value.as_readonly();
+			return value.as_readonly()
 
 		if (load)
-			return set(key, load(key));
+			return set(key, load(key))
 
-		console.warn(`Value have not been loaded for ${key}`);
+		console.warn(`Value have not been loaded for ${key}`)
 
 		return {
 			current: initial_value,
@@ -147,15 +147,15 @@ export function async_value_map<K, T>(
 	}
 
 	function getOrAdd(key: K, load: (key: K) => Promise<T>): AsyncReadonlyValue<T> {
-		const value = values_map.get(key);
+		const value = values_map.get(key)
 
 		return value
 			? value.as_readonly()
-			: set(key, load(key));
+			: set(key, load(key))
 	}
 
 	function has(key: K): boolean {
-		return values_map.has(key);
+		return values_map.has(key)
 	}
 
 	// async function load(key: K) {
@@ -171,13 +171,13 @@ export function async_value_map<K, T>(
 
 	function preload(key: K): void {
 		if (!load)
-			throw new Error(`Value can only be preloaded when a load function has been specified`);
+			throw new Error(`Value can only be preloaded when a load function has been specified`)
 
-		get(key);
+		get(key)
 	}
 
 	function set(key: K, new_value: Awaitable<T>): AsyncReadonlyValue<T> {
-		let value = values_map.get(key);
+		let value = values_map.get(key)
 
 		if (!value) {
 			value = async_value(initial_value, {
@@ -192,52 +192,52 @@ export function async_value_map<K, T>(
 				on_updated(value) {
 					on_updated?.(value, key)
 				},
-			});
+			})
 
-			values_map.set(key, value);
+			values_map.set(key, value)
 		}
 
-		value.set(new_value);
+		value.set(new_value)
 
-		return value.as_readonly();
+		return value.as_readonly()
 	}
 
 	function reset(): void {
-		values_map.forEach(value => value.reset());
-		values_map.clear();
+		values_map.forEach(value => value.reset())
+		values_map.clear()
 	}
 
 	function update(updater: (key: K) => (current_value: T) => T): void {
 		values_map.forEach((value, key) =>
 			value.update(updater(key))
-		);
+		)
 	}
 }
 
 export interface AsyncValue<T> {
-	readonly delayed: boolean;
-	readonly loaded: boolean;
-	readonly loading: boolean;
-	readonly loading_error: Error | null;
-	readonly current: T;
-	as_readonly(): AsyncReadonlyValue<T>,
-	reset(): void,
-	set(new_value: Awaitable<T>): void,
+	readonly delayed: boolean
+	readonly loaded: boolean
+	readonly loading: boolean
+	readonly loading_error: Error | null
+	readonly current: T
+	as_readonly(): AsyncReadonlyValue<T>
+	reset(): void
+	set(new_value: Awaitable<T>): void
 	update(updater: (current_value: T) => T | Promise<T>): void
 }
 
 export interface AsyncValueOptions<T> {
-	on_error?: (value: Error) => void,
-	on_update?: (value: T) => T,
-	on_updated?: (value: T) => void,
+	on_error?: (value: Error) => void
+	on_update?: (value: T) => T
+	on_updated?: (value: T) => void
 }
 
 export interface AsyncReadonlyValue<T> {
-	readonly delayed: boolean;
-	readonly loaded: boolean;
-	readonly loading: boolean;
-	readonly loading_error: Error | null;
-	readonly current: T;
+	readonly delayed: boolean
+	readonly loaded: boolean
+	readonly loading: boolean
+	readonly loading_error: Error | null
+	readonly current: T
 }
 
 type AsyncDerivedSource =
@@ -254,92 +254,92 @@ export function async_value<T>(
 	initial_value: T,
 	options?: AsyncValueOptions<T>
 ): AsyncValue<T> {
-	const { on_update, on_updated } = options ?? {};
-	const loading_timer = delayed_timer();
-	let loaded = $state(false);
-	let loading = $state(false);
-	let loading_error = $state<Error | null>(null);
-	let current = $state<T>(initial_value);
-	let active_promise: Promise<T> | null = null;
+	const { on_update, on_updated } = options ?? {}
+	const loading_timer = delayed_timer()
+	let loaded = $state(false)
+	let loading = $state(false)
+	let loading_error = $state<Error | null>(null)
+	let current = $state<T>(initial_value)
+	let active_promise: Promise<T> | null = null
 
 	return {
-		get delayed() { return loading_timer.delayed; },
-		get loaded() { return loaded; },
-		get loading() { return loading; },
-		get loading_error() { return loading_error; },
-		get current() { return current; },
+		get delayed() { return loading_timer.delayed },
+		get loaded() { return loaded },
+		get loading() { return loading },
+		get loading_error() { return loading_error },
+		get current() { return current },
 		as_readonly,
 		reset,
 		set,
 		update
-	};
+	}
 
 	function as_readonly() {
 		return {
-			get delayed() { return loading_timer.delayed; },
-			get loaded() { return loaded; },
-			get loading() { return loading; },
-			get loading_error() { return loading_error; },
-			get current() { return current; },
-		};
+			get delayed() { return loading_timer.delayed },
+			get loaded() { return loaded },
+			get loading() { return loading },
+			get loading_error() { return loading_error },
+			get current() { return current },
+		}
 	}
 
 	function reset() {
 		untrack(() => {
-			loading_timer.reset();
-			active_promise = null;
-			loaded = false;
-			loading = false;
-			loading_error = null;
-			current = initial_value;
-		});
+			loading_timer.reset()
+			active_promise = null
+			loaded = false
+			loading = false
+			loading_error = null
+			current = initial_value
+		})
 	}
 
 	function set(new_value: Awaitable<T>) {
 		// Ensure we don't end up in infinite loop when running in effects
 		untrack(() => {
 			if (is_promise(new_value)) {
-				loading_timer.start();
-				active_promise = new_value;
-				loading = true;
-				loading_error = null;
+				loading_timer.start()
+				active_promise = new_value
+				loading = true
+				loading_error = null
 
 				active_promise
 					.then(resolved_value => {
 						// Ignore result if another promise has been set after this one
 						if (active_promise === new_value)
-							set(resolved_value);
+							set(resolved_value)
 					})
 					.catch(error => {
 						// Ignore result if another promise has been set after this one
 						if (active_promise === new_value) {
-							reset();
-							loading_error = error instanceof Error ? error : new Error(`${error}`);
-							options?.on_error?.(error);
+							reset()
+							loading_error = error instanceof Error ? error : new Error(`${error}`)
+							options?.on_error?.(error)
 						}
-					});
+					})
 			}
 			else {
 				if (on_update)
-					new_value = on_update(new_value);
+					new_value = on_update(new_value)
 
 				if (new_value !== current) {
-					loading_timer.reset();
-					active_promise = null;
-					loaded = true;
-					loading = false;
-					loading_error = null;
-					current = new_value;
+					loading_timer.reset()
+					active_promise = null
+					loaded = true
+					loading = false
+					loading_error = null
+					current = new_value
 
 					if (on_updated)
-						on_updated(new_value);
+						on_updated(new_value)
 				}
 			}
-		});
+		})
 	}
 
 	function update(updater: (current_value: T) => T | Promise<T>) {
-		set(updater(current));
+		set(updater(current))
 	}
 }
 
@@ -348,34 +348,34 @@ export function async_derived<S extends AsyncDerivedSource, T>(
 	mapper: (values: AsyncDerivedSourceValues<S>) => T
 ): AsyncReadonlyValue<T> {
 	if (Array.isArray(source)) {
-		const delayed = $derived(source.some(s => s.delayed));
-		const loaded = $derived(source.every(s => s.loaded));
-		const loading = $derived(source.some(s => s.loading));
-		const loading_error = $derived(source.find(s => !!s.loading_error)?.loading_error ?? null);
+		const delayed = $derived(source.some(s => s.delayed))
+		const loaded = $derived(source.every(s => s.loaded))
+		const loading = $derived(source.some(s => s.loading))
+		const loading_error = $derived(source.find(s => !!s.loading_error)?.loading_error ?? null)
 		const mapped_value = $derived(
 			mapper(
 				source.map(s => s.current) as AsyncDerivedSourceValues<S>
 			)
-		);
+		)
 
 		return {
-			get delayed() { return delayed; },
-			get loaded() { return loaded; },
-			get loading() { return loading; },
-			get loading_error() { return loading_error; },
-			get current() { return mapped_value; },
-		};
+			get delayed() { return delayed },
+			get loaded() { return loaded },
+			get loading() { return loading },
+			get loading_error() { return loading_error },
+			get current() { return mapped_value },
+		}
 	}
 
-	const source_value = source.current as AsyncDerivedSourceValues<S>;
-	const mapped_value = $derived(mapper(source_value));
+	const source_value = source.current as AsyncDerivedSourceValues<S>
+	const mapped_value = $derived(mapper(source_value))
 
 	return {
-		get delayed() { return source.delayed; },
-		get loaded() { return source.loaded; },
-		get loading() { return source.loading; },
-		get loading_error() { return source.loading_error; },
-		get current() { return mapped_value; },
+		get delayed() { return source.delayed },
+		get loaded() { return source.loaded },
+		get loading() { return source.loading },
+		get loading_error() { return source.loading_error },
+		get current() { return mapped_value },
 	}
 }
 
@@ -397,9 +397,9 @@ export function reactive_value<T>(value: ReactiveValue<T>): T {
 	const is_reactive =
 		value &&
 		typeof value === 'object' &&
-		'current' in value;
+		'current' in value
 
 	return is_reactive
 		? value.current
-		: value;
+		: value
 }

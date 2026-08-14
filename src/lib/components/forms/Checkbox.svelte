@@ -1,23 +1,23 @@
 <script lang="ts">
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
-	import { unique_id } from '../../unique_id.js';
-	import { get_form_context } from './form_context.svelte.js';
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
+	import { unique_id } from '../../unique_id.js'
+	import { get_form_context } from './form_context.svelte.js'
 
 	interface Checkbox {
-		checked?: boolean;
-		class?: ClassValue;
-		disabled?: boolean;
-		id?: string;
-		indeterminate?: boolean;
-		invalid?: boolean;
-		label?: string;
-		name?: HTMLInputAttributes['name'];
-		readonly?: boolean;
-		onchange?: HTMLInputAttributes['onchange'];
-		onclick?: HTMLInputAttributes['onclick'];
+		checked?: boolean
+		class?: ClassValue
+		disabled?: boolean
+		id?: string
+		indeterminate?: boolean
+		invalid?: boolean
+		label?: string
+		name?: HTMLInputAttributes['name']
+		readonly?: boolean
+		onchange?: HTMLInputAttributes['onchange']
+		onclick?: HTMLInputAttributes['onclick']
 	}
 
-	const form = get_form_context();
+	const form = get_form_context()
 
 	let {
 		checked = $bindable(false),
@@ -27,7 +27,7 @@
 		invalid,
 		label,
 		...input_props
-	}: Checkbox = $props();
+	}: Checkbox = $props()
 </script>
 
 {#if label}

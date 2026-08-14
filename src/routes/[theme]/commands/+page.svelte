@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
-	import { Button, Card, CardContent, CommandPalette, handle_keyboard_event, Kbd, match, PageContent } from '$lib/index.js';
-	import { IconAppWindow, IconSettings } from '@tabler/icons-svelte-runes';
-	import { nav_items } from '../data';
-	import { get_scheme } from '../theme_context.svelte';
+	import { goto } from '$app/navigation'
+	import { resolve } from '$app/paths'
+	import { Button, Card, CardContent, CommandPalette, handle_keyboard_event, Kbd, match, PageContent } from '$lib/index.js'
+	import { IconAppWindow, IconSettings } from '@tabler/icons-svelte-runes'
+	import { nav_items } from '../data'
+	import { get_scheme } from '../theme_context.svelte'
 
-	let visible = $state(false);
-	const show = () => visible = true;
+	let visible = $state(false)
+	const show = () => visible = true
 	const scheme = get_scheme()
 </script>
 

@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import { type Variant } from './Theme.svelte';
+	import type { Snippet } from 'svelte'
+	import { type Variant } from './Theme.svelte'
 
 	type VariantCallback = (index: number) => Variant;
 
 	interface Carousel {
-		children: Snippet;
-		markers?: number;
-		marker_variant?: Variant | VariantCallback;
-		visible_page?: number;
+		children: Snippet
+		markers?: number
+		marker_variant?: Variant | VariantCallback
+		visible_page?: number
 	}
 
 	let {
@@ -16,7 +16,7 @@
 		markers = 0,
 		marker_variant: marker_variant_input,
 		visible_page = $bindable()
-	}: Carousel = $props();
+	}: Carousel = $props()
 
 	const marker_variant = $derived<VariantCallback>(
 		(typeof marker_variant_input === 'function')
@@ -24,7 +24,7 @@
 			: marker_variant_input
 				? () => marker_variant_input
 				: () => 'Primary'
-	);
+	)
 </script>
 
 <div
@@ -46,16 +46,16 @@
 
 			$effect(() => {
 				if (visible_page !== undefined) {
-					const page = element.children[visible_page];
+					const page = element.children[visible_page]
 					if (page)
-						page.scrollIntoView({ behavior });
+						page.scrollIntoView({ behavior })
 
 					// Reset visible page so that it is possible to set it to the
 					// same value again after the user has scrolled manually
 					visible_page = undefined
 				}
 
-				behavior = 'smooth';
+				behavior = 'smooth'
 			})
 		}}
 	>

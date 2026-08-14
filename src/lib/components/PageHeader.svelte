@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
-	import { toggle_class } from '../css.js';
-	import { interaction_observer } from '../html.js';
-	import { get_layout_context } from './Layout.svelte';
-	import Loading from './Loading.svelte';
-	import Stack from './Stack.svelte';
+	import { onMount, type Snippet } from 'svelte'
+	import { toggle_class } from '../css.js'
+	import { interaction_observer } from '../html.js'
+	import { get_layout_context } from './Layout.svelte'
+	import Loading from './Loading.svelte'
+	import Stack from './Stack.svelte'
 
 	interface PageHeader {
-		children?: Snippet;
-		id?: string;
-		loading?: boolean;
-		href?: string;
-		text?: unknown;
-		sub_text?: unknown;
+		children?: Snippet
+		id?: string
+		loading?: boolean
+		href?: string
+		text?: unknown
+		sub_text?: unknown
 	}
 
 	let {
@@ -22,12 +22,12 @@
 		href,
 		text,
 		sub_text,
-	}: PageHeader = $props();
+	}: PageHeader = $props()
 
-	let header_element = $state<HTMLElement>();
+	let header_element = $state<HTMLElement>()
 
 	onMount(() => {
-		const layout_context = get_layout_context();
+		const layout_context = get_layout_context()
 
 		$effect(() => {
 			const observer = interaction_observer(
@@ -37,10 +37,10 @@
 			)
 
 			return () => {
-				observer.disconnect();
+				observer.disconnect()
 			}
-		});
-	});
+		})
+	})
 </script>
 
 <header class="page-header" {id} bind:this={header_element}>

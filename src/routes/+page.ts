@@ -1,8 +1,8 @@
-import type { Style } from '$lib';
-import { redirect } from '@sveltejs/kit';
+import type { Style } from '$lib'
+import { redirect } from '@sveltejs/kit'
 
-const default_theme: Style = 'neomorphism';
+const default_theme: Style = 'neomorphism'
 
 export function load() {
-	redirect(307, default_theme);
+	redirect(307, default_theme)
 }

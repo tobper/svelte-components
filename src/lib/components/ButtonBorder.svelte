@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { get_theme } from './Theme.svelte';
+	import { get_theme } from './Theme.svelte'
 
 	interface ButtonBorder {
-		type: 'plain' | 'outlined' | 'cta';
+		type: 'plain' | 'outlined' | 'cta'
 	}
 
-	let theme = get_theme();
-	let { type }: ButtonBorder = $props();
+	let theme = get_theme()
+	let { type }: ButtonBorder = $props()
 </script>
 
 {#if (type === 'cta' || type === 'outlined') && theme.style === 'lines'}

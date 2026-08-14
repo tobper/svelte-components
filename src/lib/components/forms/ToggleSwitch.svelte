@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { handle_keyboard_event } from '$lib/html.js';
-	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements';
-	import { unique_id } from '../../unique_id.js';
-	import Stack from '../Stack.svelte';
+	import { handle_keyboard_event } from '$lib/html.js'
+	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
+	import { unique_id } from '../../unique_id.js'
+	import Stack from '../Stack.svelte'
 
 	interface ToggleSwitch {
-		id?: string;
-		class?: ClassValue;
-		label?: string;
-		description?: string;
-		name?: string;
-		checked?: boolean;
-		direction?: 'normal' | 'reversed';
-		disabled?: boolean;
-		onchange?: HTMLInputAttributes['onchange'];
-		onclick?: HTMLInputAttributes['onclick'];
-		on_checked?: (checked: boolean) => void;
+		id?: string
+		class?: ClassValue
+		label?: string
+		description?: string
+		name?: string
+		checked?: boolean
+		direction?: 'normal' | 'reversed'
+		disabled?: boolean
+		onchange?: HTMLInputAttributes['onchange']
+		onclick?: HTMLInputAttributes['onclick']
+		on_checked?: (checked: boolean) => void
 	}
 
 	let {
@@ -27,7 +27,7 @@
 		direction = 'normal',
 		on_checked,
 		...input_props
-	}: ToggleSwitch = $props();
+	}: ToggleSwitch = $props()
 </script>
 
 {#if label}
@@ -54,8 +54,8 @@
 		class={label ? undefined : class_name}
 		type="checkbox"
 		onchange={event => {
-			on_checked?.(checked);
-			input_props.onchange?.(event);
+			on_checked?.(checked)
+			input_props.onchange?.(event)
 		}}
 		onkeydown={handle_keyboard_event({
 			'ArrowLeft': checked && (() => checked = false),

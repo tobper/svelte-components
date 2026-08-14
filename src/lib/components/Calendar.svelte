@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type ElementReference } from '$lib/html.js';
+	import { type ElementReference } from '$lib/html.js'
 	import {
 	    add_days,
 	    add_months,
@@ -17,49 +17,49 @@
 	    to_date,
 	    type DateOnly,
 	    type Period
-	} from '@tobper/eon';
-	import { tick, untrack } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-	import { unique_id } from '../unique_id.js';
-	import EventHandler from './EventHandler.svelte';
-	import ChevronLeftIcon from './icons/ChevronLeftIcon.svelte';
-	import ChevronRightIcon from './icons/ChevronRightIcon.svelte';
+	} from '@tobper/eon'
+	import { tick, untrack } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
+	import { unique_id } from '../unique_id.js'
+	import EventHandler from './EventHandler.svelte'
+	import ChevronLeftIcon from './icons/ChevronLeftIcon.svelte'
+	import ChevronRightIcon from './icons/ChevronRightIcon.svelte'
 
 	interface Calendar {
 		/**
 		 * The element id of the list.
 		 */
-		id?: string;
+		id?: string
 		/**
 		 * Id of the currently activated date.
 		 * Used to set active descendant in parent controls.
 		 */
-		active_item_id?: string | null;
+		active_item_id?: string | null
 		/**
 		 * Class to apply to the calendar element.
 		 */
-		class?: ClassValue;
+		class?: ClassValue
 		/**
 		 * A calendar controller by another element cannot receive focus and
 		 * keyboard handlers for navigation are attached to the controlling element.
 		 */
-		controlled_by?: ElementReference;
+		controlled_by?: ElementReference
 		/**
 		 * The period currently being displayed.
 		 */
-		period?: Period | null;
+		period?: Period | null
 		/**
 		 * The currently selected date.
 		 */
-		date?: DateOnly | null;
+		date?: DateOnly | null
 		/**
 		 * Callback is called when a date is selected.
 		 */
-		on_select?: (new_date: DateOnly) => void;
+		on_select?: (new_date: DateOnly) => void
 	}
 
-	const aria_label_format: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
-	const today = get_date_today();
+	const aria_label_format: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' }
+	const today = get_date_today()
 
 	let {
 		id = $bindable(unique_id()),
@@ -70,19 +70,19 @@
 		on_select,
 
 		...props
-	}: Calendar = $props();
+	}: Calendar = $props()
 
-	let listbox_element = $state<HTMLElement>();
+	let listbox_element = $state<HTMLElement>()
 
 	/** The date currently highlighted */
-	let active_date = $state<DateOnly | null>(null);
+	let active_date = $state<DateOnly | null>(null)
 
 	/** The period currently being displayed */
-	let active_period = $state(props.period ?? get_period_for_date(selected_date ?? today, 1));
+	let active_period = $state(props.period ?? get_period_for_date(selected_date ?? today, 1))
 
-	const active_period_contains_today = $derived(period_contains_date(active_period, today));
-	const can_focus = $derived(!controlled_by);
-	const header_text = $derived(get_calendar_month_text(active_period));
+	const active_period_contains_today = $derived(period_contains_date(active_period, today))
+	const can_focus = $derived(!controlled_by)
+	const header_text = $derived(get_calendar_month_text(active_period))
 	const visible_dates = $derived(
 		get_calendar_dates(active_period)
 			.map(date => ({
@@ -92,106 +92,106 @@
 				is_selected: !!selected_date && is_same_date(date, selected_date),
 				is_today: date.same_month && is_same_date(date, today),
 			}))
-	);
+	)
 
 	// Update active date and period when selected date is updated
 	$effect.pre(() => {
-		const date = selected_date;
+		const date = selected_date
 
 		untrack(() => {
-			activate(date);
+			activate(date)
 			goto_period_for_date(date)
-		});
-	});
+		})
+	})
 
 	function get_item_id(date: DateOnly) {
-		const key = get_date_only_key(date);
+		const key = get_date_only_key(date)
 
-		return `${id}_${key}`;
+		return `${id}_${key}`
 	}
 
 	function handle_key_down(event: KeyboardEvent) {
-		const { key, ctrlKey } = event;
+		const { key, ctrlKey } = event
 
 		switch (key) {
 			case 'ArrowLeft':
-				event.preventDefault();
+				event.preventDefault()
 
 				if (ctrlKey)
-					activate_previous_month();
+					activate_previous_month()
 				else
-					activate_previous_day();
+					activate_previous_day()
 
-				goto_period_for_date(active_date);
-				break;
+				goto_period_for_date(active_date)
+				break
 
 			case 'ArrowRight':
-				event.preventDefault();
+				event.preventDefault()
 
 				if (ctrlKey)
-					activate_next_month();
+					activate_next_month()
 				else
-					activate_next_day();
+					activate_next_day()
 
-				goto_period_for_date(active_date);
-				break;
+				goto_period_for_date(active_date)
+				break
 
 			case 'ArrowUp':
-				event.preventDefault();
+				event.preventDefault()
 
 				if (ctrlKey)
-					activate_previous_month();
+					activate_previous_month()
 				else
-					activate_previous_week();
+					activate_previous_week()
 
-				goto_period_for_date(active_date);
-				break;
+				goto_period_for_date(active_date)
+				break
 
 			case 'ArrowDown':
-				event.preventDefault();
+				event.preventDefault()
 
 				if (ctrlKey)
-					activate_next_month();
+					activate_next_month()
 				else
-					activate_next_week();
+					activate_next_week()
 
-				goto_period_for_date(active_date);
-				break;
+				goto_period_for_date(active_date)
+				break
 
 			case 'Enter':
-				select_active_date();
-				break;
+				select_active_date()
+				break
 
 			case 'Escape':
-				activate_selected_date();
-				break;
+				activate_selected_date()
+				break
 
 			case 'Tab':
-				select_active_date();
-				break;
+				select_active_date()
+				break
 
 			case ' ':
 				if (!controlled_by) {
-					event.preventDefault();
-					select_active_date();
+					event.preventDefault()
+					select_active_date()
 				}
-				break;
+				break
 		}
 	}
 
 	function has_focus() {
 		return listbox_element
 			? listbox_element.matches(':focus, :focus-within')
-			: false;
+			: false
 	}
 
 	function refocus() {
 		if (!can_focus)
-			return;
+			return
 
 		const active_element = document.querySelector<HTMLElement>(`#${active_item_id}`);
 
-		(active_element ?? listbox_element)?.focus();
+		(active_element ?? listbox_element)?.focus()
 	}
 
 
@@ -200,93 +200,93 @@
 	function goto_next_period() {
 		activate_period(
 			get_next_period(active_period)
-		);
+		)
 	}
 
 	function goto_previous_period() {
 		activate_period(
 			get_previous_period(active_period)
-		);
+		)
 	}
 
 	function goto_period_for_date(date: DateOnly | null) {
 		if (!date)
-			return;
+			return
 
 		activate_period(
 			get_period_for_date(date, active_period.first_day.day)
-		);
+		)
 	}
 
 	async function activate_period(period: Period) {
 		// TODO: Replace with is_same_period
 		if (is_same_date(period.first_day, active_period.first_day))
-			return;
+			return
 
-		active_period = period;
+		active_period = period
 
 		// Keep track of focused state since updating DOM will remove focus from an active option
-		const focused = has_focus();
+		const focused = has_focus()
 
 		// Ensure focus is contained in component to prevent onfocusout handler from resetting active date
 		if (focused)
-			listbox_element?.focus();
+			listbox_element?.focus()
 
 		// Wait for DOM update
-		await tick();
+		await tick()
 
 		if (!active_date || !period_contains_date(period, active_date))
-			activate_selected_date();
+			activate_selected_date()
 
 		if (focused)
-			refocus();
+			refocus()
 	}
 
 	// Activated date
 
 	export async function activate(new_date: DateOnly | null) {
-		active_date = new_date;
-		active_item_id = active_date && get_item_id(active_date);
+		active_date = new_date
+		active_item_id = active_date && get_item_id(active_date)
 
 		if (has_focus())
-			refocus();
+			refocus()
 	}
 
 	function activate_previous_day() {
-		const base_date = active_date ?? selected_date;
-		activate(base_date ? add_days(base_date, -1) : (active_period_contains_today ? today : active_period.last_day));
+		const base_date = active_date ?? selected_date
+		activate(base_date ? add_days(base_date, -1) : (active_period_contains_today ? today : active_period.last_day))
 	}
 
 	function activate_previous_week() {
-		const base_date = active_date ?? selected_date;
-		activate(base_date ? add_weeks(base_date, -1) : (active_period_contains_today ? today : active_period.last_day));
+		const base_date = active_date ?? selected_date
+		activate(base_date ? add_weeks(base_date, -1) : (active_period_contains_today ? today : active_period.last_day))
 	}
 
 	function activate_previous_month() {
-		const base_date = active_date ?? selected_date;
-		activate(base_date ? add_months(base_date, -1) : (active_period_contains_today ? today : active_period.last_day));
+		const base_date = active_date ?? selected_date
+		activate(base_date ? add_months(base_date, -1) : (active_period_contains_today ? today : active_period.last_day))
 	}
 
 	function activate_next_day() {
-		const base_date = active_date ?? selected_date;
-		activate(base_date ? add_days(base_date, 1) : (active_period_contains_today ? today : active_period.first_day));
+		const base_date = active_date ?? selected_date
+		activate(base_date ? add_days(base_date, 1) : (active_period_contains_today ? today : active_period.first_day))
 	}
 
 	function activate_next_week() {
-		const base_date = active_date ?? selected_date;
-		activate(base_date ? add_weeks(base_date, 1) : (active_period_contains_today ? today : active_period.first_day));
+		const base_date = active_date ?? selected_date
+		activate(base_date ? add_weeks(base_date, 1) : (active_period_contains_today ? today : active_period.first_day))
 	}
 
 	function activate_next_month() {
-		const base_date = active_date ?? selected_date;
-		activate(base_date ? add_months(base_date, 1) : (active_period_contains_today ? today : active_period.first_day));
+		const base_date = active_date ?? selected_date
+		activate(base_date ? add_months(base_date, 1) : (active_period_contains_today ? today : active_period.first_day))
 	}
 
 	function activate_selected_date() {
 		if (selected_date && period_contains_date(active_period, selected_date))
-			activate(selected_date);
+			activate(selected_date)
 		else
-			activate(null);
+			activate(null)
 	}
 
 	// Selected date
@@ -298,15 +298,15 @@
 	 */
 	export function select_active_date() {
 		if (!active_date)
-			return false;
+			return false
 
-		select_date(active_date);
-		return true;
+		select_date(active_date)
+		return true
 	}
 
 	function select_date(date_to_select: DateOnly) {
-		selected_date = date_to_select;
-		on_select?.(selected_date);
+		selected_date = date_to_select
+		on_select?.(selected_date)
 	}
 </script>
 
@@ -314,13 +314,13 @@
 	{id}
 	class={['calendar', props.class]}
 	onfocusout={event => {
-		const focused_element = event.relatedTarget;
+		const focused_element = event.relatedTarget
 		const option_focused =
 			focused_element instanceof Node &&
-			listbox_element?.contains(focused_element);
+			listbox_element?.contains(focused_element)
 
 		if (!option_focused)
-			activate_selected_date();
+			activate_selected_date()
 	}}
 >
 	<header>
@@ -366,7 +366,7 @@
 			handle_key_down
 		}
 		onmouseout={() => {
-			activate_selected_date();
+			activate_selected_date()
 		}}
 	>
 		{#each eon.week_days_short as week_day (week_day)}
@@ -393,7 +393,7 @@
 					select_date(date)
 				}}
 				onmouseover={() => {
-					activate(date);
+					activate(date)
 				}}
 			>
 				{date.day}

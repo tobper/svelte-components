@@ -1,94 +1,94 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation'
 
 	// Touch event is not working
 	// First pointer down is triggered correct, but if that click triggers a dialog close
 	// for instance, the underlying element is also triggered on the same click, possibly
 	// causing a new dialog to open up.
-	const allowed_pointer_types = [/*'touch', */'mouse'];
+	const allowed_pointer_types = [/*'touch', */'mouse']
 
 	function get_handler(event: MouseEvent | TouchEvent) {
 		// Only handle clicks using mouse
 		const allowed_click =
 			// event instanceof TouchEvent ||
-			event instanceof PointerEvent && allowed_pointer_types.includes(event.pointerType);
+			event instanceof PointerEvent && allowed_pointer_types.includes(event.pointerType)
 		if (!allowed_click)
-			return;
+			return
 
 		// Do not handle when modifier keys are used
-		const modifier_key_pressed =  event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+		const modifier_key_pressed =  event.altKey || event.ctrlKey || event.metaKey || event.shiftKey
 		if (modifier_key_pressed)
-			return;
+			return
 
 		// Ensure html element is clicked
-		const { target } = event;
+		const { target } = event
 		if (!(target instanceof HTMLElement || target instanceof SVGElement))
-			return;
+			return
 
-		const link = target.closest('a');
+		const link = target.closest('a')
 		if (link) {
 			const data = (key: string) =>
 				link.dataset[key] !== undefined &&
-				link.dataset[key] !== 'false';
-			const external_link = link.rel === 'external';
-			const external_host = link.host !== window.location.host;
-			const force_reload = data('sveltekitReload');
+				link.dataset[key] !== 'false'
+			const external_link = link.rel === 'external'
+			const external_host = link.host !== window.location.host
+			const force_reload = data('sveltekitReload')
 
 			// Only handle correct links
 			if (external_link || external_host || force_reload)
-				return;
+				return
 
 			return function handle_link_click() {
 				const
 					// cspell:ignore sveltekitKeepfocus, sveltekitReplacestate
 					keepFocus = data('sveltekitKeepfocus'),
 					noScroll = data('sveltekitNoscroll'),
-					replaceState = data('sveltekitReplacestate');
+					replaceState = data('sveltekitReplacestate')
 
-				goto(link.href, { keepFocus, noScroll, replaceState });
-			};
+				goto(link.href, { keepFocus, noScroll, replaceState })
+			}
 		}
 
-		const element = target.closest('button, label:has(input[type=radio], input[type=checkbox])');
+		const element = target.closest('button, label:has(input[type=radio], input[type=checkbox])')
 		if (element instanceof HTMLElement) {
 			return function handle_button_click() {
-				element.dispatchEvent(new MouseEvent('click', event));
-			};
+				element.dispatchEvent(new MouseEvent('click', event))
+			}
 		}
 
 		if (target instanceof HTMLElement) {
-			const dialog = target.closest('dialog');
+			const dialog = target.closest('dialog')
 			if (dialog) {
 				return function handle_dialog_click() {
-					target.dispatchEvent(new MouseEvent('click', event));
-				};
+					target.dispatchEvent(new MouseEvent('click', event))
+				}
 			}
 		}
 	}
 
 	function on_pointer_down(event: PointerEvent) {
 		// Only handle clicks using primary mouse button
-		const primary_button_click = event.buttons === 1;
+		const primary_button_click = event.buttons === 1
 		if (!primary_button_click)
-			return;
+			return
 
-		const handler = get_handler(event);
+		const handler = get_handler(event)
 		if (handler)
-			handler();
+			handler()
 	}
 
 	function on_click(event: MouseEvent | TouchEvent) {
 		// Touch event is not working
 		if (event instanceof TouchEvent)
-			return;
+			return
 
 		// Click handler is only triggered for primary mouse button so no need to check that here
 
-		const handler = get_handler(event);
+		const handler = get_handler(event)
 		if (handler) {
-			event.stopPropagation();
-			event.stopImmediatePropagation();
-			event.preventDefault();
+			event.stopPropagation()
+			event.stopImmediatePropagation()
+			event.preventDefault()
 		}
 	}
 </script>
