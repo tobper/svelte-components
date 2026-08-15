@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { device } from '$lib/device.js'
 	import { handle_keyboard_event } from '$lib/html.js'
 	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
 	import { unique_id } from '../../unique_id.js'
@@ -25,18 +26,20 @@
 		label,
 		description,
 		checked = $bindable(false),
-		direction = 'normal',
+		direction = device.mobile ? 'reversed' : 'normal',
 		on_checked,
 		...input_props
 	}: ToggleSwitch = $props()
 </script>
 
 {#if label}
-	<label class={class_name} class:reversed={direction === 'reversed'}>
+	<label class={['toggle-switch', class_name]} class:reversed={direction === 'reversed'}>
 		{@render input()}
 		{#if description}
 			<Stack gap="tiny" >
-				<span>{label}</span>
+				<span class="toggle-switch-label">
+					{label}
+				</span>
 				{#if typeof description === 'string'}
 					<p class="toggle-switch-description">
 						{description}
@@ -46,7 +49,9 @@
 				{/if}
 			</Stack>
 		{:else}
-			<span>{label}</span>
+			<span class="toggle-switch-label">
+				{label}
+			</span>
 		{/if}
 	</label>
 {:else}
@@ -72,37 +77,40 @@
 {/snippet}
 
 <style>
-	label {
+	.toggle-switch {
 		/* Content */
 		display: inline-flex;
 		column-gap: var(--space);
 		align-items: start;
+		padding-block: var(--space);
 
 		&.reversed {
 			flex-direction: row-reverse;
-		}
-
-		span {
-			line-height: 1.25rem;
+			justify-content: space-between;
 		}
 
 		input {
 			flex: none;
 		}
 
+		/* Appearance */
+		&:has(:disabled) {
+			opacity: var(--palette__opacity--disabled);
+		}
+
 		/* Interaction */
 		user-select: none;
+
+		&:has(:enabled) {
+			cursor: pointer;
+		}
 	}
 
-	label:has(:enabled) {
-		cursor: pointer;
+	.toggle-switch-label {
+		line-height: 1.25rem;
 	}
 
-	label:has(:disabled) {
-		opacity: var(--palette__opacity--disabled);
-	}
-
-	input {
+	.toggle-switch input {
 		--toggle__height: 1.25rem;
 		--toggle__background: var(--field__background, var(--palette__background_medium));
 		--toggle__background--checked: var(--palette__accent-background--inset);
@@ -110,6 +118,10 @@
 		--toggle__shadow: var(--toggle__offset) 0 0 2px var(--toggle__background) inset;
 		--toggle-marker-color: var(--palette__text--disabled);
 		--toggle-marker-color--checked: var(--palette__accent-color);
+
+		:global(.device-mobile) & {
+			--toggle__height: 1.5rem;
+		}
 
 		/* Layout */
 		height: var(--toggle__height);
@@ -139,16 +151,16 @@
 		:global(.theme-lines) & {
 			border: 1px solid var(--border__color);
 		}
-	}
 
-	input:checked {
-		--toggle__background: var(--toggle__background--checked);
-		--toggle__offset: var(--toggle__height);
+		&:checked {
+			--toggle__background: var(--toggle__background--checked);
+			--toggle__offset: var(--toggle__height);
 
-		background-color: var(--toggle-marker-color--checked);
-	}
+			background-color: var(--toggle-marker-color--checked);
+		}
 
-	input:focus-visible {
-		--toggle__focus-shadow: var(--shadow__focus);
+		&:focus-visible {
+			--toggle__focus-shadow: var(--shadow__focus);
+		}
 	}
 </style>
