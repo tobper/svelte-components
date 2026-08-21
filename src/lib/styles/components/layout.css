@@ -1,6 +1,6 @@
 :root {
 	--layout__padding-top: env(safe-area-inset-top);
-	--layout__padding-bottom: max(0px, env(safe-area-inset-bottom) - 1rem);
+	--layout__padding-bottom: max(0px, env(safe-area-inset-bottom) - 1.5rem);
 	--layout__padding-left: max(2rem, env(safe-area-inset-left));
 	--layout__padding-right: max(2rem, env(safe-area-inset-right));
 
@@ -216,6 +216,15 @@
 .device-mobile {
 	--card__padding-left: var(--page-content__padding-left);
 	--card__padding-right: var(--page-content__padding-right);
+
+	&.orientation-landscape {
+		--layout__padding-left: calc(env(safe-area-inset-left) + 1rem);
+		--layout__padding-right: calc(env(safe-area-inset-right) + 1rem);
+	}
+
+	&.orientation-portrait {
+		--layout__padding-top: calc(env(safe-area-inset-top) + 1rem);
+	}
 
 	.layout > main {
 		padding-left: 0;
