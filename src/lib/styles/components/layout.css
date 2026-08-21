@@ -4,7 +4,7 @@
 	--layout__padding-left: max(2rem, env(safe-area-inset-left));
 	--layout__padding-right: max(2rem, env(safe-area-inset-right));
 
-	--layout-sidebar__gutter: var(--space__large);
+	--layout-sidebar__gutter: var(--space);
 
 	--layout-content__padding-bottom: 2rem;
 
@@ -102,7 +102,7 @@
 	top: calc(var(--layout-header__height) + var(--layout__padding-top));
 	bottom: var(--layout-footer__height);
 	padding-left: var(--layout__padding-left);
-	padding-right: var(--layout-sidebar__gutter);
+	padding-right: var(--space);
 	padding-bottom: var(--layout-content__padding-bottom);
 	z-index: var(--z__layout);
 	overflow: auto;
@@ -156,7 +156,7 @@
 
 	/* Padding when fixed sidebar */
 	.layout-sidebar--fixed + & {
-		margin-left: var(--layout-sidebar__width);
+		margin-left: calc(var(--layout-sidebar__width) + var(--layout-sidebar__gutter));
 	}
 
 	/* Scale when dialog is open */
@@ -203,7 +203,7 @@
 	/* Position */
 	left: 0;
 	padding-left: var(--layout__padding-left);
-	padding-right: var(--layout-sidebar__gutter);
+	padding-right: var(--space__large);
 
 	/* Appearance */
 	background: var(--palette__background);
