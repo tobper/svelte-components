@@ -1,9 +1,9 @@
 :root {
 	--h1__color: var(--palette__accent-color);
 	--h2__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 5%);
-	--h3__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 15%);
+	--h3__color: var(--palette__text--weak);
 	--h3__color--hover: color-mix(in lab, var(--h3__color), var(--palette__background) 25%);
-	--h4__color: color-mix(in lab, var(--palette__accent-color), var(--palette__text) 25%);
+	--h4__color: var(--palette__text--weak);
 	--h4__color--hover: color-mix(in lab, var(--h4__color), var(--palette__background) 25%);
 
 	--h1__font-size: 1.875rem;
@@ -50,6 +50,7 @@ h3 {
 }
 
 h4 {
+	/* Appearance */
 	color: var(--h4__color);
 	font-size: var(--h4__font-size);
 	line-height: 1.5rem;
