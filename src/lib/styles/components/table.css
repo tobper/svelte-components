@@ -1,6 +1,7 @@
 :root {
 	--table__padding-left: .5rem;
 	--table__padding-right: .5rem;
+	--table__zebra-opacity: var(--palette__contrast-opacity);
 
 	--table-header__color: var(--palette__text--weak);
 	--table-header__letter-spacing: .1em;
@@ -56,7 +57,7 @@
 
 	tbody tr:nth-child(odd),
 	.table-body > *:nth-child(odd) {
-		--table-row__opacity--zebra: var(--palette__contrast-opacity);
+		--table-row__opacity--zebra: var(--table__zebra-opacity);
 	}
 }
 
