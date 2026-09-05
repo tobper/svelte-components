@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, Card, CardContent, List, ListItemHeading, ListItemOption, ListItemSeparator, ListItemText, on_resize, PageContent, RadioGroup, SelectList, Stack } from '$lib/index.js'
-	import { IconApple, IconCancel, IconCarrot, IconInfoCircle } from '@tabler/icons-svelte-runes'
+	import { IconApple, IconCancel, IconCarrot, IconInfoCircle, IconSkiJumping, IconSleigh } from '@tabler/icons-svelte-runes'
 	import { food, fruits, get_food_heading, random } from '../data.js'
 
 	let selected_value = $state<string | null>(null)
@@ -33,6 +33,10 @@
 						label="With details"
 						details="Details"
 					/>
+					<ListItemText text="Text only" />
+
+					<ListItemSeparator />
+					<ListItemHeading label="Icons" />
 					<ListItemOption
 						label="With icon"
 						kbd="esc"
@@ -51,13 +55,27 @@
 						icon={IconCancel}
 						details="Not available"
 					/>
-					<ListItemText text="Text only" />
+
 					<ListItemSeparator />
-					<ListItemHeading label="Heading" />
+					<ListItemHeading label="Hierarchy" />
 					<ListItemOption label="Parent" />
 					<ListItemOption label="Child" indent={1} />
 				</List>
 			</div>
+		</CardContent>
+	</Card>
+</PageContent>
+
+<PageContent header="Nav list">
+	<Card>
+		<CardContent>
+			<nav class="list-container">
+				<ul>
+					<ListItemHeading label="Pages" />
+					<ListItemOption icon={IconSkiJumping} label="Page 1" details="Details" selected />
+					<ListItemOption icon={IconSleigh} label="Page 2" />
+				</ul>
+			</nav>
 		</CardContent>
 	</Card>
 </PageContent>

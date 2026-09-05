@@ -5,14 +5,14 @@
 		&:has(:focus-visible) {
 			box-shadow: var(--shadow__focus);
 		}
-	}
 
-	.list-item-option[aria-selected] {
-		color: var(--button-outlined__color--active);
-		background: var(--palette__accent-background--inset);
-		background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
-		box-shadow:
-			var(--shadow__inset),
-			var(--button__shadow--focus, 0 0 #0000);
+		.list-item-option[aria-selected] {
+			color: var(--button-outlined__color--active);
+			background: var(--palette__accent-background--inset);
+			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
+			box-shadow:
+				var(--shadow__inset),
+				var(--button__shadow--focus, 0 0 #0000);
+		}
 	}
 }

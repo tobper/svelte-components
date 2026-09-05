@@ -54,14 +54,79 @@
 	}
 }
 
+:where(.list) {
+	.list-item-heading {
+		/* Appearance */
+		color: var(--list-item-heading__color);
+		letter-spacing: var(--list-item-heading__letter-spacing);
+		line-height: var(--list-item-heading__line-height);
+		font-size: var(--list-item-heading__font-size);
+	}
+
+	.list-item-option {
+		border-radius: var(--border-radius__tiny);
+
+		&[aria-current=true] {
+			background: var(--list-item__background--active);
+		}
+
+		&[aria-selected=true] {
+			background: var(--palette__accent-background);
+			color: var(--list-item__label-color--selected);
+		}
+	}
+}
+
+:where(nav) {
+	.list-item-heading {
+		/* Appearance */
+		color: var(--h4__color);
+		font-size: var(--h4__font-size);
+		line-height: 1.5rem;
+		padding-bottom: var(--space__medium);
+
+		&:not(:first-child) {
+			padding-top: var(--space__large);
+		}
+	}
+
+	.list-item-option {
+		/*  Appearance */
+		color: var(--link__color);
+
+		header {
+			color: var(--link-header__color);
+			font-weight: 500;
+		}
+
+		/* Hover */
+		:where(.supports-hover) &:hover:where(:not([aria-selected])) {
+			color: var(--link__color--hover);
+
+			/* Set color to the header if one exist */
+			header {
+				color: var(--link-header__color--hover);
+			}
+
+			.list-item__details {
+				color: var(--palette__text);
+			}
+		}
+
+		/* Current */
+		&[aria-selected] {
+			/* Set color to the entire link if it has no header */
+			&:not(:has(header)),
+			/* Or just color the header if one exist */
+			header {
+				color: var(--link__color--current);
+			}
+		}
+	}
+}
+
 .list-item-heading {
 	padding-inline: var(--list-item__padding-inline);
-
-	/* Appearance */
-	color: var(--list-item-heading__color);
-	letter-spacing: var(--list-item-heading__letter-spacing);
-	line-height: var(--list-item-heading__line-height);
-	font-size: var(--list-item-heading__font-size);
 }
 
 .list-item-link {
@@ -74,15 +139,10 @@
 
 .list-item-option {
 	padding: var(--list-item__padding);
-	border-radius: var(--border-radius__tiny);
 
 	/* Interaction */
 	cursor: pointer;
 	user-select: none;
-
-	&[aria-current=true] {
-		background: var(--list-item__background--active);
-	}
 
 	&[aria-disabled=true] {
 		--list-item__details-color: inherit;
@@ -90,11 +150,6 @@
 		cursor: default;
 		color: var(--list-item__label-color--disabled);
 		font-style: italic;
-	}
-
-	&[aria-selected=true] {
-		background: var(--palette__accent-background);
-		color: var(--list-item__label-color--selected);
 	}
 }
 
