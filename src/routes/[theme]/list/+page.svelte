@@ -74,6 +74,7 @@
 					<ListItemHeading label="Pages" />
 					<ListItemOption icon={IconSkiJumping} label="Page 1" details="Details" selected />
 					<ListItemOption icon={IconSleigh} label="Page 2" />
+					<ListItemOption icon='3' label="Page 3" />
 				</ul>
 			</nav>
 		</CardContent>

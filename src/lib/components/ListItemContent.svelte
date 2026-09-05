@@ -6,7 +6,7 @@
 
 	export interface ListItemContentProps {
 		/** Icon displayed left of the content */
-		icon?: Content
+		icon?: Content | string
 		/** Text for list item */
 		label: string
 		/** Keyboard shortcut for action */
@@ -29,8 +29,13 @@
 <div class="list-item__content">
 	<header>
 		{#if icon}
-			<div class="list-item__icon">
-				<Render content={icon} />
+			{const text = typeof icon === 'string'}
+			<div class={['list-item__icon', { 'list-item__icon--text': text}]}>
+				{#if text}
+					{icon[0].toUpperCase()}
+				{:else}
+					<Render content={icon} />
+				{/if}
 			</div>
 		{/if}
 
@@ -104,5 +109,14 @@
 
 	.list-item__details:empty {
 		display: none;
+	}
+
+	.list-item__icon--text {
+		border: 1px solid currentColor;
+		border-radius: 50%;
+		width: 1.5rem;
+		height: 1.5rem;
+		justify-content: center;
+		font-weight: 700;
 	}
 </style>
