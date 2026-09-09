@@ -1,8 +1,0 @@
-.theme-neomorphism {
-	.calendar {
-		.today:not([aria-selected]) {
-			background-color: var(--palette__secondary-background);
-			color: var(--list-item__label-color--selected);
-		}
-	}
-}

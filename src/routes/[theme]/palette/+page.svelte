@@ -48,7 +48,7 @@
 	.accent {
 		color: var(--palette__text--inverted);
 		background: var(--palette__accent);
-		border-radius: var(--border-radius__small);
+		border-radius: var(--component__border-radius);
 		padding: var(--space);
 		width: 8rem;
 	}
@@ -76,13 +76,13 @@
 	.status {
 		border-style: solid;
 		border-width: 1px;
-		border-radius: var(--border-radius__small);
+		border-radius: var(--component__border-radius);
 		padding: var(--space);
 		width: 8rem;
 	}
 
 	.shadow {
-		border-radius: var(--border-radius__small);
+		border-radius: var(--component__border-radius);
 		background-color: var(--palette__background_light);
 		padding: 1rem;
 		width: 6rem;

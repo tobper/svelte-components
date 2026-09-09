@@ -1,6 +1,6 @@
 :root {
 	--menu__background: var(--palette__background_light);
-	--menu__border-radius: var(--border-radius__small);
+	--menu__border-radius: var(--component__border-radius);
 	--menu__min-width: 16rem;
 	--menu__min-width--meta: 20rem;
 	--menu__border-width: 1px;
@@ -156,7 +156,7 @@
 		/* padding-block: calc(.125 * var(--space)); */
 		padding-inline: var(--space__small);
 		border: 1px solid var(--palette__neutral);
-		border-radius: var(--border-radius__small);
+		border-radius: var(--component__border-radius);
 	}
 }
 

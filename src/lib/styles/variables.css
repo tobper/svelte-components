@@ -23,6 +23,7 @@
 	--palette__scheme: white;
 	--palette__contrast: black;
 	--palette__contrast-opacity: 3%;
+	--palette__error: oklch(.6 0.1 22);
 	--palette__neutral: oklch(70% 0 0);
 	--palette__neutral-background: oklch(90% 0 0);
 	--palette__neutral-background: var(--palette__background);
@@ -59,8 +60,12 @@
 	--palette__variant-add-color:    oklch(from var(--palette__variant-add)    calc(l - .15) c h);
 	--palette__variant-delete-color: oklch(from var(--palette__variant-delete) calc(l - .15) c h);
 
-	--palette__error:        oklch(.6 0.1 22);
-	--palette__error-contrast: color-mix(in lab, var(--palette__error), var(--palette__contrast) 40%);
+	--palette__primary-contrast:        color-mix(in lab, var(--palette__primary-color), var(--palette__contrast) 40%);
+	--palette__secondary-contrast:      color-mix(in lab, var(--palette__secondary-color), var(--palette__contrast) 40%);
+	--palette__tertiary-contrast:       color-mix(in lab, var(--palette__tertiary-color), var(--palette__contrast) 40%);
+	--palette__variant-add-contrast:    color-mix(in lab, var(--palette__variant-add-color), var(--palette__contrast) 40%);
+	--palette__variant-delete-contrast: color-mix(in lab, var(--palette__variant-delete-color), var(--palette__contrast) 40%);
+	--palette__error-contrast:          color-mix(in lab, var(--palette__error), var(--palette__contrast) 40%);
 }
 
 .scheme-dark {
@@ -69,6 +74,7 @@
 	--palette__scheme: black;
 	--palette__contrast: white;
 	--palette__contrast-opacity: 4%;
+	--palette__error: oklch(80% 0.08 22);
 	--palette__neutral: oklch(57% 0 0);
 	--palette__neutral-background: color-mix(in lab, var(--palette__background), var(--palette__contrast) 20%);
 
@@ -104,8 +110,12 @@
 	--palette__variant-add-color:    oklch(from var(--palette__variant-add)    l calc(c * .7) h);
 	--palette__variant-delete-color: oklch(from var(--palette__variant-delete) l calc(c * .7) h);
 
-	--palette__error:        oklch(80% 0.08 22);
-	--palette__error-contrast: color-mix(in lab, var(--palette__error), var(--palette__contrast) 40%);
+	--palette__primary-contrast:        color-mix(in lab, var(--palette__primary-color), var(--palette__contrast) 70%);
+	--palette__secondary-contrast:      color-mix(in lab, var(--palette__secondary-color), var(--palette__contrast) 70%);
+	--palette__tertiary-contrast:       color-mix(in lab, var(--palette__tertiary-color), var(--palette__contrast) 70%);
+	--palette__variant-add-contrast:    color-mix(in lab, var(--palette__variant-add-color), var(--palette__contrast) 70%);
+	--palette__variant-delete-contrast: color-mix(in lab, var(--palette__variant-delete-color), var(--palette__contrast) 70%);
+	--palette__error-contrast:          color-mix(in lab, var(--palette__error), var(--palette__contrast) 70%);
 }
 
 /*
@@ -115,6 +125,7 @@
 .variant-primary {
 	--palette__accent:                   var(--palette__primary);
 	--palette__accent-color:             var(--palette__primary-color);
+	--palette__accent-contrast:          var(--palette__primary-contrast);
 	--palette__accent-background:        var(--palette__primary-background);
 	--palette__accent-background--inset: var(--palette__primary-background--inset);
 	--palette__accent-background--hover: var(--palette__primary-background--hover);
@@ -123,6 +134,7 @@
 .variant-secondary {
 	--palette__accent:                   var(--palette__secondary);
 	--palette__accent-color:             var(--palette__secondary-color);
+	--palette__accent-contrast:          var(--palette__secondary-contrast);
 	--palette__accent-background:        var(--palette__secondary-background);
 	--palette__accent-background--inset: var(--palette__secondary-background--inset);
 	--palette__accent-background--hover: var(--palette__secondary-background--hover);
@@ -131,6 +143,7 @@
 .variant-tertiary {
 	--palette__accent:                   var(--palette__tertiary);
 	--palette__accent-color:             var(--palette__tertiary-color);
+	--palette__accent-contrast:          var(--palette__tertiary-contrast);
 	--palette__accent-background:        var(--palette__tertiary-background);
 	--palette__accent-background--inset: var(--palette__tertiary-background--inset);
 	--palette__accent-background--hover: var(--palette__tertiary-background--hover);
@@ -139,6 +152,7 @@
 .variant-add {
 	--palette__accent:                   var(--palette__variant-add);
 	--palette__accent-color:             var(--palette__variant-add-color);
+	--palette__accent-contrast:          var(--palette__variant-add-contrast);
 	--palette__accent-background:        var(--palette__variant-add-background);
 	--palette__accent-background--inset: var(--palette__variant-add-background--inset);
 	--palette__accent-background--hover: var(--palette__variant-add-background--hover);
@@ -147,31 +161,10 @@
 .variant-delete {
 	--palette__accent:                   var(--palette__variant-delete);
 	--palette__accent-color:             var(--palette__variant-delete-color);
+	--palette__accent-contrast:          var(--palette__variant-delete-contrast);
 	--palette__accent-background:        var(--palette__variant-delete-background);
 	--palette__accent-background--inset: var(--palette__variant-delete-background--inset);
 	--palette__accent-background--hover: var(--palette__variant-delete-background--hover);
-}
-
-.scheme-light {
-	&:root,
-	.variant-primary,
-	.variant-secondary,
-	.variant-tertiary,
-	.variant-add,
-	.variant-delete {
-		--palette__accent-contrast: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 40%);
-	}
-}
-
-.scheme-dark {
-	&:root,
-	.variant-primary,
-	.variant-secondary,
-	.variant-tertiary,
-	.variant-add,
-	.variant-delete {
-		--palette__accent-contrast: color-mix(in lab, var(--palette__accent-color), var(--palette__contrast) 50%);
-	}
 }
 
 :root {
@@ -256,9 +249,11 @@
 
 .device-desktop *,
 .device-tablet * {
-	--shadow__focus: 0 0 1px 1px var(--palette__accent-color);
+	--shadow__focused: 0 0 #0000;
+	--shadow__focused--visible: 0 0 1px 1px var(--palette__accent-color);
 }
 
 .device-mobile * {
-	--shadow__focus: 0 0 #0000;
+	--shadow__focused: 0 0 #0000;
+	--shadow__focused--visible: 0 0 #0000;
 }

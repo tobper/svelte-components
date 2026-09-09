@@ -42,21 +42,15 @@
 	/* Background */
 	.checkbox,
 	.field-content {
-		--skeleton__border-radius: var(--border-radius__small);
+		--skeleton__border-radius: var(--component__border-radius);
 
 		background-color: var(--field__background);
-		border-radius: var(--border-radius__small);
+		border-radius: var(--component__border-radius);
 
 		&:not(.skeleton) {
 			box-shadow:
-				var(--field__shadow),
-				var(--field__shadow--focus, 0 0 #0000);
+				var(--shadow__inset),
+				var(--shadow__focused);
 		}
-	}
-
-	/* Focus */
-	[type=checkbox]:focus-visible,
-	.field:has(input:focus-visible) .field-content {
-		--field__shadow--focus: var(--shadow__focus);
 	}
 }

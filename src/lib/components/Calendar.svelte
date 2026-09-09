@@ -360,6 +360,7 @@
 	<div
 		bind:this={listbox_element}
 		aria-label="Dates"
+		class="calendar-dates"
 		role="listbox"
 		tabindex={can_focus ? (active_item_id ? -1 : 0) : undefined}
 		onkeydown={
@@ -381,11 +382,15 @@
 				aria-current={date.is_active ? true : undefined}
 				aria-selected={date.is_selected ? true : undefined}
 				aria-label={to_date(date).toLocaleDateString('en', aria_label_format)}
-				class={[{
-					'weekend': date.weekend,
-					'text-weak': !date.same_month,
-					'today': date.is_today,
-				}]}
+				class={[
+					'calendar-option',
+					{
+						'calendar-option--weekend': date.weekend,
+						'calendar-option--today': date.is_today,
+						'text-weak': !date.same_month,
+						'variant-secondary': date.is_today,
+					}
+				]}
 				id={date.element_id}
 				role="option"
 				tabindex={can_focus ? (date.is_active ? 0 : -1) : undefined}
@@ -406,11 +411,3 @@
 	element={controlled_by}
 	onkeydown={handle_key_down}
 />
-
-<style>
-	[role=listbox] {
-		&:focus-visible {
-			box-shadow: var(--shadow__focus);
-		}
-	}
-</style>

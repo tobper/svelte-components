@@ -1,4 +1,5 @@
 :root {
+	--calendar-option__border-radius: var(--component__border-radius);
 	--calendar-option__size: 3rem;
 }
 
@@ -49,30 +50,58 @@
 		/* Layout */
 		min-width: var(--calendar-option__size);
 		min-height: var(--calendar-option__size);
-		border-radius: var(--border-radius__tiny);
+		border-radius: var(--calendar-option__border-radius);
 
 		/* Content */
 		align-content: center;
 		text-align: center;
 
 		/* Interaction */
-		cursor: pointer;
+		&:not([aria-selected]) {
+			cursor: pointer;
+		}
 	}
 
-	[role="presentation"] {
-		color: var(--palette__text--weak);
+	.calendar-option--today {
+		color: var(--palette__accent-color);
+		font-weight: bold;
+		font-style: italic;
 	}
 
-	.weekend {
-		background: hsl(from var(--palette__contrast) h s l / var(--palette__contrast-opacity));
-	}
+	.calendar-option--weekend {
+		--radius-top-left: 0;
+		--radius-top-right: 0;
+		--radius-bottom-left: 0;
+		--radius-bottom-right: 0;
 
-	[aria-current] {
-		background: var(--list-item__background--active);
-	}
+		&:nth-child(13) {
+			--radius-top-left: var(--calendar-option__border-radius);
+		}
 
-	[aria-selected] {
-		background: var(--palette__accent-background);
-		color: var(--list-item__label-color--selected);
+		&:nth-child(14) {
+			--radius-top-right: var(--calendar-option__border-radius);
+		}
+
+		&:nth-last-child(1) {
+			--radius-bottom-right: var(--calendar-option__border-radius);
+		}
+
+		&:nth-last-child(2) {
+			--radius-bottom-left: var(--calendar-option__border-radius);
+		}
+
+		position: relative;
+
+		&::before {
+			position: absolute;
+			inset: 0;
+			content: '';
+			background: hsl(from var(--palette__contrast) h s l / var(--palette__contrast-opacity));
+			border-radius:
+				var(--radius-top-left)
+				var(--radius-top-right)
+				var(--radius-bottom-right)
+				var(--radius-bottom-left);
+		}
 	}
 }

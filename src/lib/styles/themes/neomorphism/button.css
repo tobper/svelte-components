@@ -1,5 +1,5 @@
 .theme-neomorphism {
-	--button__border-radius: var(--border-radius__small);
+	--button__border-radius: var(--component__border-radius);
 	--button__height: 3rem;
 	--button__height--small: 2.5rem;
 
@@ -10,10 +10,6 @@
 
 	.button-group {
 		border-radius: var(--button__border-radius);
-
-		&[role=radiogroup]:has([type=radio]:focus-visible) {
-			box-shadow: var(--shadow__focus);
-		}
 
 		> :not(:first-child) {
 			border-top-left-radius: 0;
@@ -40,11 +36,8 @@
 		padding-block: 1px;
 
 		/* Focus */
-		&.button--pseudo-focus,
 		&:focus-visible,
 		&:has(:focus-visible:not([type=radio])) {
-			--button__shadow--focus: var(--shadow__focus);
-
 			/* Ensure focus shadow is not hidden by siblings */
 			z-index: var(--z__focused);
 		}
@@ -67,7 +60,7 @@
 		background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 10%));
 		box-shadow:
 			var(--button-cta__shadow),
-			var(--button__shadow--focus, 0 0 #0000);
+			var(--shadow__focus--visible);
 
 		/* Pressed */
 		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
@@ -76,73 +69,13 @@
 			background-image: linear-gradient(to bottom, rgb(255 255 255 / 4%), rgb(0 0 0 / 4%));
 			box-shadow:
 				var(--shadow__inset),
-				var(--button__shadow--focus, 0 0 #0000);
+				var(--shadow__focused);
 		}
 
 		/* Hover */
-		&.button--hover,
+		&.component--hover,
 		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
 			--button-cta__background: var(--button-cta__background--hover);
-		}
-	}
-
-	/*
-		Outlined
-	*/
-	.button-outlined {
-		--button-outlined__background: var(--palette__background_light);
-		--button-outlined__background--active: var(--palette__accent-background--inset);
-		--button-outlined__background--hover: oklch(from var(--palette__background_light) calc(l * 1.2) c h);
-		--button-outlined__color: var(--palette__accent-color);
-		--button-outlined__color--active: var(--palette__accent-contrast);
-		--button-outlined__color--hover: oklch(from var(--palette__accent-color) calc(l * 1.1) c h);
-		--button-outlined__shadow: var(--shadow__highlight), var(--shadow__distinct);
-
-		color: var(--button-outlined__color);
-		background-color: var(--button-outlined__background);
-		background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 4%));
-		box-shadow:
-			var(--button-outlined__shadow),
-			var(--button__shadow--focus, 0 0 #0000);
-
-		/* Pressed */
-		&:is([aria-checked], [aria-current], [aria-selected], [aria-pressed]),
-		&:active:not([aria-disabled], :has(:disabled)) {
-			--button-outlined__background: var(--button-outlined__background--active);
-			color: var(--button-outlined__color--active);
-			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
-			box-shadow:
-				var(--field__shadow),
-				var(--button__shadow--focus, 0 0 #0000);
-		}
-
-		/* Hover */
-		&.button--hover,
-		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			--button-outlined__background: var(--button-outlined__background--hover);
-			color: var(--button-outlined__color--hover);
-		}
-	}
-
-	/*
-		Plain
-	*/
-	.button-plain {
-		color: var(--palette__accent-color);
-		box-shadow: var(--button__shadow--focus, 0 0 #0000);
-
-		.button-text:has(+ .button-icon) {
-			color: var(--palette__text);
-		}
-
-		/* Hover */
-		&.button--hover,
-		:where(.supports-hover) &:hover:where(:not([aria-current], [aria-disabled], :has(:disabled))) {
-			color: var(--palette__accent-contrast);
-
-			.button-text:has(+ .button-icon) {
-				color: var(--palette__text--weak);
-			}
 		}
 	}
 

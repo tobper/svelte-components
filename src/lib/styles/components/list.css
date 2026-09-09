@@ -1,5 +1,5 @@
 :root {
-	--list__border-radius: var(--border-radius__small);
+	--list__border-radius: var(--component__border-radius);
 	--list__max-items: 10;
 
 	--list-item__min-height: calc(1.5rem + 2 * .75rem);
@@ -65,15 +65,6 @@
 
 	.list-item-option {
 		border-radius: var(--border-radius__tiny);
-
-		&[aria-current=true] {
-			background: var(--list-item__background--active);
-		}
-
-		&[aria-selected=true] {
-			background: var(--palette__accent-background);
-			color: var(--list-item__label-color--selected);
-		}
 	}
 }
 
@@ -87,40 +78,6 @@
 
 		&:not(:first-child) {
 			padding-top: var(--space__large);
-		}
-	}
-
-	.list-item-option {
-		/*  Appearance */
-		color: var(--link__color);
-
-		header {
-			color: var(--link-header__color);
-			font-weight: 500;
-		}
-
-		/* Hover */
-		:where(.supports-hover) &:hover:where(:not([aria-selected])) {
-			color: var(--link__color--hover);
-
-			/* Set color to the header if one exist */
-			header {
-				color: var(--link-header__color--hover);
-			}
-
-			.list-item__details {
-				color: var(--palette__text);
-			}
-		}
-
-		/* Current */
-		&[aria-selected] {
-			/* Set color to the entire link if it has no header */
-			&:not(:has(header)),
-			/* Or just color the header if one exist */
-			header {
-				color: var(--link__color--current);
-			}
 		}
 	}
 }

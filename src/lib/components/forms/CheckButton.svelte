@@ -43,7 +43,7 @@
 <label
 	bind:this={element}
 	aria-checked={checked ? true : undefined}
-	class={label_class}
+	class={['check-button', label_class]}
 	class:button-outlined={type === 'outlined'}
 	class:button-plain={type === 'plain'}
 	class:button--round={rounded ?? !text}

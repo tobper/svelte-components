@@ -117,7 +117,7 @@
 		--toggle__offset: calc(var(--toggle__height) * -1);
 		--toggle__shadow: var(--toggle__offset) 0 0 2px var(--toggle__background) inset;
 		--toggle-marker-color: var(--palette__text--disabled);
-		--toggle-marker-color--checked: var(--palette__accent-color);
+		--toggle-marker-color--checked: var(--palette__accent-contrast);
 
 		:global(.device-mobile) & {
 			--toggle__height: 1.5rem;
@@ -132,10 +132,10 @@
 		background-color: var(--toggle-marker-color);
 		border-radius: 9999px;
 		box-shadow:
-			var(--field__shadow, 0 0 #0000),
+			var(--shadow__inset),
 			var(--toggle__shadow),
 			0 0 0 2px var(--toggle__background) inset,
-			var(--toggle__focus-shadow, 0 0 #0000);
+			var(--shadow__focused);
 
 		transition:
 			background var(--field__transition-duration) ease-out,
@@ -157,10 +157,6 @@
 			--toggle__offset: var(--toggle__height);
 
 			background-color: var(--toggle-marker-color--checked);
-		}
-
-		&:focus-visible {
-			--toggle__focus-shadow: var(--shadow__focus);
 		}
 	}
 </style>

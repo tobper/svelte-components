@@ -58,7 +58,9 @@
 }
 
 .raised-distinct {
-	box-shadow: var(--shadow__highlight), var(--shadow__distinct);
+	box-shadow:
+		var(--shadow__highlight),
+		var(--shadow__distinct);
 }
 
 .status-error {

@@ -53,7 +53,7 @@
 		color: var(--button__color);
 
 		/* Focus */
-		&.button--pseudo-focus,
+		&.component--focus,
 		&:focus-visible,
 		&:has(:focus-visible) {
 			outline-color: var(--palette__accent-color);

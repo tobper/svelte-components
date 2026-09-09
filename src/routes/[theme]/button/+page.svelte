@@ -18,9 +18,9 @@
 			{#each button_variants as variant (variant)}
 				<CardContent horizontal>
 					<Button {variant} {type} text="Default" />
-					<Button {variant} {type} text="Hover" class="button--hover" />
+					<Button {variant} {type} text="Hover" class="component--hover" />
 					<Button {variant} {type} text="Pressed" current />
-					<Button {variant} {type} text="Focus" pseudo_focus />
+					<Button {variant} {type} text="Focus" class="component--focus" />
 					<Button {variant} {type} text="Icon" icon={ButtonIcon} />
 					<Button {variant} {type} text="Disabled" disabled />
 					<Button {variant} {type} text="Small" small />

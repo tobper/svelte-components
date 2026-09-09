@@ -1,12 +1,9 @@
 @import './neomorphism/button.css' layer(theme);
-@import './neomorphism/calendar.css' layer(theme);
 @import './neomorphism/card.css' layer(theme);
 @import './neomorphism/dialog.css' layer(theme);
 @import './neomorphism/field.css' layer(theme);
 @import './neomorphism/heading.css' layer(theme);
 @import './neomorphism/layout.css' layer(theme);
-@import './neomorphism/link.css' layer(theme);
-@import './neomorphism/list.css' layer(theme);
 @import './neomorphism/menu.css' layer(theme);
 @import './neomorphism/page.css' layer(theme);
 @import './neomorphism/panel.css' layer(theme);
@@ -15,15 +12,164 @@
 
 @layer theme {
 	.theme-neomorphism {
-		--field-input__padding-block: .5rem;
-		--field__shadow: var(--shadow__inset);
+		--component__border-radius: var(--border-radius__small);
 
-		&.scheme-light {
-			--field__background: var(--palette__background_light);
+		--field__background: light-dark(var(--palette__background_light), var(--palette__background));
+
+		--field-input__padding-block: .5rem;
+
+		* {
+			--component__color--hover: oklch(from var(--link__color) calc(l * 1.15) c h);
+			--component__background--inset: var(--palette__accent-background--inset);
+			--component__background--hover: oklch(from var(--palette__background_light) calc(l * 1.2) c h);
+
+			--link__color: var(--palette__accent-color);
+			--link__color--hover: var(--palette__accent-contrast);
+			--link__color--current: var(--palette__secondary-color);
+			--link__color--current-hover: var(--palette__secondary-contrast);
+			--link__font-weight: 500;
 		}
 
-		&.scheme-dark {
-			--field__background: var(--palette__background);
+		/* Component ------------------------------------------------------ */
+
+		/* Component, focus */
+		.component--focus,
+		.field-content:has(input:focus-visible),
+	 	:focus-visible:is(
+			[type=checkbox],
+			.button-cta,
+			.button-plain,
+			.button-outlined,
+			.calendar-dates,
+			.list,
+		),
+		:has(:focus-visible):is(
+			[role=radiogroup],
+			.calendar-dates,
+			.check-button,
+			.list,
+		) {
+			--shadow__focused: var(--shadow__focused--visible);
+		}
+
+		/* Component raised ------------------------------------------------------ */
+		.component--raised,
+		.button-outlined {
+			color: var(--palette__accent-color);
+			background-color: var(--palette__background_light);
+			background-image: linear-gradient(to bottom, rgb(255 255 255 / 10%), rgb(0 0 0 / 4%));
+			box-shadow:
+				var(--shadow__highlight),
+				var(--shadow__distinct),
+				var(--shadow__focused);
+		}
+
+		/* Component raised, hover */
+		.calendar-option[aria-current]:not([aria-selected], :active),
+		:where(.list) .list-item-option[aria-current]:not([aria-selected]),
+		&:where(.supports-hover) .button-outlined:is(:hover, .component--hover):where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+			background-color: var(--component__background--hover);
+		}
+
+		&:where(.supports-hover) .button-outlined:is(:hover, .component--hover):where(:not([aria-current], [aria-disabled], :has(:disabled))) {
+			color: var(--component__color--hover);
+		}
+
+		/* Component raised, inset */
+		.button-outlined:is([aria-current], :active:not([aria-disabled])),
+		.calendar-option:is([aria-selected], :active),
+		.check-button:is([aria-checked]),
+		:where(.list) .list-item-option:is([aria-selected], :active) {
+			color: var(--palette__accent-contrast);
+			background-color: var(--component__background--inset);
+			background-image: linear-gradient(to bottom, rgb(255 255 255 / 2%), rgb(0 0 0 / 2%));
+		}
+
+		.calendar-option:is([aria-selected], :active),
+		:where(.list) .list-item-option:is([aria-selected]) {
+			box-shadow:
+				var(--shadow__inset);
+		}
+
+		.button-outlined:is([aria-current], :active:not([aria-disabled])),
+		.check-button:is([aria-checked]) {
+			box-shadow:
+				var(--shadow__inset),
+				var(--shadow__focused);
+		}
+
+		.button-group {
+			box-shadow:
+				var(--shadow__focused);
+		}
+
+		/* Calendar -------------------------------------------------------------- */
+		.calendar-dates {
+			border-radius: var(--component__border-radius);
+			box-shadow: var(--shadow__focused);
+		}
+
+		/* Link ------------------------------------------------------------------ */
+		.button-plain,
+		.link,
+	 	nav .list-item-option {
+			color: var(--link__color);
+			box-shadow: var(--shadow__focused);
+		}
+
+		.link header,
+	 	nav .list-item-option header {
+			font-weight: var(--link__font-weight);
+		}
+
+		/* Link, hover */
+		&:where(.supports-hover) .button-plain:is(:hover, .component--hover):where(:not([aria-current], [aria-disabled], :has(:disabled))),
+		&:where(.supports-hover) .link:is(:hover, .component--hover),
+		&:where(.supports-hover) nav .list-item-option:is(:hover, .component--hover) {
+			color: var(--link__color--hover);
+		}
+
+		&:where(.supports-hover) .link:is(:hover, .component--hover),
+		&:where(.supports-hover) nav .list-item-option:is(:hover, .component--hover) {
+			.list-item__details {
+				color: var(--palette__text);
+			}
+		}
+
+		/* Link, current */
+		.link--current,
+		.link:where([aria-current]),
+		nav .list-item-option:where([aria-selected]) {
+			/*--palette__accent-color: var(--palette__secondary-color);*/
+			--link__color: var(--link__color--current);
+			--link__color--hover: var(--link__color--current-hover);
+		}
+
+		/* Link underlined */
+		.link--underlined {
+			--link-underline__scale: 0;
+			position: relative;
+
+			:where(.supports-hover) &:is(.link--hover, :hover) {
+				--link-underline__scale: 1;
+			}
+
+			&::before {
+				position: absolute;
+				content: '';
+				left: 0;
+				bottom: -3px;
+				width: 100%;
+				height: 1px;
+				background: currentColor;
+				transform: scaleX(var(--link-underline__scale));
+				transition: transform 150ms ease-in-out;
+			}
+		}
+
+		/* List ------------------------------------------------------------------ */
+		.list {
+			box-shadow: var(--shadow__focused);
 		}
 	}
 }

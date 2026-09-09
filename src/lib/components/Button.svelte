@@ -19,7 +19,6 @@
 		focusable?: boolean
 		id?: string
 		loading?: boolean
-		pseudo_focus?: boolean
 		rounded?: boolean
 		small?: boolean
 		submit?: boolean
@@ -48,7 +47,6 @@
 		focusable = true,
 		id = $bindable(unique_id()),
 		loading = false,
-		pseudo_focus = false,
 		rounded,
 		small = false,
 		submit = false,
@@ -73,7 +71,6 @@
 	class:button-cta={type === 'cta'}
 	class:button-plain={type === 'plain'}
 	class:button-outlined={type === 'outlined'}
-	class:button--pseudo-focus={pseudo_focus}
 	class:button--round={rounded !== undefined ? rounded : !!icon && !text}
 	class:button--small={small}
 	class:variant-secondary={variant === 'secondary'}
