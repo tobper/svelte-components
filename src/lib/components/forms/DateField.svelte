@@ -7,7 +7,6 @@
 	import Calendar from '../Calendar.svelte'
 	import CalendarMenu from '../CalendarMenu.svelte'
 	import CalendarIcon from '../icons/CalendarIcon.svelte'
-	import ClearIcon from '../icons/ClearIcon.svelte'
 	import TextField from './TextField.svelte'
 
 	type TextFieldProps = ComponentProps<typeof TextField>;
@@ -163,10 +162,8 @@
 			{#each values as { date, text }, index (text)}
 				<Button
 					disabled={readonly}
-					icon={clear_icon}
 					text={text}
 					type="plain"
-					variant="delete"
 					onclick={() => {
 						if (is_multi_select(bound_value)) {
 							bound_value = bound_value.toSpliced(index, 1)
@@ -214,7 +211,3 @@
 		{/each}
 	{/if}
 </TextField>
-
-{#snippet clear_icon()}
-	<ClearIcon />
-{/snippet}
