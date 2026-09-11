@@ -1,17 +1,13 @@
 <script lang="ts">
-	import { is_snippet } from '$lib/snippets'
-	import type { Component, Snippet } from 'svelte'
 	import type { ClassValue, HTMLInputAttributes } from 'svelte/elements'
 	import ButtonBorder from '../ButtonBorder.svelte'
-	import Render from '../Render.svelte'
+	import Render, { type Content } from '../Render.svelte'
 
 	interface CheckButton {
 		animation?: 'fade' | 'flip' | 'rotate'
 		class?: ClassValue
 		checked?: boolean
-		content?:
-			| Snippet<[boolean]>
-			| ((open: boolean) => Snippet | Component)
+		content?: Content | [on: Content, off: Content]
 		disabled?: boolean
 		element?: HTMLElement
 		name?: string
@@ -68,6 +64,7 @@
 	</div>
 
 	{#if content}
+		{const [on, off] = Array.isArray(content) ? content : [content, content]}
 		<div
 			class="swap"
 			class:swap--active={checked}
@@ -75,18 +72,10 @@
 			class:swap--rotate={animation === 'rotate'}
 		>
 			<span class="swap--on">
-				{#if is_snippet(content)}
-					{@render content(true)}
-				{:else}
-					<Render content={content(true)} />
-				{/if}
+				<Render content={on} />
 			</span>
 			<span class="swap--off">
-				{#if is_snippet(content)}
-					{@render content(false)}
-				{:else}
-					<Render content={content(true)} />
-				{/if}
+				<Render content={off} />
 			</span>
 		</div>
 	{/if}

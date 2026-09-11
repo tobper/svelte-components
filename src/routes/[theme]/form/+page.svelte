@@ -246,12 +246,12 @@
 
 			<h4>Animated</h4>
 			<div class="flow-items">
-				<CheckButton animation="fade" text="Fade" content={checked_icon} />
-				<CheckButton animation="fade" content={checked_icon} />
-				<CheckButton animation="flip" text="Flip" content={checked_icon} />
-				<CheckButton animation="flip" content={checked_icon} />
-				<CheckButton animation="rotate" text="Rotate" content={checked_icon} />
-				<CheckButton animation="rotate" content={checked_icon} />
+				<CheckButton animation="fade" content={[IconCheck, IconX]} text="Fade" />
+				<CheckButton animation="fade" content={[IconCheck, IconX]} />
+				<CheckButton animation="flip" content={[IconCheck, IconX]} text="Flip" />
+				<CheckButton animation="flip" content={[IconCheck, IconX]} />
+				<CheckButton animation="rotate" content={[IconCheck, IconX]} text="Rotate" />
+				<CheckButton animation="rotate" content={[IconCheck, IconX]} />
 			</div>
 		</CardContent>
 
@@ -279,10 +279,6 @@
 
 {#snippet calendar_icon()}<IconCalendarMonth />{/snippet}
 {#snippet search_icon()}<IconSearch />{/snippet}
-{#snippet checked_icon(checked: boolean)}
-	{@const Icon = checked ? IconCheck : IconX}
-	<Icon />
-{/snippet}
 
 <style>
 	.fields {
