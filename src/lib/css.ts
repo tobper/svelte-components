@@ -28,8 +28,17 @@ export function get_style_property(element: HTMLElement | SVGElement, property: 
 	}
 }
 
-export function get_root_style(property: string) {
-	return get_style(document.documentElement, property)
+export function get_root_style(property: string): string
+export function get_root_style(property: string, syntax: 'time'): number
+export function get_root_style(property: string, syntax?: 'time') {
+	const value = get_style(document.documentElement, property)
+
+	if (syntax === 'time') {
+		const num = parseFloat(value)
+		return value.endsWith('s') ? num * 1000 : num
+	}
+
+	return value
 }
 
 export function set_root_style(property: string, value?: string) {
@@ -39,3 +48,9 @@ export function set_root_style(property: string, value?: string) {
 export interface CssProperty {
 	value: string
 }
+
+export function wait_for_animation(callback: () => unknown) {
+		const delay = get_root_style('--transition__duration--fast', 'time')
+
+		setTimeout(callback, delay)
+	}

@@ -1,4 +1,5 @@
 <script lang="ts" generics="T">
+	import { wait_for_animation } from '$lib/css.js'
 	import { scroll_into_view } from '$lib/html.js'
 	import { async_value, type Deferred } from '$lib/reactivity.svelte.js'
 	import { tick, type ComponentProps } from 'svelte'
@@ -113,13 +114,6 @@
 				activate_current_value()
 		}
  	})
-	let list = $state<SelectList<T>>()
-	let content_element = $state<HTMLElement>()
-	let input_element = $state<HTMLInputElement>()
-	let active_item_id = $state<string | null>(null)
-	let menu_visible = $state(false)
-	let text_field = $state<ReturnType<typeof TextField>>()
-	let input_text = $derived(bound_value ?? '')
 
 	/**
 	 * List filter is reset when options are updated and is only available when options are an array.
@@ -127,7 +121,7 @@
 	 * on load, and only filtered on text change.
 	 * Filtering is handled by consumer when options is not an array.
 	 **/
-	let list_filter = $derived.by(() => {
+	const list_filter = $derived.by(() => {
 		if (!Array.isArray(options_source))
 			return null
 
@@ -138,6 +132,14 @@
 			update(input: string) { current = input }
 		}
 	})
+
+	let list = $state<SelectList<T>>()
+	let content_element = $state<HTMLElement>()
+	let input_element = $state<HTMLInputElement>()
+	let active_item_id = $state<string | null>(null)
+	let menu_visible = $state(false)
+	let text_field = $state<ReturnType<typeof TextField>>()
+	let input_text = $derived(bound_value ?? '')
 
 	function activate_current_value() {
 		if (!list)
@@ -189,6 +191,12 @@
 		else if (input_text) {
 			input_text = ''
 		}
+
+		// Wait for menu animation when list is cleared because of a focus out to avoid
+		// items flashing back in the list while fading out.
+		wait_for_animation(() => {
+			list_filter?.update('')
+		})
 	}
 
 	function select(option: T, value: string) {
@@ -214,6 +222,9 @@
 
 	function open() {
 		menu_visible = !readonly && (options.loading || options.current.length > 0)
+		tick().then(() => {
+			list?.scroll_to_selected_item('instant')
+		})
 	}
 
 	function close() {

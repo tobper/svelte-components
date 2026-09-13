@@ -42,30 +42,27 @@ export function virtualized_list<T>(
 			? virtual_items.find(item => item.type === 'option' && item.value === value)
 			: undefined
 	})
+
 	let paged_items = $derived(
 		get_paged_items()
 	)
-	const visible_items = $derived([
-		...first_items,
-		...(
-			selected_item &&
-				paged_items.length > 0 &&
-				selected_item.index > first_items.at(-1)!.index &&
-				selected_item.index < paged_items[0].index
-				? [selected_item]
-				: []
-		),
-		...paged_items,
-		...(
-			selected_item &&
-				paged_items.length > 0 &&
-				selected_item.index > paged_items.at(-1)!.index &&
-				selected_item.index < last_items[0].index
-				? [selected_item]
-				: []
-		),
-		...last_items,
-	])
+	const visible_items = $derived(
+		// Use a map to ensure that selected item is only included once, even if it is
+		// already part of first, paged or last items, and then sort according to index
+		// to ensure the selected item is inserted in the right place.
+		new Map(
+			[
+				...first_items,
+				...paged_items,
+				...last_items,
+				...(selected_item ? [selected_item] : [])
+			].map(item => [item.index, item])
+		)
+			.entries()
+			.toArray()
+			.sort(([a], [b]) => a - b)
+			.map(([, item]) => item)
+	)
 
 	$effect(() => {
 		const height = virtual_items.length
@@ -162,7 +159,7 @@ export function virtualized_list<T>(
 			const bottom = top + height
 			const index = virtual_items.length
 			const handlers = attachment(top)
-			const virtual_item = { ...list_item, index, top, bottom, handlers }
+			const virtual_item = { index, top, bottom, handlers, ...list_item }
 
 			virtual_items.push(virtual_item)
 

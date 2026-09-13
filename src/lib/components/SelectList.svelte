@@ -167,14 +167,14 @@
 		return true
 	}
 
-	export function scroll_to_selected_item() {
+	export function scroll_to_selected_item(behavior?: ScrollBehavior) {
 		const can_scroll =
 			selected_item &&
 			list_element &&
 			list_element.scrollHeight > list_element.clientHeight
 
 		if (can_scroll)
-			scroll_into_view(selected_item.id, 'nearest', 'smooth')
+			scroll_into_view(selected_item.id, 'nearest', behavior)
 	}
 
 	let {
