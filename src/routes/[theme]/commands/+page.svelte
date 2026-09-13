@@ -25,7 +25,7 @@
 			</Button>
 			<div class="flow-items gap-tiny">
 				Or press
-				<Kbd key="esc" />
+				<Kbd key={['meta', 'k']} />
 			</div>
 		</CardContent>
 	</Card>

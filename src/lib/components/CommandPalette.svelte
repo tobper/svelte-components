@@ -70,6 +70,7 @@
 	}: CommandPaletteProps = $props()
 
 	let input_element = $state<HTMLInputElement>()
+	let list = $state<SelectList<Option>>()
 	let all_actions_visible = $state(false)
 	let selected_group = $state<{ query: string; option: GroupOption }>()
 	let current_option = $state<Option>()
@@ -112,19 +113,18 @@
 		const updated_options = filtered_options
 
 		untrack(() => {
-			if (!current_option) {
-				if (updated_options.length)
-					current_option = updated_options[0]
+			if (current_option) {
+				const current_option_label = current_option.label
 
-				return
+				// Find the previous option in the updated list
+				current_option = updated_options.find(o => o.label === current_option_label)
 			}
-
-			const current_option_label = current_option.label
-
-			current_option = updated_options.find(o => o.label === current_option_label)
 
 			if (!current_option && updated_options.length)
 				current_option = updated_options[0]
+
+			if (current_option)
+				list?.activate_item_starting_with(current_option.label)
 		})
 	})
 
@@ -338,6 +338,7 @@
 	{#if filtered_options.length}
 		<DialogContent>
 			<SelectList
+				bind:this={list}
 				controlled_by={input_element}
 				options={filtered_options}
 				option_icon={option => option.icon}
