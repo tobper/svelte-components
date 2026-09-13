@@ -103,15 +103,15 @@
 							bind:value={select_tree_value}
 							label="Select (tree)"
 							options={['Sweden', 'France', 'Great Britain', 'Philippines']}
-							option_heading={x =>
-								['Sweden', 'France', 'Great Britain'].includes(x) ? 'Europe' :
-								['Nissan', 'Lagan'].includes(x) ? 'Rivers' :
-								['Stockholm', 'Åre'].includes(x) ? 'Cities' :
-								['Philippines'].includes(x) ? 'Asia' :
+							option_heading={value =>
+								['Sweden', 'France', 'Great Britain'].includes(value) ? 'Europe' :
+								['Nissan', 'Lagan'].includes(value) ? 'Rivers' :
+								['Stockholm', 'Åre'].includes(value) ? 'Cities' :
+								['Philippines'].includes(value) ? 'Asia' :
 								undefined
 							}
-							option_children={x =>
-								match(x, {
+							option_children={value =>
+								match(value, {
 									'Sweden': ['Stockholm', 'Åre', 'Nissan', 'Lagan'],
 									'France': ['Cannes', 'Nice'],
 									'Great Britain': ['London', 'Newcastle'],

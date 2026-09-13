@@ -121,6 +121,24 @@
 	let text_field = $state<ReturnType<typeof TextField>>()
 	let input_text = $derived(bound_value ?? '')
 
+	/**
+	 * List filter is reset when options are updated and is only available when options are an array.
+	 * It is empty by default until the text is updated in the input so that all options are displayed
+	 * on load, and only filtered on text change.
+	 * Filtering is handled by consumer when options is not an array.
+	 **/
+	let list_filter = $derived.by(() => {
+		if (!Array.isArray(options_source))
+			return null
+
+		let current = $state('')
+
+		return {
+			get current() { return current },
+			update(input: string) { current = input }
+		}
+	})
+
 	function activate_current_value() {
 		if (!list)
 			return
@@ -211,6 +229,8 @@
 	bind:value={
 		() => input_text,
 		value => {
+			list_filter?.update(value)
+
 			if (type === 'autocomplete') {
 				bound_value = value
 			}
@@ -322,7 +342,7 @@
 				class={['menu', class_menu]}
 				controlled_by={input_element}
 				empty_text={empty_text}
-				filter={Array.isArray(options_source) ? input_text : undefined}
+				filter={list_filter?.current}
 				id={`${id}_list`}
 				options={options.current}
 				option_heading={option_heading}
