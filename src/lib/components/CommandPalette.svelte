@@ -123,8 +123,7 @@
 			if (!current_option && updated_options.length)
 				current_option = updated_options[0]
 
-			if (current_option)
-				list?.activate_item_starting_with(current_option.label)
+			activateCurrentOption()
 		})
 	})
 
@@ -144,6 +143,11 @@
 		} else {
 			showChildren(option)
 		}
+	}
+
+	function activateCurrentOption() {
+		if (current_option)
+			list?.activate_item_starting_with(current_option.label)
 	}
 
 	function selectCurrentOption() {
@@ -299,6 +303,7 @@
 	on_open={() => {
 		tick().then(() => {
 			input_element?.select()
+			activateCurrentOption()
 		})
 	}}
 	on_closed={() =>
