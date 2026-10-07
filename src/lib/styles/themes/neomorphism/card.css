@@ -1,7 +1,6 @@
 .theme-neomorphism {
 	--card__background-color: var(--panel__background-color);
-	--card__background: var(--panel__background);
-	--card__border-radius: var(--border-radius__medium);;
+	--card__border-radius: var(--border-radius__medium);
 	--card__shadow:
 		var(--shadow__highlight),
 		var(--shadow__small);

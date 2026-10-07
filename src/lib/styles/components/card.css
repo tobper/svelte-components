@@ -16,7 +16,6 @@
 
 	/* Appearance */
 	background-color: var(--card__background-color);
-	background: var(--card__background);
 	box-shadow: var(--card__shadow);
 
 	:where(.device-tablet, .device-desktop) & {

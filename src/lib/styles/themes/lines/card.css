@@ -1,6 +1,5 @@
 .theme-lines {
 	--card__background-color: var(--palette__background_medium);
-	--card__background: var(--palette__background_medium);
 	--card__border-radius: var(--border-radius__small);
 	--card__shadow: var(--shadow__small);
 }
