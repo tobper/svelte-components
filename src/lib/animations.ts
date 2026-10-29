@@ -19,3 +19,10 @@ export function getTransition(transition?: TransitionValue): Transition {
 
 	return no_transition
 }
+
+export function staggered<T>(values: T[], action: (value: T) => void) {
+	const factor = Math.min(30, 150 / values.length)
+
+    for (let i = 0; i < values.length; i++)
+      setTimeout(() => action(values[i]), i * factor)
+}
